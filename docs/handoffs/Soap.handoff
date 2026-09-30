@@ -5,6 +5,7 @@
 
 ## 最新可接手摘要
 
+- 2026-10-01 文档整理：将用户新增的 `docs/visual_refs/Visual_Style.md` 移到 `docs/VISUAL_STYLE.md`，修正三图引用并追加 Usage for Development。三张 ref PNG 原位置/内容不变；没有继续 T01 或修改 Unity 代码/资产。图片路径实存、无旧图片名或重名文档；未 commit/push。
 - **用户限定的 T01 第一阶段基础闭环独测通过；完整 T01 尚未验收，未集成主场景。**
 - 成员/稳定别名 Soap，工作分支 Soap。实际活动目录 `D:/Making Games/2026GameJamUnity`，Unity 6000.2.9f1。
 - 开始时工作区干净，HEAD 为 Ming 已发布基线 `e86074a6930b23b8c9e390b89806173f14dfd95e`，`git merge-base --is-ancestor` 返回 0；没有 fetch、切分支、merge、reset、commit 或 push。
