@@ -1,5 +1,5 @@
 // 职责：唯一运行阶段和 Time.timeScale 持有者；提供显式暂停及归属校验的选择锁。
-// 模块/维护：controller，C01/C02；直接依赖：UnityEngine、Regrowth.Core；由 GameBootstrap 初始化/清理。
+// 模块/维护：controller，C01/C02/C03；直接依赖：UnityEngine、Regrowth.Core；由 GameBootstrap 初始化/清理。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
@@ -9,7 +9,7 @@ namespace Regrowth.Runtime
 {
     /// <summary>
     /// 主线程命令入口。当前支持 Playing/Paused/Choosing/Dead；Won/重开与同帧胜负等待 C04。
-    /// UI 不设置时间倍率；奖励是否调用选择锁仍未冻结。
+    /// UI 不设置时间倍率；奖励/满槽替换与传送统一经 C03 ChoiceCoordinator 暂停。
     /// </summary>
     public sealed class RunController : MonoBehaviour, IRunContext
     {
@@ -72,7 +72,7 @@ namespace Regrowth.Runtime
 
         /// <summary>
         /// Playing 时取得唯一选择锁；owner 须非 null，结束时必须传回同一对象。
-        /// G29 传送可使用；不意味着所有奖励菜单自动暂停。
+        /// G29/G37：传送、奖励及满槽替换经唯一 ChoiceCoordinator 使用此锁。
         /// </summary>
         public bool TryBeginChoosing(object owner)
         {
