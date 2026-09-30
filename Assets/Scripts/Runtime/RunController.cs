@@ -1,6 +1,6 @@
 // 职责：唯一运行阶段和 Time.timeScale 持有者；提供显式暂停及归属校验的选择锁。
 // 模块/维护：controller，C01；直接依赖：UnityEngine、Regrowth.Core；由 GameBootstrap 初始化/清理。
-// 接交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
+// 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
 using UnityEngine;
@@ -29,9 +29,10 @@ namespace Regrowth.Runtime
         /// <summary>真实阶段改变后同步通知；订阅时另读快照，回调不重入阶段命令。</summary>
         public event Action<RunPhase> PhaseChanged;
 
+        // Bootstrap 早于本组件 OnEnable；启动校验用 enabled/activeInHierarchy，避免误判未就绪。
         internal bool Initialize()
         {
-            if (IsInitialized || !isActiveAndEnabled || !IsValidTimeScale())
+            if (IsInitialized || (!enabled || !gameObject.activeInHierarchy) || !IsValidTimeScale())
             {
                 Debug.LogError("C01 RunController 初始化失败：组件必须启用，倍率须为正有限数且不可重复初始化。", this);
                 return false;

@@ -1,6 +1,6 @@
 // 职责：唯一 Input System 适配器；动态帧采样、限时缓冲、跨阶段清理。
 // 模块/维护：controller，C01；直接依赖：Unity.InputSystem、IRunContext/IPlayerInput；GameBootstrap 显式注入运行上下文。
-// 接交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
+// 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
 using UnityEngine;
@@ -56,9 +56,10 @@ namespace Regrowth.Runtime
         /// <summary>Update 中同步触发一次；由总控指定接收者决定如何处理。</summary>
         public event Action PauseRequested;
 
+        // Bootstrap 可先于本组件 OnEnable 注入；运行采样仍要求 isActiveAndEnabled。
         internal bool Initialize(IRunContext context)
         {
-            if (IsInitialized || !isActiveAndEnabled || context == null || inputActions == null
+            if (IsInitialized || (!enabled || !gameObject.activeInHierarchy) || context == null || inputActions == null
                 || buttonBufferSeconds <= 0f || float.IsNaN(buttonBufferSeconds) || float.IsInfinity(buttonBufferSeconds)
                 || InputSystem.settings.updateMode != InputSettings.UpdateMode.ProcessEventsInDynamicUpdate)
             {

@@ -1,6 +1,6 @@
 // 职责：显式场景组装入口、唯一性校验与退出清理，不创建隐藏单例或实现重开。
 // 模块/维护：controller，C01；直接依赖：RunController、PlayerInputReader、可选 IChoicePresenter、GameAudio。
-// 接交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
+// 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using Regrowth.Audio;
 using Regrowth.Core;
 using UnityEngine;

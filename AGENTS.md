@@ -4,7 +4,7 @@
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及发布基线来源是 `Ming`。本轮开始时 HEAD 与本地 origin/Ming 均为 `383ffda24d967bce2bce52b0755187e83811b7aa`，工作区干净；未查询实时远端。本规范第 8 版与 C01 源码是该提交之后的本地改动，尚未提交/推送。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根目录 AGENTS.md、自己的任务卡与相关 handoff；任务分支中使用同一份规范，不额外复制所谓 Ming 专用 agents 文件。不要从旧 main 或旧项目目录读取规则；个人旧分支需先与总控协调更新基线，不自动切分支、合并或重置。
+当前总控工作分支及发布基线来源是 `Ming`。本轮开始时 HEAD/本地 origin/Ming 为 `383ffda24d967bce2bce52b0755187e83811b7aa`，工作区干净；期间观察到二者更新为 `764a3d2d5bf070d649b1b310a478ebaa011a3733`，包含本轮中途的规范与 C01 初稿。未查询实时远端，Codex 未提交/推送。该中途提交不含最终接线与启动顺序修复；本轮最终 C01 独测通过，但修复、完整场景与验证文档仍需用户发布新的提交。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根目录 AGENTS.md、自己的任务卡与相关 handoff；任务分支中使用同一份规范，不额外复制所谓 Ming 专用 agents 文件。不要从旧 main 或旧项目目录读取规则；个人旧分支需先与总控协调更新基线，不自动切分支、合并或重置。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -23,7 +23,7 @@
 
 状态定义：**已确认**是用户明确答复；**技术约定**是本轮采用的实现边界；**待确认**不得据此实现业务；**预留**只有身份或计划，没有功能承诺；**已实现**仅指表中真实存在代码。
 
-公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C01 已建立 RunController、PlayerInputReader 和 GameBootstrap 源码，独立测试场景正在接线，当前尚待 Play 验证与发布。真实玩家状态、运动、敌人、世界、卡片 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
+公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C01 最小版 RunController、PlayerInputReader 和 GameBootstrap 已实现，独立场景已保存/重载并通过实际 Play 验证（32 项自动检查）；最终修复与场景待用户发布。真实玩家状态、运动、敌人、世界、卡片 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
 
 ### 成员自主范围与协作边界
 
@@ -167,7 +167,7 @@ Assets/Scripts/Gameplay/         玩家、世界、敌人业务，待实现
 Assets/Scripts/UI/               HUD 与 ChoicePanel，待实现
 Assets/Scripts/Presentation/     动画与反馈，待实现
 Assets/Scripts/Audio/Wwise/      Wwise 后端，接入时创建
-Assets/Scenes/Tests/C01/         C01 独立输入/阶段测试场景，接线及验证进行中
+Assets/Scenes/Tests/C01/         C01_Smoke.unity，已接线并独测通过，非主场景
 Assets/Scripts/Tests/C01/        Regrowth.Tests.C01，测试驱动，非正式运动/重开组件
 docs/handoffs/                   用户名.handoff，只记工作事实
 ```
@@ -438,7 +438,7 @@ Unity 测试场景、Prefab、Inspector 绑定：
 
 版本 2 的 16 项检查属于历史结果，不覆盖当前契约。版本 3 已用目标 Unity 6000.2.9f1 自带 Roslyn、真实 UnityEngine/NetStandard 引用分别编译 Core 和 Audio，通过；新的 16 项断言涵盖四项展示接受/第五项拒绝、候选复制与只读、重复/空项拒绝、伤害分类、构筑身份及音频转发/卸载保护，全部通过。
 
-历史资产/meta 与 diff 检查不覆盖本轮新增文件。本轮 C00 已刷新 Unity 并确认 Core/Audio 程序集加载，ForceText/Visible Meta Files 与 Dynamic Update；C01 新增源码已编译，测试场景接线/Play 检查仍在进行。已有 Wwise Voice Starvation/账号网络日志另记 handoff。陷阱、整局与 Windows 导出未验证。每次改动重新记录验证，不继承历史结论。
+历史资产/meta 与 diff 检查不覆盖本轮新增文件。本轮 C00 已刷新 Unity 并确认 Core/Audio/Runtime/Tests.C01 程序集加载，ForceText/Visible Meta Files 与 Dynamic Update；C01 编译及实际 Play 的 32 项自动检查通过，Inspector 倍率 0.5 保存重载/生效验证通过并恢复 1；重复入口和缺引用拒绝/恢复通过。测试没有使用真实玩家运动，第一阶段未通过。已有 Wwise Voice Starvation/账号网络日志另记 handoff。陷阱、整局与 Windows 导出未验证。每次改动重新记录验证，不继承历史结论。
 
 整局最终验收必须包含：
 
@@ -468,3 +468,5 @@ Unity 测试场景、Prefab、Inspector 绑定：
 规范版本 6：用户总控＋其他不超过 5 名程序的人数待定，改用最小可测试任务池；地图独立场景交付、总控接入。只新增任务结构和协作规则，没有实现任务内功能、分配具体成员或修改地图。
 
 规范版本 7：用户已将此前内容推送至 Ming；更新实际分支基线、Unity MCP 操作要求与新会话交接。总控下一步先补齐 C00 编辑器验证，再实现 C01 最小输入/运行阶段/启动接线，随后推进 C02；不因连接 MCP 就宣称底层或整局已经验收。
+
+规范版本 8：新增契约 4 的 IPlayerInput 和 C01 实际运行接线；明确 Ming 分支随附规范与 T01/T02/T03/T06/T07 最小合入批次。C00 编辑器检查完成，C01 编译/32 项独立 Play 检查通过，最终修复与场景待用户发布；不标第一阶段/正式地图/Windows 导出完成。

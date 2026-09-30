@@ -1,64 +1,117 @@
 # 总控交接与新会话入口
 
-更新：2026-09-30 · 规范版本 7 · 公共源码契约版本 3
+更新：2026-09-30 · 规范版本 8 · 公共源码契约版本 4
+维护别名：controller（总控任务别名）
 
-维护别名：controller（总控任务别名，不推断真实姓名）
+## 最新可接手摘要
 
-## 最新状态
+- 活动仓库 `F:/2026GameJamUnity`，总控分支 Ming；旧目录仅迁移来源。
+- 本轮开始 HEAD/本地 origin/Ming 为 `383ffda24d967bce2bce52b0755187e83811b7aa`，工作区干净。期间观察到二者变为 `764a3d2d5bf070d649b1b310a478ebaa011a3733`（规范/C01 中途初稿）。未 fetch/查询实时远端，Codex 没有 commit、merge 或 push，保留这个新增提交。
+- **C00 剩余编辑器检查完成；C01 最小版独测通过、待发布/主场景集成。** 中途 764a3d2 不含最终启动顺序修复和完整接线场景；用户需发布本轮收尾改动并给队友最终提交号，之后放行 T06。
+- C01 测试入口：`Assets/Scenes/Tests/C01/C01_Smoke.unity`，已通过 MCP 创建、显式 Inspector 接线、非 Play 保存并重载。没有修改 SampleScene、地图、共享玩家或正式 Build Settings。
+- 实际 Play：32 项自动检查全部通过；保存倍率 0.5 后重载/运行仍全部通过，已恢复并保存倍率 1。重复入口拒绝、缺引用拒绝、恢复后可启动也实查通过。
+- 第一阶段最小队友任务是 T01/T02/T03/T06/T07；T04/T05 可独立接入。总任务 T01–T18 是功能池，不是固定人员岗位；人数未定、不超过 5 位其他程序，未分配具体成员。
+- 地图由他人制作、以独立场景交付，路径仍未登记；不把 SampleScene 当作交付地图。
 
-- 活动项目：`F:/2026GameJamUnity`；旧 `F:/UniSyd_Gamjam2` 仅为历史迁移来源。
-- 用户已推送此前全部内容到 Ming。检查时分支 Ming，HEAD 与本地 origin/Ming 均为 `49c8baf5dceb1966f2e7d6eef3aa7421bf17b19c`；main/origin/main 是 `d1cd3948a1fc2c0bc0187a7536747b6566ecdef7`。本轮未 fetch 或查询实时远端；用户报告与本地跟踪引用一致。
-- 本轮开始时 Git 工作区干净。规范第 7 版、任务目录/模板/README 和本交接是该提交之后的文档改动；尚未提交/推送。新会话先检查实际状态，不丢弃这些改动。
-- 用户担任总控；其他程序未知、不超过 5 人。第一阶段按最小可测试任务领取，每人有任务验收与个人 handoff，阶段整体由总控验收；后续再分人。
-- 地图正在制作，以独立地图场景交付，总控接入运行组件。实际场景路径尚未登记；当前 SampleScene 不能被当作交付地图。
+## 授权范围与实际交付
 
-## 已有代码与缺失部分
+本次：补齐 C00 编辑器检查，实现 C01 集中输入、唯一阶段、启动/清理和 T06 输入接点；更新给队友的 AGENTS/WORK_PACKAGES。
+允许：必要 Core 契约、Runtime、公共 Input Actions、C01 测试源码/场景、必要 UI 支持资产/meta与总控文档。
+未改：队友资产/地图、Wwise 插件及 Authoring、Packages、ProjectSettings、主场景、共享玩家 Prefab；未启动子代理。
 
-现有自研源码仅在 `Assets/Scripts/Core/` 与 `Assets/Scripts/Audio/Core/`：
+源码：
 
-- IRunContext/RunPhase、IHealth、IDamageable/DamageRequest/DamageKind。
-- LoadoutItemId/ILoadoutState、PlayerForm/IFormState；四构筑槽与姿态为读契约，无真实写状态实例。
-- IInteractable/InteractionKind、ChoiceOption/ChoiceRequest/IChoicePresenter；菜单可展示 1–4 项，奖励/代价业务仍须三项，替换阶段四项。
-- GameAudio/IAudioBackend/AudioCue/NullAudioBackend；空后端与转发已经实现。
+- `Assets/Scripts/Core/IPlayerInput.cs`：契约 4 新增端口；既有接口/稳定枚举未变。
+- `Assets/Scripts/Runtime/RunController.cs`：实现 IRunContext；唯一 Playing/Paused/Choosing 与 Time.timeScale、显式暂停、owner 校验选择锁。
+- `Assets/Scripts/Runtime/PlayerInputReader.cs`：实现 IPlayerInput；私有输入资产副本、Update 采样、限时单条按钮缓冲、阶段/失焦清理、持键释放保护；不写物理或能力。
+- `Assets/Scripts/Runtime/GameBootstrap.cs`：显式组装与唯一入口校验；可选菜单取消、输入卸载、锁/时间恢复及指定发声对象停止；无隐藏对象、无跨场景保留。
+- `Regrowth.Runtime.asmdef` 引用 Core、Audio.Core、Unity.InputSystem。
+- `Assets/Scripts/Tests/C01/C01SmokeDriver.cs` 与 `Regrowth.Tests.C01.asmdef`：真实 Input System 事件自动检查和 FixedUpdate 命令探针，uGUI/TMP显示。**不是运动、生命、奖励、收费或重开实现。**
+- `Assets/InputSystem_Actions.inputactions`：保留原动作 ID 与 UI map；Interact 移除 Hold；新增 Player/Dash（LeftShift/Gamepad East）和 System/Pause（Escape/Gamepad Start）。
+- 因项目尚无 TMP 字体，从已安装 uGUI 包导入 TMP Essential Resources 到 `Assets/TextMesh Pro/`，保留其素材许可/meta；仅 UI 基础素材，没有新增/升级包。队友需带上场景引用的字体/材质/Shader等依赖。
 
-RunController、PlayerInputReader、GameBootstrap、真实 PlayerState、运动/攻击、奖励/献祭服务、ChoicePanel、HUD 和项目 Wwise 后端均未实现。计划组件名不是已存在 API，不重建已有公共接口。
+## 对外 API 与 T06 接线
 
-Unity 6000.2.9f1；URP 17.2.0、Input System 1.14.2、uGUI 2.0.0。Wwise Integration 2025.1.10.4304 已安装，实际游戏映射/Bank 生命周期未验收。MCP 包由 manifest 固定到 CoplayDev/unity-mcp 的 v10.2.0，保留用户已提交的依赖。
+`IPlayerInput`：float MoveX、bool JumpHeld；TryConsumeJump/Attack/Interact/Dash() 返回 bool；DiscardGameplayInput()；event Action PauseRequested。
+动作只有一个消费者；成功消费移除请求，过期/暂停/停用返回 false。Move 连续值恢复后重新采样；动作按钮需释放再按。暂停系统动作仅发请求；正式入口不自动绑定暂停菜单。
 
-## 本轮 Unity MCP 实查
+T06 的 MonoBehaviour 在 Inspector 指向唯一 PlayerInputReader 和 RunController，或用 MonoBehaviour 验证 IPlayerInput/IRunContext。Gameplay 程序集只需引用 Core 即可依赖接口，不轮询 Input System：
 
-- 已发现并使用 server `unityMCP` 的资源与工具；也列有另一套 `unitymcp` 名称，本轮没有交替操作它们。新会话重新发现可用 server，不假定名称/路由继承。
-- custom-tools 可读；instances 返回一个 `2026GameJamUnity@1ba105ba2ebb3fca` 实例。该实例 ID 仅为本次观察，不固定到代码或长期配置。
-- project/info 确认根目录 `F:/2026GameJamUnity`、Unity `6000.2.9f1`、目标 `StandaloneWindows64`。
-- editor/state 返回 ready_for_tools=true，无正在编译或等待域重载；非 Play；有 external_changes_dirty 标记。下一会话先刷新并重新核对编译，不把这一快照视为新代码验收。
-- 活动场景 `Assets/Scenes/SampleScene.unity`，4 个根对象，isDirty=false；没有切换、创建或保存场景。
-- Console 最近读取到 6 条已有 Error/Warning：Account API 超时、一个进程意外退出（code=-1）、2 条 Wwise Voice Starvation、2 条 MCP WebSocket 关闭。尚未定位来源或验证是否重现；当前只读 MCP 调用已成功，不能把历史日志自动认作当前断线，也不能宣称零错误。
+```csharp
+private void FixedUpdate()
+{
+    if (!runContext.IsGameplayActive)
+    {
+        return;
+    }
+    float moveX = playerInput.MoveX;
+    bool jumpRequested = playerInput.TryConsumeJump();
+    // 运动组件是该 Rigidbody2D 的唯一写入者；自行验证落地再真正执行跳跃。
+}
+```
 
-本轮只读检查。没有清空 Console、切换 Play、修改编辑器资产、运行 Unity 测试或导出。
+PhaseChanged 在 OnEnable 注册/OnDisable 退订，启用时读快照。只有实际跳跃成功才发 PlayerJump。
+暂停/选择 Time.timeScale=0，物理冻结；恢复保留既有物理速度。未来 T06/T13 成功迁移时由运动入口清零 linearVelocity/angularVelocity 并 DiscardGameplayInput，失败/取消不迁移。实际运动/迁移签名后续串行登记，C01 没有伪造传送。
 
-## 新对话先做的工作
+RunController：TryPause()/TryResume()；TryBeginChoosing(object owner)/TryEndChoosing(object owner)；IsInitialized。
+只允许 Playing 取得锁；空/错误 owner、重复操作、不符阶段与回调重入返回 false；普通 Resume 不能解除 Choosing。G29 可接此锁，不代表奖励菜单一律暂停。Dead/Won/Restart 未发布，仍待 C04。
+GameBootstrap.IsStarted：OnEnable 启动、OnDisable 清理。菜单引用可选但若填必须实现 IChoicePresenter；退出先取消当前事务，再卸载输入/释放阶段，恢复启动前时间倍率。启停不是新局重开。
 
-**本次目标：补齐 C00 编辑器验证并实现 C01 最小版。完成后再按新状态推进 C02，暂不一口气做整个第一阶段。**
+## Inspector 入口、参数及保存
 
-1. 读取根 AGENTS.md、本文件，以及 WORK_PACKAGES 的 C00/C01 和第一阶段验收；按需要查 GAME_DESIGN。核对工作目录、分支、Git 改动及 MCP 项目/版本/活动场景。
-2. 完成 C00 当前编译检查：刷新/等待编译，读取新旧 Console 记录，区分公共代码编译阻塞与已有插件/音频问题。修复本任务范围内的编译阻塞，保留已有日志证据；没有游戏运行行为时不声称整局通过。
-3. 实现 C01 最小运行阶段、集中输入适配器、启动/清理与命令接线，发布供 T06 消费的真实输入 API。接口需要变更时由总控在 Core/AGENTS 统一发布，不让成员各造输入类。阶段与菜单锁由唯一控制器持有。
-4. 在 `Assets/Scenes/Tests/C01/` 建一个独立最小验证场景，使用对应测试驱动观察输入和阶段；通过 MCP 绑定组件/Inspector、保存后运行验证。输入不活动时不向 gameplay 消费端提交动作，恢复后不误消费旧按键，重复启停不增加监听或全局实例。
-5. 交付真实 API/源码标注、参数/引用说明、测试场景与可复现结果，更新本 handoff 与任务登记。测试驱动不是 T06 正式角色运动组件；本轮不擅自实现未决定的奖励暂停/重开或完整传送。
-6. C01 通过并发布后，可解锁 T06；下一总控任务 C02 先落实唯一生命/构筑/姿态持有者与所需写入口。未冻结的数值可 Inspector 暂定，代价下限/叠加等语义仍按规则缺口处理。
+场景根对象：
 
-总控实现范围：Core 必要契约、Runtime、总控维护的输入资产、C01 测试资源、对应配置/Prefab/meta 与文档。内部分层自主决定。地图场景、队友任务资产、Wwise Authoring 和插件不属于本次底层任务。
+- Main Camera：Camera/AudioListener/URP camera data，屏幕显示测试 UI。
+- Directional Light：遵循 MCP 测试场景要求；不是地图灯光设计。
+- **C01 Runtime**：RunController、PlayerInputReader、GameBootstrap。
+- **C01 Smoke Probe**：测试驱动，引用全部运行组件、状态 TMP 文本及四个按钮。
+- C01 Canvas：uGUI/TMP 状态和 TEST Pause/Resume、TEST Choice lock、Cycle bootstrap、Run checks。
+- C01 EventSystem：EventSystem + InputSystemUIInputModule，持久引用原输入资产的 UI 子资产，无旧输入模块。
 
-## 其他成员现在能做什么
+必填：Bootstrap.runController/inputReader；InputReader.inputActions 与六条动作路径；SmokeDriver 全部组件/文本/按钮引用。
+可选：Bootstrap.choicePresenter、audioEmitters。
 
-从总控明确发布的 Ming 提交领取 T01 菜单、T02 HUD、T03 开关门等独测任务；T04 相机可并行，T05 音频需素材具备。T06 等待 C01 输入/阶段接线，T07 等待对应生命/伤害/姿态接线。没人被提前分配；具体人数和名字由实际派发填写。
+参数：
 
-同一项目目录/Unity 编辑器实例只由一个写入会话操作。成员使用自己 clone/worktree、分支与对应编辑器；自己的 `.handoff` 随代码交付。
+| 对象/字段 | 默认值、单位、何时生效 |
+|---|---|
+| RunController.gameplayTimeScale | 1，倍率；下一次切入 Playing 生效；0/非有限数拒绝启动 |
+| PlayerInputReader.buttonBufferSeconds | 0.15，真实秒；实时生效。每种最多一条，不无限队列 |
+| PlayerInputReader.inputActions/动作路径 | 指向现有资产；重新初始化生效。Move 为 Vector2 Value，各按钮为无 Hold 的不同 Button |
+| SmokeDriver.autoVerify | true；下次进入 Play 自动检查，测试专用 |
+| SmokeDriver.expiryWaitSeconds | 0.4，真实秒；须大于输入缓冲，测试时读取 |
 
-## 已有验证与边界
+默认值已在非 Play 保存；倍率测试恢复 1。场景 buildIndex=-1，不进入正式构建。
+键盘 A/D/方向键、Space、Enter/左键、E、LeftShift；Gamepad 左摇杆/South/West/North/East。Escape/Start 只在测试驱动中演示暂停。输入按键仅在公共资产改。
 
-历史验证：目标 Unity 自带 Roslyn 与真实 UnityEngine/NetStandard 引用分别编译 Core/Audio，通过 16 项契约断言；meta 配对和 GUID 检查通过。这不覆盖新写代码、Unity Play 或正式 Windows 构建。
+## 本轮实际验证与证据
 
-本轮验证：Git 分支/提交/初始干净状态、MCP 实例/项目/版本/场景/状态和 Console 已实查。无新运行代码；文档交接不构成 C01 或第一阶段完成。
+Unity MCP server `unityMCP`：
 
-关键玩法仍见 AGENTS：四构筑槽；站立不可主动切换；失去站立保留剑；奖励/代价固定等概率三选一；满槽替换；付费传送先验落点、扣费致死原地失败。未决事项按将要开工的任务逐项确认，不重新询问已确认内容。
+- 先读 custom-tools/instances/project/info/editor/state；显式目标 `2026GameJamUnity@1ba105ba2ebb3fca`，根目录正确、Unity 6000.2.9f1、StandaloneWindows64。临时 ID 不写代码。
+- 初始 SampleScene isDirty=false、非 Play；保护后创建独立 C01 场景，未改地图/模板。
+- C00：刷新/等待编译后真实加载 Regrowth.Core、Regrowth.Audio.Core；C01 进一步加载 Runtime/Tests.C01；ForceText、Visible Meta Files、InputSystem Dynamic Update 已读回。
+- 首次 Play 发现 Bootstrap 的 OnEnable 先于依赖活动回调，旧 isActiveAndEnabled 校验误拒绝启动；改用 enabled+activeInHierarchy 检查启动资格，保留运行消费时的活动校验；重新编译与 Play 通过。
+- 自动检查真实 InputSystem.QueueStateEvent 经正常 Dynamic Update 到适配器，没有直接注入 reader 状态或手动 InputSystem.Update。32 项覆盖移动、四按钮一次消费、E 无 Hold、同帧短点击、缓冲过期、暂停清空/拒绝、恢复持键保护、选择锁归属/重复、显式丢弃、系统请求、三轮入口启停/时间恢复/无重复监听，以及真实 FixedUpdate 消费一次。
+- 自动检查结束虚拟 Gamepad/Keyboard 全部移除；未遗留设备。保存重载后重新 Play 同样通过。
+- 通过实际 uGUI Button.onClick 验证测试暂停/恢复、选择取得/释放和入口启停；Playing/Paused/Choosing 与 timeScale 1/0 对应，唯一启动对象数量 1。
+- Inspector.gameplayTimeScale 改 0.5，保存并重载后 Play 读回 0.5，32 项仍全部通过；之后恢复1并保存。
+- Play 内刻意建立重复入口和暂时断开必填引用：均拒绝并产生两条预期 C01 Error；恢复引用后启动成功。测试对象销毁，临时绑定不保存。
+- 收尾刷新编译无新 Error/Warning；688 个 Assets meta 无重复 GUID，源码/测试场景/TMP 依赖无缺 meta；git diff --check 通过。重载后零 Missing Script、运行/输入/入口各一份，全部测试引用有效，倍率1、isDirty=false、非 Play；测试场景未加入构建。
+- Game View 截图已查看，TMP 文本及四按钮正常，显示 32 passed/0 failed；截图在被忽略的 `Logs/C01/C01_Smoke.png`，不是正式素材。
+
+历史/本轮日志：初始有 Wwise Voice Starvation 与 Unity Account API 超时；C01 场景未放 Wwise 初始化器/后端，运行正常，不宣称 Wwise 音频验收。后续账号网络 Warning 可能重现；重复入口/缺引用验证的两条 Error 是预期诊断。没有清空 Console 来宣称通过。
+
+## 尚未完成与下一步
+
+- 用户发布最终修复/完整场景/文档提交后，提供该提交号供 T06 分支使用。中途764a3d2不可当作最终运行基线。
+- 下一总控任务 C02：唯一玩家生命/构筑/姿态与所需写口。T06 接真实输入制作运动，C01 探针不能替代跑跳验收。
+- C03 交互选择/业务接线未实现；同类排序与不可用对象策略仍未冻结。
+- 正式暂停菜单、奖励暂停、同帧胜负、完整重开仍待 C04；本轮没有用测试开关替代玩法决定。
+- 主地图尚未交付；未运行真实玩家/敌人/陷阱/奖励/付费传送，未导出 Windows，未测另一台电脑，第一阶段整体验收未通过。
+- 未测关闭 Domain Reload/Scene Reload 的特殊组合；源码有 SubsystemRegistration 清理入口，但不能当作这些组合已验收。
+- 无真实菜单/后端可选依赖，当前菜单取消与音频停止只有接线端口，真实资源释放等 T01/T05 后集成验证。
+
+## 简短历史
+
+此前规范7/契约3：仅 Core/Audio 源码，已做独立 Roslyn 编译与16项数据/音频断言；仅只读 MCP 项目状态检查。本轮 C00/C01 的 Unity Play 结果是新增验证，不继承历史测试为业务完成。
