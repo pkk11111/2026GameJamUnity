@@ -1,0 +1,122 @@
+# Soap · T01 Choice Menu
+
+更新：2026-10-01（Australia/Sydney；本轮开始于 2026-09-30）。
+规范版本 8 · 公共源码契约版本 4。
+
+## 最新可接手摘要
+
+- **用户限定的 T01 第一阶段基础闭环独测通过；完整 T01 尚未验收，未集成主场景。**
+- 成员/稳定别名 Soap，工作分支 Soap。实际活动目录 `D:/Making Games/2026GameJamUnity`，Unity 6000.2.9f1。
+- 开始时工作区干净，HEAD 为 Ming 已发布基线 `e86074a6930b23b8c9e390b89806173f14dfd95e`，`git merge-base --is-ancestor` 返回 0；没有 fetch、切分支、merge、reset、commit 或 push。
+- 入口：`Assets/Scenes/Tests/T01/T01_Smoke.unity`。直接打开、进入 Play，菜单自动显示三个测试选项；点击卡片记录选中 ID，返回 true 后关闭；Cancel 记录取消并关闭；关闭后可按 Open three options 再开。
+- 只展示 ChoiceRequest/ChoiceOption 并回传 Id，不扣血、不授予能力、不移动、不标记箱子、不操作 Reward/Reduction、不修改 Time.timeScale。没有新建共享运行/玩家管理器。
+
+## 授权与文件清单
+
+全部为本轮新增；原有跟踪文件没有修改。所有 Assets 文件和新增目录均有 `.meta`。
+
+| 文件 | 实际职责 |
+|---|---|
+| `Assets/Scripts/UI/Choice/ChoicePanel.cs` | 实现现有 IChoicePresenter；展示、确认、取消与本地回调生命周期 |
+| `Assets/Scripts/UI/Choice/ChoiceCardView.cs` | 单卡标题/说明绑定、点击回传 Id；不修改美术资源 |
+| `Assets/Scripts/UI/Choice/Regrowth.UI.Choice.asmdef` | 引用 Core、UnityEngine.UI、Unity.TextMeshPro；无 Runtime/Input gameplay 依赖 |
+| `Assets/Scripts/Tests/T01/ChoiceMenuSmokeDriver.cs` | 三项 Inspector 测试数据，记录 ID、确认次数、取消次数；只做独立演示 |
+| `Assets/Scripts/Tests/T01/Regrowth.Tests.T01.asmdef` | 独立测试驱动程序集 |
+| `Assets/Scripts/Tests/T01/Editor/T01SceneSetup.cs` | 编辑器菜单创建独测场景；实例化已制作的 Prefab 并接 driver.panel，不在 C# 创建 UI 外观 |
+| `Assets/Scripts/Tests/T01/Editor/Regrowth.Tests.T01.Editor.asmdef` | 仅 Editor 的场景接线工具 |
+| `Assets/Prefabs/Choice/ChoiceCard.prefab` | 独立可替换卡片；Button/Image/Icon/TMP 及卡片视图引用 |
+| `Assets/Prefabs/Choice/ChoiceMenu.prefab` | Canvas、背景、标题、卡片容器、取消按钮、提示与 ChoicePanel 引用 |
+| `Assets/Prefabs/Tests/T01/T01SmokeRig.prefab` | 测试 Canvas/文字/重开按钮、驱动、相机、EventSystem；panel 是场景注入引用 |
+| `Assets/Scenes/Tests/T01/T01_Smoke.unity` | Unity 保存的 Menu/Rig Prefab 实例与场景间引用；未加入 Build Settings |
+| `docs/handoffs/Soap.handoff` | 本交接 |
+
+未改 Core、Runtime、Input Actions、Packages、ProjectSettings、主场景、共享玩家、其他成员资产、AGENTS、WORK_PACKAGES 或 controller.handoff。
+
+## 实际层级与 Inspector 接线
+
+```text
+T01_Smoke
+├─ ChoiceMenu                       [ChoiceMenu Prefab 实例]
+│  ├─ Canvas / CanvasScaler / GraphicRaycaster / ChoicePanel
+│  └─ View                          [Image，显示期间启用，关闭后隐藏]
+│     ├─ RequestTitle               [TMP]
+│     ├─ Cards                      [RectTransform + HorizontalLayoutGroup]
+│     │  └─ ChoiceCard(Clone) × 3   [仅 Play 显示时实例化独立 Card Prefab]
+│     │     ├─ Icon / PlaceholderLabel
+│     │     ├─ Title                [TMP]
+│     │     └─ Description          [TMP]
+│     ├─ Feedback                   [TMP]
+│     └─ CancelButton / Label       [Button + Image / TMP]
+├─ T01SmokeRig                      [测试 Rig Prefab 实例]
+│  ├─ Canvas / CanvasScaler / GraphicRaycaster / ChoiceMenuSmokeDriver
+│  ├─ Status                        [TMP]
+│  ├─ OpenMenuButton / Label         [Button + Image / TMP]
+│  ├─ EventSystem                   [EventSystem + InputSystemUIInputModule]
+│  └─ Main Camera                   [Camera + URP camera data]
+└─ WwiseGlobal                      [现有 Wwise 编辑器自动配置新增]
+```
+
+ChoicePanel 必填字段已绑定：`viewRoot → View`、`requestTitle → RequestTitle`、`cardContainer → Cards`、`cardPrefab → ChoiceCard 的 ChoiceCardView`、`cancelButton → CancelButton`、`feedbackText → Feedback`。组件根节点持续启用，不能把 viewRoot 指回自身。
+
+ChoiceCardView 必填：`selectButton → 根节点 Button`、`titleText → Title`、`descriptionText → Description`。可选 `icon → Icon Image` 已绑定，不参与判断或 Id 回传。
+
+测试驱动：`panel → 场景 ChoiceMenu 的 ChoicePanel`（保存的场景 override）、`openButton → OpenMenuButton`、`statusText → Status`。测试项 ID 分别为 `smoke-option-a/b/c`；Title/Description 仅测试文案，不是正式奖励池。EventSystem 引用基线 InputSystem_Actions 的 UI actions，未修改输入资产或添加第二个 gameplay 输入适配器。
+
+## 美术替换与参数入口
+
+| 编辑位置 | 替换/调整内容 | 当前默认值与生效时机 |
+|---|---|---|
+| ChoiceCard Prefab 根节点 Image | 卡框 Sprite、Color、Image Type；当前 null Sprite 为占位矩形 | 不影响选择逻辑；下次打开创建卡片时应用 Prefab 修改 |
+| ChoiceCard 根节点 Button | Target Graphic、Color Tint、Sprite Swap、导航与过渡 | 外观编辑，不需要改 C# |
+| ChoiceCard/Icon Image | Source Image、Color、Preserve Aspect；删除 Icon/PlaceholderLabel 即可去掉占位文字 | 当前统一占位图标；Icon 可选。不要移除 Title/Description 必填引用 |
+| ChoiceCard/Title、Description TMP | Font Asset、材质、字号、颜色、排版、RectTransform | 当前基线 LiberationSans SDF；可换支持中文的正式字体。文案由请求填充 |
+| ChoiceCard 根 RectTransform | 卡片尺寸与内部文字/图标布局 | 当前 350×380 参考像素；新实例应用 |
+| ChoiceMenu/View Image | 整体 Background Sprite、颜色 | 当前深色矩形；序列化在 Prefab，不是逻辑依赖 |
+| ChoiceMenu/View/CancelButton | Button/Image Sprite、颜色、过渡；Label 的字体/文案 | 当前 Cancel，占位尺寸 260×65 |
+| ChoiceMenu/View/RequestTitle、Feedback | 字体、颜色与排版 | 标题来自 ChoiceRequest；确认拒绝提示来自 panel.rejectedMessage |
+| ChoiceMenu/View/Cards HorizontalLayoutGroup | 排列、间距、容器尺寸 | 当前容器 1450×380、间距 28 参考像素；仅样式参数 |
+| ChoiceMenu CanvasScaler / Canvas | 缩放基准、屏幕适配、排序 | 1600×900，Match 0.5，Sort Order 10 |
+| ChoicePanel.rejectedMessage | 回调 false/异常时的展示提示 | 实时读取；本轮未验收 false/异常流程 |
+| T01SmokeRig 的 SmokeDriver | requestTitle、三项 id/title/description | 下次打开菜单读取，不执行任何 gameplay |
+
+Prefab 美术序列化引用可直接编辑。运行时仅 Instantiate 已绑定的 Card Prefab、填充文本、设置交互和显隐；没有动态构建 UI、Resources.Load、对象名 Find 或正式美术资源路径。
+
+**实际接口没有 Icon 字段**：本轮保留可替换 Icon Image，显示统一占位图；不修改 ChoiceOption，不根据 Id 猜图标。未来每条目不同的图标需要任务内展示映射或总控发布的数据接点，本轮未制作映射。取消占位图标文字与替换统一 Sprite 不需要改逻辑。
+
+## 接口行为与集成说明
+
+Unity 主线程调用 `IChoicePresenter.TryShow(request, tryConfirm, onCancel)`；点击仅回传 `ChoiceOption.Id`。true 完成关闭，false 保持打开并展示序列化提示。取消先清理事务再调用当前取消回调。组件停用时取消当前事务，按钮启用订阅/停用退订，旧卡片解绑并销毁。
+
+为完整实现既有接口，`TryReplaceCurrent` 使用同事务 Id 检查和同一展示路径；没有制作四项替换演示、Reward 写口或替换业务。本轮不能声称该边界已验收。
+
+总控以后将 ChoicePanel 作为 IChoicePresenter 传给实际发起者，由发起者负责运行阶段/锁及结算。测试 Rig/SmokeDriver 不进入主场景；不把测试回调当正式奖励、收费、暂停或重开。UIConfirm 音频触发本轮未接入。
+
+## 实际执行的验证
+
+本会话工具清单与 MCP 资源没有 Unity MCP，无法读取其 instances/project/info/editor/state。用 computer-use 技能操作实际 Unity 窗口；ProjectVersion 和实际窗口均为 6000.2.9f1，目标目录经本机项目进程核对为 D: 当前仓库。初始 SampleScene 无脏标记、非 Play。
+
+新 UI 资产使用现有 C01 的实际 uGUI/TMP 序列化组件结构制作，未拼接或改写现有场景。Unity 实际导入三个 Prefab；编辑器接线工具从它们创建空的独测场景并由 Unity 保存。随后保存、从磁盘重载、实际 Play，确认资产可运行和引用持久化。
+
+1. 新源码刷新后，Unity 完成编译和域重载，加载 UI.Choice/Tests.T01/Tests.T01.Editor；没有 T01 编译错误。
+2. 第一次 Play 自动打开三张卡；逐一目视确认请求标题、A/B/C 的 Title/Description 与占位 Icon 都显示，文字未重叠。
+3. 鼠标实际点击 B：结果 `Selected ID: smoke-option-b`，Confirm callbacks=1、Cancel callbacks=0、Menu open=False；日志经 Button.OnPointerClick / InputSystemUIInputModule 进入 Confirm，并非直接调用测试回调。
+4. 点击 Open three options 后点击 Cancel：Cancelled，Confirm=1、Cancel=1、Menu open=False。
+5. 再次打开并点击 A：`smoke-option-a`，Confirm=2、Cancel=1、关闭。
+6. 再次打开并点击 C：`smoke-option-c`，Confirm=3、Cancel=1、关闭。
+7. 退出 Play，在 Inspector 实查 ChoicePanel 的六项展示引用均有效；场景无未保存标记。
+8. 通过 Unity Load Scene 从磁盘重新打开 T01_Smoke；再次 Play 三张卡正确显示，点击 Cancel 后 Confirm=0、Cancel=1、Menu open=False。退出 Play，场景保持已保存状态。
+9. Console 收尾显示 0 Error、1 Warning；Warning 是既有 Unity Account API 30 秒不可达。Editor.log 另有授权/账号服务 403/404 与 Wwise 初始化/暂停日志；没有清空 Console，Unity 默认 Clear on Play 会影响当前显示，先前流程另以 Editor.log 核对。
+10. 新增资产无缺 meta；全 Assets 共 708 个 meta 无重复 GUID。现有跟踪文件 `git diff --name-only` 为空，`git diff --check` 通过；T01 场景没有加入正式 Build Settings。
+
+现有 Wwise 编辑器在创建场景后自动新增 WwiseGlobal/AkInitializer 和相机 AkAudioListener/AkGameObj（场景中的测试 Rig override），已非 Play 保存。不修改 Wwise 设置/源码、不增加项目音频后端；上述自动组件不属于菜单逻辑，也不能据此宣称音效接通。
+
+## 未完成、未验证与规则差异
+
+- 未做完整任务卡中的 false 保持/提示验收、同事务四项替换、替换不取消/不关闭、错误事务 Id、重复 TryShow、快速连点、关闭后重复取消、启停/卸载重入与旧监听的专项异常验收。代码中的保护不等于测试已通过。
+- 未做手柄/键盘默认焦点与导航、不同窗口比例/长文案/中文字体、多条目 Icon 映射、UIConfirm 音频、正式阶段锁或 gameplay 集成。
+- 尚未实测缺失必填引用的诊断或代表性 Inspector 美术参数变更；本轮只完成用户要求的小段 Play 验收，不能标完整 10.3 或完整 T01 通过。
+- AGENTS/controller.handoff 仍写 F: 活动路径与旧“C01 待发布”状态；当前用户明确指定 D: 和 e86074a 基线优先，本轮不代总控改规范。
+- WORK_PACKAGES 的 T01 完整卡包含四项替换与异常测试；本轮用户明确缩为第一阶段，剩余项保持未验收。
+- 实际 ChoiceOption 无图标字段、IChoicePresenter 注释仍写实现尚未提供；不改总控 Core，由总控以后更新实现登记即可。没有接口签名/枚举/已确认玩法冲突。
+
+下一步等待用户安排 T01 后续验收或总控集成。未自动继续 T02/Reward/Chest/Reduction；不自动 commit/push。
