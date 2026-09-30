@@ -1,4 +1,51 @@
-# Soap · T01 Choice Menu
+# Soap · T06 Locomotion / T01 Choice Menu
+
+## T06 最新摘要（2026-10-01，Australia/Sydney）
+
+- Soap，开始 HEAD `239d019fd0848b71e65e358af1c4844ee010899a`（T01 Down），开始工作区干净；T01 已独测通过的代码与下方记录全部保留。本轮没有切分支/merge/reset/stash/commit/push。
+- 实际运行源码基线仍含 Ming `4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5`，本地规范9/契约5。中途按用户要求 fetch，最新 `origin/Ming` 是 `5a7cc5b439c3ccc7dbd960df949491732e51e6cf`，提交 C03；直接用 git show 读取远端 AGENTS/WORK_PACKAGES/controller.handoff（规范10/契约6），没有把远端文件写入当前工作树。
+- 对照结果：T06 任务卡、G33/G34、IPlayerInput/IRunContext/PlayerInputReader 未变；RunController 仅注释变更，Bootstrap 只新增可选 C03 组件初始化/清理。当前 T06 与规范10兼容，不需要规则驱动的代码调整。尚未合入或实际运行 C03，因此不能写已通过契约6整合测试。
+- C03 的 IInteractionState 是只读交互提示，IChoiceFlow 由 ChoiceCoordinator 管选择暂停/同事务三四项；PlayerInteractor 独占 Interact，InteractionTarget 显式桥接物件。T06 不消费 Interact、不新增这些组件、不接奖励/开关门；后续集成由总控绑定真实组件。文档仍有 F: 与 C03待发布历史文字，用户的 D: 路径和实际 fetch 提交事实优先。
+- **T06 本轮授权范围独测通过，未集成。** Unity 6000.2.9f1 两轮实际 Play 均 **27 passed / 0 failed**；第二轮为 Inspector 修改6/9/0.15并保存、磁盘重载后的完整复验。T01 已独测通过的状态仍保留。
+
+### T06 文件与结构
+
+- `Assets/Scripts/Gameplay/Locomotion/PlayerLocomotion.cs`：正式基础水平移动/单次跳跃/唯一射线 Grounded；仅读 IPlayerInput、IRunContext、IHealth，FixedUpdate 先检查活动且存活；唯一正式刚体速度写者。`Regrowth.Gameplay.Locomotion.asmdef` 引用 Core/Audio.Core。
+- `Assets/Scripts/Tests/T06/T06SmokeDriver.cs`：真实 C01/C02接线的状态文本、Pause/Choosing/TEST Die/Run T06 Checks；向现有 Keyboard 注入标准 Input System 设备事件，经正常 Update → Reader → FixedUpdate → Physics，不创建第二输入适配器或模拟运行阶段。
+- `Assets/Scripts/Tests/T06/Editor/T06SceneSetup.cs`：仅 T06 的安全创建/磁盘重载工具。生成时保护当前脏场景/Play/已有场景，不覆盖现有场景；灰盒外观最终存 Unity 资产，不在运行时搭 UI。
+- T06 的 Tests 和 Editor asmdef（Editor引用项目现有URP组件，无新包），上述全部文件及目录 `.meta`。
+- `Assets/Scenes/Tests/T06/T06_Smoke.unity` + meta：地板、三平台、墙、忽略 Trigger、Rig；没有加入 Build Settings。已有 Wwise Integration 自动附加 WwiseGlobal，不是本任务的音频实现。
+- `Assets/Prefabs/Tests/T06/T06SmokeRig.prefab` + meta：Runtime（唯一 Run/Input/Bootstrap）、灰盒玩家（唯一 PlayerState、Rigidbody2D、BoxCollider2D、PlayerLocomotion）、Ground Ray Origin、独立 Visual、uGUI/TMP Tests UI、EventSystem/InputSystemUIInputModule、Camera。不得整体拷入主场景制造重复 Runtime/PlayerState；总控只抽取正式运动组件并显式接线。
+- `Assets/Configs/T06/GrayboxSquare.png`、`ZeroFriction.physicsMaterial2D`、`T06UIReferences.asset` 及 meta：占位白色 Sprite、零摩擦物理材质、现有 Input Actions 的 UI 持久引用（一个主资产及子资产）；不修改原 Input Actions。
+- 更新仅本交接。未改共享 Core/Runtime/Input/Packages/ProjectSettings、T01、主场景/地图/其他成员资产。
+
+### T06 接线与 Inspector 参数
+
+- motor 的 inputSource/runSource/healthSource 分别指向 Rig 中唯一 PlayerInputReader/RunController/玩家 PlayerState；body 指向同对象刚体，groundOrigin 指向脚底子对象。Bootstrap 绑定 run/input/state；inputActions 绑定现有公共输入资产。
+- 地面为现有 Default Layer，groundLayers=1；三条向下 Physics2D.Raycast，ContactFilter2D 排除 Trigger，显式跳过玩家本体/子物体/同刚体，法线Y排除墙。唯一结果 IsGrounded；起跳立即清 false、上升时不判 Grounded，空中请求一次消费并丢弃。
+- Rig Prefab 暂定速度5单位/秒、起跳速度8单位/秒、射线长度0.12；Scene Inspector 已保存 overrides：moveSpeed=6、jumpVelocity=9、rayLength=0.15。都实时读取，不在 Awake/Start 重置；射线配置在下次扫描生效。第二轮27/0复验通过，画面实际水平速度6。
+- groundScanInterval=0.02游戏秒；groundOrigin 本地(0,-0.45)，rayOffsets=(-0.38,0)/(0,0)/(0.38,0)；法线最小Y=0.65，上升速度上限0.1，实际水平速度阈值0.05；参数均 Inspector 可替换/调节。未改 fixedDeltaTime，首轮实际检查约0.02。
+- Rigidbody2D：Dynamic，重力倍率2.5、Continuous、Interpolate、锁Z旋转；BoxCollider2D为1×1，ZeroFriction材质。Camera已有URP额外相机数据（场景override），Sprite导入FullRect修正切片警告。
+- 外观只在 Scene/Prefab 的 SpriteRenderer、Image/Button、TMP、RectTransform/CanvasScaler/Camera 调整；Visual 子对象供未来Dog Sprite/Animator，不导入角色动画。Tests Editor 的资源路径仅制作测试资产，不用于正式运行绑定。
+- Jumped 仅成功起跳通知一次，调用现有 GameAudio.PlayerJump；没有脚步 Cue/音频请求。ActualHorizontalSpeed 来自物理位置变化，CanRequestFootsteps 只整理未来接入条件（Playing、存活、Grounded、有实际水平位移），不是扫描频率/播放节奏。未来音频发布后再接独立节奏与试听；本轮不宣称声音通过。
+
+### 已实际执行的 T06 验证
+
+- 场景安全创建并保存；Sprite FullRect修正后通过 Tools/GROWL AGAIN/T06/Reload Smoke Scene 从磁盘载入，01:42–01:43首次编辑器 Play 点击 Run T06 Checks，最终 **27 passed / 0 failed**，4次真实Jumped。
+- 首轮覆盖左右移动、平地Grounded、仅地面起跳/空中第二按拒绝/落地恢复、平台边缘外脚射线及跳离、空中顶墙不算地面/落地顶墙无实际位移、静止/空中无脚步条件；真实 Pause/Resume 与 held jump不补触发；Choosing owner锁/恢复无输入残留；通过真实PlayerState伤害归零→Bootstrap→Dead，移动/跳跃/脚步条件拒绝。
+- 检查还临时改变运动组件实际序列化字段：速度半值、跳跃0.75倍、射线4倍，实际物理响应通过后还原；仅Tests通过反射做调参，不给正式组件增加通用写口。
+- 退出Play后，实际Inspector把场景速度/跳跃/射线长度改为6/9/0.15，保存，再通过Reload Smoke Scene从磁盘载入并再次Play；点击Run T06 Checks，完整第二轮仍27/0。鼠标实测Pause/Resume按钮成功进入Paused/Playing。最终退出Play，场景无脏标记。
+- 首轮与相机修正后的编译均无源码Error。当前可见Console Error=0；已有账号API网络Warning与Wwise暂停/恢复日志，不清空日志冒充通过。首次Sprite切片与Camera额外数据Warning已修正；Unity编译/进入Play自带Clear on Play可能改变显示，结果保留在Editor.log。
+- Windows工具短促D/Space未产生可观测移动/起跳，不把这两次瞬时UI按键写为手动跑跳通过；跑跳验收来自上述Play中正式Input System设备事件/唯一Reader/真实物理链。窗口恢复和用户并行操作曾暂缓二次复验，用户留出操作时间、重建窗口工具连接后完成；现有脚本未重做。
+- 文件收尾：30个新增文件（含目录meta）及本交接修改；新增资产均有meta，Assets共738个meta无重复GUID；Scene/Prefab序列化无空Script，自研与共享GUID引用有效，外部Unity/InputSystem/TMP/uGUI/URP脚本来自现有包。关键motor/driver/Bootstrap引用非空。T06不在EditorBuildSettings，当前HEAD仍239d019，git diff --check通过。
+
+### 待完成与总控接入
+
+- 本轮12类要求已完成：左右移动、真实Grounded起跳、空中单跳拒绝、落地恢复、边缘可靠、墙面排除、暂停冻结、恢复无补跳、Choosing冻结、真实死亡冻结、Inspector参数生效、保存磁盘重载；分别由上述27项真实Play断言与Inspector/编辑器操作验证。未发现共享接口缺口或本轮运动逻辑Bug；修正了T06测试Sprite导入FullRect和相机URP配置警告。未标已集成。
+- 总控集成：共享玩家绑定唯一 input/run/state、同刚体和脚底锚点；统一正式groundLayer/角色碰撞尺寸，和地图作者试走速度/跳高/跨距。T06测试夹具定位不是正式传送/复活入口，不带Tests驱动进入正式场景。
+- 尚未做：C03运行集成、正式地图路线、Dash/DoubleJump/Bite/Sword/姿态、敌人、脚步Cue/独立节奏/映射/试听、完整游戏/Windows导出。后续运动扩展/击退/迁移API由总控串行协调，不能另一个组件争写同一刚体。
+
+## T01 既有独测记录（保留）
 
 更新：2026-10-01（Australia/Sydney）。
 规范版本 9 · 公共源码契约版本 5。
