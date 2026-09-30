@@ -1,4 +1,67 @@
-# 总控交接与新会话入口
+# 总控当前任务：Soap T01合并测试与项目结构整理
+
+更新：2026-10-01 · 规范10 / 公共源码契约6（未改签名）
+分支：Ming；开始HEAD fa54f5ad62984c9d3256085ff24bfb49793f55cc，工作区干净
+本轮固定交付：Soap/239d019fd0848b71e65e358af1c4844ee010899a（T01 Down）
+状态：无冲突合并候选已入Ming / 本机独测与独立集成通过 / 未提交或推送 / 主地图未集成
+
+## 最新结果与授权
+
+用户要求拉取Soap的T01测试合并，并整理当前层级/无用内容；随后明确暂不调整任何美术素材和外观资源，适配由组员后续提供。工作始终在F:/2026GameJamUnity、Ming；没有自动commit/push、改地图、改Packages/ProjectSettings或启动子代理。Soap.handoff保持只读。
+
+本轮git fetch origin Soap Ming后核对Soap以4ffa05b为公共基点，只新增UI/Choice、独测源码/Prefab/场景、视觉文档/参考图和Soap交接，没有改Core/Runtime。IChoicePresenter/ChoiceRequest沿用旧签名，与当前契约6兼容。
+
+已在独立F:/2026GameJamUnity_T01Review做试合并及Unity自带Roslyn+真实引用编译UI/测试；无冲突、编译成功。随后Ming执行git merge --no-commit --no-ff origin/Soap，停在提交前。HEAD仍fa54f5a，MERGE_HEAD为239d019。收尾发现origin/Soap已前进到21b2118896b4eaa5231330e45d761b47c0a9be87（t6）；本轮仍固定已验收的T01提交，未合入新T06。比对239d019的T01源码/Prefab/场景及Soap.handoff完全一致，不以移动的origin/Soap误判文件变更。隔离worktree在完成验证后已移除；活动Ming合并保留。
+
+初次稀疏检出未完全退出时合并未完成；串行等待/停止该进程、确认无剩余Git进程和干净隔离索引后重试成功。自动审批曾拒绝并发重试，以及缺少实时脏状态证据的场景切换；没有绕过，分别核对进程/场景后继续安全步骤。MCP在导入/保存/切场景时偶有断连，恢复同一实例并检查实际状态，未据失败返回声称保存或切换成功。
+
+## 实际改动与清理边界
+
+- 原样合并Soap的38项新增路径，保留全部源码/Prefab/场景/meta/GUID及其交接；本轮不改ChoicePanel/ChoiceCardView或原T01独测资产，不调整视觉外观。
+- 新增Assets/Scripts/Tests/Integration/T01C03IntegrationDriver.cs和Regrowth.Tests.Integration.asmdef，依赖Core/Runtime/UI.Choice/Tests.C03/InputSystem/uGUI/TMP；局部C03ProbeTarget只作交互触发，不是正式宝箱。
+- MCP创建Assets/Scenes/Tests/Integration/T01_C03.unity：由C03保存副本后接入Soap ChoiceMenu Prefab与真实总控组件，移除副本旧C03SmokeDriver、旧ProbePresenter、旧TEST Choice Panel和多余目标/测试按钮，只保留一个触发目标、诊断文本/手动按钮、真实Soap展示。旧C03资产不删除。
+- C03_Smoke与集成场景均归组为Runtime/Test World/Test UI/Test Checks/Environment，WwiseGlobal由插件管理。对象引用/ID、世界位置和业务组件保持；C03保存后57项复验通过。非Play各6根；Play时WwiseGlobal进插件生命周期，场景根数可能为5。
+- 根目录logRunSetup.txt是2026-09-30旧E盘工程WwiseSetupWizard的单次批处理日志；检查无项目引用后删除，.gitignore追加仅此日志的规则。
+- SampleScene仍被EditorBuildSettings及templateDefaultScene引用，暂保留；URP/输入/Wwise/TMP及历史C01/C02/C03/T01测试场景有实际依赖/验收用途，保留。没有删除美术素材、Wwise Source zip/Authoring或插件。
+- README增加各场景用途和目录边界；AGENTS/WORK_PACKAGES/GAME_DESIGN同步菜单已实现、本轮合并/31项接线状态及暂不整理美术的范围。
+
+## Unity复现与Inspector
+
+实例2026GameJamUnity@1ba105ba2ebb3fca，Unity6000.2.9f1，项目F:/2026GameJamUnity，StandaloneWindows64。实例ID只用于工具路由。
+
+1. Soap独测：Assets/Scenes/Tests/T01/T01_Smoke.unity，实际Play自动41项，之后可点卡片/Cancel/Open测试。原场景/Prefab不改，不进Build Settings。
+2. 总控集成：Assets/Scenes/Tests/Integration/T01_C03.unity。
+   - Runtime/C03 Runtime：RunController、PlayerInputReader、ChoiceCoordinator、GameBootstrap；原现有InputActions资产。
+   - Runtime/C03 Player：唯一PlayerState与PlayerInteractor，actor显式绑定自己。
+   - Test World/TEST Choice Trigger：C03ProbeTarget+InteractionTarget+Trigger Collider2D；在交互范围内，通过唯一Interact消费端打开菜单。
+   - Test UI/ChoiceMenu：Soap Prefab实例及ChoicePanel，其六项引用沿用Prefab；Bootstrap.choicePresenter和ChoiceCoordinator.presenter均指向该组件，根持续启用。
+   - Test UI/Integration Diagnostics：诊断TMP及TEST Choice一个按钮；不是正式HUD，不包含旧测试菜单面板。
+   - Test Checks/T01 C03 Integration Checks：T01C03IntegrationDriver的bootstrap/run/input/state/interactor/flow/panel/target/statusText/openButton十项显式绑定。
+   - Environment：Main Camera/Directional Light。WwiseGlobal保留既有Integration入口。
+3. autoVerify=true（最终默认）下次Play执行31项后Dead；关闭后可手动用E或TEST Choice打开真实三项菜单，选择Sword/Upright经真实写口，满血Heal是接受的测试选择。Escape仅测试暂停；按钮/演示不是正式奖励/收费/重开。
+4. 集成复用C02暂定HP100/咬击10/剑15，interactor.radius2/Default Layer/includeTriggers true，输入buffer0.15真实秒，Playing倍率1。首次初始化/实时读取语义仍按AGENTS原表。
+5. 各测试场景未加入正式Build Settings。正式地图与正式HUD/死亡按钮仍归各组员，后续C05按交付接入。
+
+## 本轮真实验证
+
+- Unity刷新/实际编译无源码错误；Soap原T01_Smoke本机41 passed / 0 failed（7 groups），使用实际Card/Cancel Button.onClick复验原测试。
+- T01_C03保存与重载后实际31/0；清除副本旧测试UI后重新保存并再Play31/0。覆盖真实InputSystem E→PlayerInteractor→ChoiceCoordinator→Soap ChoicePanel、暂停与清提示/输入、真实按钮写Sword一次、长按不再开、false保留/提示/重试、同Id三转四持续暂停、旧卡失效、当前阶段取消一次/保留真实构筑、最终写口一次、Presenter禁用、两轮Bootstrap退出取消/重绑保持、实际死亡锁。
+- 手动autoVerify=false：实际TEST Choice按钮打开三张Soap卡，Choosing/timeScale0；实际Cancel按钮关闭并Playing/timeScale1。最终恢复autoVerify=true并保存，31/0再次通过。
+- 整理后的C03_Smoke实际Play57/0，旧事务及交互排序不受分组影响。C01/C02的32/51为此前记录，本轮没有重跑，不继承为新测试。
+- Game View截图在Logs/T01Merge（ignore）：Soap独测菜单、31项摘要、真实集成菜单，均已查看。只是验证当前占位UI，不开展美术验收。
+- 736个Assets meta无重复GUID/孤立meta；新增T01和Integration资产配对完整。Mac.bundle内部是已有插件载荷，不额外生成meta。最终实际读取T01_C03非Play、isDirty=false/isCompiling=false，6根；运行/输入/玩家/选择/交互/启动入口及Soap ChoicePanel各一份，十项驱动引用与六项Presenter引用齐全，Bootstrap/Coordinator绑定同一Presenter，零Missing Script，无旧TEST Choice Panel，autoVerify=true。本轮总控改动git diff --check通过；原Soap的21个Unity序列化文件已有尾部空白，缓存合并检查会提示，保持原交付内容不做外观/资源重写。三个视觉参考LFS文件已实查在本地，隔离worktree只余主Ming。
+- 没有Windows导出、正式地图/第一阶段整体灰盒或Wwise声音验收。本轮最后Play Console无error/warning；中途既有Unity账号网络提示另留日志，不清空Console。
+
+## 下一步和提交边界
+
+Ming目前是待提交合并，用户可审核后提交并push；不要先切分支、拉其他任务或把合并候选描述成已发布新基线。本轮清理/集成/文档改动有未暂存与新增文件，提交时应一起加入。旧C03的公开代码基线5a7cc5b、发布记录fa54f5a保持历史可追溯。
+
+T01已完成本机独测及总控独立接线验收；主地图和第一阶段整体未通过。接下来按已交付T02/T03/T06/T07逐项集成，C04按需确认奖励/代价池、下限/叠加/刷新、重开与同帧胜负，不等待完整美术地图才开发无依赖逻辑。
+
+---
+
+
+# C03已发布交接历史（保留当时事实）
 
 更新：2026-10-01 · 规范版本10 · 公共源码契约版本6
 维护别名：controller（总控任务别名）
