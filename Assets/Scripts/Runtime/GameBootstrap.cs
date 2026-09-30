@@ -1,5 +1,5 @@
 // 职责：显式场景组装入口、唯一性校验与退出清理，不创建隐藏单例或实现重开。
-// 模块/维护：controller，C01；直接依赖：RunController、PlayerInputReader、可选 IChoicePresenter、GameAudio。
+// 模块/维护：controller，C01/C02；直接依赖：RunController、PlayerInputReader、可选 IChoicePresenter、GameAudio。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using Regrowth.Audio;
 using Regrowth.Core;
@@ -15,6 +15,8 @@ namespace Regrowth.Runtime
         private RunController runController;
         [SerializeField, Tooltip("必填，唯一集中输入适配器；不得另挂 Unity PlayerInput。")]
         private PlayerInputReader inputReader;
+        [SerializeField, Tooltip("C02 玩家状态；旧 C01 输入独测可留空。正式玩家必填，本入口统一初始化/解绑，不靠启停重置生命。")]
+        private PlayerState playerState;
         [SerializeField, Tooltip("可选，实现 IChoicePresenter 的菜单；卸载前取消当前事务。")]
         private MonoBehaviour choicePresenter;
         [SerializeField, Tooltip("可选，退出时停止这些发声对象；全局发声对象也会停止，不停整个音频引擎。")]
@@ -40,6 +42,7 @@ namespace Regrowth.Runtime
             }
 
             if (runController == null || inputReader == null || runController.IsInitialized || inputReader.IsInitialized
+                || (playerState != null && playerState.IsBound)
                 || (choicePresenter != null && !(choicePresenter is IChoicePresenter)))
             {
                 Debug.LogError("C01 GameBootstrap 接线失败：RunController/InputReader 必填且未被其他入口拥有，菜单须实现 IChoicePresenter。", this);
@@ -48,10 +51,21 @@ namespace Regrowth.Runtime
 
             activeBootstrap = this;
             ownsSession = true;
-            if (!runController.Initialize() || !inputReader.Initialize(runController))
+            if (!runController.Initialize()
+                || (playerState != null && !playerState.Initialize(runController))
+                || !inputReader.Initialize(runController, playerState))
             {
                 ShutdownSession();
                 return;
+            }
+            if (playerState != null)
+            {
+                playerState.Died += OnPlayerDied;
+                if (!playerState.IsAlive)
+                {
+                    // 重新绑定已死亡的同一生命周期，只同步 Dead，不复活或重复播放死亡音频。
+                    runController.RequestPlayerDeath(playerState);
+                }
             }
             IsStarted = true;
         }
@@ -78,6 +92,11 @@ namespace Regrowth.Runtime
                 {
                     inputReader.Shutdown();
                 }
+                if (playerState != null)
+                {
+                    playerState.Died -= OnPlayerDied;
+                    playerState.Shutdown();
+                }
                 if (runController != null)
                 {
                     runController.Shutdown();
@@ -98,6 +117,15 @@ namespace Regrowth.Runtime
                 {
                     activeBootstrap = null;
                 }
+            }
+        }
+
+        private void OnPlayerDied()
+        {
+            inputReader.DiscardGameplayInput();
+            if (runController.RequestPlayerDeath(playerState))
+            {
+                GameAudio.Play(AudioCue.PlayerDied, playerState.gameObject);
             }
         }
 

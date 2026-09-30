@@ -1,5 +1,5 @@
 // 职责：唯一 Input System 适配器；动态帧采样、限时缓冲、跨阶段清理。
-// 模块/维护：controller，C01；直接依赖：Unity.InputSystem、IRunContext/IPlayerInput；GameBootstrap 显式注入运行上下文。
+// 模块/维护：controller，C01/C02；直接依赖：Unity.InputSystem、IRunContext/IPlayerInput；GameBootstrap 显式注入运行上下文。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
@@ -43,6 +43,7 @@ namespace Regrowth.Runtime
         private readonly bool[] buffered = new bool[4];
         private readonly bool[] blockedUntilRelease = new bool[4];
         private IRunContext run;
+        private IHealth playerHealth;
         private float moveX;
         private bool jumpHeld;
         private bool pauseBlocked;
@@ -51,13 +52,14 @@ namespace Regrowth.Runtime
         public bool IsInitialized => runtimeActions != null;
         public float MoveX => IsUsable ? moveX : 0f;
         public bool JumpHeld => IsUsable && jumpHeld;
-        private bool IsUsable => IsInitialized && isActiveAndEnabled && run != null && run.IsGameplayActive;
+        private bool IsUsable => IsInitialized && isActiveAndEnabled && run != null && run.IsGameplayActive
+            && (playerHealth == null || playerHealth.IsAlive);
 
         /// <summary>Update 中同步触发一次；由总控指定接收者决定如何处理。</summary>
         public event Action PauseRequested;
 
         // Bootstrap 可先于本组件 OnEnable 注入；运行采样仍要求 isActiveAndEnabled。
-        internal bool Initialize(IRunContext context)
+        internal bool Initialize(IRunContext context, IHealth health = null)
         {
             if (IsInitialized || (!enabled || !gameObject.activeInHierarchy) || context == null || inputActions == null
                 || buttonBufferSeconds <= 0f || float.IsNaN(buttonBufferSeconds) || float.IsInfinity(buttonBufferSeconds)
@@ -85,6 +87,11 @@ namespace Regrowth.Runtime
             }
 
             run = context;
+            playerHealth = health;
+            if (playerHealth != null)
+            {
+                playerHealth.Died += DiscardGameplayInput;
+            }
             run.PhaseChanged += OnPhaseChanged;
             move.Enable();
             foreach (InputAction button in buttons)
@@ -122,6 +129,11 @@ namespace Regrowth.Runtime
                 run.PhaseChanged -= OnPhaseChanged;
             }
             run = null;
+            if (playerHealth != null)
+            {
+                playerHealth.Died -= DiscardGameplayInput;
+            }
+            playerHealth = null;
             DiscardGameplayInput();
             if (runtimeActions != null)
             {

@@ -1,5 +1,5 @@
 // 职责：唯一运行阶段和 Time.timeScale 持有者；提供显式暂停及归属校验的选择锁。
-// 模块/维护：controller，C01；直接依赖：UnityEngine、Regrowth.Core；由 GameBootstrap 初始化/清理。
+// 模块/维护：controller，C01/C02；直接依赖：UnityEngine、Regrowth.Core；由 GameBootstrap 初始化/清理。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
@@ -8,19 +8,20 @@ using UnityEngine;
 namespace Regrowth.Runtime
 {
     /// <summary>
-    /// 主线程命令入口。当前仅 Playing/Paused/Choosing；Dead/Won/重开等待 C04 仲裁。
+    /// 主线程命令入口。当前支持 Playing/Paused/Choosing/Dead；Won/重开与同帧胜负等待 C04。
     /// UI 不设置时间倍率；奖励是否调用选择锁仍未冻结。
     /// </summary>
     public sealed class RunController : MonoBehaviour, IRunContext
     {
         [SerializeField, Min(0.01f)]
-        [Tooltip("Playing 的时间倍率；测试默认 1，下一次切入 Playing 生效。暂停/选择为 0。")]
+        [Tooltip("Playing 的时间倍率；测试默认 1，下一次切入 Playing 生效。暂停/选择/死亡为 0。")]
         private float gameplayTimeScale = 1f;
 
         private RunPhase phase = RunPhase.Paused;
         private object choiceOwner;
         private float previousTimeScale;
         private bool changingPhase;
+        private bool deathRequested;
 
         public RunPhase Phase => phase;
         public bool IsGameplayActive => IsInitialized && phase == RunPhase.Playing;
@@ -38,6 +39,7 @@ namespace Regrowth.Runtime
                 return false;
             }
 
+            deathRequested = false;
             previousTimeScale = Time.timeScale;
             IsInitialized = true;
             ChangePhase(RunPhase.Playing);
@@ -98,6 +100,27 @@ namespace Regrowth.Runtime
             return true;
         }
 
+        /// <summary>仅 Bootstrap 根据唯一玩家生命归零请求；死亡释放选择锁并停止游戏，不处理胜利或重开。</summary>
+        internal bool RequestPlayerDeath(IHealth playerHealth)
+        {
+            if (!IsInitialized || !enabled || !gameObject.activeInHierarchy || playerHealth == null
+                || playerHealth.IsAlive || playerHealth.CurrentHealth != 0 || phase == RunPhase.Dead || deathRequested)
+            {
+                return false;
+            }
+            choiceOwner = null;
+            if (changingPhase)
+            {
+                // 阶段通知中产生死亡时，先结束本次通知，再进入 Dead，避免嵌套阶段事件倒序。
+                deathRequested = true;
+            }
+            else
+            {
+                ChangePhase(RunPhase.Dead);
+            }
+            return true;
+        }
+
         internal void Shutdown()
         {
             if (!IsInitialized)
@@ -105,6 +128,7 @@ namespace Regrowth.Runtime
                 return;
             }
 
+            deathRequested = false;
             IsInitialized = false;
             choiceOwner = null;
             Time.timeScale = previousTimeScale;
@@ -137,6 +161,11 @@ namespace Regrowth.Runtime
             finally
             {
                 changingPhase = false;
+                if (deathRequested && IsInitialized)
+                {
+                    deathRequested = false;
+                    ChangePhase(RunPhase.Dead);
+                }
             }
         }
 
