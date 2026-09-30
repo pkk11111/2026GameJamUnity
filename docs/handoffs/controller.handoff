@@ -3,7 +3,7 @@
 更新：2026-10-01 · 规范版本10 · 公共源码契约版本6
 维护别名：controller（总控任务别名）
 任务：C03 / 分支Ming / 基于4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5
-状态：已确认范围独测通过 / 待用户发布 / 待主场景集成
+状态：已确认范围独测通过 / 已发布Ming/5a7cc5b439c3ccc7dbd960df949491732e51e6cf / 待主场景集成
 
 ## 最新可接手摘要
 
@@ -12,7 +12,8 @@
 - 新增IInteractionState/IChoiceFlow、InteractionTarget、PlayerInteractor、ChoiceCoordinator；扩展GameBootstrap可选引用和初始化/清理，兼容旧C01/C02。RunController仅同步注释中的G37规则，无阶段业务变更。
 - C03_Smoke通过MCP创建、显式Inspector绑定、保存重载后实际Play：57 passed / 0 failed。本轮旧C01实际复验32/0，旧C02实际复验51/0，旧场景未改。
 - 已验证半径0.5保存重载改变候选、真实InputSystem键盘E单次请求、实际测试菜单按钮通过唯一PlayerState获得剑、暂停与取消恢复、重复ID及缺引用拒绝/恢复。最终恢复radius2、HP100/咬击10/剑15、autoVerify=true。
-- C03尚未提交/发布。最近已发布仍为Ming/4ffa05b（契约5的C02，C00/C01在e86074a）；队友必须获取用户后续发布的包含C03契约6的新提交，不能认为4ffa05b已有新端口。
+- 用户已推送C03；最新已发布基线Ming/5a7cc5b439c3ccc7dbd960df949491732e51e6cf（提交标题C03，契约6）。本次核对HEAD/本地origin/Ming一致、开始工作区干净，未fetch实时远端。队友从5a7cc5b获取新端口，4ffa05b仅含契约5的C02。
+- 本次只同步发布状态，没有新增源码或Unity验证；以下57/32/51项是已执行的历史记录，不据此声称主场景集成通过。Codex没有commit/push。
 - 地图由别人独立场景交付，实际路径尚待登记；本轮只做独测，不改地图、正式死亡UI/按钮、队友资源、公共InputActions、Wwise插件/Authoring、Packages/ProjectSettings/Build Settings。
 
 ## 实际文件与维护边界
@@ -118,7 +119,7 @@ T02三种读视图绑定同一PlayerState；T07/T08读CanBite/CanUseSword及伤�
 
 ## 下一步
 
-- 用户审核并发布本轮Ming改动，登记包含C03契约6的新提交。T01/T03可以获取后按上述绑定接线；已发布C02仍可供T02接状态、T16接死亡显示，T06可基于C01输入继续，不需等地图。
+- T01/T03获取已发布Ming/5a7cc5b后按上述绑定接线；已发布C02仍可供T02接状态、T16接死亡显示，T06可基于C01输入继续，不需等地图。
 - 总控C05按队友已交付Prefab/独测结果串行集成；第一阶段必需T01/T02/T03/T06/T07，不能用32/51/57底层独测代替第一阶段整体通过。
 - C04按下一项实际业务确认完整池、候选刷新/修复、最大生命/攻击下限、叠加、重开及同帧胜负；未确认部分不正式接入。奖励/替换暂停已确认，不再列为待问。
 - 地图仍由作者独立场景交付，总控接入，不顺手接管整图。死亡正式界面/UI/按钮仍由队友负责。

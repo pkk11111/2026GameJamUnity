@@ -4,7 +4,7 @@
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及发布基线来源是 `Ming`。C00/C01/C02 已由用户推送，当前已发布基线为 `Ming/4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5`（C02 基于 e86074a）。发布确认时 HEAD/本地 origin/Ming 一致、工作区干净，未 fetch 查询实时远端。Codex 不自动 commit/push；本轮基于4ffa05b完成C03已确认范围，源码契约升至6；C03尚未提交/发布，不把4ffa05b误写为包含新接口。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根 AGENTS.md、任务卡与相关 handoff，不另建 Ming 专用 agent.md；不用旧 main/旧项目规则，不自动切分支、合并或重置。
+当前总控工作分支及发布基线来源是 `Ming`。C00/C01/C02/C03 已由用户推送，当前已发布基线为 `Ming/5a7cc5b439c3ccc7dbd960df949491732e51e6cf`（C03 基于4ffa05b，C02基于e86074a）。发布确认时 HEAD/本地 origin/Ming 一致、工作区干净，未 fetch 查询实时远端。Codex 不自动 commit/push；C03源码契约6已随5a7cc5b发布；本次仅核对发布状态并同步文档，没有新增源码或Unity验证；4ffa05b不含C03新接口。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根 AGENTS.md、任务卡与相关 handoff，不另建 Ming 专用 agent.md；不用旧 main/旧项目规则，不自动切分支、合并或重置。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -23,7 +23,7 @@
 
 状态定义：**已确认**是用户明确答复；**技术约定**是本轮采用的实现边界；**待确认**不得据此实现业务；**预留**只有身份或计划，没有功能承诺；**已实现**仅指表中真实存在代码。
 
-公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；本轮 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，本轮C01/C02分别32/51项复验通过；C03契约6待用户发布，尚未主场景集成。运动、攻击动作、敌人、世界、正式 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
+公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；本轮 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，本轮C01/C02分别32/51项复验通过；C03契约6已随Ming/5a7cc5b发布，尚未主场景集成。运动、攻击动作、敌人、世界、正式 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
 
 ### 成员自主范围与协作边界
 
@@ -278,8 +278,8 @@ C02 没有生命上限修改、攻击增减/叠加、百分比献祭、候选池
 | RunController（C01/C02） | 唯一 Playing/Paused/Choosing/Dead、时间倍率、选择锁、死亡停止 | 正式暂停菜单、Won/同帧仲裁与重开待确认 |
 | PlayerState（C02 最小版） | 唯一生命/构筑槽/姿态，治疗/增删/原子替换与攻击读口 | 初始值可配置；上限/攻击变化、负面叠加/下限尚未接入 |
 | PlayerInputReader（C01） | 实现 IPlayerInput，集中采样/缓冲/清理 | 已有输入资产；技能权限仍由 gameplay 验证 |
-| PlayerInteractor（C03） | 唯一消费Interact、Physics2D区域检测、类别/距离/Id排序及单次请求锁 | 已实现，独立场景57项通过、待发布；不执行业务结算 |
-| ChoiceCoordinator（C03） | IChoiceFlow：唯一选择事务、暂停、同Id切阶段、取消及迟到回调/重入保护 | 已实现，独立场景57项通过、待发布；正式Presenter由T01提供 |
+| PlayerInteractor（C03） | 唯一消费Interact、Physics2D区域检测、类别/距离/Id排序及单次请求锁 | 已实现，独立场景57项通过、已发布5a7cc5b；不执行业务结算 |
+| ChoiceCoordinator（C03） | IChoiceFlow：唯一选择事务、暂停、同Id切阶段、取消及迟到回调/重入保护 | 已实现，独立场景57项通过、已发布5a7cc5b；正式Presenter由T01提供 |
 | InteractionTarget（C03） | Collider到IInteractable显式桥接、场景稳定Id校验 | 已实现；模块绑定接收端与距离锚点 |
 | ChoicePanel | IChoicePresenter 的展示实现 | 绑定ChoiceCoordinator，不修改运行阶段 |
 | RewardService / SacrificeService | 固定三候选、校验、替换事务与实际应用 | 候选失效修复、真实数值池与下限 |
@@ -486,7 +486,7 @@ Unity 测试场景、Prefab、Inspector 绑定：
 
 C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新业务。本轮C02经Unity刷新编译、独立场景保存重载、真实Play51项通过；HP120/咬击13配置保存重载生效并恢复100/10，实际测试按钮与非法初始HP拒绝验证通过，旧C01兼容复验32项通过。698个Assets meta无重复GUID/孤立meta，新增源码/场景meta配对；场景零Missing Script，唯一状态/输入/阶段/入口且全部引用有效。物理fixedDeltaTime实际约0.02，本轮未修改。第一阶段、运动/射线/脚步试听、整局与Windows导出未验收。C02已随Ming/4ffa05b发布，历史Wwise/网络与预期拒绝日志另记交接，不继承未执行的验证。
 
-本轮C03：Unity6000.2.9f1实际编译；MCP创建C03_Smoke、绑定Inspector、保存重载，Play57 passed/0 failed，覆盖真实输入、类别/距离/ID/不可用排序、多个Collider去重、同帧/重入保护、三项→四项暂停事务、失败/取消/迟到回调、展示拒绝/停用及三轮入口启停、真实状态提交和死亡锁。交互半径0.5保存重载后选择附近开关，真实InputSystem键盘E只请求一次，测试按钮实际授予剑并恢复阶段；已恢复radius2/autoVerify=true。重复ID、缺Presenter和缺actor配置均实查拒绝/恢复；C01/C02实际复验32/51项通过。710个Assets meta无重复GUID/孤立meta，新增配对完整；C03零Missing Script、唯一运行/输入/玩家/入口/交互/事务组件、必填引用齐全，最终非Play且场景已保存。C03待用户发布；正式UI/世界物件/地图与第一阶段整体集成未验收，Wwise播放及Windows导出未验收。
+本轮C03：Unity6000.2.9f1实际编译；MCP创建C03_Smoke、绑定Inspector、保存重载，Play57 passed/0 failed，覆盖真实输入、类别/距离/ID/不可用排序、多个Collider去重、同帧/重入保护、三项→四项暂停事务、失败/取消/迟到回调、展示拒绝/停用及三轮入口启停、真实状态提交和死亡锁。交互半径0.5保存重载后选择附近开关，真实InputSystem键盘E只请求一次，测试按钮实际授予剑并恢复阶段；已恢复radius2/autoVerify=true。重复ID、缺Presenter和缺actor配置均实查拒绝/恢复；C01/C02实际复验32/51项通过。710个Assets meta无重复GUID/孤立meta，新增配对完整；C03零Missing Script、唯一运行/输入/玩家/入口/交互/事务组件、必填引用齐全，最终非Play且场景已保存。C03已随Ming/5a7cc5b发布；正式UI/世界物件/地图与第一阶段整体集成未验收，Wwise播放及Windows导出未验收。
 
 整局最终验收必须包含：
 
@@ -523,4 +523,4 @@ C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新�
 
 同轮用户新增 G33–G34：运动/脚步共用0.02秒地面射线扫描、输入仍集中读取，脚步单事件节奏限频且不依赖材质Switch Group。已登记T06/T05/T18对接；实际射线运动、脚步Cue/映射及试听尚未实现。
 
-规范版本10 / 契约6：按G35/G36完成交互选择，按G37统一暂停奖励/满槽替换。新增IInteractionState/IChoiceFlow、InteractionTarget/PlayerInteractor/ChoiceCoordinator与Bootstrap接线；MCP独立场景57项通过，C01/C02复验32/51项通过，参数保存重载、真实键盘/按钮及非法绑定验证完成。待用户发布，不改地图/队友正式UI，不实现未决代价或整局重开。
+规范版本10 / 契约6：按G35/G36完成交互选择，按G37统一暂停奖励/满槽替换。新增IInteractionState/IChoiceFlow、InteractionTarget/PlayerInteractor/ChoiceCoordinator与Bootstrap接线；MCP独立场景57项通过，C01/C02复验32/51项通过，参数保存重载、真实键盘/按钮及非法绑定验证完成。已随Ming/5a7cc5b发布，不改地图/队友正式UI，不实现未决代价或整局重开。
