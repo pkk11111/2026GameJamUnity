@@ -1,9 +1,68 @@
 # Soap · T01 Choice Menu
 
-更新：2026-10-01（Australia/Sydney；本轮开始于 2026-09-30）。
-规范版本 8 · 公共源码契约版本 4。
+更新：2026-10-01（Australia/Sydney）。
+规范版本 9 · 公共源码契约版本 5。
 
 ## 最新可接手摘要
+
+- **T01 独测通过，未集成。** WORK_PACKAGES T01 的展示、false 重试、同事务四项替换与全部必测生命周期均在 Unity 6000.2.9f1 Play 中实际验证。
+- Soap 分支；本轮开始 HEAD `4ca017c910e896cafa97559b555bea55e3d3ed6a`，包含总控 Ming `4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5`；工作区开始干净。实际项目 `D:/Making Games/2026GameJamUnity`。
+- 本轮未 merge/reset/commit/push，未改 Core/Runtime/Input/ProjectSettings/主场景/其他成员资产。正式 ChoicePanel / ChoiceCardView 无需修复、没有改公共接口。
+- 入口仍是 `Assets/Scenes/Tests/T01/T01_Smoke.unity`，场景文件本轮未修改。测试只记录 Id/次数，不写真实状态或 Time.timeScale。
+- 已读取现行 AGENTS、T01 任务卡、本交接、VISUAL_STYLE 与三张实际参考图。将本任务现有占位 Prefab 色彩改为灰阶；字体、颜色、Sprite、布局和按钮外观仍是可编辑资产，不依赖占位图。
+
+## 本轮实际文件变化
+
+| 文件 | 改动 |
+|---|---|
+| `Assets/Scripts/Tests/T01/ChoiceMenuSmokeDriver.cs` | Start 协程运行自动检查；既有 Open 按钮循环演示 false/四项确认/四项取消/快速确认；增加可序列化第四测试卡与自动检查开关 |
+| `Assets/Scripts/Tests/T01/ChoiceMenuPlayChecks.cs` + `.meta` | 新增真实 Play 的七类检查，使用实际 Card/Cancel Button.onClick，观察显示文本和生命周期；不直接调用 Submit |
+| `Assets/Scripts/Tests/T01/Editor/T01SceneSetup.cs` | 新增只读磁盘重载菜单、现有三 Prefab 灰阶整理菜单；均保护 Play/脏场景，未构建新 UI |
+| `Assets/Prefabs/Choice/ChoiceCard.prefab` | 卡框、Icon、TMP 占位色灰阶 |
+| `Assets/Prefabs/Choice/ChoiceMenu.prefab` | 背景、取消按钮、TMP 占位色灰阶 |
+| `Assets/Prefabs/Tests/T01/T01SmokeRig.prefab` | 测试按钮/TMP/相机背景灰阶，保存第四测试卡与 runChecksOnStart=true |
+| `docs/handoffs/Soap.handoff` | 本轮状态与真实验证；以下第一阶段记录保留为历史 |
+
+Prefab 通过 Unity PrefabUtility 编辑/保存。Unity 保存重排 YAML 文档、标准化文本引号/空格，并将 Rig 根名标准化为 T01SmokeRig；按 fileID 比较：Card/Menu/Rig 的 22/30/37 个序列化文档均保留，原 fileID、组件和引用不变；语义差异仅上述颜色、新测试字段和 Rig 根名。场景/Prefab meta GUID 没有修改。
+
+## 本轮 Inspector 与复现入口
+
+- 场景层级和正式六项 ChoicePanel、三项 Card 必填引用仍与历史接线一致；场景 driver.panel override 不变。
+- `T01SmokeRig` 的 ChoiceMenuSmokeDriver：`panel/openButton/statusText` 必填；`options` 仍为三个测试项；新增 `fourthOption` 为 Id `smoke-option-d`、Title `Placeholder D`、Description `Fourth display option. No gameplay effect.`；`runChecksOnStart=true`。测试数据下次打开读取，开关重新进入 Play 生效。
+- 运行时自动输出 `[T01 CHECK PASS/FAIL]` 和 `[T01 CHECK SUMMARY]`；关闭菜单后 Status 显示汇总、回传 Id、Confirm/Cancel 次数、IsOpen。自动检查用反射观察私有展示引用，仅在 Tests/T01，不给正式 UI 新增调试接口。
+- `Tools/GROWL AGAIN/T01/Reload Smoke Scene`：非 Play 且当前场景无脏修改时从磁盘打开 T01_Smoke；不保存或覆盖原场景。
+- `Normalize Placeholder Grayscale` 仅供当前测试资产整理：按已有颜色的灰度值转换、保持 alpha，然后保存三资产；不设置正式美术颜色、尺寸或资源。后续美术在 Prefab 的 Image、Button、TMP、布局、CanvasScaler 上自由替换，无运行时颜色强制覆盖。
+- 鼠标复现：进入 Play 自动检查后先点 B（false），再点 C（true）；按 Open three options，点 A 切四项，再点 D；重开点 B 切四项，再 Cancel；重开双击 B。之后循环回到拒绝重试流程。阶段完成/取消前按钮禁用，关闭后可开下一个演示。
+
+## 七类 Play 的真实结果
+
+两次从磁盘重载后进入实际编辑器 Play（约 00:55、01:01 Sydney）；每次结果 **41 passed / 0 failed (7 groups)**。第二次使用最终灰阶 Prefab，目视确认黑灰卡框、灰色 Icon 与浅灰白文本生效。首次另用真实鼠标指针执行以下操作。
+
+| 类别 | 自动检查与实际结果 |
+|---|---|
+| 1 false 重试 | 三卡 Title/Description 与请求一致；首次回调一次、菜单仍开且提示可见，跨帧没有额外回调；再次选 B 正确回传 ID 并关闭。鼠标另实测 B false 后 C true，Confirm=2、Cancel=0、关闭 |
+| 2 同事务替换 | 从确认回调内 TryReplaceCurrent 三项切四项并返回 false；保持打开，不触发任一 Cancel；旧卡按钮失效；最终 D 回传对应 Id、第二阶段 confirm=1 后关闭。鼠标 A→D 后累计 Confirm=4、Cancel=0 |
+| 3 错误 ID | 不同 transaction ID 返回 false；原标题/卡数/卡按钮实例不变，无新旧 confirm/cancel；随后原 A 正常确认 |
+| 4 重复 TryShow | 已打开时返回 false；原显示和事务保留，foreignCallbacks=0；原事务仍可完成 |
+| 5 Cancel 去重 | Cancel Button 连调、关闭后 CancelCurrent/按钮再调，只一次回调；四项阶段只通知当前阶段取消，旧阶段为0。鼠标四项双击 Cancel 后累计 Cancel=1，菜单关闭；测试取消回调内还重复调用两次 CancelCurrent，无重复通知 |
+| 6 快速连点 | 确认回调内重入真实按钮，随后同帧再调用20次，confirm=1且关闭；鼠标快速双击 B 后 Confirm 从5到6、Cancel仍1、关闭 |
+| 7 重开/启停 | 三轮 panel 禁用/启用、成功后重开、取消后重开，当前单击一次/取消一次，旧卡不能提交新事务；打开时禁用取消一次。驱动连续启停三次后 Open 事件仍只有一次调用；上述鼠标多次重开也无旧监听回调 |
+
+本轮未发现正式菜单业务 Bug，因此没有修改 ChoicePanel/ChoiceCardView。测试驱动扩展解决了旧场景只能演示 true/普通取消、不能复现任务卡边界的验收缺口。
+
+编译：修改后刷新并等待当前 Unity 编译/域重载完成，再操作测试。两次 Play 的检查日志无失败/异常；Console Error=0。会话中既有 Unity Account API 30秒不可达 Warning，Editor.log 中有授权/账号403/404和 Wwise 初始化/暂停日志，与菜单编译无关；没有手动清空 Console（Unity 自带 Clear on Play 会影响当前显示）。退出 Play 后场景无脏标记。`git diff --check` 与文件/meta检查收尾执行。
+
+## 当前限制与总控集成
+
+- 满足 WORK_PACKAGES T01 的独测通过要求；只在独立测试场景验收，不能写已集成。没有发现阻塞总控接入 IChoicePresenter 的接口/引用问题。
+- 总控将 ChoicePanel 交给真实发起者，由发起者管理阶段锁、确认重新校验、结算与退出时取消；Tests/T01 驱动/编辑器工具不进入主场景。正式游戏不复用测试候选或回调。
+- 未做键盘/手柄默认焦点、所有分辨率/长文案/中文正式字体、逐项 Icon 映射、UIConfirm 音频、完整异常/卸载重入测试、缺失必填引用的专项实际诊断测试、Windows 导出或正式 gameplay 集成；这些不能继承本轮通过状态。代表性颜色参数更改已保存、重载并在 Play 观察生效。
+- ChoiceOption 仍无 Icon 字段；统一占位 Icon 可以在 Prefab 替换。按条目不同图标需后续展示映射/总控接点，不改 Core。共享文档仍把 UI 标成尚未实现并留有 F: 与待发布历史文字，由总控更新登记；当前用户的 D: 与已发布4ffa05b优先。
+- 停止于 T01；不继续 T02/T03/T06/T12，不自动 commit/push。
+
+## 第一阶段历史摘要（以下为当时记录，不覆盖上述最新验收）
+
+第一阶段使用规范8/契约4，基线e86074a；当时只获授权做基础闭环，下面未验收的七类边界已由本轮覆盖，其他未验证项仍按最新限制执行。
 
 - 2026-10-01 文档整理：将用户新增的 `docs/visual_refs/Visual_Style.md` 移到 `docs/VISUAL_STYLE.md`，修正三图引用并追加 Usage for Development。三张 ref PNG 原位置/内容不变；没有继续 T01 或修改 Unity 代码/资产。图片路径实存、无旧图片名或重名文档；未 commit/push。
 - **用户限定的 T01 第一阶段基础闭环独测通过；完整 T01 尚未验收，未集成主场景。**

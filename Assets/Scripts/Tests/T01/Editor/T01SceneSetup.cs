@@ -8,11 +8,79 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Regrowth.Tests.T01.Editor
 {
     public static class T01SceneSetup
     {
+        /// <summary>仅整理本任务现有占位资产；从已有颜色计算灰阶，不提供正式美术参数。</summary>
+        [MenuItem("Tools/GROWL AGAIN/T01/Normalize Placeholder Grayscale")]
+        public static void NormalizePlaceholderGrayscale()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode || SceneManager.GetActiveScene().isDirty)
+            {
+                Debug.LogError("[T01] Stop Play and save current scene before editing test prefabs.");
+                return;
+            }
+            string[] paths =
+            {
+                "Assets/Prefabs/Choice/ChoiceCard.prefab",
+                "Assets/Prefabs/Choice/ChoiceMenu.prefab",
+                "Assets/Prefabs/Tests/T01/T01SmokeRig.prefab"
+            };
+            foreach (string path in paths)
+            {
+                GameObject root = PrefabUtility.LoadPrefabContents(path);
+                try
+                {
+                    foreach (Graphic graphic in root.GetComponentsInChildren<Graphic>(true))
+                    {
+                        graphic.color = Grayscale(graphic.color);
+                    }
+                    foreach (Selectable selectable in root.GetComponentsInChildren<Selectable>(true))
+                    {
+                        ColorBlock colors = selectable.colors;
+                        colors.normalColor = Grayscale(colors.normalColor);
+                        colors.highlightedColor = Grayscale(colors.highlightedColor);
+                        colors.pressedColor = Grayscale(colors.pressedColor);
+                        colors.selectedColor = Grayscale(colors.selectedColor);
+                        colors.disabledColor = Grayscale(colors.disabledColor);
+                        selectable.colors = colors;
+                    }
+                    foreach (Camera camera in root.GetComponentsInChildren<Camera>(true))
+                    {
+                        camera.backgroundColor = Grayscale(camera.backgroundColor);
+                    }
+                    PrefabUtility.SaveAsPrefabAsset(root, path);
+                }
+                finally
+                {
+                    PrefabUtility.UnloadPrefabContents(root);
+                }
+            }
+            Debug.Log("[T01] Existing placeholder colors saved as grayscale in three T01 prefabs.");
+        }
+
+        private static Color Grayscale(Color color)
+        {
+            float gray = color.grayscale;
+            return new Color(gray, gray, gray, color.a);
+        }
+
+        /// <summary>从磁盘重新加载本任务场景；保护当前未保存场景和 Play 状态。</summary>
+        [MenuItem("Tools/GROWL AGAIN/T01/Reload Smoke Scene")]
+        public static void ReloadSmokeScene()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode || SceneManager.GetActiveScene().isDirty)
+            {
+                Debug.LogError("[T01] Stop Play and save current scene before reloading smoke scene.");
+                return;
+            }
+            EditorSceneManager.OpenScene("Assets/Scenes/Tests/T01/T01_Smoke.unity", OpenSceneMode.Single);
+            Debug.Log("[T01] Reloaded smoke scene from disk.");
+        }
+
         [MenuItem("Tools/GROWL AGAIN/T01/Create Smoke Scene")]
         public static void CreateSmokeScene()
         {
