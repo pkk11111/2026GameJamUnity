@@ -1,0 +1,12 @@
+{
+    "name": "Regrowth.Tests.C01",
+    "rootNamespace": "Regrowth.Tests.C01",
+    "references": [
+        "Regrowth.Core",
+        "Regrowth.Runtime",
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "autoReferenced": true
+}

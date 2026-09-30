@@ -1,10 +1,10 @@
 # GROWL AGAIN 统一开发规范与游戏契约
 
-规范版本：7，2026-09-30；公共源码契约仍为版本 3，本轮未改接口。用户为总控，其他程序人数未定、不超过 5 人；按最小可测试功能领取任务，不固定个人长期板块。本文使用标准文件名 AGENTS.md，作为所有 Codex 会话必读的唯一规则入口；不再另建 agent.md 副本以免内容漂移。
+规范版本：8，2026-09-30；公共源码契约版本 4，新增 IPlayerInput，既有接口与枚举值不变。用户为总控，其他程序人数未定、不超过 5 人；按最小可测试功能领取任务，不固定个人长期板块。本文使用标准文件名 AGENTS.md，作为所有 Codex 会话必读的唯一规则入口；不再另建 agent.md 副本以免内容漂移。
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及已发布基线来源是 `Ming`。2026-09-30 检查时，HEAD 与本地远端跟踪引用 origin/Ming 均为 `49c8baf5dceb1966f2e7d6eef3aa7421bf17b19c`，main/origin/main 仍为旧 `d1cd394`；用户已报告推送完成。本规范第 7 版是此提交后的文档更新，尚需随下一次发布同步。接手时重新核对实际 Git 状态，不能据此自动切分支、合并、重置或声称 main 已更新。成员从总控指定的最新已发布提交建任务分支，不默认从 main 开始。
+当前总控工作分支及发布基线来源是 `Ming`。本轮开始时 HEAD 与本地 origin/Ming 均为 `383ffda24d967bce2bce52b0755187e83811b7aa`，工作区干净；未查询实时远端。本规范第 8 版与 C01 源码是该提交之后的本地改动，尚未提交/推送。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根目录 AGENTS.md、自己的任务卡与相关 handoff；任务分支中使用同一份规范，不额外复制所谓 Ming 专用 agents 文件。不要从旧 main 或旧项目目录读取规则；个人旧分支需先与总控协调更新基线，不自动切分支、合并或重置。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -23,7 +23,7 @@
 
 状态定义：**已确认**是用户明确答复；**技术约定**是本轮采用的实现边界；**待确认**不得据此实现业务；**预留**只有身份或计划，没有功能承诺；**已实现**仅指表中真实存在代码。
 
-公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。玩家、敌人、世界、运行控制器、卡片 UI 和实现 IAudioBackend 的项目适配器都未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
+公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C01 已建立 RunController、PlayerInputReader 和 GameBootstrap 源码，独立测试场景正在接线，当前尚待 Play 验证与发布。真实玩家状态、运动、敌人、世界、卡片 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
 
 ### 成员自主范围与协作边界
 
@@ -155,19 +155,20 @@
 
 不迁入缓存/生成文件：Library、Temp、Logs、UserSettings、Obj、生成的 csproj/sln/slnx。旧 Assets/Welcome、Assets/Settings、Packages、ProjectSettings 不进入“仅源码迁移包”；是否在当前仓库删除这些旧工程文件取决于用户确认迁移方式。当前主场景内 Tests 不在源码包中，若需要保留场景应另外迁移并验证。
 
-输入计划（还不是最终资产）：Move.x、Jump、Attack、Interact、Dash、Pause、UI 导航；Attack 按姿态转发为四足咬击或站立剑击，不提供姿态切换键。未来喷火/开盾按键待确认。当前模板 Interact 使用 Hold，不可直接视作 E 按下；总控统一配置普通 Button。输入按帧采样、物理动作消费缓冲，避免 FixedUpdate 漏读按钮。各模块不修改 Input Actions。
+C01 输入资产为 Assets/InputSystem_Actions.inputactions：Player/Move（取 x）、Jump、Attack、Interact（已移除 Hold，普通 Button）、新增 Dash；新增 System/Pause，保留原 UI map。键盘 A/D 或方向键移动、Space 跳跃、Enter/鼠标左键攻击、E 交互、Left Shift 请求冲刺、Escape 发布暂停请求；Gamepad 对应左摇杆、South/West/North/East、Start。按键是资产配置与测试基线，不新增姿态键，不授予冲刺能力。未来喷火/开盾按键待确认。PlayerInputReader 在 Update 采样并限时缓冲；物理动作在 FixedUpdate 单次消费。各模块不改公共输入资产、不轮询设备。PauseRequested 只发请求；正式暂停菜单策略未接入，C01 测试驱动可演示暂停。
 
 ## 6 目录、命名空间和程序集
 
 ```text
 Assets/Scripts/Core/             Regrowth.Core，已重建的共享身份/数据/端口
 Assets/Scripts/Audio/Core/       Regrowth.Audio.Core，已重建的无 Wwise 音频入口
-Assets/Scripts/Runtime/          总控的运行/玩家状态/输入/启动组件，待实现
+Assets/Scripts/Runtime/          Regrowth.Runtime，C01 阶段/输入/启动；玩家状态待实现
 Assets/Scripts/Gameplay/         玩家、世界、敌人业务，待实现
 Assets/Scripts/UI/               HUD 与 ChoicePanel，待实现
 Assets/Scripts/Presentation/     动画与反馈，待实现
 Assets/Scripts/Audio/Wwise/      Wwise 后端，接入时创建
-Assets/Scenes/Tests/             各任务测试场景，待创建
+Assets/Scenes/Tests/C01/         C01 独立输入/阶段测试场景，接线及验证进行中
+Assets/Scripts/Tests/C01/        Regrowth.Tests.C01，测试驱动，非正式运动/重开组件
 docs/handoffs/                   用户名.handoff，只记工作事实
 ```
 
@@ -177,12 +178,13 @@ docs/handoffs/                   用户名.handoff，只记工作事实
 
 ## 7 实际存在的接口及名字
 
-契约版本 3。以下对应已经重写的源码；接口无实例、数据类无业务副作用。不要根据表格自动创建第二个实现。
+契约版本 4。以下对应实际源码；数据类无业务副作用。IRunContext 与新增 IPlayerInput 已有 C01 实现；生命/构筑/姿态接口仍无真实运行持有者。不要根据表格自动创建第二个实现。
 
 | 类型 | 实际签名/字段 | 语义与状态 |
 |---|---|---|
-| RunPhase | Playing=0、Choosing=1、Paused=2、Dead=3、Won=4 | 稳定枚举；实现运行流程待定 |
-| IRunContext | Phase、IsGameplayActive；event Action<RunPhase> PhaseChanged | 只读，仅 Playing 活跃；控制器未实现 |
+| RunPhase | Playing=0、Choosing=1、Paused=2、Dead=3、Won=4 | 稳定枚举；C01 实现前三种阶段，死亡/胜利仲裁待 C04 |
+| IRunContext | Phase、IsGameplayActive；event Action<RunPhase> PhaseChanged | C01 RunController 实现；初始化且 Playing 时活跃 |
+| IPlayerInput | float MoveX；bool JumpHeld；bool TryConsumeJump/Attack/Interact/Dash()；void DiscardGameplayInput()；event Action PauseRequested | C01 集中输入；每类最多一个限时请求；离开 Playing 清空，暂停后仍按住按钮须释放再按 |
 | IHealth | int CurrentHealth / MaximumHealth；bool IsAlive；event Action HealthChanged / Died | 真实修改后通知；死亡先 HealthChanged 再 Died，每个生命周期一次；实现未提供 |
 | DamageKind | Enemy=0、Terrain=1 | 区分盾可挡与不可挡；献祭不属于本接口 |
 | DamageRequest | Amount、Kind、Source；构造(int amount, DamageKind kind, GameObject source=null) | 正数伤害、合法 kind，不可变；来源可空；default struct 仍需接收端拒绝 |
@@ -198,6 +200,20 @@ docs/handoffs/                   用户名.handoff，只记工作事实
 | IChoicePresenter | bool IsOpen；bool TryShow / TryReplaceCurrent(ChoiceRequest request,Func<string,bool> tryConfirm,Action onCancel)；void CancelCurrent() | 只有端口，真实 UI 尚未实现；同请求内可切换替换阶段，生命周期见下文 |
 | IAudioBackend | void Play(AudioCue cue,GameObject emitter) / StopAll(GameObject emitter) | 后端端口，Integration 已安装，项目后端适配器未实现 |
 | GameAudio | Play(AudioCue cue,GameObject emitter=null)；StopAll(GameObject emitter)；InstallBackend(IAudioBackend)；UninstallBackend(IAudioBackend expectedBackend) | 已实现转发与默认空后端；调用限定 Unity 主线程 |
+
+### C01 实际运行接线（契约 4）
+
+| 组件/入口 | 实际使用方式 | 实现边界 |
+|---|---|---|
+| RunController : IRunContext | bool TryPause() / TryResume()；bool TryBeginChoosing(object owner) / TryEndChoosing(object owner)；bool IsInitialized | 主线程；重复/阶段不符/错误 owner 返回 false。选择锁不允许普通 Resume 绕过；回调中拒绝重入命令 |
+| PlayerInputReader : IPlayerInput | bool IsInitialized；输入读取/消费见上表 | 输入资产及六个动作路径在 Inspector；缓冲暂定 0.15 真实秒、实时生效；初始化创建私有输入副本 |
+| GameBootstrap | bool IsStarted；OnEnable 启动、OnDisable 清理 | Inspector 必填 RunController、PlayerInputReader；可选 IChoicePresenter 组件和发声对象数组。重复入口拒绝，不自动查找/创建对象 |
+
+T06 接入：Inspector 用 MonoBehaviour 引用并验证 IPlayerInput/IRunContext，或显式引用已发布的具体组件。FixedUpdate 先检查 IsGameplayActive，再读取 MoveX、单次 TryConsumeJump；只有实际跳跃成功才发 PlayerJump。同一 Rigidbody2D 的运动写入只由运动模块持有，输入适配器不写速度。启用时读阶段快照，PhaseChanged 注册/退订遵循统一生命周期。
+
+暂停/选择期间 Time.timeScale=0，输入立即清空，物理冻结；恢复后保留原物理速度继续模拟，运动模块不得在暂停期间积累动作。传送成功后，未来 T06/T13 的运动入口负责在迁移事务中清零线性/角速度，并调用 DiscardGameplayInput；C01 不提供假传送或费用结算，实际运动/迁移 API 由后续总控串行登记。
+
+测试场景的暂停按钮及 Escape 接收者只是隔离演示；正式暂停菜单/奖励暂停未确认，不在 Bootstrap 自动订阅 PauseRequested。C01 不发布 Dead/Won/Restart 写命令，不以测试入口启停冒充整局重开。退出先取消可选菜单，再卸载输入副本、释放锁并恢复启动前时间倍率。
 
 旧版 IDamageable(int amount, GameObject source) 不是本次规范；统一 DamageRequest，避免地形伤害被盾错误挡住。版本 3 已移除旧 AbilityId/IAbilityState/EquipmentId/IEquipmentState，统一使用 LoadoutItemId/ILoadoutState，不保留第二套真实容量。旧类型此前没有业务引用或序列化资产；后续发布后的枚举值不可重排/复用，也不能因为 UI 排序改变。
 
@@ -219,20 +235,20 @@ CancelCurrent 在关闭时无操作，在打开时关闭并恰好通知当前阶
 
 IHealth、ILoadoutState、IFormState 是读视图。重复排除、满槽替换及姿态规则已确认；奖励/舍弃的实际写接口仍需负面幅度、叠加与下限等冻结后由总控发布。禁止模块自行创建 SetHealth、AddAbility、扣费方案或把献祭走 IDamageable，被盾/无敌抵消。
 
-## 8 待实现代码清单与依赖
+## 8 组件实现边界与依赖
 
-这些名字是职责参考，尚无文件或实例；人员分工前由总控协调跨模块签名和灰盒接线。模块内组件与辅助类名可自主调整，不因参考清单强制按同一类结构实现。
+下表标明 C01 已建立的最小实现与其他待实现职责。源码存在不等于场景已验收或基线已发布；验证状态见 controller.handoff。模块内组件与辅助类名可自主调整，跨模块签名由总控登记。
 
 | 计划组件 | 职责 | 必须先决定 |
 |---|---|---|
-| RunController | 唯一阶段、暂停/输入锁、死亡、出口胜利与重开 | 同帧顺序、暂停/重开 |
+| RunController（C01 部分） | 唯一 Playing/Paused/Choosing、时间倍率、选择锁、释放 | 正式暂停菜单、Dead/Won 仲裁与重开待确认 |
 | PlayerState | 唯一生命/构筑槽/姿态/数值写入口，结算完成后通知 HUD | 满槽/姿态已确认；待冻结叠加、攻击下限、初始 HP |
-| PlayerInputReader | 集中输入和按键缓冲 | 最终操作/技能按键 |
+| PlayerInputReader（C01） | 实现 IPlayerInput，集中采样/缓冲/清理 | 已有输入资产；技能权限仍由 gameplay 验证 |
 | PlayerInteractor | 按固定优先级选对象、单次请求锁 | 优先级/距离/不可用对象处理 |
 | ChoicePanel | IChoicePresenter 的展示实现 | 总控运行阶段接线 |
 | RewardService / SacrificeService | 固定三候选、校验、替换事务与实际应用 | 候选失效修复、真实数值池与下限 |
 | Portal / Chest / WorldSwitch / WorldDoor | 交互和本轮状态 | 成功后卡组更新、地图联动；收费顺序已确认 |
-| GameBootstrap | 唯一组装、引用校验和清理 | 不由每个模块 Awake 自动建单例 |
+| GameBootstrap（C01） | 显式引用 RunController/InputReader，可选菜单取消与音频停止，唯一入口 | 不自动建对象，不实现新局重开 |
 
 技能和剑共享 ILoadoutState，不维护单独的真实武器槽。丢 UprightForm 不从 Items 删除 Sword；必须区分保留项持有、当前姿态和实际攻击权限，不允许从角色 Sprite/图标反推真实状态。PlayerForm/IFormState 已提供读契约，但没有运行实例或变身命令。满槽与姿态联动规则已确认，实际写事务后续由总控统一实现。
 
@@ -422,7 +438,7 @@ Unity 测试场景、Prefab、Inspector 绑定：
 
 版本 2 的 16 项检查属于历史结果，不覆盖当前契约。版本 3 已用目标 Unity 6000.2.9f1 自带 Roslyn、真实 UnityEngine/NetStandard 引用分别编译 Core 和 Audio，通过；新的 16 项断言涵盖四项展示接受/第五项拒绝、候选复制与只读、重复/空项拒绝、伤害分类、构筑身份及音频转发/卸载保护，全部通过。
 
-当前资产/meta 配对、GUID 唯一性与 diff 格式检查通过。实际业务组件依旧未实现，Unity 场景完整导入、Play、陷阱行为或 Windows 导出尚未验证。后续修改须重新记录验证，不能继承此次结论声称新代码已测试。
+历史资产/meta 与 diff 检查不覆盖本轮新增文件。本轮 C00 已刷新 Unity 并确认 Core/Audio 程序集加载，ForceText/Visible Meta Files 与 Dynamic Update；C01 新增源码已编译，测试场景接线/Play 检查仍在进行。已有 Wwise Voice Starvation/账号网络日志另记 handoff。陷阱、整局与 Windows 导出未验证。每次改动重新记录验证，不继承历史结论。
 
 整局最终验收必须包含：
 

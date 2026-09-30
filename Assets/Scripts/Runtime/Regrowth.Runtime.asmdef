@@ -1,0 +1,10 @@
+{
+    "name": "Regrowth.Runtime",
+    "rootNamespace": "Regrowth.Runtime",
+    "references": [
+        "Regrowth.Core",
+        "Regrowth.Audio.Core",
+        "Unity.InputSystem"
+    ],
+    "autoReferenced": true
+}
