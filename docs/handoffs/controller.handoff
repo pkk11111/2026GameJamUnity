@@ -1,68 +1,64 @@
-# 总控恢复与契约重建交接
+# 总控交接与新会话入口
 
-最新摘要（2026-09-30）：规范版本 6，公共源码契约 3。建立了总控 C00–C05 和功能 T01–T18 任务池，不固定人数/长期板块。地图已确认以独立场景交付，总控接入。运行组件仍未实现；先发布当前未提交的协作基线，再派发可独测任务并推进 C01/C02。实际任务成员未分配，未提交/推送。
+更新：2026-09-30 · 规范版本 7 · 公共源码契约版本 3
 
-- 别名：controller，任务身份，不是实际用户名。
-- 迁移来源：F:/UniSyd_Gamjam2，基点 8bb867d；活动仓库：F:/2026GameJamUnity，迁移前 HEAD d1cd394；契约版本：3。
-- 状态：必要文件迁移完成，游戏文档已整合；待规则继续冻结与运行底层实现。
-- 规则唯一来源：根目录 AGENTS.md；原分散规范不作为现行规则。
+维护别名：controller（总控任务别名，不推断真实姓名）
 
-## 实际修改
+## 最新状态
 
-恢复 61 个 Git 保存的缺失文件，包括 Assets/Packages/项目设置。保留未丢失的学习框架 Settings.json 改动。
+- 活动项目：`F:/2026GameJamUnity`；旧 `F:/UniSyd_Gamjam2` 仅为历史迁移来源。
+- 用户已推送此前全部内容到 Ming。检查时分支 Ming，HEAD 与本地 origin/Ming 均为 `49c8baf5dceb1966f2e7d6eef3aa7421bf17b19c`；main/origin/main 是 `d1cd3948a1fc2c0bc0187a7536747b6566ecdef7`。本轮未 fetch 或查询实时远端；用户报告与本地跟踪引用一致。
+- 本轮开始时 Git 工作区干净。规范第 7 版、任务目录/模板/README 和本交接是该提交之后的文档改动；尚未提交/推送。新会话先检查实际状态，不丢弃这些改动。
+- 用户担任总控；其他程序未知、不超过 5 人。第一阶段按最小可测试任务领取，每人有任务验收与个人 handoff，阶段整体由总控验收；后续再分人。
+- 地图正在制作，以独立地图场景交付，总控接入运行组件。实际场景路径尚未登记；当前 SampleScene 不能被当作交付地图。
 
-重写 Assets/Scripts/Core 和 Audio/Core：只读状态/生命/能力、区分敌人地形的 DamageRequest、交互/卡片端口、展示数据、空音频与统一入口。接口无场景实例。
+## 已有代码与缺失部分
 
-所有新增自研脚本标明职责/依赖/维护边界，规范在 AGENTS.md；新增 .editorconfig。新仓库已经安装 Wwise Integration 2025.1.10.4304，本次只迁公共代码，不改插件、场景或输入资产。
+现有自研源码仅在 `Assets/Scripts/Core/` 与 `Assets/Scripts/Audio/Core/`：
 
-## 变更注意
+- IRunContext/RunPhase、IHealth、IDamageable/DamageRequest/DamageKind。
+- LoadoutItemId/ILoadoutState、PlayerForm/IFormState；四构筑槽与姿态为读契约，无真实写状态实例。
+- IInteractable/InteractionKind、ChoiceOption/ChoiceRequest/IChoicePresenter；菜单可展示 1–4 项，奖励/代价业务仍须三项，替换阶段四项。
+- GameAudio/IAudioBackend/AudioCue/NullAudioBackend；空后端与转发已经实现。
 
-IDamageable 使用 TryTakeDamage(DamageRequest)。版本 3 已移除旧 AbilityId/IAbilityState/EquipmentId/IEquipmentState 及对应 meta；没有运行调用方。统一 LoadoutItemId/ILoadoutState，所有技能/装备共享最多 4 项，即时效果不占槽。新增 PlayerForm/IFormState 只读姿态，不提供手动切换。首版单剑、长枪/喷火/盾预留；失去站立仍持剑，但四足不能用剑；正式奖励/代价仍必须三选一。
+RunController、PlayerInputReader、GameBootstrap、真实 PlayerState、运动/攻击、奖励/献祭服务、ChoicePanel、HUD 和项目 Wwise 后端均未实现。计划组件名不是已存在 API，不重建已有公共接口。
 
-## 接线与验证
+Unity 6000.2.9f1；URP 17.2.0、Input System 1.14.2、uGUI 2.0.0。Wwise Integration 2025.1.10.4304 已安装，实际游戏映射/Bank 生命周期未验收。MCP 包由 manifest 固定到 CoplayDev/unity-mcp 的 v10.2.0，保留用户已提交的依赖。
 
-当前代码不用挂场景；无后端可调用 GameAudio。UI/PlayerState/RunController/伤害接收实现都不存在。
+## 本轮 Unity MCP 实查
 
-重建初版采用 Unity 自带 .NET SDK 和真实 UnityEngine 程序集，分别编译 Core 与 Audio（含交互类别接口），通过 16 项数据/空音频/后端切换/伤害请求断言。之后改为 WeaponInSlot 并追加 PlayerWeaponAttack，重编译时 SDK 报 No .NET SDKs were found，最新这两项接口改动未重新编译验证。没有自动安装/修复工具链。
+- 已发现并使用 server `unityMCP` 的资源与工具；也列有另一套 `unitymcp` 名称，本轮没有交替操作它们。新会话重新发现可用 server，不假定名称/路由继承。
+- custom-tools 可读；instances 返回一个 `2026GameJamUnity@1ba105ba2ebb3fca` 实例。该实例 ID 仅为本次观察，不固定到代码或长期配置。
+- project/info 确认根目录 `F:/2026GameJamUnity`、Unity `6000.2.9f1`、目标 `StandaloneWindows64`。
+- editor/state 返回 ready_for_tools=true，无正在编译或等待域重载；非 Play；有 external_changes_dirty 标记。下一会话先刷新并重新核对编译，不把这一快照视为新代码验收。
+- 活动场景 `Assets/Scenes/SampleScene.unity`，4 个根对象，isDirty=false；没有切换、创建或保存场景。
+- Console 最近读取到 6 条已有 Error/Warning：Account API 超时、一个进程意外退出（code=-1）、2 条 Wwise Voice Starvation、2 条 MCP WebSocket 关闭。尚未定位来源或验证是否重现；当前只读 MCP 调用已成功，不能把历史日志自动认作当前断线，也不能宣称零错误。
 
-资产 GUID 唯一性、脚本和目录 .meta 配对、git diff --check 已通过。新增源码的旧未提交 GUID 无 Git 备份，已为重建源码生成新的 .meta；已提交场景/资产的原 GUID 保留。
+本轮只读检查。没有清空 Console、切换 Play、修改编辑器资产、运行 Unity 测试或导出。
 
-Unity Play、陷阱物理、场景接线与 Windows 导出未验证；独立编译不代表游戏已可运行。
+## 新对话先做的工作
 
-版本 3 已用 Unity 6000.2.9f1 自带 DotNetSdkRoslyn/csc 和 NetStandard 引用独立编译 Core/Audio，通过；没有安装 SDK。已执行新的 16 项断言，覆盖第四项展示接受/第五项拒绝、候选只读/非法输入、伤害类型、构筑身份和音频后端生命周期，全部通过。Unity Play 和导出仍未验证。
+**本次目标：补齐 C00 编辑器验证并实现 C01 最小版。完成后再按新状态推进 C02，暂不一口气做整个第一阶段。**
 
-本轮已确认：技能/装备都不重复，所有保留项满槽替换，站立项获得/移除即时改变姿态。ChoiceRequest 展示容量改为最多 4，正式奖励/代价仍 3；IChoicePresenter 新增 TryReplaceCurrent 支持同请求替换阶段。历史检查的“四张应拒绝”断言已过时，新的边界是第五张应拒绝。传送先验落点、扣费致死原地失败，取消不扣；候选等概率三项并固定。仍无业务组件。
+1. 读取根 AGENTS.md、本文件，以及 WORK_PACKAGES 的 C00/C01 和第一阶段验收；按需要查 GAME_DESIGN。核对工作目录、分支、Git 改动及 MCP 项目/版本/活动场景。
+2. 完成 C00 当前编译检查：刷新/等待编译，读取新旧 Console 记录，区分公共代码编译阻塞与已有插件/音频问题。修复本任务范围内的编译阻塞，保留已有日志证据；没有游戏运行行为时不声称整局通过。
+3. 实现 C01 最小运行阶段、集中输入适配器、启动/清理与命令接线，发布供 T06 消费的真实输入 API。接口需要变更时由总控在 Core/AGENTS 统一发布，不让成员各造输入类。阶段与菜单锁由唯一控制器持有。
+4. 在 `Assets/Scenes/Tests/C01/` 建一个独立最小验证场景，使用对应测试驱动观察输入和阶段；通过 MCP 绑定组件/Inspector、保存后运行验证。输入不活动时不向 gameplay 消费端提交动作，恢复后不误消费旧按键，重复启停不增加监听或全局实例。
+5. 交付真实 API/源码标注、参数/引用说明、测试场景与可复现结果，更新本 handoff 与任务登记。测试驱动不是 T06 正式角色运动组件；本轮不擅自实现未决定的奖励暂停/重开或完整传送。
+6. C01 通过并发布后，可解锁 T06；下一总控任务 C02 先落实唯一生命/构筑/姿态持有者与所需写入口。未冻结的数值可 Inspector 暂定，代价下限/叠加等语义仍按规则缺口处理。
 
-## 下一步
+总控实现范围：Core 必要契约、Runtime、总控维护的输入资产、C01 测试资源、对应配置/Prefab/meta 与文档。内部分层自主决定。地图场景、队友任务资产、Wwise Authoring 和插件不属于本次底层任务。
 
-用户已确认 Unity 6.2（6000.2.9f1）新项目 F:/2026GameJamUnity。迁入必要源码、.meta、AGENTS 与交接，使用新项目自己的 Packages/ProjectSettings/.gitattributes，保留已有 .gitignore 并只追加必要缓存规则。旧仓库不再作为开发位置。迁移不修改 Wwise 工程和插件，不提交或推送。
+## 其他成员现在能做什么
 
-姿态/武器和传送危险代价顺序已确认。按将开工的任务冻结数值池、下限、地图、重开与候选更新；总控逐项发布实际写入口。已有接口支持的独测任务可先分发，不复制公共接口。
+从总控明确发布的 Ming 提交领取 T01 菜单、T02 HUD、T03 开关门等独测任务；T04 相机可并行，T05 音频需素材具备。T06 等待 C01 输入/阶段接线，T07 等待对应生命/伤害/姿态接线。没人被提前分配；具体人数和名字由实际派发填写。
 
-新增 docs/GAME_DESIGN.md：整合全部已确认玩法与待确认问题，作为团队阅读版；执行规则仍以 AGENTS.md 为准，不指定人员分工。迁移只包含自研源码/meta、规范、游戏文档、交接、README 与格式规则，保留目标忽略文件、LFS、Wwise、Packages 和 ProjectSettings。
+同一项目目录/Unity 编辑器实例只由一个写入会话操作。成员使用自己 clone/worktree、分支与对应编辑器；自己的 `.handoff` 随代码交付。
 
-## 新仓库迁移验收
+## 已有验证与边界
 
-已将 52 个必要文件迁入 F:/2026GameJamUnity，目标文件预检与复制哈希一致；现有源码 GUID 无冲突。未改 .gitignore/.gitattributes、Packages、ProjectSettings、Wwise 插件或 Authoring 工程。Git 状态中的 manifest.json/packages-lock.json 修改在迁移前已存在，保留用户改动。没有提交或推送。
+历史验证：目标 Unity 自带 Roslyn 与真实 UnityEngine/NetStandard 引用分别编译 Core/Audio，通过 16 项契约断言；meta 配对和 GUID 检查通过。这不覆盖新写代码、Unity Play 或正式 Windows 构建。
 
-使用新仓库实际源码和目标 Unity 的 Roslyn/UnityEngine 引用重新编译 Core 与 Audio，通过；重新执行 16 项版本 3 契约断言，全部通过。自研源码 meta 配对/GUID 与 Markdown 文档链接检查通过。未执行 Unity Play 或 Windows 导出。
+本轮验证：Git 分支/提交/初始干净状态、MCP 实例/项目/版本/场景/状态和 Console 已实查。无新运行代码；文档交接不构成 C01 或第一阶段完成。
 
-## 规范版本 4 更新
-
-按用户要求放宽模块内实现、局部文件、Prefab/测试场景及暂定调参的自主范围；仍保护公共契约、共享状态、已确认玩法与共享资产。加入 Inspector 参数/引用编辑、ScriptableObject 配置与运行状态分离、禁止初始化覆盖配置、校验、生效时机和交付验收要求。同步游戏文档与 handoff 模板。
-
-本轮只改文档，公共源码契约仍为 3；没有新增实际配置组件/资产，没有执行 Unity Play 或 Inspector 调参验收。后续模块按新规范实现并记录实际测试。
-
-## 规范版本 5 更新
-
-进一步放宽模块内部类名、文件划分和实现方案，以目标/验收协调；参考组件名不锁定结构。强化所有自研代码的职责/依赖/对外语义/关键假设标注，以及每位成员个人 docs/handoffs/<名字>.handoff 的持续更新。现有自研源码已有职责与依赖注释，后续新增或修改时按新模板补充维护线索。
-
-本轮文档格式与本地链接检查通过；未修改公共代码、场景、Prefab、配置、插件或包文件，不重复宣称已执行 Unity 运行验收。全员姓名尚未提供，不为队友杜撰姓名或建立空交接；成员开始工作时用姓名或稳定任务别名从模板创建自己的交接。
-
-## 规范版本 6 与任务结构
-
-新建 docs/WORK_PACKAGES.md，包含总控基线/输入/状态/交互/缺口决策/集成六类工作，以及 18 个以独立演示为单位的功能任务、文件范围、依赖、验收和派发提示。用户确认地图独立场景交付；地图作者制作、总控接线，程序使用独立测试场景。
-
-仓库检查仍仅有公共契约/空音频代码，不能声称任务里的运行服务存在。新增规范/源码当前未提交，队友 pull 无法获取；总控发布实际提交后才能据该提交领取任务。未改已有 Packages 修改，未执行任务内功能或 Unity Play。
-
-用户进一步明确先第一阶段最小落地、每人各自验收；第一阶段通过后再继续分配后续工作。本轮补全第一阶段必需任务/可选任务、逐项操作验收、总控灰盒与 Windows 启动验收、派发表格及第二阶段再派发流程。第二阶段以后仅保留候选，没有分配人员或宣称验收通过。
+关键玩法仍见 AGENTS：四构筑槽；站立不可主动切换；失去站立保留剑；奖励/代价固定等概率三选一；满槽替换；付费传送先验落点、扣费致死原地失败。未决事项按将要开工的任务逐项确认，不重新询问已确认内容。
