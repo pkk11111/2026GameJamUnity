@@ -1,107 +1,131 @@
 # 总控交接与新会话入口
 
-更新：2026-10-01 · 规范版本9 · 公共源码契约版本5
+更新：2026-10-01 · 规范版本10 · 公共源码契约版本6
 维护别名：controller（总控任务别名）
+任务：C03 / 分支Ming / 基于4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5
+状态：已确认范围独测通过 / 待用户发布 / 待主场景集成
 
 ## 最新可接手摘要
 
-- 活动仓库 F:/2026GameJamUnity，总控分支Ming。C00/C01已由用户推送到e86074a6930b23b8c9e390b89806173f14dfd95e；本轮开始HEAD/本地origin/Ming一致、工作区干净，未fetch实时远端。
-- C02最小版独测通过、待用户发布/主场景集成。Codex没有commit/merge/push，当前所有新接口/场景仍在工作区。队友必须取得用户发布的新提交，不能凭文档视为已可pull。
-- 新增唯一PlayerState、IPlayerStateCommands/IPlayerCombatState；真实生命、四项构筑、姿态和攻击读值已实现，Bootstrap显式绑定，HP0进入Dead、停止时间/物理与gameplay输入。
-- 用户确认死亡停止（G32），同时明确死亡界面/UI/按钮由其他组员负责；C02只交状态与通知。Won/重开/同帧仲裁没有实现。
-- MCP独立场景 Assets/Scenes/Tests/C02/C02_Smoke.unity：51项实际Play通过；HP120/咬击13保存重载后生效且51项通过，已恢复100/10/15。旧C01场景32项兼容复验通过。
-- 同轮用户新增G33/G34：运动/脚步使用Physics2D.Raycast脚下扫描，默认0.02游戏秒；键盘仍集中Input System读取。脚步只按实际落地移动与独立可调节奏播放，避免机枪效应，当前无材质Switch Group。已同步AGENTS/GAME_DESIGN和T06/T18任务；没有在C02实现运动或脚步音频，AudioCue尚无脚步身份。
-- 总控代码或Unity编辑/验证完成后同步AGENTS.md、WORK_PACKAGES.md和本交接；成员个人handoff由成员维护，共享文档由总控串行汇总。
-- 地图由别人制作、独立场景交付，实际路径尚未登记；SampleScene不是交付地图，本轮未改地图/队友UI。
+- 活动仓库F:/2026GameJamUnity，旧F:/UniSyd_Gamjam2只作迁移来源。开始时HEAD/本地origin/Ming为4ffa05b，未fetch实时远端；保留已有AGENTS、WORK_PACKAGES、GAME_DESIGN及本交接四份未提交文档改动。Codex没有commit/push/merge/切分支，无子代理。
+- 用户授权继续完成C03已确认范围，无需等待T系列或地图。G35同类最近/同距Ordinal稳定ID、G36跳过不可用对象、G37奖励/满槽替换也暂停，已同步四份文档。
+- 新增IInteractionState/IChoiceFlow、InteractionTarget、PlayerInteractor、ChoiceCoordinator；扩展GameBootstrap可选引用和初始化/清理，兼容旧C01/C02。RunController仅同步注释中的G37规则，无阶段业务变更。
+- C03_Smoke通过MCP创建、显式Inspector绑定、保存重载后实际Play：57 passed / 0 failed。本轮旧C01实际复验32/0，旧C02实际复验51/0，旧场景未改。
+- 已验证半径0.5保存重载改变候选、真实InputSystem键盘E单次请求、实际测试菜单按钮通过唯一PlayerState获得剑、暂停与取消恢复、重复ID及缺引用拒绝/恢复。最终恢复radius2、HP100/咬击10/剑15、autoVerify=true。
+- C03尚未提交/发布。最近已发布仍为Ming/4ffa05b（契约5的C02，C00/C01在e86074a）；队友必须获取用户后续发布的包含C03契约6的新提交，不能认为4ffa05b已有新端口。
+- 地图由别人独立场景交付，实际路径尚待登记；本轮只做独测，不改地图、正式死亡UI/按钮、队友资源、公共InputActions、Wwise插件/Authoring、Packages/ProjectSettings/Build Settings。
 
-## 授权范围与实际交付
+## 实际文件与维护边界
 
-本次：基于Ming/e86074a继续C02最小真实生命/构筑/姿态及必要写口、独立场景运行验证；按用户确认接入完整死亡停止；未确认代价下限/叠加规则不接入。新增地面射线/脚步规则仅同步规范与相应任务边界。
+允许范围：必要Core公共端口、Runtime总控接线、Tests/C03及独测场景/meta、四份协作文档。
 
-允许：必要Core契约、Runtime、C02测试源码/场景/meta及AGENTS、WORK_PACKAGES、GAME_DESIGN、controller.handoff。
-未改：C01场景、公共输入资产、地图、共享玩家Prefab、队友UI、Wwise插件/Authoring、Packages、ProjectSettings、Build Settings；无子代理。
+- Core/IInteractionState.cs：只读候选HasTarget/InteractionId/Prompt及TargetChanged；非Playing或无可用对象为空。
+- Core/IChoiceFlow.cs：IsOpen/RequestId，TryBegin(ChoiceRequest,Func<string,bool>,Action)，TryReplace同签名，Cancel()。
+- Runtime/InteractionTarget.cs：物件Collider与IInteractable之间显式桥接；稳定ID按场景校验，多Collider共用一桥接。重复ID全部拒绝，不以GetInstanceID作为交互身份。
+- Runtime/PlayerInteractor.cs：唯一Interact消费端，Physics2D.OverlapCircle区域检测、去重、可用性过滤、类别/距离/ID排序、提示通知、单次请求和生命周期解绑。
+- Runtime/ChoiceCoordinator.cs：IChoiceFlow正式实现；统一取得/释放RunController选择锁，包装确认/取消、同事务换阶段、迟到回调/重入保护与退出清理。没有随机池/支付/移动/箱子状态。
+- Runtime/GameBootstrap.cs：新增可选playerInteractor/choiceCoordinator；使用任一个C03组件须有playerState；可选choicePresenter须与协调器的presenter同一组件或留空。初始化先run→state→input→coordinator→interactor；退出先interactor→coordinator→input/state/run。
+- Tests/C03/C03ProbeTarget.cs：IInteractable替身、可用/接受开关、计数；不是正式传送门/箱子/开关。
+- Tests/C03/C03ProbePresenter.cs：uGUI/TMP的IChoicePresenter替身与按钮；不是T01正式UI。根组件保持启用，panelRoot只切菜单内容。
+- Tests/C03/C03SmokeDriver.cs：57项独测、TEST按钮及真实PlayerState写口接线。结束进入Dead，Run checks不是整局重开。
+- Tests/C03/Regrowth.Tests.C03.asmdef：引用Core/Runtime/InputSystem/uGUI/TMP。没有新增外部依赖或改现有枚举值。
+- 所有新增资产配对meta，自研代码标注职责、依赖、维护边界、失败/副作用及接线；参数用SerializeField/Tooltip，不开放通用public状态字段。
 
-- Core/IPlayerStateCommands.cs：TryHeal(int)、TryAdd/RemoveLoadoutItem、TryReplaceLoadoutItem(removed,added)，bool表示实际提交。
-- Core/IPlayerCombatState.cs：BiteDamage/SwordDamage、CanBite/CanUseSword只读。
-- Runtime/PlayerState.cs：唯一玩家状态，实现IHealth/IDamageable/ILoadoutState/IFormState和两个新接口。
-- Runtime/LoadoutCollection.cs：internal唯一四项容器，不可写活视图、去重/容量/原子替换；不发事件或持有第二份正式玩家状态。
-- Runtime/AssemblyInfo.cs：仅给Regrowth.Tests.C02访问internal容器，用隔离数据验收满槽替换；不开放gameplay内部状态。
-- Runtime/GameBootstrap.cs：新增可选playerState字段（正式玩家必填，旧C01输入独测可为空），初始化/解绑、死亡接线与PlayerDied单次音频。
-- Runtime/PlayerInputReader.cs：可选生命绑定，死亡后立即丢弃请求且读取受IsAlive约束；清理时退订。
-- Runtime/RunController.cs：新增internal真实玩家死亡入口，清选择owner并进入Dead；回调中请求延后到当前阶段通知结束，避免嵌套阶段通知倒序；普通Resume不能离开Dead。
-- Tests/C02/C02SmokeDriver.cs与Regrowth.Tests.C02.asmdef：测试状态文本/五按钮、真实输入事件和音频记录替身。不是HUD、运动、奖励/收费或正式结果界面。
-- Runtime程序集仍引用Core/Audio.Core/InputSystem；Tests.C02另外引用uGUI/TMP。没有新增外部依赖。
+## 对外接口、语义与队友接线
 
-## 对外语义与调用方
+所有调用Unity主线程。输入只读/消费来自唯一PlayerInputReader，真实玩家状态只有PlayerState。
 
-所有命令/事件Unity主线程。首次初始化满血/空槽/四足；临时Bootstrap启停只是解绑/重绑，不恢复HP、不清构筑、不复活、也不重复死亡音频。新的局方式仍待C04，没有公开Reset/SetHealth/SetForm。
+### T03及后续世界物件
 
-IDamageable.TryTakeDamage(new DamageRequest(amount,Enemy或Terrain,source))仅Playing且存活接受；amount必须正数，default拒绝，实际扣血才true。无护盾/受伤无敌策略。过大伤害压到0，不溢出。扣血后HealthChanged再Died，每生命周期一次。
+物件模块实现IInteractable。在根物体挂InteractionTarget并显式绑定interactionSource；可选interactionPoint为距离锚点，为空用根位置。根/子Collider2D提供交互区域，Layer必须包含于interactor.interactionLayers；多个Collider只选/请求一次。InteractionId必须同场景唯一、非空、运行时不改。
 
-IPlayerStateCommands仅Playing/Choosing、已绑定、活动且存活时接受；Paused/Dead/解绑/状态通知回调拒绝。TryHeal只实际回血true，上限封顶、不复活；满血false不意味着满血回血奖励必须过滤，服务需单独判断领取。这里只改玩家状态，不标记箱子、不收费、不迁移。
+CanInteract(actor)只返回当前是否可用，不扣费/开菜单/改世界；已用开关、已领箱、缺必填引用、未解锁门等返回false。TryInteract再次验证，true仅表示接受请求，不表示领取/支付成功。
 
-构筑只允许Dash/DoubleJump/UprightForm/Sword；容量4、不可重复，Shield/FlameBreath/Spear仍预留且正式写口拒绝。先校验再替换，失败无副作用；成功一份LoadoutChanged、必要时FormChanged。失去站立保留剑和项位，四足可持剑但不可剑击；站立无剑无咬击。首版仅四种项，满槽没有第五合法新项，内部容器满槽替换用隔离预留身份测试，绝不授予真实玩家。
+PlayerInteractor先跳过不可用项，再Portal→Switch→Chest，同类按扫描中心到锚点的平方距离，同距String.CompareOrdinal(ID)。同帧/重入拒绝。接收端TryInteract返回false后本次不再请求第二物件，避免一次按键多事务。Paused/Choosing/Dead清空提示、不调用对象。
 
-攻击许可还要求存活、已绑定、活动、Playing。动作开始和命中需重新检查；BiteDamage/SwordDamage只是初始化配置快照，T07/T08负责实际动作/判定，伤害0跳过DamageRequest构造。
+T03不再轮询E或消费Interact；地图提供位置，开关/门业务与音频仍由T03持有。提示UI读取IInteractionState并订阅TargetChanged，OnEnable先读快照、OnDisable退订。
 
-队友接线：
+### T01菜单
 
-- T02：IHealth/ILoadoutState/IFormState全绑定同一PlayerState，启用读快照，注册/退订相应事件。HUD不持有真实副本、不写状态；生命上限变动可仍用局部测试替身验HUD，C02无上限修改入口。
-- T06：使用唯一IPlayerInput/IRunContext，FixedUpdate先检查IsGameplayActive。Dead时输入0/false、timeScale0，未确认正式重开。地面射线/脚步按AGENTS G33/G34与任务卡实施；本轮没有运动组件，不声称基础跑跳已通过。
-- T07/T08：读取IPlayerCombatState与真实IFormState，唯一消费Attack，动作开始/命中校验权限；目标通过IDamageable扣血。敌人拥有自己的IHealth，不给敌人挂玩家PlayerState。
-- T16/负责死亡UI的组员：读IRunContext.Phase并订阅PhaseChanged，Dead时显示正式UI；OnEnable先读取当前阶段，不依赖必须赶上一次Died事件。UI不改Time.timeScale、不调用Resume逃离Dead、不靠入口启停复活。按钮样式/正式页面归队友；胜利/重开入口尚待总控发布。
-- C03/T12/T13：只使用已发布的状态增删/替换与治疗；正式奖励、代价池、上限变化、攻击负面、百分比献祭/叠加及抵达保护尚未接入，不把献祭走IDamageable。
+由总控把正式IChoicePresenter组件绑定到ChoiceCoordinator.presenter；Presenter根持续启用，仅隐藏菜单内容。Bootstrap绑定协调器，不自动搜索引用。菜单只传选项Id，不写生命/构筑、不移动、不设置Time.timeScale。
 
-音频唯一触发源：PlayerState实际扣敌人/地形伤害发PlayerHurt；Dash/DoubleJump/Upright真实获得/失去发AbilityGained/Lost；Bootstrap首次死亡接线发PlayerDied，重新绑定尸体不重播。剑无独立获得/失去Cue，不冒用攻击音效。UI/攻击模块不重复发受伤/死亡Cue，实际跳跃/咬击/剑击仍由对应动作模块发。
-脚步身份/映射尚未发布，T06/T18接音频前由总控登记新的稳定Cue；无材质Switch Group，不在gameplay写AK/Wwise字符串或冒用PlayerJump。
+沿用TryShow/TryReplaceCurrent/CancelCurrent契约。确认false保留菜单；确认中换阶段后false时保留新展示及新回调；同Id替换不关闭/不调用旧取消；取消通知当前阶段一次；确认连点/回调重入防护仍由UI实现，协调器额外防御。
 
-## Unity入口、Inspector绑定与参数
+Presenter停用/销毁/自行关闭时协调器Update撤销事务并恢复阶段，不能遗留暂停锁。OnDisable清理自己的UI监听，不能删除别人的监听。
 
-打开 Assets/Scenes/Tests/C02/C02_Smoke.unity，在Unity6000.2.9f1进入Play；autoVerify=true，检查结束处于Dead。退出再进入Play是编辑器新测试生命周期，Run checks不是重开按钮。
+### T12/T13业务发起者
 
-- C02 Runtime：RunController、PlayerInputReader、GameBootstrap；bootstrap.runController/inputReader/playerState显式绑定对应组件，input.inputActions绑定Assets/InputSystem_Actions.inputactions。
-- C02 Player：唯一PlayerState；无Rigidbody2D/运动/敌人组件。
-- C02 Smoke Probe：C02SmokeDriver；绑定state/bootstrap/run/input/statusText、damage/heal/upright/sword/verify五按钮。
-- C02 Canvas：ScreenSpaceOverlay uGUI/TMP状态文本与TEST Damage/Heal/Upright item/Sword item/Run checks。
-- C02 EventSystem：EventSystem/InputSystemUIInputModule，UI各动作引用InputActions持久子资产，无旧Input模块。
-- Main Camera/Directional Light；已有Integration编辑器自动附加的AkAudioListener/AkGameObj及WwiseGlobal/AkInitializer也存在（旧C01亦有），没有项目IAudioBackend/Cue映射，不宣称Wwise声音通过。
-- 独测场景不进入Build Settings，buildIndex=-1。
+显式绑定MonoBehaviour并验证IChoiceFlow；先准备真实三项ChoiceRequest：
+```csharp
+IChoiceFlow flow = configuredFlow as IChoiceFlow;
+bool opened = flow.TryBegin(request, TryConfirmBusiness, CancelBusiness);
+```
+发起者按返回Id重新校验业务并实际提交，只有提交成功才true。TryBegin只接受恰好3项、存活Playing、无事务；成功Choosing/timeScale0，失败无业务取消回调。TryReplace只同RequestId的3或4项，替换保持暂停、不触发旧取消。
+
+满槽奖励的第一个确认只切入四旧项展示，必须返回false，不先增删状态；最终选择调用IPlayerStateCommands.TryReplaceLoadoutItem并提交领取后才true。取消四项阶段取消整个领取，旧项仍保留。首版真实保留项恰好四种，无第五合法新项，四项事务测试不构成开放预留技能许可。
+
+取消当前阶段恰好一次；旧阶段/结束后保存的确认或取消回调无效。确认中取消延后；业务已经成功true则完成不再调用取消。打开被展示拒绝会恢复Playing；同事务换阶段被拒绝保留原阶段。协调器完成时清输入缓冲，避免按住交互键恢复后再开一次。
+
+C03不生成候选、标记箱子、收费、传送或发ChestOpened/Teleported/UIConfirm等音频。T12/T13只在实际业务成功处发对应Cue，不能把测试回调当正式结算。正式随机池、候选失效/刷新、百分比献祭/降上限/攻击负面/叠加/抵达保护仍缺服务/写口，按C04确认后实现；献祭不能走IDamageable。
+
+### C02既有接点与死亡UI
+
+C02唯一PlayerState实现IHealth/IDamageable/ILoadoutState/IFormState/IPlayerStateCommands/IPlayerCombatState。真实构筑允许Dash/DoubleJump/UprightForm/Sword，容量4、不可重复；失去站立保留剑和项位，站立无剑不能咬击，四足持剑不能剑击。写口仅已绑定、活动、存活Playing/Choosing接受，状态通知中拒绝重入。
+
+TryHeal只实际回血true，满血false不代表业务禁止领取无收益回血；服务判断领取完成。IDamageable仅Playing敌人/地形伤害，死亡先HealthChanged再Died，每生命周期一次。HP0由Bootstrap进入Dead/timeScale0并停止输入；临时启停不复活/清槽/重复死亡音频。
+
+T02三种读视图绑定同一PlayerState；T07/T08读CanBite/CanUseSword及伤害，动作开始/命中都验证。T16/死亡UI读Phase快照并订阅PhaseChanged，界面/按钮归队友，不改时间、不用TryResume逃离Dead。Won/Restart接口没有发布。
+
+## C03 Unity入口、Inspector引用与参数
+
+打开Assets/Scenes/Tests/C03/C03_Smoke.unity，Unity6000.2.9f1进入Play，自动57项检查后Dead。手动查看测试按钮前，将C03 Smoke Probe.autoVerify设false并保存；测试后恢复true。不是正式HUD/结果界面或运动场景。
+
+- C03 Runtime：唯一RunController/PlayerInputReader/ChoiceCoordinator/GameBootstrap；Bootstrap绑定run/input/state/interactor/flow/presenter；inputActions为现有Assets/InputSystem_Actions.inputactions。
+- C03 Player：唯一PlayerState/PlayerInteractor，actor显式指向自己。没有Rigidbody2D/运动/敌人组件。
+- C03 Test Presenter：C03ProbePresenter绑定panelRoot、choiceText、四个optionButtons和cancelButton，根启用、菜单内容开关。
+- 四个目标：TEST Portal A（a-portal，+1.25,0）、B（b-portal，-1.25,0）、Switch（c-switch，0.4,0）、Chest（d-chest，0.2,0）；均绑定Bridge到ProbeTarget，Trigger区域，B额外子Collider验去重。
+- C03 Smoke Probe：绑定bootstrap/run/input/state/interactor/flow/presenter、四目标、statusText、availability/choice/pause/verify四按钮。
+- C03 Canvas：ScreenSpaceOverlay，uGUI/TMP测试状态与控制、三项/四项菜单；现有LiberationSans SDF字体。C03 EventSystem为InputSystemUIInputModule，动作持久子资产引用，没有旧InputModule。
+- Main Camera/Directional Light。已有Wwise Integration编辑器自动附加AkAudioListener/AkGameObj与WwiseGlobal/AkInitializer，旧C01/C02亦存在；无项目IAudioBackend/Cue映射，不宣称Wwise声音通过。
+- 场景13根、零Missing Script；运行/输入/状态/入口/交互/事务各一份；全部必填对象引用齐全。未加入Build Settings（buildIndex=-1）。
 
 | 参数入口 | 默认/单位/生效 |
 |---|---|
-| C02 Player.initialMaximumHealth | 100点，首次初始化读取；必须正数，不是代价最大生命下限 |
-| initialBiteDamage / initialSwordDamage | 10/15点，首次初始化读取，允许测试配置0；无负面修改 |
-| C02 Runtime.gameplayTimeScale | 1倍率，下次Playing；Dead/Paused/Choosing为0 |
-| input.buttonBufferSeconds | 0.15真实秒，实时读取；每动作一条 |
-| C02 Smoke Probe.autoVerify | true，下次Play；独测结束死亡，关闭它可手动测试按钮 |
-| testDamage / testHeal | 7/5点，实时读取，自动测试要求初始HP>testDamage |
+| PlayerInteractor.interactionRadius | 2单位，正有限数，实时读取；0.5保存重载验证后恢复2 |
+| interactionOrigin | 可空，用actor位置；可显式绑定扫描中心 |
+| interactionLayers / includeTriggers | Default(1) / true，实时读取，不改全局Physics2D |
+| InteractionTarget.interactionSource / interactionPoint | 必填接收组件 / 可选距离锚点；ID不可运行时变更 |
+| ChoiceCoordinator.presenter | 必填启用的IChoicePresenter，Bootstrap初始化读取 |
+| C03 Smoke Probe.autoVerify | true，下次Play开始检查；检查结束Dead |
+| PlayerState.initialMaximumHealth / initialBiteDamage / initialSwordDamage | 100 / 10 / 15点，首次初始化；暂定测试值 |
+| RunController.gameplayTimeScale | 1，下一次Playing；Paused/Choosing/Dead为0 |
+| PlayerInputReader.buttonBufferSeconds | 0.15真实秒，实时读取 |
 
-参数与引用已非Play保存/重载，HP120/咬击13临时调参验证后恢复100/10/15。旧C01场景无需PlayerState仍兼容。
+## 本轮实际验证与结果
 
-## 实际执行的验证
+1. MCP核对实例2026GameJamUnity@1ba105ba2ebb3fca、项目F:/2026GameJamUnity、Unity6000.2.9f1与StandaloneWindows64；目标未混用旧项目。反射核对Physics2D.OverlapCircle的ContactFilter2D/List重载。
+2. 新源码Unity刷新编译并实际加载Core/Runtime/Tests.C03。首次未保存场景检查54项通过只属中途结果；最终场景保存重载后57 passed/0 failed才是交付结果。
+3. 57项覆盖类别优先/最近/同距ID/不可用跳过/空目标/距离范围、提示只在变化通知、多Collider去重、真实InputSystem游戏手柄经正常Update到Interact、长按不重复、失败不请求第二对象、同帧/回调重入保护。
+4. 事务覆盖三项打开、非法选项/重叠菜单拒绝、Choosing时间/输入/提示冻结、false保留、错误ID/展示拒绝替换、同ID四项保持锁、旧阶段迟到回调、取消一次；确认中换阶段不提前修改真实构筑，最终通过PlayerState提交Sword一次。
+5. 展示拒绝打开恢复Playing、迟到回调失效、确认回调重入/嵌套打开拒绝、确认中取消延后/成功提交优先、展示停用禁止打开并清理已有事务。三轮Bootstrap启停各取消一次/释放输入和阶段/重新绑定、保留真实状态；输入打开菜单后取消无长按泄漏；真实致死进入Dead，输入/交互/新菜单拒绝。
+6. 半径0.5、autoVerifyfalse非Play保存/重载，Play目标从Portal变为附近Switch；通过InputSystem临时Keyboard注入真实E事件，Switch.Attempts只增加1。移除临时设备。测试按钮onClick实际打开Choosing/timeScale0、获得真实Sword后Playing、再开后Cancel恢复。恢复radius2/autoVerifytrue并保存重载。
+7. Play临时复制PortalA制造同场景重复ID，即使副本移出范围仍两者拒绝；删除临时副本恢复。临时独立Bootstrap缺Presenter、随后缺actor，分别拒绝启动并清理run/input/state；销毁临时物体后原入口恢复。这三项产生预期配置Error，未保存临时对象。
+8. 实际复验旧C01 32 passed/0 failed、旧C02 51 passed/0 failed；退出Play重载C03，旧场景无修改。
+9. 查看Game View截图：57通过/Dead状态；手动Playing/开关1次/持剑状态；三张TEST菜单Choosing与取消按钮均完整可读。Logs/C03下截图被ignore，不是正式素材。
+10. 最终Unity刷新编译无源码错误；中途Console有账号网络Warning、Wwise Voice Starvation以及上述导入/目录GUID警告；没有源码编译错误，未清空Console，不声明Wwise声音通过。710个Assets meta无重复GUID/孤立meta，新资产配对完整；必填引用/唯一组件/零Missing Script实查。fixedDeltaTime实际0.0199999921，未改全局设置。最终C03非Play、已保存且isDirty=false，默认参数恢复。git diff --check通过；全部22个新增文件无尾部空白，C03场景及新增meta清理序列化行尾空白。中途错误地直接ImportAsset(.meta)导致Unity缓存冲突并重建两个尚未发布的测试目录GUID；恢复旧目录GUID被Unity持续拒绝，最终保留其有效新GUID，源码/场景/asmdef的GUID经Editor.log核对保持一致，必填引用无丢失。目录修复后重新保存场景并Play仍57/0。今后只导入资产本体或Refresh，不直接导入.meta。重载期间MCP断连，重新核对同一项目实例后恢复；最终实际读取C03非Play、isDirty=false、isCompiling=false、13根、零Missing Script。
 
-- MCP先核对custom-tools/instances/project/info/editor/state，明确实例2026GameJamUnity@1ba105ba2ebb3fca、F:/2026GameJamUnity、Unity6000.2.9f1、StandaloneWindows64。临时实例ID不写代码。
-- 新源码刷新后Unity实际加载Core/Runtime/Tests.C02，Console无源码编译错误。
-- MCP建立独立C02场景，显式Inspector绑定、保存/重载并进入Play：AUTO CHECKS: 51 passed / 0 failed。覆盖真实初始化、非法/default伤害、敌人/地形扣血、过大治疗封顶、只读集合、四项容量/重复、姿态/剑保留、预留项拒绝、原子替换/失败无副作用、通知快照/拒绝重入、Choosing/Paused权限、三轮Bootstrap启停保留、实际InputSystem事件经正常Update到reader、致死顺序/单次死亡/音频、Dead输入与命令锁、死后重绑不复活。
-- Inspector HP改120、咬击13后保存/重载并Play，实际MaximumHealth=120/BiteDamage=13，51项仍通过；恢复100/10/15。
-- C01_Smoke实际Play兼容复验：32 passed / 0 failed，C01资产未修改。
-- 手动独测关闭autoVerify（临时不保存）：实际uGUI按钮onClick让HP100→93→98；四足持剑不可剑击，获得站立后可剑击。临时Probe参数已通过加载磁盘场景还原true。
-- Play临时独立入口配置initialMaximumHealth=0：拒绝启动，玩家未初始化/未绑定、输入/运行已清理；产生预期C02初始化Error。销毁测试对象后原入口恢复成功，无临时对象保存。
-- Game View截图已查看：状态文本及五按钮完整，HP0/Dead/timeScale0/51passed0failed；Logs/C02/C02_Smoke.png被忽略，不是正式素材。
-- 收尾刷新编译无源码错误；698个Assets meta无重复GUID/孤立meta，新源码/场景配对完整；场景零Missing Script、真实状态/输入/阶段/入口各一份、全部Probe及Bootstrap引用有效，autoVerify=true。物理fixedDeltaTime实际约0.02，未修改全局设置。场景序列化尾部空白已清理并重载，git diff --check及新增文件尾部空白检查通过；最终退出Play保留C02独测入口，非Play、isDirty=false。
+没有执行：正式T01/T03资源集成、奖励/献祭服务、实际移动/地面射线/脚步试听、完整地图/战斗/胜利/重开、第一阶段整体灰盒、Windows导出、Wwise Bank/声音验收。已有Integration对象或测试后端调用不代表音频完成。
 
-没有清空Console。旧MCP连接/账号网络Warning与临时配置拒绝Error不是源码错误；已有Integration对象不等于项目音频映射/Bank播放验收。测试音频后端只录调用，不验声效质量，脚步机枪效应尚未试听。
+## 下一步
 
-## 未完成与下一步
+- 用户审核并发布本轮Ming改动，登记包含C03契约6的新提交。T01/T03可以获取后按上述绑定接线；已发布C02仍可供T02接状态、T16接死亡显示，T06可基于C01输入继续，不需等地图。
+- 总控C05按队友已交付Prefab/独测结果串行集成；第一阶段必需T01/T02/T03/T06/T07，不能用32/51/57底层独测代替第一阶段整体通过。
+- C04按下一项实际业务确认完整池、候选刷新/修复、最大生命/攻击下限、叠加、重开及同帧胜负；未确认部分不正式接入。奖励/替换暂停已确认，不再列为待问。
+- 地图仍由作者独立场景交付，总控接入，不顺手接管整图。死亡正式界面/UI/按钮仍由队友负责。
+- T06落实G33/G34：默认0.02游戏秒Physics2D.Raycast地面扫描，脚步按实际落地移动和独立播放节奏防机枪；没有材质Switch Group。AudioCue尚无脚步身份，由总控/音频任务先发布，不冒用现有Cue。
 
-- 用户提交并push本轮C02源码、场景/meta和四份文档，再给队友新提交号。T02可接真实状态；T07还需T06跑跳/玩家接线，T16死亡显示有真实Dead可读但重开仍待确认。
-- 总控继续C03同优先级/不可用对象策略确认及交互接线，无需先等所有T任务push。地图继续独立场景交付，不接手整图制作。
-- C04冻结代价下限/叠加/完整池/刷新、奖励暂停、重开、同帧胜负，依赖这些的部分不正式实现。
-- G33/G34由T06与音频任务接入：0.02地面射线、脚步节奏/实际位移门控，脚步Cue/映射仍待发布；不要求不存在的材质Switch Group。
-- 真实跑跳/攻击命中、第一阶段总灰盒、正式HUD/结果UI、奖励/收费/传送、陷阱/敌人/出口、完整地图、Wwise播放与Windows导出均未完成/未验收。
+## C00/C01/C02历史事实
 
-## C00/C01历史记录（已随e86074a发布）
+C00确认ForceText/Visible Meta Files、InputSystem Dynamic Update及Core/Audio导入。C01在e86074a发布，32项真实输入缓冲/阶段锁/物理停止/三轮入口启停检查通过，倍率0.5保存重载后恢复1；重复入口/缺引用拒绝实查。TMP Essential Resources来自已安装uGUI包，Assets/TextMesh Pro引用不可漏交。C01只是输入独测，不是运动/重开。
 
-C00确认ForceText/Visible Meta Files、InputSystem Dynamic Update及Core/Audio导入。C01首次Play发现Bootstrap.OnEnable先于依赖OnEnable，修复启动资格为enabled+activeInHierarchy；运行消费仍用isActiveAndEnabled。32项自动检查覆盖正式输入移动/四按钮/缓冲/阶段锁/释放保护/真实FixedUpdate/三轮入口启停。倍率0.5保存重载生效并恢复1；重复入口和必填缺引用拒绝/恢复实查。TMP Essential Resources由已安装uGUI包导入，C01场景引用Assets/TextMesh Pro，不可漏交字体/material/shader/meta。历史688个meta无重复GUID；该数字不覆盖C02新文件，收尾重新检查。C01仍是输入独测，不是运动或重开。
-
-收尾补记：源码格式整理后再次实际Play仍51 passed/0 failed，Console无新源码Error/Warning；退出Play。MCP重载期间曾断连/超时，重新发现同一目标实例后恢复，未重复创建对象；以最终状态读取为准。
+C02在4ffa05b发布（基于e86074a），唯一PlayerState、内部LoadoutCollection、IPlayerStateCommands/IPlayerCombatState、输入生命绑定/死亡接线完成。Tests.C02通过51项，包括真实生命/非法伤害/治疗封顶、四槽去重/姿态保留、内部隔离满槽替换、事件/写入重入拒绝、阶段权限、生命周期、致死顺序和单次音频。HP120/咬击13保存重载验证后恢复100/10/15；手动按钮生命100→93→98，四足持剑不可剑击/站立可用，非法初始HP0拒绝启动。正式死亡UI归队友，无百分比献祭/负面下限/叠加/重开。历史C00/Core16项、C01的688及C02的698个meta检查不代替本轮710个meta和新业务验收。

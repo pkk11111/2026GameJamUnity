@@ -1,5 +1,5 @@
 // 职责：显式场景组装入口、唯一性校验与退出清理，不创建隐藏单例或实现重开。
-// 模块/维护：controller，C01/C02；直接依赖：RunController、PlayerInputReader、可选 IChoicePresenter、GameAudio。
+// 模块/维护：controller，C01/C02/C03；直接依赖：运行/输入/玩家状态、可选交互器/选择协调器、GameAudio。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using Regrowth.Audio;
 using Regrowth.Core;
@@ -17,6 +17,10 @@ namespace Regrowth.Runtime
         private PlayerInputReader inputReader;
         [SerializeField, Tooltip("C02 玩家状态；旧 C01 输入独测可留空。正式玩家必填，本入口统一初始化/解绑，不靠启停重置生命。")]
         private PlayerState playerState;
+        [SerializeField, Tooltip("C03正式交互器；启用交互功能时绑定，旧C01/C02独测可留空。唯一消费Interact。")]
+        private PlayerInteractor playerInteractor;
+        [SerializeField, Tooltip("C03选择事务协调器；有选择功能时绑定，其presenter须与下方菜单一致或下方留空。")]
+        private ChoiceCoordinator choiceCoordinator;
         [SerializeField, Tooltip("可选，实现 IChoicePresenter 的菜单；卸载前取消当前事务。")]
         private MonoBehaviour choicePresenter;
         [SerializeField, Tooltip("可选，退出时停止这些发声对象；全局发声对象也会停止，不停整个音频引擎。")]
@@ -43,9 +47,13 @@ namespace Regrowth.Runtime
 
             if (runController == null || inputReader == null || runController.IsInitialized || inputReader.IsInitialized
                 || (playerState != null && playerState.IsBound)
+                || ((playerInteractor != null || choiceCoordinator != null) && playerState == null)
+                || (playerInteractor != null && playerInteractor.IsInitialized)
+                || (choiceCoordinator != null && (choiceCoordinator.IsInitialized
+                    || (choicePresenter != null && choiceCoordinator.PresenterComponent != choicePresenter)))
                 || (choicePresenter != null && !(choicePresenter is IChoicePresenter)))
             {
-                Debug.LogError("C01 GameBootstrap 接线失败：RunController/InputReader 必填且未被其他入口拥有，菜单须实现 IChoicePresenter。", this);
+                Debug.LogError("GameBootstrap 接线失败：检查阶段/输入唯一绑定，C03须有PlayerState，交互/选择未被其他入口拥有，菜单绑定一致且实现IChoicePresenter。", this);
                 return;
             }
 
@@ -53,7 +61,9 @@ namespace Regrowth.Runtime
             ownsSession = true;
             if (!runController.Initialize()
                 || (playerState != null && !playerState.Initialize(runController))
-                || !inputReader.Initialize(runController, playerState))
+                || !inputReader.Initialize(runController, playerState)
+                || (choiceCoordinator != null && !choiceCoordinator.Initialize(runController, inputReader, playerState))
+                || (playerInteractor != null && !playerInteractor.Initialize(inputReader, runController, playerState)))
             {
                 ShutdownSession();
                 return;
@@ -81,7 +91,15 @@ namespace Regrowth.Runtime
             IsStarted = false;
             try
             {
-                if (choicePresenter != null)
+                if (playerInteractor != null)
+                {
+                    playerInteractor.Shutdown();
+                }
+                if (choiceCoordinator != null)
+                {
+                    choiceCoordinator.Shutdown();
+                }
+                if (choicePresenter != null && (choiceCoordinator == null || choiceCoordinator.PresenterComponent != choicePresenter))
                 {
                     (choicePresenter as IChoicePresenter)?.CancelCurrent();
                 }

@@ -1,10 +1,10 @@
 # GROWL AGAIN 统一开发规范与游戏契约
 
-规范版本：9，2026-10-01；公共源码契约版本 5，新增 IPlayerStateCommands/IPlayerCombatState，既有接口与枚举值不变。用户为总控，其他程序人数未定、不超过 5 人；按最小可测试功能领取任务，不固定个人长期板块。本文使用标准文件名 AGENTS.md，作为所有 Codex 会话必读的唯一规则入口；不再另建 agent.md 副本以免内容漂移。
+规范版本：10，2026-10-01；公共源码契约版本 6，新增 IInteractionState/IChoiceFlow，既有接口与枚举值不变。用户为总控，其他程序人数未定、不超过 5 人；按最小可测试功能领取任务，不固定个人长期板块。本文使用标准文件名 AGENTS.md，作为所有 Codex 会话必读的唯一规则入口；不再另建 agent.md 副本以免内容漂移。
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及发布基线来源是 `Ming`。C00/C01 已由用户推送，本轮 C02 基于 `e86074a6930b23b8c9e390b89806173f14dfd95e`；开始时 HEAD/本地 origin/Ming 一致、工作区干净，未 fetch 查询实时远端。本轮 C02 源码/场景/文档仍待用户提交与发布，Codex 不自动 commit/push。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根 AGENTS.md、任务卡与相关 handoff，不另建 Ming 专用 agent.md；不用旧 main/旧项目规则，不自动切分支、合并或重置。
+当前总控工作分支及发布基线来源是 `Ming`。C00/C01/C02 已由用户推送，当前已发布基线为 `Ming/4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5`（C02 基于 e86074a）。发布确认时 HEAD/本地 origin/Ming 一致、工作区干净，未 fetch 查询实时远端。Codex 不自动 commit/push；本轮基于4ffa05b完成C03已确认范围，源码契约升至6；C03尚未提交/发布，不把4ffa05b误写为包含新接口。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根 AGENTS.md、任务卡与相关 handoff，不另建 Ming 专用 agent.md；不用旧 main/旧项目规则，不自动切分支、合并或重置。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -23,7 +23,7 @@
 
 状态定义：**已确认**是用户明确答复；**技术约定**是本轮采用的实现边界；**待确认**不得据此实现业务；**预留**只有身份或计划，没有功能承诺；**已实现**仅指表中真实存在代码。
 
-公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；本轮 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 尚在工作区，待用户发布提交。运动、攻击动作、敌人、世界、正式 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
+公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；本轮 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，本轮C01/C02分别32/51项复验通过；C03契约6待用户发布，尚未主场景集成。运动、攻击动作、敌人、世界、正式 UI 和项目 IAudioBackend 适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
 
 ### 成员自主范围与协作边界
 
@@ -94,6 +94,9 @@
 | G32 | 玩家生命归零立即进入 Dead，停止游戏物理与玩家 gameplay 输入；死亡界面/UI/按钮由其他组员负责 | 只扣到 0 而继续操作；总控在 C02 包办结局 UI。重开、胜利及同帧仲裁仍待确认 |
 | G33 | 玩家运动、落地与脚步使用 Physics2D.Raycast 地面检测，默认每 0.02 游戏秒扫描；按键仍由唯一 Input System 适配器读取 | 用射线读键盘、模块各自轮询输入或每帧各算一份落地状态 |
 | G34 | 当前脚步没有材质 Switch Group；脚步音只按实际落地移动及播放节奏触发，必须避免机枪效应 | 每次地面扫描/按住移动键都播放脚步音；擅自引入材质切换组 |
+| G35 | 同类交互选距离锚点最近的；距离相同按稳定InteractionId的Ordinal顺序 | 仅按实例编号/物理查询返回顺序选取 |
+| G36 | 不可用对象跳过，继续按传送门→开关→宝箱选择可用对象 | 不可用传送门阻挡附近可用开关/宝箱 |
+| G37 | 宝箱奖励及满槽替换也暂停；同事务切阶段保持暂停，确认成功或取消后继续 | 奖励界面暂停仍待定；替换阶段临时解锁玩法 |
 
 满血开局的具体数值、负面叠加/下限及具体攻击参数未冻结。技能/装备不可重复、所有保留项满槽替换及姿态联动已确认。
 
@@ -114,10 +117,10 @@
 - Q03：构筑槽/替换/姿态/首版单剑已确认；不同宝箱之间导致旧候选变为已拥有时怎样修复，以及传送成功后何时重抽尚需确认。
 - Q04：负面池方向、永久叠加与全图精英作用范围已确认；攻击变化幅度、叠加按基础值或当前值、取整/下限与未来生成敌人如何继承仍待确认。
 - Q05：百分比公式已确认见 G17，收费死亡顺序已确认见 G29；最大生命下限/归零是否允许、攻击下限与危险提示形式仍待确认。
-- Q06：跨类别优先级已确认；同优先级距离/稳定 ID 排序、门不可用时是否允许较低优先级对象交互尚待确认。
+- Q06：已确认G35/G36：同类最近、相同距离按稳定Id，跳过不可用对象。扫描半径/区域与锚点为可调接线参数。
 - Q07：陷阱 tick 间隔/弹开方向、敌人无敌帧是否阻挡陷阱、坑洞怎样处理？弹开并不自动保证不能穿越，需要灰盒验证。
 - Q08：Boss 死亡与玩家死亡同帧顺序；建议玩家死亡优先，因为尚未进入出口。必须明确才能发布胜负控制器。
-- Q09：传送暂停、取消不收费、固定卡组、0.5 秒抵达保护已确认；奖励界面暂停、整场景重开仍需确认。Windows 已确认。
+- Q09：传送/奖励/替换暂停、取消不收费、固定卡组、0.5 秒抵达保护已确认；整场景重开仍需确认。Windows 已确认。
 - Q10：初始 HP、奖励/负面完整池、合法池不足三项的处理、冲刺方向/冷却/无敌、二段跳重置、攻击参数与姿态碰撞体尚未冻结。正式池必须满足恰好三项；不得伪造条目补位或自行减少选项。
 
 回答前可实现已确认行为与不依赖未决规则的模块逻辑。形态/装备按 G21–G28 执行；未确认的收费细节与护盾策略只作隔离方案，不把代码反过来当作用户决定。未冻结数值可用 Inspector 暂定值测试，不能由此改变已确认规则。
@@ -165,7 +168,7 @@ C01 输入资产为 Assets/InputSystem_Actions.inputactions：Player/Move（取 
 ```text
 Assets/Scripts/Core/             Regrowth.Core，已重建的共享身份/数据/端口
 Assets/Scripts/Audio/Core/       Regrowth.Audio.Core，已重建的无 Wwise 音频入口
-Assets/Scripts/Runtime/          Regrowth.Runtime，C01 阶段/输入/启动，C02 玩家状态/死亡停止
+Assets/Scripts/Runtime/          Regrowth.Runtime，C01 阶段/输入/启动，C02 玩家状态/死亡停止，C03 交互/选择事务
 Assets/Scripts/Gameplay/         玩家、世界、敌人业务，待实现
 Assets/Scripts/UI/               HUD 与 ChoicePanel，待实现
 Assets/Scripts/Presentation/     动画与反馈，待实现
@@ -174,6 +177,8 @@ Assets/Scenes/Tests/C01/         C01_Smoke.unity，已接线并独测通过，�
 Assets/Scripts/Tests/C01/        Regrowth.Tests.C01，测试驱动，非正式运动/重开组件
 Assets/Scenes/Tests/C02/         C02_Smoke.unity，真实状态/死亡独测，非正式结果 UI
 Assets/Scripts/Tests/C02/        Regrowth.Tests.C02，独测驱动/录音替身，不进正式构建
+Assets/Scenes/Tests/C03/         C03_Smoke.unity，交互/选择事务独测，非正式UI或世界物件
+Assets/Scripts/Tests/C03/        Regrowth.Tests.C03，目标/菜单替身及独测驱动
 docs/handoffs/                   用户名.handoff，只记工作事实
 ```
 
@@ -183,7 +188,7 @@ docs/handoffs/                   用户名.handoff，只记工作事实
 
 ## 7 实际存在的接口及名字
 
-契约版本 5。以下对应实际源码；数据类无业务副作用。IRunContext/IPlayerInput 已有 C01 实现；生命/构筑/姿态及新增写口/攻击读口由 C02 的唯一 PlayerState 实现。不要根据表格自动创建第二个实现。
+契约版本 6。以下对应实际源码；数据类无业务副作用。IRunContext/IPlayerInput 已有 C01 实现；生命/构筑/姿态及新增写口/攻击读口由 C02 的唯一 PlayerState 实现。不要根据表格自动创建第二个实现。
 
 | 类型 | 实际签名/字段 | 语义与状态 |
 |---|---|---|
@@ -200,7 +205,9 @@ docs/handoffs/                   用户名.handoff，只记工作事实
 | IFormState | PlayerForm CurrentForm；event Action<PlayerForm> FormChanged | PlayerState 实现；根据站立项即时联动，只在真实变化后通知 |
 | IPlayerStateCommands | bool TryHeal(int amount)；bool TryAddLoadoutItem(LoadoutItemId item) / TryRemoveLoadoutItem(LoadoutItemId item)；bool TryReplaceLoadoutItem(LoadoutItemId removedItem, LoadoutItemId addedItem) | C02 最小写口；主线程 Playing/Choosing 且存活/已绑定；false 无修改。UI 不直接结算 |
 | IPlayerCombatState | int BiteDamage / SwordDamage；bool CanBite / CanUseSword | C02 只读攻击配置/权限；仅存活、已绑定、Playing 可攻击；不执行动作/命中 |
-| InteractionKind | Portal=0、Switch=1、Chest=2 | 已确认的跨类别顺序；同类别排序待确认 |
+| IInteractionState | bool HasTarget；string InteractionId / Prompt；event Action TargetChanged | C03 PlayerInteractor只读提示，只有实际变化通知，无候选/非Playing为空 |
+| IChoiceFlow | bool IsOpen；string RequestId；bool TryBegin(ChoiceRequest,Func<string,bool>,Action) / TryReplace(ChoiceRequest,Func<string,bool>,Action)；void Cancel() | C03 ChoiceCoordinator：三项打开、同Id三/四项换阶段；实际业务由发起者结算，UI只传Id |
+| InteractionKind | Portal=0、Switch=1、Chest=2 | 按G14/G35/G36类别→同类距离→Id，跳过不可用对象 |
 | IInteractable | string InteractionId / Prompt；InteractionKind Kind；bool CanInteract(GameObject actor) / TryInteract(GameObject actor) | 稳定场景唯一 ID，不能用 GetInstanceID；true 是接受请求，不等于付费/领奖成功 |
 | ChoiceOption | Id、Title、Description；构造(string id,string title,string description) | 不可变展示项，Id 非空，Title 非空；不执行效果 |
 | ChoiceRequest | Id、Title、IReadOnlyList<ChoiceOption> Options；构造(string id,string title,IEnumerable<ChoiceOption> options) | 复制候选，拒绝空/重复 ID；展示支持 1–4 项；奖励/代价必须恰好 3 项，满槽替换展示全部 4 个旧项 |
@@ -208,23 +215,33 @@ docs/handoffs/                   用户名.handoff，只记工作事实
 | IAudioBackend | void Play(AudioCue cue,GameObject emitter) / StopAll(GameObject emitter) | 后端端口，Integration 已安装，项目后端适配器未实现 |
 | GameAudio | Play(AudioCue cue,GameObject emitter=null)；StopAll(GameObject emitter)；InstallBackend(IAudioBackend)；UninstallBackend(IAudioBackend expectedBackend) | 已实现转发与默认空后端；调用限定 Unity 主线程 |
 
-### C01/C02 实际运行接线（契约 5）
+### C01/C02/C03 实际运行接线（契约 6）
 
 | 组件/入口 | 实际使用方式 | 实现边界 |
 |---|---|---|
 | RunController : IRunContext | bool TryPause() / TryResume()；bool TryBeginChoosing(object owner) / TryEndChoosing(object owner)；bool IsInitialized | 主线程；重复/阶段不符/错误 owner 返回 false。选择锁不允许普通 Resume 绕过；回调中拒绝重入命令 |
 | PlayerInputReader : IPlayerInput | bool IsInitialized；输入读取/消费见上表 | 输入资产及六个动作路径在 Inspector；缓冲暂定 0.15 真实秒、实时生效；初始化创建私有输入副本 |
-| GameBootstrap | bool IsStarted；OnEnable 启动、OnDisable 清理 | Inspector 必填 RunController、PlayerInputReader；正式玩家还须绑定 PlayerState（旧 C01 输入独测允许为空）；可选 IChoicePresenter 组件和发声对象数组。重复入口拒绝，不自动查找/创建对象 |
+| GameBootstrap | bool IsStarted；OnEnable 启动、OnDisable 清理 | Inspector 必填 RunController、PlayerInputReader；正式玩家还须绑定 PlayerState（旧 C01 输入独测允许为空）；可选 PlayerInteractor、ChoiceCoordinator、IChoicePresenter 组件和发声对象数组；使用任一C03组件必须有PlayerState；菜单引用须与协调器presenter一致或留空。重复入口拒绝，不自动查找/创建对象 |
 
 T06 接入：Inspector 用 MonoBehaviour 引用并验证 IPlayerInput/IRunContext，或显式引用已发布的具体组件。FixedUpdate 先检查 IsGameplayActive，再读取 MoveX、单次 TryConsumeJump；只有实际跳跃成功才发 PlayerJump。同一 Rigidbody2D 的运动写入只由运动模块持有，输入适配器不写速度。启用时读阶段快照，PhaseChanged 注册/退订遵循统一生命周期。
 
 暂停/选择期间 Time.timeScale=0，输入立即清空，物理冻结；恢复后保留原物理速度继续模拟，运动模块不得在暂停期间积累动作。传送成功后，未来 T06/T13 的运动入口负责在迁移事务中清零线性/角速度，并调用 DiscardGameplayInput；C01 不提供假传送或费用结算，实际运动/迁移 API 由后续总控串行登记。
 
-测试场景的暂停按钮及 Escape 接收者只是隔离演示；正式暂停菜单/奖励暂停未确认，不在 Bootstrap 自动订阅 PauseRequested。C02 由 Bootstrap 根据真实生命归零接入 Dead，停止 gameplay 输入和物理；不发布任意 SetPhase、Won 或 Restart，不以测试入口启停冒充整局重开。退出先取消可选菜单，再卸载输入副本、释放锁并恢复启动前时间倍率。
+测试场景的暂停按钮及 Escape 接收者只是隔离演示；正式暂停菜单策略未确认，不在 Bootstrap 自动订阅 PauseRequested；奖励/替换暂停现按G37执行。C02 由 Bootstrap 根据真实生命归零接入 Dead，停止 gameplay 输入和物理；不发布任意 SetPhase、Won 或 Restart，不以测试入口启停冒充整局重开。退出先取消可选菜单，再卸载输入副本、释放锁并恢复启动前时间倍率。
 
 旧版 IDamageable(int amount, GameObject source) 不是本次规范；统一 DamageRequest，避免地形伤害被盾错误挡住。版本 3 已移除旧 AbilityId/IAbilityState/EquipmentId/IEquipmentState，统一使用 LoadoutItemId/ILoadoutState，不保留第二套真实容量。旧类型此前没有业务引用或序列化资产；后续发布后的枚举值不可重排/复用，也不能因为 UI 排序改变。
 
 所有事件主线程同步触发。订阅者 OnEnable 注册、OnDisable 退订，启用时读取当前快照。回调只通知，不用音频/UI 回调决定 gameplay 成败。
+
+### C03 交互与选择事务接线
+
+- PlayerInteractor 的 actor 必填唯一玩家根物体，Bootstrap 显式绑定该组件；它独占 IPlayerInput.TryConsumeInteract。interactionOrigin 可选，为空使用 actor；interactionRadius 暂定2单位，interactionLayers 暂定Default，includeTriggers=true，均实时读取。不增加正式Layer/Tag，不以交互区域检测代替G33地面射线。
+- 物件模块实现 IInteractable；在物件根挂 InteractionTarget，显式绑定 interactionSource，可选 interactionPoint 作为距离锚点，为空使用根位置。交互区域使用根或子 Collider2D，层必须包含于扫描Mask；多个Collider按桥接去重。InteractionId 非空、同场景唯一且运行中不改，重复ID的对象均拒绝并提示。CanInteract只判断可用性，不能结算/打开菜单；已用箱/开关、锁住的门等返回false，TryInteract再次校验。
+- 选择顺序先过滤不可用物件，再按 Portal→Switch→Chest、同类锚点距离、相同距离Ordinal ID排序；每按一次只请求一个接收端。TryInteract返回false不再尝试第二对象，同帧/重入请求拒绝。Paused/Choosing/Dead清空IInteractionState提示且不交互；提示订阅者启用读快照、停用退订。
+- ChoiceCoordinator.presenter 必填启用的IChoicePresenter组件；展示实现所在根物体持续启用，仅开关菜单内容。Bootstrap绑定协调器，由其初始化/取消/清理；业务发起者显式引用IChoiceFlow，不直接操作运行锁或Presenter。T01提供正式UI，C03ProbePresenter只是独测替身。
+- TryBegin只接受恰好3项、存活Playing且无菜单的请求；成功进入Choosing并暂停。TryReplace只接受同RequestId的3/4项，切阶段不通知旧取消、不释放暂停。确认回调内成功切入替换阶段须返回false，最终阶段才通过唯一PlayerState写口提交并返回true；失败保持菜单，取消不先移除旧项。
+- 协调器拒绝重复提交、重入、旧阶段/已结束事务的迟到回调；展示拒绝打开会恢复Playing且不通知业务取消。取消当前阶段恰好一次；确认过程中取消延后，已成功提交不会再取消。Presenter停用/销毁/自行关闭会撤销事务；Bootstrap退出先解绑交互、取消选择，再卸载输入/状态/阶段。死亡后清理不得恢复Playing。
+- C03不生成随机卡组、不标记正式箱子、不支付/传送、不新增音频Cue；T12/T13负责业务校验及提交，未决池/下限/叠加/刷新仍由C04冻结。满槽四项展示的事务已验证，不把测试选项当作第五个正式保留项。
 
 ### 卡片端口生命周期
 
@@ -254,18 +271,20 @@ C02 没有生命上限修改、攻击增减/叠加、百分比献祭、候选池
 
 ## 8 组件实现边界与依赖
 
-下表标明 C01/C02 已建立的最小实现与其他待实现职责。源码存在不等于场景已验收或基线已发布；验证状态见 controller.handoff。模块内组件与辅助类名可自主调整，跨模块签名由总控登记。
+下表标明 C01/C02/C03 的实际实现与其他待实现职责。源码存在不等于场景已验收或基线已发布；验证状态见 controller.handoff。模块内组件与辅助类名可自主调整，跨模块签名由总控登记。
 
 | 计划组件 | 职责 | 必须先决定 |
 |---|---|---|
 | RunController（C01/C02） | 唯一 Playing/Paused/Choosing/Dead、时间倍率、选择锁、死亡停止 | 正式暂停菜单、Won/同帧仲裁与重开待确认 |
 | PlayerState（C02 最小版） | 唯一生命/构筑槽/姿态，治疗/增删/原子替换与攻击读口 | 初始值可配置；上限/攻击变化、负面叠加/下限尚未接入 |
 | PlayerInputReader（C01） | 实现 IPlayerInput，集中采样/缓冲/清理 | 已有输入资产；技能权限仍由 gameplay 验证 |
-| PlayerInteractor | 按固定优先级选对象、单次请求锁 | 优先级/距离/不可用对象处理 |
-| ChoicePanel | IChoicePresenter 的展示实现 | 总控运行阶段接线 |
+| PlayerInteractor（C03） | 唯一消费Interact、Physics2D区域检测、类别/距离/Id排序及单次请求锁 | 已实现，独立场景57项通过、待发布；不执行业务结算 |
+| ChoiceCoordinator（C03） | IChoiceFlow：唯一选择事务、暂停、同Id切阶段、取消及迟到回调/重入保护 | 已实现，独立场景57项通过、待发布；正式Presenter由T01提供 |
+| InteractionTarget（C03） | Collider到IInteractable显式桥接、场景稳定Id校验 | 已实现；模块绑定接收端与距离锚点 |
+| ChoicePanel | IChoicePresenter 的展示实现 | 绑定ChoiceCoordinator，不修改运行阶段 |
 | RewardService / SacrificeService | 固定三候选、校验、替换事务与实际应用 | 候选失效修复、真实数值池与下限 |
 | Portal / Chest / WorldSwitch / WorldDoor | 交互和本轮状态 | 成功后卡组更新、地图联动；收费顺序已确认 |
-| GameBootstrap（C01/C02） | 显式引用 RunController/InputReader/PlayerState，死亡接线、可选菜单取消与音频停止，唯一入口 | 不自动建对象，不实现新局重开 |
+| GameBootstrap（C01/C02/C03） | 显式引用 RunController/InputReader/PlayerState，可选Interactor/Coordinator，死亡接线、事务清理与音频停止，唯一入口 | 不自动建对象，不实现新局重开 |
 
 技能和剑共享 ILoadoutState，不维护单独的真实武器槽。丢 UprightForm 不从 Items 删除 Sword；必须区分保留项持有、当前姿态和实际攻击权限，不允许从角色 Sprite/图标反推真实状态。PlayerState 已实现构筑变更与姿态联动，没有自由切姿态命令；奖励/舍弃事务服务仍由后续总控统一接入。
 
@@ -465,7 +484,9 @@ Unity 测试场景、Prefab、Inspector 绑定：
 
 版本 2 的 16 项检查属于历史结果，不覆盖当前契约。版本 3 已用目标 Unity 6000.2.9f1 自带 Roslyn、真实 UnityEngine/NetStandard 引用分别编译 Core 和 Audio，通过；新的 16 项断言涵盖四项展示接受/第五项拒绝、候选复制与只读、重复/空项拒绝、伤害分类、构筑身份及音频转发/卸载保护，全部通过。
 
-C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新业务。本轮C02经Unity刷新编译、独立场景保存重载、真实Play51项通过；HP120/咬击13配置保存重载生效并恢复100/10，实际测试按钮与非法初始HP拒绝验证通过，旧C01兼容复验32项通过。698个Assets meta无重复GUID/孤立meta，新增源码/场景meta配对；场景零Missing Script，唯一状态/输入/阶段/入口且全部引用有效。物理fixedDeltaTime实际约0.02，本轮未修改。第一阶段、运动/射线/脚步试听、整局与Windows导出未验收。C02仍待用户发布，历史Wwise/网络与预期拒绝日志另记交接，不继承未执行的验证。
+C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新业务。本轮C02经Unity刷新编译、独立场景保存重载、真实Play51项通过；HP120/咬击13配置保存重载生效并恢复100/10，实际测试按钮与非法初始HP拒绝验证通过，旧C01兼容复验32项通过。698个Assets meta无重复GUID/孤立meta，新增源码/场景meta配对；场景零Missing Script，唯一状态/输入/阶段/入口且全部引用有效。物理fixedDeltaTime实际约0.02，本轮未修改。第一阶段、运动/射线/脚步试听、整局与Windows导出未验收。C02已随Ming/4ffa05b发布，历史Wwise/网络与预期拒绝日志另记交接，不继承未执行的验证。
+
+本轮C03：Unity6000.2.9f1实际编译；MCP创建C03_Smoke、绑定Inspector、保存重载，Play57 passed/0 failed，覆盖真实输入、类别/距离/ID/不可用排序、多个Collider去重、同帧/重入保护、三项→四项暂停事务、失败/取消/迟到回调、展示拒绝/停用及三轮入口启停、真实状态提交和死亡锁。交互半径0.5保存重载后选择附近开关，真实InputSystem键盘E只请求一次，测试按钮实际授予剑并恢复阶段；已恢复radius2/autoVerify=true。重复ID、缺Presenter和缺actor配置均实查拒绝/恢复；C01/C02实际复验32/51项通过。710个Assets meta无重复GUID/孤立meta，新增配对完整；C03零Missing Script、唯一运行/输入/玩家/入口/交互/事务组件、必填引用齐全，最终非Play且场景已保存。C03待用户发布；正式UI/世界物件/地图与第一阶段整体集成未验收，Wwise播放及Windows导出未验收。
 
 整局最终验收必须包含：
 
@@ -498,6 +519,8 @@ C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新�
 
 规范版本 8：新增契约 4 的 IPlayerInput 和 C01 实际运行接线；明确 Ming 分支随附规范与 T01/T02/T03/T06/T07 最小合入批次。C00 编辑器检查完成，C01 编译/32 项独立 Play 检查通过，最终修复与场景待用户发布；不标第一阶段/正式地图/Windows 导出完成。
 
-规范版本 9 / 契约 5：基于已发布 Ming/e86074a 完成 C02 最小真实状态、受控写口和攻击读口，按 G32 接入死亡停止；正式死亡 UI/按钮归队友。C02 独立 Play 51 项、参数保存重载、C01 32 项兼容复验通过；C02 尚待用户发布。三份总控协作文档随代码和 Unity 编辑同步维护，未接入代价下限、叠加或新局/胜利。
+规范版本 9 / 契约 5：基于已发布 Ming/e86074a 完成 C02 最小真实状态、受控写口和攻击读口，按 G32 接入死亡停止；正式死亡 UI/按钮归队友。C02 独立 Play 51 项、参数保存重载、C01 32 项兼容复验通过；C02 已随 Ming/4ffa05b 发布。三份总控协作文档随代码和 Unity 编辑同步维护，未接入代价下限、叠加或新局/胜利。
 
 同轮用户新增 G33–G34：运动/脚步共用0.02秒地面射线扫描、输入仍集中读取，脚步单事件节奏限频且不依赖材质Switch Group。已登记T06/T05/T18对接；实际射线运动、脚步Cue/映射及试听尚未实现。
+
+规范版本10 / 契约6：按G35/G36完成交互选择，按G37统一暂停奖励/满槽替换。新增IInteractionState/IChoiceFlow、InteractionTarget/PlayerInteractor/ChoiceCoordinator与Bootstrap接线；MCP独立场景57项通过，C01/C02复验32/51项通过，参数保存重载、真实键盘/按钮及非法绑定验证完成。待用户发布，不改地图/队友正式UI，不实现未决代价或整局重开。
