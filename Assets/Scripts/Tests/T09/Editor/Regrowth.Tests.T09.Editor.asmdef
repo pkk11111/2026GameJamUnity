@@ -1,0 +1,1 @@
+{"name":"Regrowth.Tests.T09.Editor","rootNamespace":"Regrowth.Tests.T09.Editor","references":["Regrowth.Core","Regrowth.Tests.T09","Regrowth.Tests.T07","Regrowth.Gameplay.EnemyBasic","Regrowth.Gameplay.Combat","Regrowth.Gameplay.Bite","Regrowth.Runtime","Unity.TextMeshPro","UnityEngine.UI"],"includePlatforms":["Editor"],"autoReferenced":true}

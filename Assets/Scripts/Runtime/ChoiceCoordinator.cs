@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Regrowth.Runtime
 {
-    /// <summary>教学/指定舍弃单项或奖励三项打开；V5替换三项，保留四项展示兼容独测；所有选择按确认规则暂停。</summary>
+    /// <summary>教学/指定舍弃单项或奖励三项打开；同事务仅切换单项或三项，拒绝旧四槽替换；所有选择按确认规则暂停。</summary>
     [DisallowMultipleComponent]
     public sealed class ChoiceCoordinator : MonoBehaviour, IChoiceFlow
     {
@@ -106,7 +106,7 @@ namespace Regrowth.Runtime
             var current = session;
             if (!IsInitialized || !isActiveAndEnabled || current == null || opening || closing || Presenter == null || !presenter.isActiveAndEnabled
                 || request == null || request.Id != current.Request.Id || tryConfirm == null
-                || (request.Options.Count != 1 && request.Options.Count != 3 && request.Options.Count != 4) || run.Phase != RunPhase.Choosing || !health.IsAlive)
+                || (request.Options.Count != 1 && request.Options.Count != 3) || run.Phase != RunPhase.Choosing || !health.IsAlive)
             {
                 return false;
             }

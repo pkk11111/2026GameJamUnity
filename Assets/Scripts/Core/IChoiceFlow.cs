@@ -14,7 +14,7 @@ namespace Regrowth.Core
         /// <summary>普通奖励/代价恰好三项，教学/指定舍弃单卡；已有事务/非法状态拒绝，不调用回调。</summary>
         bool TryBegin(ChoiceRequest request, Func<string, bool> tryConfirm, Action onCancel);
 
-        /// <summary>同事务切换单卡确认或三个旧项；四项仅保留旧展示兼容；不关闭/不取消旧阶段，失败没有副作用。
+        /// <summary>同事务切换单卡确认或三个旧项；其他数量拒绝，不关闭/不取消旧阶段，失败没有副作用。
         /// 在确认回调内切入替换阶段后须返回false；最后一阶段才实际提交并返回true。</summary>
         bool TryReplace(ChoiceRequest request, Func<string, bool> tryConfirm, Action onCancel);
 

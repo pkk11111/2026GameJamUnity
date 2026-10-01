@@ -28,8 +28,8 @@ namespace Regrowth.Tests.C02
         [SerializeField, Tooltip("必填，测试状态 TMP 文本，不是正式死亡 UI。")] private TMP_Text statusText;
         [SerializeField, Tooltip("必填，测试伤害按钮。")] private Button damageButton;
         [SerializeField, Tooltip("必填，测试治疗按钮。")] private Button healButton;
-        [SerializeField, Tooltip("必填，测试获得/舍弃站立项。")] private Button uprightButton;
-        [SerializeField, Tooltip("必填，测试获得/舍弃剑。")] private Button swordButton;
+        [SerializeField, Tooltip("必填，测试获得/舍弃双手连剑；保留字段名以兼容现有场景引用。")] private Button uprightButton;
+        [SerializeField, Tooltip("必填，测试获得/舍弃双腿；保留字段名以兼容现有场景引用。")] private Button swordButton;
         [SerializeField, Tooltip("必填，只启动独立验收，不实现重开。")] private Button verifyButton;
 
         [Header("独测参数")]
@@ -68,6 +68,8 @@ namespace Regrowth.Tests.C02
                 enabled = false;
                 return;
             }
+            uprightButton.GetComponentInChildren<TMP_Text>().text = "TEST Arms + Sword";
+            swordButton.GetComponentInChildren<TMP_Text>().text = "TEST Legs";
             state.HealthChanged += OnHealthChanged;
             state.LoadoutChanged += OnLoadoutChanged;
             state.FormChanged += OnFormChanged;
@@ -75,8 +77,8 @@ namespace Regrowth.Tests.C02
             input.PauseRequested += TogglePause;
             damageButton.onClick.AddListener(TestDamage);
             healButton.onClick.AddListener(TestHeal);
-            uprightButton.onClick.AddListener(TestUpright);
-            swordButton.onClick.AddListener(TestSword);
+            uprightButton.onClick.AddListener(TestArms);
+            swordButton.onClick.AddListener(TestLegs);
             verifyButton.onClick.AddListener(BeginVerification);
         }
 
@@ -113,11 +115,11 @@ namespace Regrowth.Tests.C02
             }
             if (uprightButton != null)
             {
-                uprightButton.onClick.RemoveListener(TestUpright);
+                uprightButton.onClick.RemoveListener(TestArms);
             }
             if (swordButton != null)
             {
-                swordButton.onClick.RemoveListener(TestSword);
+                swordButton.onClick.RemoveListener(TestLegs);
             }
             if (verifyButton != null)
             {
@@ -127,7 +129,7 @@ namespace Regrowth.Tests.C02
 
         private void Update()
         {
-            statusText.text = "GROWL AGAIN / C02 PLAYER STATE SMOKE\n"
+            statusText.text = "pawgatory / C02 V5 PLAYER STATE SMOKE\n"
                 + "State probe only - result UI and restart belong to teammate tasks\n\n"
                 + $"HP: {state.CurrentHealth} / {state.MaximumHealth}    Alive: {state.IsAlive}\n"
                 + $"Form: {state.CurrentForm}    Bite: {state.CanBite} ({state.BiteDamage})    Sword: {state.CanUseSword} ({state.SwordDamage})\n"
@@ -156,35 +158,35 @@ namespace Regrowth.Tests.C02
             }
         }
 
-        public void TestUpright()
+        public void TestArms()
         {
             if (verifying)
             {
                 return;
             }
-            if (state.Contains(LoadoutItemId.UprightForm))
+            if (state.Contains(LoadoutItemId.Arms))
             {
-                state.TryRemoveLoadoutItem(LoadoutItemId.UprightForm);
+                state.TryRemoveLoadoutItem(LoadoutItemId.Arms);
             }
             else
             {
-                state.TryAddLoadoutItem(LoadoutItemId.UprightForm);
+                state.TryAddLoadoutItem(LoadoutItemId.Arms);
             }
         }
 
-        public void TestSword()
+        public void TestLegs()
         {
             if (verifying)
             {
                 return;
             }
-            if (state.Contains(LoadoutItemId.Sword))
+            if (state.Contains(LoadoutItemId.Legs))
             {
-                state.TryRemoveLoadoutItem(LoadoutItemId.Sword);
+                state.TryRemoveLoadoutItem(LoadoutItemId.Legs);
             }
             else
             {
-                state.TryAddLoadoutItem(LoadoutItemId.Sword);
+                state.TryAddLoadoutItem(LoadoutItemId.Legs);
             }
         }
 
@@ -234,8 +236,9 @@ namespace Regrowth.Tests.C02
                 yield return null;
                 int maximum = state.MaximumHealth;
                 Check(state.IsInitialized && state.IsBound && state.CurrentHealth == maximum, "real state initialized at full HP");
-                Check(state.Capacity == 4 && state.Items.Count == 0 && state.CurrentForm == PlayerForm.Quadruped,
-                    "four shared slots, empty quadruped start");
+                Check(state.Capacity == LoadoutRules.Capacity && state.Capacity == 3 && state.Items.Count == 0
+                    && state.HasBodyCore && state.CurrentForm == PlayerForm.Quadruped,
+                    "three shared slots, body-enabled test start");
                 Check(state.CanBite && !state.CanUseSword, "base bite permission without equipment");
                 Check(state.BiteDamage >= 0 && state.SwordDamage >= 0, "configured combat snapshot exposed");
 
@@ -255,7 +258,7 @@ namespace Regrowth.Tests.C02
                 bool readOnly = false;
                 try
                 {
-                    ((ICollection<LoadoutItemId>)view).Add(LoadoutItemId.Sword);
+                    ((ICollection<LoadoutItemId>)view).Add(LoadoutItemId.Legs);
                 }
                 catch (NotSupportedException)
                 {
@@ -264,70 +267,76 @@ namespace Regrowth.Tests.C02
                 Check(readOnly && state.Items.Count == 0, "external Items mutation rejected");
 
                 int previousLoadout = loadoutEvents;
-                Check(state.TryAddLoadoutItem(LoadoutItemId.Sword) && state.Items.Count == 1
+                Check(state.TryAddLoadoutItem(LoadoutItemId.Legs) && state.Items.Count == 1
                     && state.CanBite && !state.CanUseSword && loadoutEvents == previousLoadout + 1,
-                    "quadruped retains sword in a shared slot but cannot use it");
+                    "legs occupy one shared slot without changing ordinary attack");
                 Check(ReferenceEquals(view, state.Items) && view.Count == 1, "read-only live view remains stable");
                 previousLoadout = loadoutEvents;
-                Check(!state.TryAddLoadoutItem(LoadoutItemId.Sword) && loadoutEvents == previousLoadout, "duplicates do not notify");
-                Check(state.TryAddLoadoutItem(LoadoutItemId.UprightForm) && state.CurrentForm == PlayerForm.Upright
-                    && state.CanUseSword && !state.CanBite, "upright acquisition immediately enables held sword");
-                Check(state.TryRemoveLoadoutItem(LoadoutItemId.UprightForm) && state.Contains(LoadoutItemId.Sword)
-                    && state.Items.Count == 1 && state.CanBite && !state.CanUseSword, "losing upright preserves sword and returns to quadruped");
-                Check(state.TryAddLoadoutItem(LoadoutItemId.UprightForm) && state.CanUseSword, "upright regained uses original sword");
-                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Sword) && state.CurrentForm == PlayerForm.Upright
-                    && !state.CanBite && !state.CanUseSword, "upright without sword cannot attack");
-                Check(state.TryAddLoadoutItem(LoadoutItemId.Dash) && state.TryAddLoadoutItem(LoadoutItemId.DoubleJump)
-                    && state.TryAddLoadoutItem(LoadoutItemId.Sword) && state.Items.Count == state.Capacity, "four first-edition items fill one loadout");
+                Check(!state.TryAddLoadoutItem(LoadoutItemId.Legs) && loadoutEvents == previousLoadout, "duplicates do not notify");
+                Check(state.TryAddLoadoutItem(LoadoutItemId.Arms) && state.CurrentForm == PlayerForm.Upright
+                    && state.CanUseSword && !state.CanBite, "arms and sword are one item and switch ordinary attack");
+                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Arms) && state.Contains(LoadoutItemId.Legs)
+                    && state.Items.Count == 1 && state.CanBite && !state.CanUseSword, "losing arms also removes sword permission");
+                Check(state.TryAddLoadoutItem(LoadoutItemId.Arms) && state.CanUseSword, "arms regrowth restores sword permission");
+                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Legs) && state.CurrentForm == PlayerForm.Upright
+                    && !state.CanBite && state.CanUseSword, "sword permission does not require legs");
+                Check(state.TryAddLoadoutItem(LoadoutItemId.Tail) && state.TryAddLoadoutItem(LoadoutItemId.Legs)
+                    && state.Items.Count == state.Capacity, "three body items fill the shared loadout");
                 var fullSnapshot = state.Items.ToArray();
                 previousLoadout = loadoutEvents;
                 Check(!state.TryAddLoadoutItem(LoadoutItemId.Shield) && !state.TryAddLoadoutItem(LoadoutItemId.FlameBreath)
                     && !state.TryAddLoadoutItem(LoadoutItemId.Spear) && !state.TryAddLoadoutItem((LoadoutItemId)999)
                     && state.Items.SequenceEqual(fullSnapshot) && loadoutEvents == previousLoadout,
-                    "reserved/undefined items never enter real player");
-                Check(!state.TryReplaceLoadoutItem(LoadoutItemId.UprightForm, LoadoutItemId.Shield)
+                    "full loadout, reserved and undefined items cannot mutate real player");
+                Check(!state.TryAddLoadoutItem(LoadoutItemId.Dash) && !state.TryAddLoadoutItem(LoadoutItemId.DoubleJump)
+                    && !state.TryAddLoadoutItem(LoadoutItemId.UprightForm) && !state.TryAddLoadoutItem(LoadoutItemId.Sword)
+                    && state.Items.SequenceEqual(fullSnapshot), "legacy identities are rejected rather than silently mapped");
+                Check(!state.TryReplaceLoadoutItem(LoadoutItemId.Arms, LoadoutItemId.Shield)
                     && state.Items.SequenceEqual(fullSnapshot), "failed full-loadout replacement preserves original state");
 
-                // 首版恰好四项，正式满槽没有第五新项；内部容器用隔离数据测试原子满槽替换。
+                // 三槽内部容器用隔离数据验收第四候选；不把未实现喷火投放地图奖励池。
                 var isolated = new LoadoutCollection();
                 foreach (var item in fullSnapshot)
                 {
                     isolated.TryAdd(item);
                 }
-                Check(!isolated.TryAdd(LoadoutItemId.Shield) && isolated.Items.Count == 4, "isolated capacity refuses fifth slot");
-                Check(isolated.TryReplace(LoadoutItemId.UprightForm, LoadoutItemId.Shield) && isolated.Items.Count == 4
-                    && isolated.Contains(LoadoutItemId.Sword) && !state.Contains(LoadoutItemId.Shield),
-                    "isolated full-slot replacement is atomic, reserved item never granted to player");
+                Check(!isolated.TryAdd(LoadoutItemId.FlameBreath) && isolated.Items.Count == 3, "isolated capacity refuses fourth slot");
+                Check(isolated.TryReplace(LoadoutItemId.Arms, LoadoutItemId.FlameBreath) && isolated.Items.Count == 3
+                    && isolated.Contains(LoadoutItemId.Legs) && !state.Contains(LoadoutItemId.FlameBreath),
+                    "isolated full-slot replacement is atomic without granting test skill to player");
 
-                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Dash), "removal releases one slot");
+                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Tail), "removal releases one slot");
                 previousLoadout = loadoutEvents;
                 int previousForm = formEvents;
-                Check(state.TryReplaceLoadoutItem(LoadoutItemId.UprightForm, LoadoutItemId.Dash)
-                    && state.Items.Count == 3 && state.Contains(LoadoutItemId.Sword) && state.CurrentForm == PlayerForm.Quadruped
+                Check(state.TryReplaceLoadoutItem(LoadoutItemId.Arms, LoadoutItemId.Tail)
+                    && state.Items.Count == 2 && state.Contains(LoadoutItemId.Legs) && state.CurrentForm == PlayerForm.Quadruped
+                    && state.CanBite && !state.CanUseSword
                     && loadoutEvents == previousLoadout + 1 && formEvents == previousForm + 1,
-                    "real replacement commits loadout/form once, retains sword");
+                    "real replacement commits loadout/form once and restores bite");
                 var beforeFailure = state.Items.ToArray();
                 previousLoadout = loadoutEvents;
-                Check(!state.TryReplaceLoadoutItem(LoadoutItemId.Dash, LoadoutItemId.Dash)
-                    && !state.TryReplaceLoadoutItem(LoadoutItemId.Dash, LoadoutItemId.Sword)
-                    && !state.TryReplaceLoadoutItem(LoadoutItemId.UprightForm, LoadoutItemId.UprightForm)
+                Check(!state.TryReplaceLoadoutItem(LoadoutItemId.Tail, LoadoutItemId.Tail)
+                    && !state.TryReplaceLoadoutItem(LoadoutItemId.Tail, LoadoutItemId.Legs)
+                    && !state.TryReplaceLoadoutItem(LoadoutItemId.Arms, LoadoutItemId.Arms)
                     && state.Items.SequenceEqual(beforeFailure) && loadoutEvents == previousLoadout,
                     "same/owned/missing replacement has no side effects");
 
                 Check(run.TryBeginChoosing(choiceOwner), "real choice phase entered");
                 Check(!state.TryTakeDamage(new DamageRequest(1, DamageKind.Enemy)) && !state.CanBite && !state.CanUseSword,
                     "choosing blocks damage and attack permission");
-                Check(state.TryHeal(1) && state.TryAddLoadoutItem(LoadoutItemId.UprightForm), "state settlement commands allowed while choosing");
+                Check(state.TryHeal(1) && state.TryAddLoadoutItem(LoadoutItemId.Arms), "state settlement commands allowed while choosing");
                 Check(run.TryEndChoosing(choiceOwner) && state.CanUseSword, "settlement visible after choice ends");
 
                 Check(run.TryPause(), "pause entered");
                 beforeFailure = state.Items.ToArray();
                 int beforePauseHealth = state.CurrentHealth;
-                Check(!state.TryHeal(1) && !state.TryRemoveLoadoutItem(LoadoutItemId.Sword)
+                Check(!state.TryHeal(1) && !state.TryRemoveLoadoutItem(LoadoutItemId.Legs)
                     && !state.TryTakeDamage(new DamageRequest(1, DamageKind.Terrain)) && state.CurrentHealth == beforePauseHealth
                     && state.Items.SequenceEqual(beforeFailure), "paused state rejects gameplay and settlement writes");
                 Check(run.TryResume(), "pause resumes");
                 Check(reentryWasRejected && snapshotsWereConsistent, "event callbacks see committed state and cannot reenter writes");
+                VerifyHeadState();
+                VerifyRewards();
 
                 for (int cycle = 0; cycle < 3; cycle++)
                 {
@@ -336,7 +345,7 @@ namespace Regrowth.Tests.C02
                     int beforeEvents = healthEvents;
                     bootstrap.enabled = false;
                     Check(!state.IsBound && state.IsInitialized && state.IsAlive && !state.TryHeal(1)
-                        && !state.TryRemoveLoadoutItem(LoadoutItemId.Sword), "unbound state rejects commands cycle " + cycle);
+                        && !state.TryRemoveLoadoutItem(LoadoutItemId.Legs), "unbound state rejects commands cycle " + cycle);
                     bootstrap.enabled = true;
                     yield return null;
                     Check(state.IsBound && state.CurrentHealth == beforeHealth && state.Items.SequenceEqual(beforeItems)
@@ -360,7 +369,7 @@ namespace Regrowth.Tests.C02
                     && !input.TryConsumeInteract() && !input.TryConsumeDash(), "death immediately clears and locks real gameplay input");
                 Check(!state.CanBite && !state.CanUseSword && !state.TryHeal(int.MaxValue)
                     && !state.TryTakeDamage(new DamageRequest(1, DamageKind.Terrain))
-                    && !state.TryRemoveLoadoutItem(LoadoutItemId.Sword), "dead player cannot attack, heal, take damage or change loadout");
+                    && !state.TryRemoveLoadoutItem(LoadoutItemId.Legs), "dead player cannot attack, heal, take damage or change loadout");
                 Check(!run.TryResume() && !run.TryPause() && !run.TryBeginChoosing(choiceOwner), "ordinary phase commands cannot leave Dead");
                 Check(recorder.Count(AudioCue.PlayerDied) == 1 && diedEvents == previousDied + 1, "death cue and notification only once despite bootstrap cycling");
 
@@ -383,21 +392,141 @@ namespace Regrowth.Tests.C02
             }
         }
 
+        /// <summary>隔离真实状态验证头部与躯干迁移；不组装教学地图，不产生第二个正式生命拥有者。</summary>
+        private void VerifyHeadState()
+        {
+            var fixture = new GameObject("C02 Head State - test only");
+            var head = fixture.AddComponent<PlayerState>();
+            try
+            {
+                SetTestField(head, "prototypeStartWithBodyCore", false);
+                SetTestField(head, "initialMaximumHealth", 77);
+                Check(head.Initialize(run) && head.IsInitialized && head.IsAlive && !head.HasBodyCore
+                    && head.CurrentHealth == 0 && head.MaximumHealth == 0 && head.Items.Count == 0,
+                    "head is alive before HP is initialized");
+                Check(!head.CanBite && !head.CanUseSword && !head.TryTakeDamage(new DamageRequest(1, DamageKind.Terrain))
+                    && !head.TryApplyReward(new PlayerReward(LoadoutItemId.Legs)) && !head.TryHeal(1),
+                    "head rejects attacks, damage and ordinary rewards");
+                Check(head.WasEverOwned(LoadoutItemId.Legs) == false && head.EverOwnedItems.Count == 0,
+                    "head preview cannot write successful ownership history");
+                Check(run.TryPause() && !head.TryAcquireBodyCore() && !head.HasBodyCore,
+                    "paused head cannot acquire body");
+                Check(run.TryResume() && run.TryBeginChoosing(choiceOwner), "head acquisition uses existing choice lock");
+                int bodyEvents = 0;
+                int headHealthEvents = 0;
+                bool ownerCommitted = false;
+                bool bodySnapshotValid = true;
+                bool bodyReentryRejected = true;
+                head.BodyChanged += () =>
+                {
+                    bodyEvents++;
+                    bodySnapshotValid &= ownerCommitted && head.HasBodyCore && head.CurrentHealth == 77 && head.MaximumHealth == 77;
+                    bodyReentryRejected &= !head.TryApplyReward(new PlayerReward(LoadoutItemId.Legs));
+                };
+                head.HealthChanged += () => headHealthEvents++;
+                Check(head.TryAcquireBodyCore(() => ownerCommitted = true) && head.HasBodyCore
+                    && head.CurrentHealth == 77 && head.MaximumHealth == 77 && head.Items.Count == 0
+                    && bodyEvents == 1 && headHealthEvents == 1 && bodySnapshotValid && bodyReentryRejected,
+                    "body acquisition commits configured HP and owner flag before one notification");
+                Check(!head.TryAcquireBodyCore() && bodyEvents == 1 && headHealthEvents == 1,
+                    "body acquisition cannot repeat or refill life");
+                Check(run.TryEndChoosing(choiceOwner) && head.CanBite && !head.CanUseSword,
+                    "body enables bite after choice releases");
+                Check(head.TryTakeDamage(new DamageRequest(7, DamageKind.Enemy))
+                    && head.TryAddLoadoutItem(LoadoutItemId.Legs) && head.CurrentHealth == 70
+                    && head.WasEverOwned(LoadoutItemId.Legs), "regrowing a part does not reinitialize body health");
+                var history = head.EverOwnedItems;
+                bool readOnly = false;
+                try
+                {
+                    ((ICollection<LoadoutItemId>)history).Add(LoadoutItemId.Arms);
+                }
+                catch (NotSupportedException)
+                {
+                    readOnly = true;
+                }
+                Check(readOnly && head.TryRemoveLoadoutItem(LoadoutItemId.Legs)
+                    && head.Items.Count == 0 && history.Count == 1 && head.WasEverOwned(LoadoutItemId.Legs),
+                    "successful history is read-only and survives losing a part");
+                head.Shutdown();
+                Check(head.Initialize(run) && head.CurrentHealth == 70 && head.HasBodyCore
+                    && head.WasEverOwned(LoadoutItemId.Legs), "head/body lifecycle rebind preserves successful state");
+            }
+            finally
+            {
+                head.Shutdown();
+                Destroy(fixture);
+            }
+        }
+
+        /// <summary>正面原子包验证，不包含代价、挑战或新局重置。</summary>
+        private void VerifyRewards()
+        {
+            var items = state.Items.ToArray();
+            var history = state.EverOwnedItems.ToArray();
+            int hp = state.CurrentHealth;
+            int max = state.MaximumHealth;
+            int bite = state.BiteDamage;
+            int sword = state.SwordDamage;
+            bool consumed = false;
+            bool snapshot = true;
+            Action observer = () =>
+            {
+                snapshot &= consumed && state.CurrentHealth == Math.Min(max + 10, hp + 5)
+                    && state.MaximumHealth == max + 10 && state.BiteDamage == bite + 3 && state.SwordDamage == sword + 3
+                    && state.Items.SequenceEqual(items);
+            };
+            state.HealthChanged += observer;
+            try
+            {
+                Check(state.TryApplyReward(new PlayerReward(heal: 5, maximumHealthIncrease: 10, attackIncrease: 3),
+                    onCommitted: () => consumed = true) && consumed && snapshot,
+                    "combined immediate reward commits owner and all stats before notification");
+            }
+            finally
+            {
+                state.HealthChanged -= observer;
+            }
+            Check(state.Items.SequenceEqual(items) && state.EverOwnedItems.SequenceEqual(history),
+                "immediate effects consume no slot or successful item history");
+            Check(state.TryHeal(int.MaxValue) && state.CurrentHealth == state.MaximumHealth,
+                "new maximum health remains a valid healing bound");
+            int beforeEvents = healthEvents;
+            Check(state.TryApplyReward(new PlayerReward(heal: 5)) && healthEvents == beforeEvents,
+                "full-health positive reward can be accepted without fake health notification");
+            hp = state.CurrentHealth;
+            max = state.MaximumHealth;
+            bite = state.BiteDamage;
+            Check(!state.TryApplyReward(default) && !state.TryApplyReward(new PlayerReward(heal: -1))
+                && !state.TryApplyReward(new PlayerReward(maximumHealthIncrease: int.MaxValue))
+                && !state.TryApplyReward(new PlayerReward(attackIncrease: int.MaxValue))
+                && state.CurrentHealth == hp && state.MaximumHealth == max && state.BiteDamage == bite
+                && state.Items.SequenceEqual(items), "invalid or overflowing packages have no partial writes");
+            Check(!state.TryApplyReward(new PlayerReward(heal: 1), LoadoutItemId.Arms)
+                && state.Items.SequenceEqual(items), "immediate package cannot remove unrelated held item");
+        }
+
+        private static void SetTestField(PlayerState target, string fieldName, object value)
+        {
+            typeof(PlayerState).GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                .SetValue(target, value);
+        }
+
         private void OnHealthChanged()
         {
             healthEvents++;
             eventOrder.Add("HealthChanged");
             snapshotsWereConsistent &= state.CurrentHealth >= 0 && state.CurrentHealth <= state.MaximumHealth
-                && state.IsAlive == (state.CurrentHealth > 0);
-            reentryWasRejected &= !state.TryHeal(1) && !state.TryAddLoadoutItem(LoadoutItemId.Sword);
+                && state.IsAlive == (state.IsInitialized && (!state.HasBodyCore || state.CurrentHealth > 0));
+            reentryWasRejected &= !state.TryHeal(1) && !state.TryTakeDamage(new DamageRequest(1, DamageKind.Enemy));
         }
 
         private void OnLoadoutChanged()
         {
             loadoutEvents++;
             snapshotsWereConsistent &= state.Items.Count <= state.Capacity && state.Items.Distinct().Count() == state.Items.Count
-                && (state.CurrentForm == PlayerForm.Upright) == state.Contains(LoadoutItemId.UprightForm);
-            reentryWasRejected &= !state.TryRemoveLoadoutItem(LoadoutItemId.Sword);
+                && (state.CurrentForm == PlayerForm.Upright) == state.Contains(LoadoutItemId.Arms);
+            reentryWasRejected &= !state.TryRemoveLoadoutItem(LoadoutItemId.Legs);
         }
 
         private void OnFormChanged(PlayerForm form)

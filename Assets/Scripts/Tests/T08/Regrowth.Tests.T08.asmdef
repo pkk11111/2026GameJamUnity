@@ -1,0 +1,1 @@
+{"name":"Regrowth.Tests.T08","rootNamespace":"Regrowth.Tests.T08","references":["Regrowth.Core","Regrowth.Runtime","Regrowth.Audio.Core","Regrowth.Gameplay.Sword","Regrowth.Gameplay.Bite","Regrowth.Gameplay.Combat","Regrowth.Gameplay.EnemyBasic","Unity.InputSystem","Unity.TextMeshPro","UnityEngine.UI","Regrowth.Gameplay.Player"],"autoReferenced":true}

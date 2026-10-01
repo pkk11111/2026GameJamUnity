@@ -3,6 +3,7 @@
     "rootNamespace": "Regrowth.Gameplay.WhiteBox",
     "references": [
         "Regrowth.Core",
+        "Regrowth.Gameplay.Player",
         "Regrowth.Runtime",
         "Regrowth.Audio.Core",
         "Regrowth.Gameplay.SwitchDoor",
