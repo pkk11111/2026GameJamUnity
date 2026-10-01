@@ -1,0 +1,142 @@
+[
+  {
+    "file": "UI_Card_Icon_RestoreBody.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "ff902d566818ea9ddc263b9acf49ddee4e24fc125b17dd632954da39a12693b3",
+    "name": "找回身体"
+  },
+  {
+    "file": "UI_Card_Icon_GrowLegs.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "2396c3f5f561794b1dbe49bc71179fad24e0347f4ba3b12a975f0b5097bef4f7",
+    "name": "长出双腿"
+  },
+  {
+    "file": "UI_Card_Icon_GrowTail.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "fed82f55e4d8e56e2b360766f215d526ae3deec7fd03e3bf64a54932e94a23d7",
+    "name": "长出尾巴"
+  },
+  {
+    "file": "UI_Card_Icon_GrowArms.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "beb4815a79475d350527882dac55f7b1b2b551cc1d3ff0819df6fd8c59c4d566",
+    "name": "长出双手"
+  },
+  {
+    "file": "UI_Card_Icon_GrowFlameTail.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "5f7c724730a53455a67ec29f4c9e268aef90b83527c2a52da532ca35f0407ff0",
+    "name": "长出火焰尾巴"
+  },
+  {
+    "file": "UI_Card_Icon_RestoreHP.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "4659fbeed3f903230ead6daa81aaac9859d8bf30b44cb30843a4a2375d2b20bd",
+    "name": "恢复生命"
+  },
+  {
+    "file": "UI_Card_Icon_MaxHPUp.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "59a1e5d2b873825c6e616b4e69dcbf49f49900af224c74e24eb640079012bb35",
+    "name": "更强的心脏"
+  },
+  {
+    "file": "UI_Card_Icon_AttackUp.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "aedc5773a8b78cdc28f3dada2691f0e576c13ccdfc0a980cb8f4f5f3cf53d327",
+    "name": "强化攻击"
+  },
+  {
+    "file": "UI_Card_Icon_LoseLegs.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "8b1f751a9a9c40e123e786eb8c096a7f4c4a89f9cd367d37e921b5949e279ec2",
+    "name": "舍弃双腿"
+  },
+  {
+    "file": "UI_Card_Icon_LoseTail.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "602cf4b90b12526dc5a50066bb0119e8cde9f6b44016296b140a81c10144a093",
+    "name": "舍弃尾巴"
+  },
+  {
+    "file": "UI_Card_Icon_LoseFlameTail.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "9cf5fa2b92950e76f67d1b8ecb2603abe7f1ca96ff072e8ea49d470e6c4084dc",
+    "name": "舍弃火焰尾巴"
+  },
+  {
+    "file": "UI_Card_Icon_LoseArms.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "06163ca04cd68da266658d8eda7c550a27ffeb1b35c862a76636c028c01019f6",
+    "name": "舍弃双手"
+  },
+  {
+    "file": "UI_Card_Icon_PayHP.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "75a4189c2942caa2d4b8946d924e15f388ffe42150ba1ee18dc11839814994f3",
+    "name": "付出生命"
+  },
+  {
+    "file": "UI_Card_Icon_MaxHPDown.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "73cb807aa23a71edfdca884f7ccdfdcb9fef0829447882b3d1e74589b0d8b8f0",
+    "name": "缩小心脏"
+  },
+  {
+    "file": "UI_Card_Icon_AttackDown.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "e7acd53b8b3b2416a4110c90d0551c34caea849260ba8ed0a6d36c5251065d3a",
+    "name": "削弱攻击"
+  },
+  {
+    "file": "UI_Card_Icon_EnemyHPUp.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "bd61e882adbddb0123f42f519a69c9dd1aaec6985c0b643fe97480c7aa8fab66",
+    "name": "敌人更耐打"
+  },
+  {
+    "file": "UI_Card_Icon_EnemyAttackUp.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "3ab4d743fc979aba6ca3b37dc9bfdbf5579a2e1d70fad8e6a8bb33ebd699a9b7",
+    "name": "敌人更凶猛"
+  },
+  {
+    "file": "UI_Card_Icon_RegrowLegsAndHeal.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "30834dc30c4a270f8143a29e628e27679e95ebadeeb2c11d9cc7e18e7db91a67",
+    "name": "双腿再生＋恢复"
+  },
+  {
+    "file": "UI_Card_Icon_MaxHPUpEnhanced.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "b682d548e18a972feda1df9ccd7eff198da957474850e44355e3274479d853b6",
+    "name": "强化生命奖励"
+  },
+  {
+    "file": "UI_Card_Icon_AttackUpEnhanced.png",
+    "width": 320,
+    "height": 492,
+    "sha256": "a542e3e90e971ee471abf6611d7bec843cbac1ced07a24f4cfc00ea47b908c53",
+    "name": "强化攻击奖励"
+  }
+]

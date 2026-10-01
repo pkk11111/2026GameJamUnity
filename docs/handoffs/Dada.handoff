@@ -1,3 +1,144 @@
+## 2026-10-01 卡牌正文居中与真实交互键提示修正
+
+- 修复来源：CardVisual迁移器仍写入TopLeft，正文因此整体左偏。现在运行时与原生Prefab/ArtTest均使用水平居中，标题Center、正文Top Center，清零不对称margin；保持标题24/正文22、共享局部坐标和根旋转。
+- PlayerHud新增InteractionHintView，显式只读唯一PlayerInteractor的IInteractionState/TargetChanged。底部中央显示32pt高对比`[E] Open chest`或当前目标Prompt；兼容现有`[E]`及`E - ...`前缀，避免重复键名。
+- 提示只随正式可交互目标显示：无目标隐藏，E开Choosing隐藏，Esc取消恢复，离开范围隐藏。没有自行检测距离、消费输入或调用交互/奖励接口。旧白盒调试说明保留。
+- 只做这两项的短Play：实际A走到Chest03，检查提示→E开卡→正文/标题居中→Esc恢复提示→D离开隐藏；未重复奖励、战斗或全图流程。首轮实拍发现源提示已自带[E]，修正去重后复核；最终10项通过、运行Error=0。自动输入不是人工验收。
+- 更新ChoiceCard/PlayerHud、UI_ArtTest、Level中PlayerHud只读绑定、UI表现脚本。原生保存的Tilemap重排不带回正式项目；地形/敌人/事务不变。
+- 原生截图：`docs/art-test/ui-preview/real-integration/Cards_CenteredText.png`、`InteractionHint_NearChest.png`；短检查日志：`docs/art-test/UI_ALIGNMENT_PROMPT_CHECKS.txt`。本轮未commit/push，未全局操控。
+
+## 2026-10-01 Dada：真实UI集成与统一卡牌布局
+
+- 分支Dada；以现场最新origin/Ming `3c0bae7`（C09、规范24/契约11）为业务基线安全快进，保留此前184个未提交文件；同期敌人美术提交 `6f1761b` 及下方交接完整保留。本UI任务没有commit/push。
+- 正式ChoiceCard与UI_ArtTest统一Center框；三个CardRoot仅旋转+4/0/-4，所有Content/Icon/Description/Title局部参数相同。标题24、正文22，无tooltip。正式Prefab归零同内容原生渲染RGB逐字节一致；恢复旋转后子节点参数仍相同。
+- MainMenu真实Start进入Level_Whitebox；PlayerHud常驻三帧GameplayEdgeOverlay使用unscaled时钟。实际A走到Chest03、E开Choosing、导航和Esc取消链通过，Edge没有停或重置。
+- 真实PlayerState驱动HP/身体；9箱实际E/卡片提交覆盖四部件（远箱使用位置夹具），真实Bite/Sword通知、FlameTail奖励后Q、Enemy_06接触HP100→90通过。自动输入证据不冒充人工验收。
+- 初轮Fire动作锁/截图工具清理错误已修正；仅补测剩余22项、运行Error0。遵照用户要求不重复完整Play、多分辨率或全部图标测试。最终编译/原生保存成功；既有编辑器环境诊断记录于详细报告。
+- 修改UI表现脚本/资产、ChoiceCard、PlayerHud、UI_ArtTest和Level四个UI序列化块；保留地形420格及敌人/玩法/奖励事务。ChoiceMenu原Panel/Button/View绑定保留。已有20图标和meta未覆盖。
+- 正式入口Assets/Scenes/Frontend/MainMenu.unity；直接真实测试Assets/WhiteBox/Scenes/Level_Whitebox.unity；视觉入口Assets/Scenes/Tests/Art/UI_ArtTest.unity。出生点向左到Chest03按E。
+- 参数入口CardVisualStyle.asset统一局部布局/24与22pt；边缘帧间隔1.2秒、呼吸8秒。MainMenu/Level构建场景仍待总控登记；不改共享ProjectSettings。
+- 缺口：RestoreBody教程与三种旧增强图标仅预览；swap-tail/通用enter缺唯一图标映射；独立三槽条仍隐藏；Death/Win/完整重开/支线结算UI缺业务闭环。费用/条件门本轮仅映射与代码核对，人工支付/手柄确认待验。
+- 详细映射、17项状态表、已精简文案、截图/日志、用户操作和需程序确认的位置：`docs/art-test/UI_REAL_INTEGRATION.md`。用户后续直接人工检查即可。
+
+## 2026-10-01 Dada：敌人美术同步核对与独立预览（本节纠正旧交接）
+
+- 实际仓库：D:/01STUDY/2026gamejam/2026GameJamUnity。任务开始时Dada为575eff3cca7e8ee4aada662a47e50ec823e32ed4；提交前检测到其他操作已将Dada同步到已发布Ming的3c0bae74cc2d6504ff63ea0261fc622b92cd9d2e，本次提交基于此当前HEAD，未回退或自行合并分支。
+- 已 fetch Ming，实际远端基线为 3c0bae74cc2d6504ff63ea0261fc622b92cd9d2e；已读取本地及最新 Ming 的 AGENTS、VISUAL_STYLE、WORK_PACKAGES、controller.handoff。规范24/源码契约11按本次范围核对，未改共享契约。
+- 纠正旧文“敌人未交付”：575eff3 和当前 Ming 实际都已有以下三张 PNG、三个 Clip 及正确 meta；与用户最新 final 导出逐字节相同。无需覆盖，不创建 _02，不新增 EnemyArt 目录。
+
+源目录：D:/01STUDY/2026gamejam/body/art/Unity_Animation_Export_20261001_162136/final/
+
+| 敌人 | 本地源文件（相对上述源目录） | 正式 Sprite | 正式 Clip | 实际帧数 | 原 PNG GUID（完整保留） |
+|---|---|---|---|---|---|
+| Imp | Imp_Run.png | Assets/Art/Characters/Enemies/Sprites/Imp_Run.png | Assets/Art/Characters/Enemies/Animations/Imp_Run.anim | 3 | aab50c0bca6ca284d913f7984616365c |
+| Hell Bat | Bat_Hover.png | Assets/Art/Characters/Enemies/Sprites/Bat_Hover.png | Assets/Art/Characters/Enemies/Animations/Bat_Hover.anim | 3 | c525022cd2cea694587cefd7c12a7d67 |
+| Satan | Satan_Move.png | Assets/Art/Characters/Enemies/Sprites/Satan_Move.png | Assets/Art/Characters/Enemies/Animations/Satan_Move.anim | 3 | 52739f1a0515ef84197fbe582175e358 |
+
+源文件时间为 2026-10-01 16:21:40–41；同时检查原始单帧目录 Imp、Bat_Hover、Satan_Move 和旧 Unity_SpriteSheets 下 *_01.png。旧条带与最新 final、Dada、Ming 的三个 SHA256 全部一致：
+
+- Imp_Run：ce46f5f04b1a16c32d51b00bb8eba762f94625520b568bc14c9005244a20a4d8
+- Bat_Hover：ca8fa5b5a6f0c099a26edb8e6c2142d505ccdce7c413cae5381f845ac8b58a0e
+- Satan_Move：714e6633af51b6db5c1b3cf516624730279d31dcf1a2954b60f1b4915f1181ef
+
+导入与动画：
+- 三张均1500×500横向条带，按500×500从左到右切3帧，保留原透明边缘与纸白区域；Sprite (2D and UI) / Multiple / Compression None / Alpha Is Transparency；100 PPU，中心 Pivot。
+- 原 PNG、PNG meta、Clip、Clip meta 全部未改；PNG GUID、Clip GUID和Sprite内部ID均保持。Clip当前8 FPS、0.375秒、Loop Time开启，key时间0/0.125/0.25秒，均引用当前导入Sprite子资源，无 Missing Sprite。速度可在 Unity Animation 窗口的 Samples 调整；预览Controller的Loop状态Speed也可调，退出Play后保存。
+- 仅原有Run/Hover/Move循环；未新增Attack/Hurt/Death，也未使用GIF作为Unity资源。
+
+本次新增：
+- Assets/Scenes/Tests/Art/EnemyVisual_ArtTest.unity（及meta），独立三敌人预览，不加入Build Settings。
+- Assets/Scenes/Tests/Art/EnemyPreview/：三份仅供预览的Controller和三份Unlit材质及meta，显式绑定上述原Clip与PNG。
+- Assets/Scripts/Tests/Art/Editor/EnemyVisualArtChecks.cs（及meta）：复用现有Editor程序集。菜单 Tools/pawgatory/Enemy Art/Open Preview；Run Checks (Play)可复现检查。场景使用内置SpriteRenderer/Animator，参数、材质、Clip、布局均保存在Unity资产中。
+- docs/art-test/ENEMY_ART_CHECKS.txt：本次Unity实际检查结果。
+
+验证：Unity6000.2.9f1在已有隔离测试项目运行；100项编辑态检查和49项Play检查通过。包括三组连续1→2→3循环、原始尺寸、调速、无Missing Sprite、保存关闭重开后持久引用、未加入Build Settings。新预览首轮截图暴露共享材质串图与文字位置问题，已改为明确绑定各自贴图的预览材质并修正布局；最终截图确认三组各显示自己的素材。测试期间未操作用户打开的Dada编辑器。
+
+Console：敌人预览Play期间无新增Error/Exception/Assert。隔离项目启动仍有既有Unity.Collections缓存缺失DLL及许可连接诊断，本次未改Packages/Library或音频，不把整个项目启动日志称为零错误。没有进行主图整局或Windows构建。
+
+Git/LFS：PNG由既有LFS规则跟踪，meta为普通Git文件。已使用全新LFS缓存从origin/Ming实际下载三对象，重新算SHA256全部匹配，证实远端对象完整；git lfs logs last无错误记录。当前证据不支持“图片上传失败”，旧交接记录不准确。此次没有新的PNG对象待传，新增预览与记录随独立提交交付。
+
+同步：用户后续明确要求尽快push，已授权推送Dada；提交信息 Art: sync enemy animation assets。仅stage本节和上述敌人预览/检查文件，原有UI/HUD/卡牌改动继续保留为未提交，不纳入本次。推送结果与SHA以本次最终回执为准；不push Ming、不merge整个Dada。Ming fetch后仅 cherry-pick 本次敌人美术提交；它的基线已含三组正式PNG/Clip。
+
+未决定：Imp/Bat/Satan与真实EnemyBasic种类、普通/精英、AI的表现映射尚未指定。最新Ming主图仍使用占位视觉；本次未修改EnemyBasic、AI、碰撞、伤害、主图或任何玩法绑定。
+
+---
+
+# Dada / 20张卡图与真实选项视觉 — 2026-10-01
+
+- 基线Dada/575eff3，保留全部既有未提交内容；没有stage/commit/push/fetch/merge或全局电脑控制。
+- 实际扫描20 PNG，均320×492/RGBA8；源manifest SHA256全部吻合。原名原字节导入Assets/Art/UI/Cards/Icons/，Unity原生生成meta，无项目外运行引用。
+- 统一正面Center框，根+4/0/-4旋转；Frame/Icon/DescriptionText/TitleBannerText/Glow均为同根直接子节点、局部旋转0。标题24/正文22，固定锚点，无Tooltip。20份简短文案见CARD_ICONS_INTEGRATION.md。
+- CardPresentationCatalog显式映射：legs/arms/tail/heal/max-health/attack六个真实奖励；201/202/203/204四个替换旧部件ID。源描述精确匹配才精简，未来原文改变时保留新语义。swap-tail缺旧尾类型，留空图标并给通用短文案。
+- ChoiceCardView只补表现字段/Bind显示适配，回传ID、Button/监听/确认/Cancel不变。ChoiceMenu原cardPrefab引用自动使用新视觉；ChoicePanel、全部Gameplay/Core/奖励配置/输入/PlayerHud/Level本轮字节未改。
+- ArtTest保留原场景，新增Prev/Next icons；Live copy与4-line sample，全部旧页面/高光/身体/HP/边缘/walk/灰态/卡数量控件保留。
+- Unity6000.2.9f1隔离副本保存重开Play：3884断言通过，新增运行错误0；20图标×三列、7分辨率、固定文字/边界、两真实配置映射、未知ID/文案变化回退、实际ChoiceCard ID回传、持久按钮；真实E箱子链路、7箱取消、鼠标/键盘/虚拟手柄选择与确认、Edge连续。
+- 6图标在当前地图真实奖励中可触发；4个Lose替换图标已接组件但当前池无第四新部件入口；其他10个仅图库，缺教学/喷火/费用/支线正式ID或接口。没有擅自增加池项、改变移动速度或奖励数值。
+- 缺项/完整对应/20份文案/检查入口：docs/art-test/CARD_ICONS_INTEGRATION.md。当前检查UI_CARD_ICON_CHECKS.txt，预览ui-preview/cards-icons/。已目视审查原生Canvas渲染；世界背景未纳入RealChoice截图，实体手柄与最终审美待用户。
+- 本轮只同步验证过的UI文件；原字体资产的Unity动态缓存变化未发布。所有原meta/GUID、原Button组件和业务引用保持；原编辑器不关闭。
+
+---
+以下为历史记录，当前卡框/图标/映射和文案以本轮顶部及CARD_ICONS_INTEGRATION.md为准。
+
+# Dada / UI卡面正文与真实功能接入 — 2026-10-01
+
+本轮以用户最新要求替代上一轮Tooltip方案；Dada/575eff3，保留已有未提交资产。未stage/commit/push/fetch/merge。读取本地AGENTS15、VISUAL_STYLE/三张参考及Ming美术副本19的§10.4；不改公共规则。
+
+- 原UI_ArtTest继续修改：标题24pt固定牌匾、正文22pt直接显示；删除Tooltip、锚点及过期预览。标题/正文继承CardRoot旋转，无AutoSize、LayoutGroup或ContentSizeFitter。共享CardVisualStyle可调。
+- Login三边缘改0.8秒/帧；两套呼吸8秒，Gameplay继续真实UI_HUD_Edge单图；会话内HUD/Edge常驻，Choice为Modal。主界面使用现有Dog2_Move_Sword三帧/8fps，不新增图片或恢复空手角色。
+- 已接入原PlayerHud/ChoiceMenu/ChoiceCard Prefab及Level_Whitebox。保留原Button/ChoicePanel/ChoiceCardView和文字业务引用，三个业务源码均未改，全部旧资产GUID保留。正式UI引用独立Regrowth.UI.Art程序集，未引用Tests；CardVisual/GlobalEdgeAnimator移动时保留脚本GUID。
+- PlayerHud仍读取原生命/构筑源，新增BodyHudArt只读同一PlayerState事件。HP骨头条/黑色数字、身体状态图、手剑同得同失，Tail显示Dash，Flame来源显示Fire。旧槽位读数引用保留在隐藏LegacyReadout。主场景只接BodyHudArt状态源与Choice排序，地图/碰撞/箱子/输入/奖励事务不变。
+- 新增测试按钮Normal/Long text、1/3 card、Walk play/pause、Cards enabled/disabled，保留原全部测试控件。Start Game仍只切ArtTest，不宣称正式主菜单启动。
+- Unity6000.2.9f1隔离副本保存/重开/实际Play：916项通过，新增运行错误0。七分辨率ArtTest三页/真实Choice渲染、标题稳定、长文案、灰态、单卡、原生Raycast；实际虚拟键盘E→交互器→Chest→Coordinator→Choice，键盘/手柄导航和Enter/South确认、指针点击提交、Cancel/Esc无状态副作用且候选缓存不变，7箱接线检查。
+- 修正验证编辑器失焦下的输入路由：只使用临时InputSettings副本和Unity虚拟设备，不修改项目设置。修正HUD克隆时继承测试分辨率缩放及Dash浮动位置；灰态CanvasGroup持久化并隐藏禁用高光。先前失败检查不算交付通过。
+- 无全局键鼠控制；用户原编辑器保持打开。截图是实际Canvas渲染、世界背景省略；实体手柄和用户侧视觉审查仍待用户。既有编辑器包DLL/许可客户端启动提示不归为新增运行错误。
+- 缺项：正式卡牌插画/稳定ID表现映射；正式灰卡原因与生命预览接口；喷火实际攻击/发放入口（状态显示分支已覆盖）；正式登录启动流程；地图教学入口。本轮不伪造或加入奖励池。右倾Glow镜像/旋转可用，是否补专用左右/中心与按钮态请美术决定。
+- 详细操作、完整文件清单、Inspector参数、A/B/C缺项和程序沟通建议：docs/art-test/UI_ART_TEST.md。检查UI_ART_CHECKS.txt，当前预览ui-preview/。
+
+---
+以下为历史交付记录；Tooltip方案已由本轮撤销，当前状态以顶部与UI_ART_TEST.md为准。
+
+# Dada / UI Art Test 第2轮 — 2026-10-01
+
+本轮在现有未提交UI模块继续修改，仍未stage/commit/push。基线Dada575eff3；读取本地规范15/VISUAL_STYLE，并复核本地Ming美术副本规范19的§10.4；未fetch或更新公共规则。
+
+- 原UI_ArtTest场景GUID保留，108个既有GameObject标识保留；只移除3条迁移为Tooltip的卡面Description。没有重做场景、导入新PNG或重复字体。
+- 新增GlobalEdgeAnimator/CardVisual/CardTooltip；更新UIArtPreview、Editor/UIArtRevision、UIArtSetup、UIArtChecks及场景。旧Build入口改为原地迁移，已迁移场景不会重复包装。
+- 用户最新修正已落实：PageRoot内LoginPreview拥有独立LoginEdge；GameplayRoot内HUDPreview与GameplayEdge常驻，ChoiceModal覆盖其上。Gameplay使用原UI_HUD_Edge单帧连续呼吸，Login使用三帧0.15秒循环。只有开始新游戏会话才初始化Gameplay时钟，开关Choice/Close/HUD按钮不重置。
+- 为避免全局边框遮挡原位置HP/Body，局部Canvas绘制顺序：背景0、各自Edge10、HP/Body20、ChoiceModal30、Tooltip40、TestControls50。Cards遮罩仍压暗背景HUD，控件/Tooltip不会被边框盖住。
+- HP黑色、无描边，仍独立于Filled裁切；复用Assets/Art/UI/Common/CascadiaMono_UI_SDF.asset，卡标题与Tooltip同字体。
+- 三卡为旋转CardRoot+CardVisual，左+4/中0/右-4；Title/Art继承根旋转，仅Frame补偿已有PNG烘焙倾斜。每卡自己的Glow在Frame后，左Glow镜像，只有选中卡显示。
+- 描述迁至独立TooltipLayer。PointerEnter/Exit、Select/Deselect均有效；切页/停用清理；旧卡Exit不关闭新卡提示。提示自动换行、限屏幕边界、避开真实标题文字及当前插画；Graphic与CanvasGroup均不挡Raycast。
+- 最终Unity6000.2.9f1隔离副本实际保存/重开/Play：2394项通过，运行错误0。七尺寸×三页、七尺寸×三卡Tooltip；实测Gameplay开关Modal相位连续、Login生命周期独立、旧交互保留、黑色HP六档、卡根/标题旋转、光效排序、Hover/Focus与原生Raycast。
+- 按最新要求分离Login/Gameplay生命周期；修复角落HUD排序和Tooltip过度避让。失活Canvas的排序设置改为临时激活接线后恢复，并验证重开引用/排序。一次短墙钟采样被首次Shader准备占用，改用实际Play累计时间和实际Sprite采样后复测；此处不沿用失败结果宣称通过。
+- 保留所有其他现有未提交文件，20PNG/字体/.meta/生产业务资产不变；没有全局键鼠控制。既有Unity包缓存/许可客户端启动提示仍单列，新增模块运行错误为0。
+- 仍待视觉确认：左右4度倾斜、全局边缘节奏、黑色HP、Tooltip样式/位置、右倾Glow镜像和旋转是否足够（专用左右版本未补）。卡牌插画和登录角色仍占位，正式Choice业务未接。
+- 详细操作/参数：docs/art-test/UI_ART_TEST.md；证据UI_ART_CHECKS.txt与ui-preview/。
+
+---
+以下为此前交付记录，层级与参数以本轮及UI_ART_TEST.md为准。
+
+# Dada / UI Art Test — 2026-10-01
+
+## 本轮 UI 美术交付（未提交，待用户视觉检查）
+
+- 基线 Dada `575eff3cca7e8ee4aada662a47e50ec823e32ed4`；不 fetch、merge、切分支、stage、commit 或 push。
+- 读取当前 AGENTS、VISUAL_STYLE、WORK_PACKAGES、controller.handoff；本地规范15与此前已核对的 Ming 规范19美术边界保持一致。此条不代表更新源码契约或公共规范。
+- 扫描34 PNG，导入20张真实UI图，14张参考预览不进Assets。资源 `Assets/Art/UI/{Login,HUD,Cards,Common}`；Cascadia Mono 与内嵌许可一起保留，TMP SDF与黑描边材质。
+- 场景 `Assets/Scenes/Tests/Art/UI_ArtTest.unity`。菜单 `PAWGATORY > UI Art > Open test scene`，Play 后右上 TEST CONTROLS 切三页、三种登录边框、边缘动效、HP、身体、卡牌选择及Overlay对比。
+- 代码 `Assets/Scripts/Tests/UIArt/`；独立表现状态不写PlayerState/Loadout/Choice事务/HP玩法/Reward/Cost/TimeScale，不消费gameplay输入。只引用既有UI actions，不修改InputSystem_Actions。
+- Unity原生导入与生成；PNG保留名称/尺寸/字节/透明边，Single/FullRect/Bilinear/None/NoMip。全部新Asset及目录配对meta，无GUID重复，原有共享引用可解析。9-Slice未设置。
+- Unity6000.2.9f1隔离副本实际保存、关闭、重开、EnterPlaymode：960项通过，运行错误0；七种尺寸×三页原生Canvas渲染，五个要求分辨率+4:3/超宽。PNG/native 80% Overlay逐像素一致，默认native。
+- 测试覆盖原生按钮/卡片/Toggle指针事件、Slider导航、HP六档、32组身体输入、尾/火尾互斥、三图循环与HUD呼吸随时间变化、正文边界、序列化引用。交付文件与验证副本一致。
+- 原编辑器保持打开；无全局键鼠控制。启动日志仍有既有Unity.Collections测试DLL缺失/许可客户端提示；不声称整个项目日志零错误。
+- 生产PlayerHud/ChoiceMenu/ChoiceCard、正式Level、角色动画模块、ProjectSettings、Packages、Wwise、他人handoff均保持原样。只新增UI自有文件并更新本handoff。
+- 缺正式卡牌中心插画/登录角色动画，以明确占位显示；没有引入已删除的空手角色。选中光效只有右倾版，左/中原图平移待审；字体字重、描边、动效、HUD位置、非16:9边缘及4K放大待用户确认。
+- 可迁移Sprite、字体、相对布局、HP填充和卡牌视觉层；正式状态/事务接线及生产Prefab由下一轮承担。本轮未创建Variant。
+- 完整定位参数、素材清单、测试说明、截图：`docs/art-test/UI_ART_TEST.md`、`UI_ART_INVENTORY.md`、`UI_ART_CHECKS.txt`、`ui-preview/`。
+
+---
+
+## 以下保留上一轮主角动画交付记录
+
 # Dada / Player Visual Art
 
 更新：2026-10-01。任务：主角美术资源与独立 Art Test 交付；正式 gameplay 未接。

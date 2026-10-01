@@ -1,0 +1,156 @@
+Unity 6000.2.9f1 - isolated enemy preview
+
+EDIT / IMPORT / SAVE AND REOPEN
+100 passed / 0 failed
+PASS Imp_Run original PNG GUID retained
+PASS Imp_Run Sprite / Multiple
+PASS Imp_Run uncompressed / alpha transparency
+PASS Imp_Run imported full 1500 x 500, three frames
+PASS Imp_Run untrimmed frame 1
+PASS Imp_Run frame scale/pivot 1
+PASS Imp_Run untrimmed frame 2
+PASS Imp_Run frame scale/pivot 2
+PASS Imp_Run untrimmed frame 3
+PASS Imp_Run frame scale/pivot 3
+PASS Imp_Run loop enabled
+PASS Imp_Run 8 fps / 0.375 s
+PASS Imp_Run sprite-only animation, no gameplay events
+PASS Imp_Run SpriteRenderer binding
+PASS Imp_Run three live Sprite keys
+PASS Imp_Run current Sprite subresource / left-to-right key 1
+PASS Imp_Run current Sprite subresource / left-to-right key 2
+PASS Imp_Run current Sprite subresource / left-to-right key 3
+PASS Bat_Hover original PNG GUID retained
+PASS Bat_Hover Sprite / Multiple
+PASS Bat_Hover uncompressed / alpha transparency
+PASS Bat_Hover imported full 1500 x 500, three frames
+PASS Bat_Hover untrimmed frame 1
+PASS Bat_Hover frame scale/pivot 1
+PASS Bat_Hover untrimmed frame 2
+PASS Bat_Hover frame scale/pivot 2
+PASS Bat_Hover untrimmed frame 3
+PASS Bat_Hover frame scale/pivot 3
+PASS Bat_Hover loop enabled
+PASS Bat_Hover 8 fps / 0.375 s
+PASS Bat_Hover sprite-only animation, no gameplay events
+PASS Bat_Hover SpriteRenderer binding
+PASS Bat_Hover three live Sprite keys
+PASS Bat_Hover current Sprite subresource / left-to-right key 1
+PASS Bat_Hover current Sprite subresource / left-to-right key 2
+PASS Bat_Hover current Sprite subresource / left-to-right key 3
+PASS Satan_Move original PNG GUID retained
+PASS Satan_Move Sprite / Multiple
+PASS Satan_Move uncompressed / alpha transparency
+PASS Satan_Move imported full 1500 x 500, three frames
+PASS Satan_Move untrimmed frame 1
+PASS Satan_Move frame scale/pivot 1
+PASS Satan_Move untrimmed frame 2
+PASS Satan_Move frame scale/pivot 2
+PASS Satan_Move untrimmed frame 3
+PASS Satan_Move frame scale/pivot 3
+PASS Satan_Move loop enabled
+PASS Satan_Move 8 fps / 0.375 s
+PASS Satan_Move sprite-only animation, no gameplay events
+PASS Satan_Move SpriteRenderer binding
+PASS Satan_Move three live Sprite keys
+PASS Satan_Move current Sprite subresource / left-to-right key 1
+PASS Satan_Move current Sprite subresource / left-to-right key 2
+PASS Satan_Move current Sprite subresource / left-to-right key 3
+PASS independent enemy preview scene active
+PASS Enemy Preview Camera no Missing Script
+PASS Title no Missing Script
+PASS Imp_Run no Missing Script
+PASS Imp_Run Label no Missing Script
+PASS Imp_Run Info no Missing Script
+PASS Bat_Hover no Missing Script
+PASS Bat_Hover Label no Missing Script
+PASS Bat_Hover Info no Missing Script
+PASS Satan_Move no Missing Script
+PASS Satan_Move Label no Missing Script
+PASS Satan_Move Info no Missing Script
+PASS Footer no Missing Script
+PASS Imp_Run saved first Sprite
+PASS Imp_Run saved original Clip reference
+PASS Imp_Run native presentation only / unchanged scale
+PASS Bat_Hover saved first Sprite
+PASS Bat_Hover saved original Clip reference
+PASS Bat_Hover native presentation only / unchanged scale
+PASS Satan_Move saved first Sprite
+PASS Satan_Move saved original Clip reference
+PASS Satan_Move native presentation only / unchanged scale
+PASS preview scene saved
+PASS independent enemy preview scene active
+PASS Enemy Preview Camera no Missing Script
+PASS Title no Missing Script
+PASS Imp_Run no Missing Script
+PASS Imp_Run Label no Missing Script
+PASS Imp_Run Info no Missing Script
+PASS Bat_Hover no Missing Script
+PASS Bat_Hover Label no Missing Script
+PASS Bat_Hover Info no Missing Script
+PASS Satan_Move no Missing Script
+PASS Satan_Move Label no Missing Script
+PASS Satan_Move Info no Missing Script
+PASS Footer no Missing Script
+PASS Imp_Run saved first Sprite
+PASS Imp_Run saved original Clip reference
+PASS Imp_Run native presentation only / unchanged scale
+PASS Bat_Hover saved first Sprite
+PASS Bat_Hover saved original Clip reference
+PASS Bat_Hover native presentation only / unchanged scale
+PASS Satan_Move saved first Sprite
+PASS Satan_Move saved original Clip reference
+PASS Satan_Move native presentation only / unchanged scale
+PASS preview excluded from Build Settings
+
+PLAY / LOOPS / SPEED / ERRORS
+49 passed / 0 failed
+PASS Imp_Run cycle 0 frame 1
+PASS Imp_Run cycle 0 frame 2
+PASS Imp_Run cycle 0 frame 3
+PASS Imp_Run cycle 1 frame 1
+PASS Imp_Run cycle 1 frame 2
+PASS Imp_Run cycle 1 frame 3
+PASS Imp_Run cycle 2 frame 1
+PASS Imp_Run cycle 2 frame 2
+PASS Imp_Run cycle 2 frame 3
+PASS Imp_Run cycle 3 frame 1
+PASS Imp_Run cycle 3 frame 2
+PASS Imp_Run cycle 3 frame 3
+PASS Imp_Run half speed holds frame 1
+PASS Imp_Run speed change advances frame 2
+PASS Bat_Hover cycle 0 frame 1
+PASS Bat_Hover cycle 0 frame 2
+PASS Bat_Hover cycle 0 frame 3
+PASS Bat_Hover cycle 1 frame 1
+PASS Bat_Hover cycle 1 frame 2
+PASS Bat_Hover cycle 1 frame 3
+PASS Bat_Hover cycle 2 frame 1
+PASS Bat_Hover cycle 2 frame 2
+PASS Bat_Hover cycle 2 frame 3
+PASS Bat_Hover cycle 3 frame 1
+PASS Bat_Hover cycle 3 frame 2
+PASS Bat_Hover cycle 3 frame 3
+PASS Bat_Hover half speed holds frame 1
+PASS Bat_Hover speed change advances frame 2
+PASS Satan_Move cycle 0 frame 1
+PASS Satan_Move cycle 0 frame 2
+PASS Satan_Move cycle 0 frame 3
+PASS Satan_Move cycle 1 frame 1
+PASS Satan_Move cycle 1 frame 2
+PASS Satan_Move cycle 1 frame 3
+PASS Satan_Move cycle 2 frame 1
+PASS Satan_Move cycle 2 frame 2
+PASS Satan_Move cycle 2 frame 3
+PASS Satan_Move cycle 3 frame 1
+PASS Satan_Move cycle 3 frame 2
+PASS Satan_Move cycle 3 frame 3
+PASS Satan_Move half speed holds frame 1
+PASS Satan_Move speed change advances frame 2
+PASS Imp_Run real Play covers all frames and multiple loops: 1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2
+PASS Imp_Run rendered size within original 500 px canvas at 100 PPU
+PASS Bat_Hover real Play covers all frames and multiple loops: 1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2
+PASS Bat_Hover rendered size within original 500 px canvas at 100 PPU
+PASS Satan_Move real Play covers all frames and multiple loops: 1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2
+PASS Satan_Move rendered size within original 500 px canvas at 100 PPU
+PASS no new Console Error/Exception/Assert during Play: 

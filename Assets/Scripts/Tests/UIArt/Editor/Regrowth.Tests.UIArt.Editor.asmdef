@@ -1,0 +1,25 @@
+{
+  "name": "Regrowth.Tests.UIArt.Editor",
+  "rootNamespace": "Regrowth.Tests.UIArt.Editor",
+  "references": [
+    "Regrowth.Tests.UIArt",
+    "UnityEngine.UI",
+    "Unity.TextMeshPro",
+    "Unity.InputSystem",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Regrowth.UI.Art",
+    "Regrowth.UI.Choice",
+    "Regrowth.UI.Hud",
+    "Regrowth.Runtime",
+    "Regrowth.Core",
+    "Regrowth.Gameplay.Chest",
+    "Regrowth.Gameplay.Bite",
+    "Regrowth.Gameplay.Sword",
+    "Regrowth.Gameplay.Fire",
+    "Regrowth.Gameplay.EnemyBasic"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}

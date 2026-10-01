@@ -1,5 +1,9 @@
 # pawgatory 统一开发规范与游戏契约
 
+> 最新 C12（2026-10-01）：用户随后明确授权顶层精英使用精英动画、其他自行选普通怪动画。已在当前主图接14只：Elite_Exit→Dada Satan_Move，Enemy_01–13→Imp_Run；均原3帧/8FPS，保留原Sprite GUID及纸白素材。新增只读EnemySpritePresentation，纯视觉EnemyArt子节点按原碰撞尺寸缩放，按实际横向速度翻面，非Playing冻结、死亡隐藏；不改AI/生命/攻击/巡逻边界/根位置/物理。Unity编译和短Play显示/死亡隐藏检查通过、Console错误0，已Stop还原。未全套测试/导出/commit/push；C11敌人暂缓记录已由本轮完成替代。
+
+> 最新 C11（2026-10-01）：按用户授权从 Dada/416de1c 选择性接入 HUD/血条/身体图、卡牌框/20图标/字体、常驻边框及 InteractionHintView；在当前 Ming/794b6b3 主图原生接线，玩法/收费/数值/地图以本地为准。隐藏 WhiteboxOverlay 的左下调试文字，保留组件的 Esc 暂停。敌人映射按用户最新回复暂不处理；Dada 仅有独立预览，未自定主图动画。Unity 编译及必要短检查完成：当前宝箱交互→三卡→取消/提示恢复、HP100→90及fill0.9正确，Console错误0；未跑全套/导出。未commit/push。详情见 docs/handoffs/dada-ui-integration.handoff。
+
 > 最新 C10（2026-10-01）：按用户授权合入 Level/d1f9830 的美术、9处靠近提示及场景增量；当前 Ming/3c0bae7 的敌人/收费/火焰/数值保留，未提交合并。主场景冲突在Unity内按共同基线逐对象接入18棵新增对象树、既有视觉/位置及31处Tile变化；保留Ming敌人出生标记和用户人物碰撞尺寸1.6666667、表现worldScale=0.7。宝箱9实例与共享Prefab绑定关闭IMG_5506_0、打开IMG_5505_0；Chest.IsOpen记录本局首次成功交互；E交互被接受即吐舌头，此后取消或领取均保持打开，取消仍不消费奖励。已移除主图81格黄色Tile_Chest占位，9箱贴图排序12以显示在前景之上。Hint_enemy的F改为当前Q/右键；Level单门条带动画接线清除冲突的closedView绑定。目标Unity编译/Play宝箱聚焦检查23通过0失败，Console错误0，保存重载9箱绑定及提示引用检查通过；未跑全套回归/整局/Windows。详见 docs/handoffs/level-review.handoff。
 
 

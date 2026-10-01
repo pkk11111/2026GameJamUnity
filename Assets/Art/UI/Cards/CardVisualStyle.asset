@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c09e6a210cf42ea88555077fc2bc500, type: 3}
+  m_Name: CardVisualStyle
+  m_EditorClassIdentifier: Regrowth.UI.Art::Regrowth.UI.Art.CardVisualStyle
+  frame: {fileID: 21300000, guid: cbb00b95d2cb08041889ebb0f839fe96, type: 3}
+  size: {x: 415, y: 614}
+  rootAngles: {x: 4, y: 0, z: -4}
+  titlePosition: {x: 0, y: -220}
+  descriptionPosition: {x: 0, y: -119}
+  titlePointSize: 24
+  descriptionPointSize: 22
+  titleSize: {x: 280, y: 58}
+  iconPosition: {x: 0, y: 45}
+  iconSize: {x: 280, y: 430.5}
+  descriptionSize: {x: 280, y: 108}
+  glowPosition: {x: 3.5, y: 31}
+  glowSize: {x: 538, y: 656}
