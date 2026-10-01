@@ -1,6 +1,24 @@
-# Soap · T12 / T02 HUD / T03 SwitchDoor / T06 / T01
+# Soap · T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
 
-## T12 最新验证（2026-10-01，等待实体输入补验）
+## T07 最新摘要（2026-10-01，Australia/Sydney）
+
+- **T07 基础攻击机制自动独测通过，攻击许可规则待策划冻结；实体输入待补验。** 未集成、未宣称第一阶段通过。用户本轮新指令覆盖文档中的具体攻击许可设计，Bite不判断姿态/卡牌/视觉，只消费IPlayerCombatState.CanBite；Core/Runtime/PlayerState均未修改。真实Upright回归仅表示当前基线行为，待总控更新后复验。
+- 基线：git fetch origin Ming Soap后，Soap/HEAD/origin/Soap=`fe92dfdae57dad9844b8a3c367c89c392b2b5ebf`，起始工作区干净；origin/Ming=`649451f0b05e3be70afda2ae52c2265081fde831`，只读最新AGENTS/WORK_PACKAGES T07/controller，规范10/契约6。不merge/reset/stash/commit/push/stage。
+- 文件：本轮35个T07新增文件（包括目录及资产meta），正式Gameplay/Bite：PlayerBiteAttack.cs、BiteConfig.cs、Regrowth.Gameplay.Bite.asmdef；Tests/T07：T07DamageDummy.cs、T07CombatFixture.cs、T07SmokeDriver.cs、测试asmdef、Editor/T07SceneSetup.cs及Editor asmdef。资产：Configs/Bite/BiteConfig.asset、Prefabs/Bite/BiteMount.prefab、Prefabs/Tests/T07/T07SmokeRig.prefab及T07DamageDummy.prefab、Scenes/Tests/T07/T07_Smoke.unity。全部meta配对；场景未加入Build Settings。唯一修改既有文件为本handoff，补T12用户确认并追加T07。
+- 场景装配：从T06SmokeRig副本解包，仅在新T07资产移除T06测试驱动，保留一套真实RunController/PlayerInputReader/GameBootstrap/PlayerState/Rigidbody2D/PlayerLocomotion；新增PlayerBiteAttack挂同一玩家根。inputSource→唯一Reader、combatStateSource→同一真实PlayerState、biteOrigin→玩家子锚点、config→BiteConfig.asset。唯一EventSystem/InputSystemUIInputModule复用既有InputSystem_Actions及T03持久UI references，十项引用齐全，未改这些共享资产。新增T07 Floor、双Collider靶子、Camera、Tests UI。普通WwiseGlobal由已有Integration自动创建，未做Wwise安装/改配置。
+- Inspector：BiteConfig半径1.2、间隔0.6游戏秒、Default LayerMask、includeTriggers=true均为可调测试默认值；damage只读PlayerState（本测试Rig initialBiteDamage=13），不存于BiteConfig。锚点local x=0.65为测试范围定位，不发布facing规则；Sprite/颜色/布局/TMP在测试Prefab，后续表现调整锚点及子视图即可。BiteMount保留锚点和Config，跨场景input/combat为空；总控须把攻击组件接到唯一玩家根并显式绑定，不整体复制Smoke Rig造成第二套Runtime。
+- 正式攻击链：InputSystem→PlayerInputReader.Update缓冲→PlayerBiteAttack.FixedUpdate唯一TryConsumeAttack→cooldown/CanBite→PlayerBite一次→Physics2D.OverlapCircle→最近祖先IDamageable→命中前重查CanBite/BiteDamage→TryTakeDamage。HashSet<IDamageable>按接收实体每次动作去重，跳过玩家子Collider/自身状态接收者；没有动画伤害入口、运动写入、时间倍率写入或第二份状态。DamageRequest使用现有DamageKind.Enemy合法combat分类，当前契约没有PlayerAttack分类，未扩枚举。伤害<=0不创建Request。
+- 冷却从实际动作开始计算Time.timeAsDouble游戏秒；请求先消费，冷却/权限拒绝不排队，暂停不推进冷却。miss也只发一次既有AudioCue.PlayerBite；拒绝不发。音频后端抛异常时本组件带上下文Warning并继续伤害，未实现/验证真实Wwise声音、不写Event字符串。
+- Unity6000.2.9f1实际编译、保存Prefab/Config/Scene、Load Scene磁盘重载、Play鼠标点击Run T07 Checks：第一轮30 passed / 0 failed；补参数专项后保存Camera并重载，再完整Play **33 passed / 0 failed**。自动Attack全部用Tests内Keyboard设备状态事件经真实Reader，未直接调用Bite执行函数。测试范围：真实13伤害/Request来源分类、多Collider只扣一次、自伤排除、PlayerBite一次、快连击拒绝/冷却后不补打/新请求恢复、miss、外部CanBite false/true、0伤害、开始后权限变化再次拒绝命中、故障音频后端不阻断、当前Upright读口回归、Paused恢复长按不补打、Choosing输入不累积、四种缺引用安全拒绝、真实Dead。另做T06真实D移动与Space单跳短回归通过。
+- 参数验证：Play仅克隆Config到Tests运行对象，缩小Radius导致miss，关闭includeTriggers跳过靶子，LayerMask排除Default靶子，恢复持久配置后继续回归；没有污染保存Config或真实状态。可控combat fixture仅在Play临时创建并销毁，未保存到正式场景/Prefab，也不代替正式PlayerState。
+- 本轮修复：首次使用错误音频命名空间导致CS0234，已改为实际Regrowth.Audio并重新Unity编译通过；测试字段audio隐藏Component.audio的警告已通过字段改名解决。T06副本Camera缺URP additional data告警只在T07 Prefab补齐，保存后第二轮未再出现，T06原资产未改。没有共享业务Bug修改。
+- Console：最终Play面板Error=0；本轮最终C#编译Error/Missing Script/T07 gameplay Error均0。预期缺引用四次上下文Warning及故障音频替身Warning保留；Unity Account API Warning已知。编辑器域重载/退出Play仍曾报告范围外Wwise Cannot find ProjectInfo.json at Assets/StreamingAssets/Audio/GeneratedSoundBanks，不声明项目全流程Console Error=0，不修Wwise/Packages/Bank。没有手动Clear冒充通过。
+- 手测未验：需要用户新鲜Play（自动检查默认关闭），A/D走近靶子，实体左键或Enter查看Dummy HP/HitCount变化及快速连点cooldown。Current Form Toggle只通过真实Commands演示当前基线外部权限，不是冻结设计；按Pause及TEST Die可观察当前正式状态锁。自动验收最终停在Dead，必须Stop→Play重启后手测。本轮验证后已退出Play、场景已保存。
+- 集成/未完成：许可规则待策划/总控冻结更新后最终复验；实体左键/Enter/Gamepad尚未认证；主地图/正式动画朝向/音频Bank/Windows导出未验证，不启动T08/T09。总控集成时保证唯一Attack消费者、同一PlayerState端口、目标Layer/Trigger策略和玩家根接线；动画不得再次提交伤害。两份允许Wwise本机漂移不纳入T07、不restore/stage；当前Git未见它们或其他范围外改动。
+
+## T12 最新验证（2026-10-01，独测通过、未集成）
+
+- **T12 独测通过，未集成。** 用户在T07派发中补充确认最终手测：实体E打开Chest、实体鼠标卡片选择、鼠标Cancel、取消后重开、PlayerState真实写入及T02 HUD联动均通过；自动回归41 passed / 0 failed。以下等待实体输入记录保留为当时历史状态，已由本确认补齐。已知Wwise ProjectInfo/Bank Error仍为范围外音频环境问题，不声明整个项目Console Error=0。
 
 - 基线：起始 Soap/origin/Soap `8d23453ff59a93f34dd6edd30ab2f31fcbdb71c4`，按此前授权合入 Ming/e7ef271 无冲突，HEAD `275498d1bdaa9545a98cdce4c34b0a426395c0d1`。最新只读核对 origin/Ming `649451f0b05e3be70afda2ae52c2265081fde831`（换对话框），规范10/公共契约6，T12无不兼容变化。脏工作区没有再次merge，没有commit/push/stage。
 - 文件：保留全部43个T12新增文件及meta。正式 `Assets/Scripts/Gameplay/Chest/`：Chest、ChestRewardConfig、ChestClaimTransaction、AssemblyInfo、asmdef；测试 `Assets/Scripts/Tests/T12/`：SmokeDriver、隔离四槽ProbeState、Editor场景/重载/配置修复工具、测试及Editor asmdef；`Assets/Configs/Chest/`五份池；`Assets/Prefabs/Chest/Chest.prefab`、`Assets/Prefabs/Tests/T12/T12SmokeRig.prefab`、`Assets/Scenes/Tests/T12/T12_Smoke.unity`。未加入Build Settings，未修改Core/Runtime/PlayerState/Input/T01/T02/T03/T06/主地图。

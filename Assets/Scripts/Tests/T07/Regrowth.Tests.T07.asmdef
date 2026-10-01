@@ -1,0 +1,1 @@
+{"name":"Regrowth.Tests.T07","rootNamespace":"Regrowth.Tests.T07","references":["Regrowth.Core","Regrowth.Audio.Core","Regrowth.Runtime","Regrowth.Gameplay.Bite","Regrowth.Gameplay.Locomotion","Unity.InputSystem","UnityEngine.UI","Unity.TextMeshPro"],"autoReferenced":true}
