@@ -1,0 +1,11 @@
+{
+    "name": "Regrowth.Gameplay.Challenge",
+    "rootNamespace": "Regrowth.Gameplay.Challenge",
+    "references": [
+        "Regrowth.Core",
+        "Regrowth.Runtime",
+        "Regrowth.Audio.Core",
+        "Regrowth.WhiteBox"
+    ],
+    "autoReferenced": true
+}
