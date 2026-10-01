@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 90287418}
 --- !u!4 &90287416
@@ -780,7 +780,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 90287417}
@@ -938,7 +938,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 93474488}
 --- !u!4 &93474486
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 93474487}
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
@@ -1491,15 +1491,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -1507,7 +1507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -1527,7 +1527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 230644489}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -1556,19 +1556,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 509141419}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 1962029489}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -1592,15 +1592,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: config
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: 78089c0a9b77aa34f895fcd83e3e4641, type: 2}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -1608,11 +1608,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 1672410700}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -1695,7 +1695,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!1 &190867169 stripped
 GameObject:
@@ -1985,7 +1985,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63e15684e930504597161a83097f081c, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.UI.Choice::Regrowth.UI.ChoicePanel
 --- !u!224 &263898065 stripped
 RectTransform:
@@ -2172,15 +2172,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -2188,7 +2188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -2208,7 +2208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1047554165}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
@@ -2513,7 +2513,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 1639746812}
@@ -2574,7 +2574,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 341924456}
   interactionPoint: {fileID: 0}
@@ -3308,7 +3308,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3318,7 +3318,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text:
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3458,7 +3458,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -3498,7 +3498,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -3574,7 +3574,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 435925238}
   interactionPoint: {fileID: 0}
@@ -3688,7 +3688,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 176889775}
   runSource: {fileID: 2001872525}
@@ -3790,15 +3790,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -3806,7 +3806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -3826,7 +3826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 549059791}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -4035,19 +4035,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 514436573}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 649591349}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -4071,11 +4071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -4083,11 +4083,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 14455605}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4153,7 +4153,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &483900282 stripped
 Transform:
@@ -4414,7 +4414,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
   m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
@@ -4445,7 +4445,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
@@ -4542,8 +4542,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
@@ -4652,7 +4652,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ee93f77efc4eb54995f0e5460922a23, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkAudioListener
   isDefaultListener: 1
   bOverrideScalingFactor: 0
@@ -4668,7 +4668,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
   m_listeners:
     initialListenerList: []
@@ -4967,7 +4967,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74c31cd1340b88242b8363503ce692ad, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WhiteboxPlayer2D
   inputReader: {fileID: 2001872526}
   runController: {fileID: 2001872525}
@@ -5007,7 +5007,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e035174ce199245b8826a69ff33cfa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.PlayerInteractor
   actor: {fileID: 535949084}
   interactionOrigin: {fileID: 0}
@@ -5026,7 +5026,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49d8143965636a2499e9d5170e9f2714, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.PlayerState
   initialMaximumHealth: 100
   initialBiteDamage: 10
@@ -5043,7 +5043,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b9b824b8d0c4c3999750ce2c4c5e2d8, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Combat::Regrowth.Gameplay.PlayerAttackRouter
   inputSource: {fileID: 2001872526}
   combatStateSource: {fileID: 535949091}
@@ -5059,7 +5059,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccf4427884c850208775f1e988887d5c, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Sword::Regrowth.Gameplay.PlayerSwordAttack
   combatStateSource: {fileID: 535949091}
   swordOrigin: {fileID: 1398185664}
@@ -5078,7 +5078,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c997a66a97347044ba7e2fe89a59a88b, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteAttack
   combatStateSource: {fileID: 535949091}
   biteOrigin: {fileID: 1398185664}
@@ -5095,7 +5095,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 723f591255c157e5a981d972eeb622b8, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerFacing2D
   inputSource: {fileID: 2001872526}
   deadZone: 0.1
@@ -5110,7 +5110,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 087d38751dff3954db1679fe1fb33162, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.PlayerCharacterPresentation
   state: {fileID: 535949091}
   run: {fileID: 2001872525}
@@ -5134,7 +5134,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f0e924227d07cb4aac52b9da18b293f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Fire::Regrowth.Gameplay.PlayerFireAttack
   input: {fileID: 2001872526}
   state: {fileID: 535949091}
@@ -5162,7 +5162,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24fa1d07c73243d4eb59e58052e63b25, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerActionGate
   runSource: {fileID: 2001872525}
   healthSource: {fileID: 535949091}
@@ -5526,7 +5526,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -5669,7 +5669,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2eaf1cf5a4d4391b2cd8756936dd0cd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.UI.Hud::Regrowth.UI.VictoryEndingView
   runSource: {fileID: 2001872525}
   screenRoot: {fileID: 600535817}
@@ -5686,7 +5686,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
@@ -5703,7 +5703,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
@@ -5801,7 +5801,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -5860,7 +5860,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5948,8 +5948,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_ComponentVersion: 2
   m_LightType: 4
   m_BlendStyleIndex: 0
@@ -6096,19 +6096,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 686131534}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 1916340602}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -6132,11 +6132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -6144,11 +6144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 543375299}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -6226,7 +6226,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &649860642 stripped
 Transform:
@@ -6248,7 +6248,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 649860641}
   runSource: {fileID: 2001872525}
@@ -6364,7 +6364,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -6461,7 +6461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1002, guid: 6d480a4cfccc47b18ddb57fbacdcea73, type: 3}
       propertyPath: runController
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 1101, guid: 6d480a4cfccc47b18ddb57fbacdcea73, type: 3}
       propertyPath: m_Pivot.x
@@ -6925,15 +6925,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -6941,7 +6941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -6961,7 +6961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 226780156}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -7009,7 +7009,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -7084,7 +7084,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 873605929}
   interactionPoint: {fileID: 0}
@@ -7240,7 +7240,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 905817184}
 --- !u!4 &905817182
@@ -7315,7 +7315,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 905817183}
@@ -7398,7 +7398,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -7451,7 +7451,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -7491,7 +7491,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -7566,7 +7566,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 938930351}
   interactionPoint: {fileID: 0}
@@ -7660,15 +7660,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -7676,7 +7676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -7696,7 +7696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 739003228}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -7853,19 +7853,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1174277278}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 2142675156}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -7889,11 +7889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -7901,11 +7901,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 1776258673}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -7983,7 +7983,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &955256663 stripped
 Transform:
@@ -8005,7 +8005,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 955256662}
   runSource: {fileID: 2001872525}
@@ -8310,7 +8310,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09db05bcbbd8ffa42bc444bda98128fa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.ChoiceCoordinator
   presenter: {fileID: 263898064}
 --- !u!1001 &978385267
@@ -8403,15 +8403,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: c48e9083b5221104dbe6a514ff450841, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -8419,7 +8419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -8439,7 +8439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1239424348}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -8520,7 +8520,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1016768633}
 --- !u!4 &1016768631
@@ -8595,7 +8595,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1016768632}
@@ -8722,7 +8722,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -8797,7 +8797,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1024123721}
   interactionPoint: {fileID: 0}
@@ -8846,7 +8846,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f4a205560494fa4eb33e981fbc85789, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Challenge::Regrowth.Gameplay.Challenge.InspectionDoor2D
   challengeId: SIDE_LEGLESS_PUZZLE
   requiredMissingPart: 201
@@ -9093,7 +9093,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -9169,7 +9169,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1058225894}
   interactionPoint: {fileID: 0}
@@ -9215,7 +9215,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -9349,7 +9349,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.25, y: 1.8}
   ellipseOffset: {x: 0, y: 0}
@@ -9671,7 +9671,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 2133865486}
@@ -9750,7 +9750,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1171908536}
   interactionPoint: {fileID: 550303302}
@@ -9813,7 +9813,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.84, y: 2.22}
   ellipseOffset: {x: 0, y: 0}
@@ -10244,7 +10244,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f4a205560494fa4eb33e981fbc85789, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Challenge::Regrowth.Gameplay.Challenge.InspectionDoor2D
   challengeId: SIDE_ARMLESS_TRAVERSAL
   requiredMissingPart: 202
@@ -10719,19 +10719,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1638359754}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 394439196}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -10755,11 +10755,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -10767,11 +10767,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 90508779}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -10849,7 +10849,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1329691501 stripped
 Transform:
@@ -10871,7 +10871,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1329691500}
   runSource: {fileID: 2001872525}
@@ -10930,7 +10930,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -11041,19 +11041,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1560311975}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 1599132454}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -11077,11 +11077,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -11089,11 +11089,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 57319970}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11159,7 +11159,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1352591596 stripped
 Transform:
@@ -11181,7 +11181,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1352591595}
   runSource: {fileID: 2001872525}
@@ -11613,7 +11613,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 1721123011}
@@ -11691,7 +11691,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1407749072}
   interactionPoint: {fileID: 0}
@@ -11705,19 +11705,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 382970157}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 969923365}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -11741,11 +11741,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -11753,11 +11753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 2088149103}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11823,7 +11823,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1407821679 stripped
 Transform:
@@ -11845,7 +11845,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1407821678}
   runSource: {fileID: 2001872525}
@@ -11895,7 +11895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541644115592588579, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 1541644115592588579, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: uprightLabel
@@ -11983,7 +11983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4750085963120511399, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: interactionSource
-      value:
+      value: 
       objectReference: {fileID: 535949090}
     - target: {fileID: 4917160023359434644, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: m_TextStyleHashCode
@@ -12115,7 +12115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8368459321584334068, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 8934428418861781926, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: m_Pivot.x
@@ -12447,19 +12447,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 92306287}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 486491296}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -12483,11 +12483,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -12495,11 +12495,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 771474585}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12565,7 +12565,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1485377964 stripped
 Transform:
@@ -12587,7 +12587,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1485377963}
   runSource: {fileID: 2001872525}
@@ -12718,7 +12718,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 088d75b5242c39b4999a190e09fb657a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::Regrowth.Gameplay.WhiteBox.WhiteboxOverlay
   interactor: {fileID: 535949090}
   inputReader: {fileID: 2001872526}
@@ -12744,7 +12744,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
@@ -12828,7 +12828,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.41, y: 1.59}
   ellipseOffset: {x: 0, y: 0}
@@ -12972,19 +12972,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 542642221}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 2034777564}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -13008,11 +13008,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -13020,11 +13020,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 392304801}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -13102,7 +13102,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1509865869 stripped
 Transform:
@@ -13124,7 +13124,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1509865868}
   runSource: {fileID: 2001872525}
@@ -13165,7 +13165,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -13240,7 +13240,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1523383526}
   interactionPoint: {fileID: 0}
@@ -13322,7 +13322,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 23
   m_Sprite: {fileID: -247058054503370390, guid: ae09f7e1cd4a3fe489bbe573cec3839c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -13575,7 +13575,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1596823884}
 --- !u!4 &1596823882
@@ -13650,7 +13650,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1596823883}
@@ -13668,7 +13668,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59c8d1ba21315e54c825bd09ca21a56f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::WorldDoorStripVisual
   door: {fileID: 1596823884}
   visual: {fileID: 484312078}
@@ -13772,7 +13772,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76cc981b661549847932b33de4c72c58, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Tests.Level::Regrowth.Tests.Level.LevelWhiteboxPlayChecks
   player: {fileID: 535949089}
   run: {fileID: 2001872525}
@@ -75226,19 +75226,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1930110808}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 1887780972}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -75262,11 +75262,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -75274,11 +75274,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 1811616098}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -75356,7 +75356,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1657835938 stripped
 Transform:
@@ -75378,7 +75378,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1657835937}
   runSource: {fileID: 2001872525}
@@ -75522,7 +75522,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -75562,7 +75562,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1692231682}
 --- !u!4 &1692231680
@@ -75637,7 +75637,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1692231681}
@@ -75665,7 +75665,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 483900281}
   runSource: {fileID: 2001872525}
@@ -75768,7 +75768,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.07, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
@@ -75943,19 +75943,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1707347890}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 14602668}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -75979,11 +75979,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -75991,11 +75991,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 1219223641}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -76073,7 +76073,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1753591083 stripped
 Transform:
@@ -76095,7 +76095,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1753591082}
   runSource: {fileID: 2001872525}
@@ -76149,7 +76149,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6937c8f543350d6458028b5ab1854412, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::PrototypeTutorialHint2D
   player: {fileID: 535949088}
   detectionRadius: 3
@@ -76368,7 +76368,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 3.01}
   ellipseOffset: {x: 0, y: 0}
@@ -80010,19 +80010,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 2016861286}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 852247256}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -80046,11 +80046,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -80058,11 +80058,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 1340176974}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -80140,7 +80140,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1823530508 stripped
 Transform:
@@ -80162,7 +80162,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1823530507}
   runSource: {fileID: 2001872525}
@@ -80264,15 +80264,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: c48e9083b5221104dbe6a514ff450841, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -80280,7 +80280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -80300,7 +80300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1128038527}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -80530,7 +80530,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 201d8732bad842eb85a3628a28a110bb, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.VictoryPortal2D
   run: {fileID: 2001872525}
   player: {fileID: 535949091}
@@ -80610,7 +80610,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 2023437532}
@@ -80688,7 +80688,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1907821513}
   interactionPoint: {fileID: 0}
@@ -80733,19 +80733,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1031722707}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 2049909833}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -80769,11 +80769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -80781,11 +80781,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 416799208}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -80851,7 +80851,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &1925499413 stripped
 Transform:
@@ -80873,7 +80873,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 1925499412}
   runSource: {fileID: 2001872525}
@@ -81067,7 +81067,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1940742357}
 --- !u!4 &1940742355
@@ -81142,7 +81142,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1940742356}
@@ -81177,11 +81177,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67cef74d8b2812440a3b422b5341ccda, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkInitializer
   InitializationSettings: {fileID: 11400000, guid: 494d3a5c71523e84aa1a6965c4d9ac2c, type: 2}
-  basePath:
-  language:
+  basePath: 
+  language: 
   defaultPoolSize: 0
   lowerPoolSize: 0
   streamingPoolSize: 0
@@ -81328,15 +81328,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -81344,7 +81344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -81364,7 +81364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1799137735}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -81412,7 +81412,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -81488,7 +81488,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1969892010}
   interactionPoint: {fileID: 0}
@@ -81558,7 +81558,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73fff15ca2041fc4e96140fc5af2284f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.RunController
   gameplayTimeScale: 1
 --- !u!114 &2001872526
@@ -81571,7 +81571,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32ed016bc465e0e46b157f7b37941933, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.PlayerInputReader
   inputActions: {fileID: -944628639613478452, guid: ee357ec774f7865409eb9bffff42ddbc, type: 3}
   moveActionPath: Player/Move
@@ -81593,7 +81593,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18920a59cf158044a98675c48eba688a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.GameBootstrap
   runController: {fileID: 2001872525}
   inputReader: {fileID: 2001872526}
@@ -81627,7 +81627,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3909554bf5ac45e9bd87937d0e6f8b73, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyEnhancementService
   initialEnemies:
   - {fileID: 1823530507}
@@ -81734,15 +81734,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -81750,7 +81750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -81770,7 +81770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 426258613}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -82212,7 +82212,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 2066573987}
 --- !u!4 &2066573985
@@ -82287,7 +82287,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 2066573986}
@@ -82504,7 +82504,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -82580,7 +82580,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 2110720592}
   interactionPoint: {fileID: 0}
@@ -82691,19 +82691,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: leftBoundary
-      value:
+      value: 
       objectReference: {fileID: 1325243469}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: rightBoundary
-      value:
+      value: 
       objectReference: {fileID: 683736696}
     - target: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: baseMoveSpeedProvider
-      value:
+      value: 
       objectReference: {fileID: 535949089}
     - target: {fileID: 205179182264572143, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_Color.b
@@ -82727,11 +82727,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: registrationSource
-      value:
+      value: 
       objectReference: {fileID: 2001872529}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: renderersToHideOnDeath.Array.size
@@ -82739,11 +82739,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: 'renderersToHideOnDeath.Array.data[1]'
-      value:
+      value: 
       objectReference: {fileID: 2077626541}
     - target: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: playerDamageableSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
@@ -82821,7 +82821,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
 --- !u!4 &2138536939 stripped
 Transform:
@@ -82843,7 +82843,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009d3d8986fa47bbab3f6f94678b75bd, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Presentation::Regrowth.Presentation.EnemySpritePresentation
   healthSource: {fileID: 2138536938}
   runSource: {fileID: 2001872525}
