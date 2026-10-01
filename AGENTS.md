@@ -4,7 +4,7 @@
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及发布基线来源是 `Ming`。C00/C01/C02/C03 已由用户推送，当前已发布基线为 `Ming/5a7cc5b439c3ccc7dbd960df949491732e51e6cf`（C03 基于4ffa05b，C02基于e86074a）。发布确认时 HEAD/本地 origin/Ming 一致、工作区干净，未 fetch 查询实时远端。Codex 不自动 commit/push；C03源码契约6已随5a7cc5b发布，最新Ming发布记录提交为fa54f5a。本轮用户授权测试合并Soap/239d019的T01；合并无冲突，保留为未提交状态，不自动commit/push。公共契约仍为6；4ffa05b不含C03新接口。成员从总控明确发布的 Ming 提交创建任务分支，读取该提交随附的根 AGENTS.md、任务卡与相关 handoff，不另建 Ming 专用 agent.md；不用旧 main/旧项目规则，不自动切分支、合并或重置。
+当前总控工作分支及最新已发布基线是 `Ming/349ba939d1002f2cf59995b6d800ae29c71f6fd9`（合并T01）。2026-10-01直接以git ls-remote核对GitHub Ming，与本地HEAD及origin/Ming一致，开始工作区干净、无进行中的合并。用户已通过531535d提交Soap/239d019的T01合并，并以349ba93发布集成场景、层级整理及协作文档。C00/C01在e86074a，C02在4ffa05b，C03在5a7cc5b，发布记录fa54f5a仍可追溯；公共源码契约仍为6。本次只整理发布/测试入口记录，不自动commit/push。成员从总控指定的Ming提交创建任务分支，读取该提交随附的根AGENTS.md、任务卡与相关handoff；不另建Ming专用agent.md，不用旧main/旧项目规则，不自动切分支、合并或重置。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -23,7 +23,7 @@
 
 状态定义：**已确认**是用户明确答复；**技术约定**是本轮采用的实现边界；**待确认**不得据此实现业务；**预留**只有身份或计划，没有功能承诺；**已实现**仅指表中真实存在代码。
 
-公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；此前 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，此前C01/C02分别32/51项复验通过；C03契约6已随Ming/5a7cc5b发布，尚未主场景集成。Soap T01的ChoicePanel/ChoiceCardView已实现并合入本轮待提交工作区，本机独测41项、真实C03集成31项通过。运动、攻击动作、敌人、世界、正式HUD/结果UI和项目IAudioBackend适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
+公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；此前 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，此前C01/C02分别32/51项复验通过；C03契约6已随Ming/5a7cc5b发布，尚未主场景集成。Soap T01的ChoicePanel/ChoiceCardView已实现并随Ming/349ba93发布，本机独测41项、真实C03集成31项通过。运动、攻击动作、敌人、世界、正式HUD/结果UI和项目IAudioBackend适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
 
 ### 成员自主范围与协作边界
 
@@ -214,7 +214,7 @@ docs/handoffs/                   用户名.handoff，只记工作事实
 | IInteractable | string InteractionId / Prompt；InteractionKind Kind；bool CanInteract(GameObject actor) / TryInteract(GameObject actor) | 稳定场景唯一 ID，不能用 GetInstanceID；true 是接受请求，不等于付费/领奖成功 |
 | ChoiceOption | Id、Title、Description；构造(string id,string title,string description) | 不可变展示项，Id 非空，Title 非空；不执行效果 |
 | ChoiceRequest | Id、Title、IReadOnlyList<ChoiceOption> Options；构造(string id,string title,IEnumerable<ChoiceOption> options) | 复制候选，拒绝空/重复 ID；展示支持 1–4 项；奖励/代价必须恰好 3 项，满槽替换展示全部 4 个旧项 |
-| IChoicePresenter | bool IsOpen；bool TryShow / TryReplaceCurrent(ChoiceRequest request,Func<string,bool> tryConfirm,Action onCancel)；void CancelCurrent() | Soap T01 ChoicePanel已实现；本轮待提交合并，本机独测41/集成31项通过；同请求内可切换替换阶段，生命周期见下文 |
+| IChoicePresenter | bool IsOpen；bool TryShow / TryReplaceCurrent(ChoiceRequest request,Func<string,bool> tryConfirm,Action onCancel)；void CancelCurrent() | Soap T01 ChoicePanel已实现；已随Ming/349ba93发布，此前本机独测41/集成31项通过；同请求内可切换替换阶段，生命周期见下文 |
 | IAudioBackend | void Play(AudioCue cue,GameObject emitter) / StopAll(GameObject emitter) | 后端端口，Integration 已安装，项目后端适配器未实现 |
 | GameAudio | Play(AudioCue cue,GameObject emitter=null)；StopAll(GameObject emitter)；InstallBackend(IAudioBackend)；UninstallBackend(IAudioBackend expectedBackend) | 已实现转发与默认空后端；调用限定 Unity 主线程 |
 
@@ -248,7 +248,7 @@ T06 接入：Inspector 用 MonoBehaviour 引用并验证 IPlayerInput/IRunContex
 
 ### T01菜单与C05实际集成入口
 
-Soap分支239d019fd0848b71e65e358af1c4844ee010899a基于契约5，沿用的IChoicePresenter/ChoiceRequest与契约6兼容；没有修改Core/Runtime/Input/Packages/ProjectSettings。总控已将其无冲突合入Ming待提交状态，Soap.handoff只读保留；正式展示逻辑由Soap维护，总控维护集成场景/驱动。
+Soap分支239d019fd0848b71e65e358af1c4844ee010899a基于契约5，沿用的IChoicePresenter/ChoiceRequest与契约6兼容；没有修改Core/Runtime/Input/Packages/ProjectSettings。总控无冲突合入后，用户已提交并推送到Ming/349ba93，Soap.handoff只读保留；正式展示逻辑由Soap维护，总控维护集成场景/驱动。
 
 - 正式组件Regrowth.UI.ChoicePanel；Prefab在Assets/Prefabs/Choice/ChoiceMenu.prefab和ChoiceCard.prefab。ChoicePanel根持续启用，viewRoot为可隐藏子节点；六项展示引用在Prefab绑定。总控同时将该组件绑定ChoiceCoordinator.presenter与Bootstrap.choicePresenter，业务仍通过IChoiceFlow，不从UI写状态。
 - 独立集成入口Assets/Scenes/Tests/Integration/T01_C03.unity；Inspector将Bootstrap、run/input/state/interactor/flow、Soap panel、局部测试交互目标、诊断文本及手动按钮显式绑定T01C03IntegrationDriver。autoVerify=true下次Play运行31项并最终进入Dead；关闭它可用E或TEST Choice手动打开真实菜单，取消/成功后恢复。
@@ -256,6 +256,14 @@ Soap分支239d019fd0848b71e65e358af1c4844ee010899a基于契约5，沿用的IChoi
 - C03_Smoke与集成场景按Runtime、Test World、Test UI、Test Checks、Environment分组；WwiseGlobal保留插件管理入口。分组不改变对象身份、位置或引用；C03整理后57项复验通过。
 - 当前保留C01/C02/C03/T01验收场景及测试代码用于回归，正式主场景不带这些驱动。SampleScene仍由Build Settings及templateDefaultScene引用，不把它当交付地图，也不在本轮清理中删除。根目录无引用的一次性logRunSetup.txt已删除并ignore。
 - 用户明确本轮不整理/替换美术素材与外观资源，由组员后续提供适配版本；本轮只整理层级、程序入口和引用，保留现有Prefab资源及Wwise/URP/TMP依赖。
+
+### 2026-10-01 发布与测试资源复核
+
+本地HEAD、origin/Ming和直接查询的GitHub Ming均为349ba93；此前“待提交合并”已完成，最新发布状态以上方为准。Soap远端已前进到8d23453，本轮只读查询，不fetch或合入新任务。
+
+已按源码调用、序列化GUID引用、程序集依赖与检查覆盖核对5个验收场景、9个测试脚本：当前全部保留，具体入口/用途见README。C03ProbeTarget被C03及T01_C03同时引用，Integration程序集依赖Tests.C03；ChoiceMenuPlayChecks由独测驱动调用；T01SceneSetup是仍可用的编辑器菜单工具，不因没有场景挂载就删除。不得将这些替身/驱动接入正式地图；退役某项测试时应先有等价覆盖，再成组检查脚本、场景、Prefab、asmdef和meta引用。
+
+736个Assets meta无重复GUID、孤立meta或已跟踪普通文件缺meta（Wwise Mac.bundle内部载荷除外）；无已跟踪Unity/IDE缓存，旧logRunSetup.txt已不存在。本次未改源码/资产，也未删除仍有用途的测试。Unity MCP连接不可用，未重新运行Unity，不把此前32/51/57/41/31项记录当作本次Play结果。
 
 ### 卡片端口生命周期
 
@@ -502,7 +510,7 @@ C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新�
 
 本轮C03：Unity6000.2.9f1实际编译；MCP创建C03_Smoke、绑定Inspector、保存重载，Play57 passed/0 failed，覆盖真实输入、类别/距离/ID/不可用排序、多个Collider去重、同帧/重入保护、三项→四项暂停事务、失败/取消/迟到回调、展示拒绝/停用及三轮入口启停、真实状态提交和死亡锁。交互半径0.5保存重载后选择附近开关，真实InputSystem键盘E只请求一次，测试按钮实际授予剑并恢复阶段；已恢复radius2/autoVerify=true。重复ID、缺Presenter和缺actor配置均实查拒绝/恢复；C01/C02实际复验32/51项通过。710个Assets meta无重复GUID/孤立meta，新增配对完整；C03零Missing Script、唯一运行/输入/玩家/入口/交互/事务组件、必填引用齐全，最终非Play且场景已保存。C03已随Ming/5a7cc5b发布；正式UI/世界物件/地图与第一阶段整体集成未验收，Wwise播放及Windows导出未验收。
 
-本轮C05/T01：从远端fetch Soap/Ming，隔离工作树试合并无冲突，Unity自带Roslyn编译菜单/测试成功；Ming --no-commit --no-ff合并Soap/239d019，未创建提交。Unity6000.2.9f1实际编译及T01_Smoke复验41/0，T01_C03集成31/0；移除集成副本旧测试面板后再验31/0，手动真实菜单打开/取消恢复成功，C03分组保存后复验57/0。736个Assets meta无重复GUID/孤立meta，新增任务/集成资产配对完整；Wwise Mac.bundle内部作为原插件载荷不另造meta。未修改美术、Soap业务/原独测资产、包或项目设置，未做正式地图/第一阶段整体/Windows/Wwise声音验收。
+此前C05/T01：从远端fetch Soap/Ming，隔离工作树试合并无冲突，Unity自带Roslyn编译菜单/测试成功；总控先以--no-commit --no-ff合入Soap/239d019，随后用户通过531535d提交合并、349ba93发布集成与清理。Unity6000.2.9f1实际编译及T01_Smoke复验41/0，T01_C03集成31/0；移除集成副本旧测试面板后再验31/0，手动真实菜单打开/取消恢复成功，C03分组保存后复验57/0。736个Assets meta无重复GUID/孤立meta，新增任务/集成资产配对完整；Wwise Mac.bundle内部作为原插件载荷不另造meta。未修改美术、Soap业务/原独测资产、包或项目设置，未做正式地图/第一阶段整体/Windows/Wwise声音验收。
 
 整局最终验收必须包含：
 

@@ -1,4 +1,45 @@
-# 总控当前任务：Soap T01合并测试与项目结构整理
+# 总控当前交接：Ming发布核对与测试资源整理
+
+更新：2026-10-01 · 规范10 / 公共源码契约6（未改接口或玩法）
+成员/任务别名：controller；任务：C05维护 / 分支Ming
+开始HEAD及本地origin/Ming：349ba939d1002f2cf59995b6d800ae29c71f6fd9（合并T01），工作区干净，无进行中的合并。
+状态：T01及独立集成已发布 / 文件与引用复核完成 / 本轮仅文档改动待提交 / 正式地图与第一阶段整体待验收。
+
+## 本轮核对与授权
+
+用户要求确认Ming是否已push，并整理分支内容，废弃测试可以删除；美术资源仍不调整。只在活动仓库F:/2026GameJamUnity工作，不自动commit/push，不切分支/merge，不启动子代理。
+
+实际执行git ls-remote origin refs/heads/Ming refs/heads/Soap，GitHub Ming为349ba939d1002f2cf59995b6d800ae29c71f6fd9，与本地HEAD及origin/Ming一致。上一轮T01合并已由用户通过531535db957a4051b1575267bc2d90552e2f8b82完成（父提交fa54f5a和239d019），349ba93发布真实集成场景/层级整理/日志删除及文档。因此下方历史“未提交合并”已过期，不再按它继续merge。
+
+本次远端Soap为8d23453ff59a93f34dd6edd30ab2f31fcbdb71c4；仅查询，不fetch或合入，Ming的T01固定交付来源仍239d019。Soap.handoff及其他成员文件只读。
+
+## 测试资源检查与保留
+
+核对所有5个Tests场景、9个测试脚本的源码调用、场景/Prefab序列化GUID及程序集关系：
+
+- C01_Smoke/C01SmokeDriver：完整输入按键、缓冲、暂停后长按抑制、FixedUpdate消费和反复入口清理；不是集成31项的重复。
+- C02_Smoke/C02SmokeDriver：真实生命、所有构筑写口、内部四槽容器、姿态和死亡通知；Runtime/AssemblyInfo仅为该测试开放内部容器。
+- C03_Smoke/C03SmokeDriver/C03ProbePresenter/C03ProbeTarget：多个对象的类别/距离/ID排序、去重及独立事务验证；C03ProbeTarget同时被Integration场景和驱动引用，Integration.asmdef依赖Tests.C03，不能单独删C03目录。
+- T01_Smoke/T01SmokeRig/ChoiceMenuSmokeDriver/ChoiceMenuPlayChecks：菜单独测；检查类由驱动调用，驱动由Prefab引用。T01SceneSetup由Unity MenuItem提供创建/重载菜单，未挂载场景不等于废弃；本次不调用其外观整理菜单、不修改Soap资产。
+- T01_C03/T01C03IntegrationDriver：唯一真实菜单与总控接线入口，保存的autoVerify=true执行31项后Dead；手动演示在Inspector关闭autoVerify，用E或TEST Choice打开菜单。
+
+以上全部保留，无新发现可安全删除的旧测试。正式地图不挂验收驱动；测试场景不在Build Settings。SampleScene仍被EditorBuildSettings和templateDefaultScene引用，保留占位。上次删除的logRunSetup.txt已不存在。Library/Temp/Logs/UserSettings/.vs/csproj/slnx均无已跟踪条目；它们是本机生成文件，本轮不删正在使用的缓存。URP/TMP/输入/Wwise/Authoring及素材不改。
+
+## 本轮修改及验证边界
+
+只修改AGENTS.md、docs/WORK_PACKAGES.md、README.md、docs/GAME_DESIGN.md和本handoff：将过时的“未提交合并”改为已发布349ba93，整理测试覆盖/入口与保留原因；下方保留原验证事实作为历史。规范版本与公共契约不变，源码/asmdef/场景/Prefab/meta/项目设置无改动。
+
+实际检查：Git状态、远端提交、合并父提交及T01祖先关系；9个测试脚本调用/序列化引用；736个Assets meta无重复GUID、孤立meta或普通已跟踪文件缺meta（Mac.bundle内部载荷除外）；无已跟踪缓存/临时/备份文件。文档git diff --check通过；最终工作区只有上述5份文档改动。
+
+Unity MCP的custom-tools/instances读取均报127.0.0.1:8080连接失败，未获得当前编辑器目标/脏场景状态；本次不修改场景、不重跑Unity编译/Play。32/51/57/41/31项均为下方此前已执行记录，不宣称本轮重新通过，也不把文件GUID检查说成Unity无Missing Script实测。
+
+## 接手下一步
+
+发布基线使用Ming/349ba93；本次仅文档整理尚未自动提交或推送，用户按正常流程发布即可。接下来核对队友实际T02/T03/T06/T07交付并逐批测试集成，无需等完整美术地图；恢复Unity MCP后先读实际实例/项目/场景状态。C04未决池/代价下限/叠加/刷新、重开和同帧胜负继续按任务冻结；主地图/第一阶段整体/Windows/Wwise声音仍未验收。
+
+---
+
+# Soap T01合并与项目整理历史（待提交状态已由用户完成）
 
 更新：2026-10-01 · 规范10 / 公共源码契约6（未改签名）
 分支：Ming；开始HEAD fa54f5ad62984c9d3256085ff24bfb49793f55cc，工作区干净

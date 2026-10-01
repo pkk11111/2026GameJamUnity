@@ -6,7 +6,7 @@
 
 所有协作规则、Inspector 要求、代码标注与个人 handoff 要求，以 [AGENTS.md](../AGENTS.md) 为准。本文件是任务目录与验收说明，任务被列出不代表已领取、已实现或已发布了所需接口。
 
-当前已发布基线：**Ming/5a7cc5b439c3ccc7dbd960df949491732e51e6cf**（用户已推送C03，基于已发布C02/4ffa05b；C00/C01在e86074a）。发布确认时 HEAD/本地 origin/Ming 一致、工作区干净，未 fetch；Codex 未提交/推送。**C03已确认范围独测通过、已发布、待主场景集成**，队友获取5a7cc5b的契约6源码/场景/文档后接线。C03历史实际Play57项通过；4ffa05b不含C03。后续发布记录提交fa54f5a保持源码契约6。本轮已fetch并试合并Soap/239d019的T01到Ming，无冲突且未提交；本机菜单41项/C03集成31项通过。新总控会话先读 [总控交接](handoffs/controller.handoff)。
+当前已发布基线：**Ming/349ba939d1002f2cf59995b6d800ae29c71f6fd9**（合并T01）。2026-10-01直接查询GitHub Ming，与本地HEAD及origin/Ming一致；开始工作区干净、无进行中的合并。用户已以531535d提交Soap/239d019合并，349ba93发布真实菜单集成/层级整理/文档。公共源码契约仍为6；C00/C01在e86074a，C02在4ffa05b，C03在5a7cc5b，历史发布记录fa54f5a保留。此前T01独测41项、真实C03集成31项、C03回归57项通过；主地图/第一阶段整体/Windows仍未验收。本次只复核发布与文件引用，未重跑Unity、未自动提交/推送。新总控会话先读[总控交接](handoffs/controller.handoff)。
 
 **队友读取顺序**：从总控指定的 Ming 提交创建自己的任务分支 → 读取该分支根目录 [AGENTS.md](../AGENTS.md) → 读取本文件中的领取任务与依赖 handoff → 核对自己的分支、基点、Git 状态和 Unity MCP 项目。这里的相对链接始终指向任务基线随附的规范；不要读取旧 main 或旧项目副本，也不要另建第二份 agents 文档。总控后续发布新规则时，队友按协调后的新基线同步。
 
@@ -29,7 +29,7 @@ C00/C01 已在 Ming/e86074a 发布。C02 最小版新增真实 PlayerState、IPl
 | C02 | 真实生命、构筑、姿态与最小写事务 | 已随 Ming/4ffa05b 发布、待集成：唯一 PlayerState，TryHeal/构筑增删及原子替换，IPlayerCombatState 数值/权限，HP0进入Dead并锁输入/停止物理；MCP独立场景51项通过。未接入上限/攻击负面/百分比代价/叠加/重开，正式死亡UI归队友 |
 | C03 | 交互选择与结算接入 | 已确认范围独测通过、已发布Ming/5a7cc5b/待主场景集成：PlayerInteractor/InteractionTarget/ChoiceCoordinator及契约6读提示/事务端口。MCP保存重载后57项Play通过，真实输入、排序/去重、暂停/换阶段/取消/单次提交/清理、参数重载及缺引用拒绝已验证；具体候选池、代价结算仍按T12/T13/C04边界 |
 | C04 | 按将要开工的任务冻结缺口 | 开奖励/代价任务前确认池、下限、刷新；开陷阱前确认伤害/保护规则；开最终流程前确认重开和同帧胜负；开技能前确认会改变行为的方向/重置/无敌规则。不要求一次问完所有调参数值 |
-| C05 | 持续集成、地图接线与 Windows 导出 | 本轮T01独测41项/真实C03菜单集成31项通过，Soap无冲突合并待提交；地图/第一阶段整体/Windows仍待验收。按小任务逐个合入、挂入主场景、替换测试替身；跟地图作者对齐实际路线与锚点；尽早导出可启动 Windows 版本，之后验证完整一局与 Wwise |
+| C05 | 持续集成、地图接线与 Windows 导出 | 本轮T01独测41项/真实C03菜单集成31项通过，已随Ming/349ba93发布；地图/第一阶段整体/Windows仍待验收。按小任务逐个合入、挂入主场景、替换测试替身；跟地图作者对齐实际路线与锚点；尽早导出可启动 Windows 版本，之后验证完整一局与 Wwise |
 
 C00/C01/C02 最小版已完成独测并发布。T02 可接真实状态，T07 在 T06 后接攻击；C03已确认范围的完整交互器/选择事务已完成独立灰盒验证并随Ming/5a7cc5b发布，无需等待全体T系列或完整地图。已确认同类最近/同距固定编号、跳过不可用对象以及奖励/替换暂停；C04 按需确认规则，C05 按已交付功能逐项集成。每发布一个新接口，更新 AGENTS 的实际签名和源码契约版本，记录对应提交；任务依赖必须指向真实代码，而非本文中的计划名字。
 
@@ -135,8 +135,8 @@ T08–T18 是后续候选任务卡，便于提前看见依赖，不是已经开�
 | 总控 / C00+C01 | controller / controller.handoff | Ming / 已发布e86074a | Core/Runtime/公共输入/C01独测/文档 | 已发布；此前旧C01兼容复验32项通过，未标主场景集成 |
 | 总控 / C02 | controller / controller.handoff | Ming / 基于e86074a；已发布4ffa05b | Core最小写/攻击读口、Runtime、C02源码/场景和协作文档；不改地图/队友UI/Wwise/包 | 独测通过，51项Play；参数保存重载/实际按钮与非法初始配置拒绝验证通过；已发布4ffa05b/待集成 |
 | 总控 / C03 | controller / controller.handoff | Ming / 基于4ffa05b；已发布5a7cc5b | Core读提示/事务端口、Runtime交互/选择/Bootstrap、C03独测与文档 | 57项Play通过，参数重载/真实键盘与按钮/非法ID及引用验证；C01/C02复验32/51项通过；待集成 |
-| Soap / T01 | Soap / Soap.handoff | origin/Soap/239d019；基于4ffa05b | UI/Choice、Choice Prefab、T01独测、视觉参考与自己的handoff | 已交付；本机41项复验，真实C03集成31项通过；Ming合并待提交，主地图未集成 |
-| 总控 / C05-T01 | controller / controller.handoff | Ming/fa54f5a + Soap/239d019，未提交 | 独立Integration场景/驱动、C03分组、无用日志与协作文档 | 31项集成及整理后C03 57项通过；不标第一阶段整体通过 |
+| Soap / T01 | Soap / Soap.handoff | origin/Soap/239d019；基于4ffa05b | UI/Choice、Choice Prefab、T01独测、视觉参考与自己的handoff | 已交付；本机41项复验，真实C03集成31项通过；已随Ming/349ba93发布，主地图未集成 |
+| 总控 / C05-T01 | controller / controller.handoff | 基于Ming/fa54f5a + Soap/239d019；已发布Ming/349ba93 | 独立Integration场景/驱动、C03分组、无用日志与协作文档 | 31项集成及整理后C03 57项通过；不标第一阶段整体通过 |
 | 其余 / T02–T18 | 本次未登记/审核 | 使用总控指定发布提交 | 各自任务卡及派发范围 | 以总控实际派发及个人handoff为准，不能凭任务表自行认领 |
 
 ## 4 统一交付与文件定位
@@ -151,7 +151,7 @@ T08–T18 是后续候选任务卡，便于提前看见依赖，不是已经开�
 
 ### T01：选择菜单
 
-当前验收：Soap/239d019已交付，本机T01_Smoke实际Play41/0；总控T01_C03独立场景真实菜单/输入/阶段/状态31/0，合并未提交，正式地图未接入。Soap原Prefab、业务和独测场景保留不改。
+当前验收：Soap/239d019已交付，本机T01_Smoke实际Play41/0；总控T01_C03独立场景真实菜单/输入/阶段/状态31/0，已随Ming/349ba93发布，正式地图未接入。Soap原Prefab、业务和独测场景保留不改。
 
 - 范围：`Assets/Scripts/UI/Choice/` 及 Choice 配置、Prefab、T01 测试资源。实现已有 IChoicePresenter，不能改签名。
 - 演示：测试驱动给三个 ChoiceOption；点击后回调显示选中 ID；回调 false 保持菜单；同事务 TryReplaceCurrent 展示四项，再确认成功关闭。
@@ -335,11 +335,11 @@ T06 依赖发布后优先开工。T07→T08 适合连续领取；T10/T11 若共�
 
 ## 9 C02/C03 与 T01 的具体对接
 
-收尾观察Soap分支已新增21b2118（t6）提交，本轮未审核/合入；已验证的合并固定为T01/239d019，下一批可单独验收T06。
+此前观察Soap新增21b2118（t6）；2026-10-01直接查询远端已为8d23453，本次未fetch/审核/合入后续任务。Ming已发布的T01来源仍固定239d019，下一批可单独审查T06及其后续提交。
 
 本轮入口：Assets/Scenes/Tests/Integration/T01_C03.unity；autoVerify=true执行31项后Dead，关闭可手动E/TEST Choice。菜单取Soap正式ChoiceMenu Prefab，Bootstrap/ChoiceCoordinator绑定同一ChoicePanel，业务仍用IChoiceFlow。C03与集成场景已分组；保留旧验收场景和构建引用中的SampleScene，仅删除无引用的旧logRunSetup.txt。美术资源由组员后续适配，本轮不调整。
 
-- 获取最新已发布基线Ming/5a7cc5b后，先读AGENTS §7和controller.handoff；公共源码契约6，含C02真实状态与C03交互/事务接线，既有只读接口与稳定枚举不变。
+- 获取最新已发布基线Ming/349ba93后，先读AGENTS §7和controller.handoff；公共源码契约6，含C02真实状态与C03交互/事务接线，既有只读接口与稳定枚举不变。
 - T02：同一 PlayerState 提供生命/构筑/姿态三份读视图，HUD 不维护第二份状态。
 - T06：继续使用 C01 正式输入与阶段；Dead 时 IsGameplayActive=false、输入为0/false、Time.timeScale=0，运动代码仍需遵守阶段。
 - T07/T08：读取 IPlayerCombatState.CanBite/CanUseSword 和 BiteDamage/SwordDamage，开始与命中都校验，0伤害不构造 DamageRequest；目标通过 IDamageable 扣血。PlayerState 是玩家状态，不用于敌人生命。
@@ -348,3 +348,11 @@ T06 依赖发布后优先开工。T07→T08 适合连续领取；T10/T11 若共�
 - 代码或 Unity 编辑工作结束后，总控同步 AGENTS.md、WORK_PACKAGES.md 和 controller.handoff 的真实接口/状态/验证/接线；队友更新个人 handoff，共享文档由总控汇总。
 
 此前新增G33/G34已同步AGENTS与GAME_DESIGN并登记T06/T18；C02不含运动射线或脚步声音，脚步Cue/映射仍待总控与音频任务接入。
+
+## 10 测试资源保留与本轮整理
+
+2026-10-01在已发布Ming/349ba93核对：5个测试场景、9个测试脚本均有独立覆盖或调用用途，全部保留；入口与历史检查数见README。C01覆盖完整输入缓冲/按键消费，C02覆盖状态写入与四槽容器，C03覆盖交互排序/替身生命周期，T01覆盖菜单本身，T01_C03覆盖真实组件接线；集成测试不能替代前三项完整覆盖。
+
+C03ProbeTarget在C03和Integration场景均有GUID引用，Integration.asmdef引用Tests.C03；T01检查类由驱动调用，T01SceneSetup由Unity编辑器菜单使用。退役测试前需要替代覆盖并成组检查源码、场景、Prefab、程序集和meta，不能按任务编号早晚删除。正式地图不挂测试驱动，测试场景不进正式Build Settings；SampleScene仍有构建/模板引用，保留占位。
+
+本轮只更新过时的“尚未提交”状态并整理入口说明；未删除源码/场景、未改美术/Wwise/项目设置。736个meta无重复GUID/孤立/配对缺失（Mac.bundle内部载荷除外），无已跟踪缓存；根旧日志已在上一轮删除。本次Unity MCP不可连接，未重新编译或Play，所有32/51/57/41/31项为此前真实验证记录。下一批依实际交付审核T02/T03/T06/T07，不标第一阶段整体通过。
