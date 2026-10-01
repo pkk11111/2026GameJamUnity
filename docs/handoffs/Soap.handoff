@@ -1,4 +1,71 @@
-# Soap · T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
+# Soap · T09 / T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
+
+## T09 最新摘要
+
+### Death collision 人工反馈修复（2026-10-01）
+
+**T09 death-collision fix implemented; awaiting user manual verification.** 用户人工发现：**Enemy death initially left solid collision and blocked passage.** 此修复未写成人工验收通过。
+
+- 本轮fetch只读核实origin/Ming仍为b2498d6b75cd079d4964594804f2255517b8681f，重读其规范16/工作包/controller交接及本地Soap/T09；保留Soap/35dad074及现有未提交T09，未merge/reset/stash/clean/commit/push/stage。
+- 原因：EnemyBasic死亡只更新HP/CanAct并注销/通知；根实体BoxCollider2D没有失效。修复：**死亡后关闭明确绑定的阻挡 Collider，尸体视觉可保留。** EnemyBasic新增Inspector数组collidersToDisableOnDeath，在首次死亡标记提交后、注销/HealthChanged/Died之前关闭；死体OnEnable/OnDisable也确保关闭，且此保护在Run/Config接线校验之前执行。只处理数组内自身层级的Collider，不查名字、不搜索、不误关玩家/地面；不恢复Collider、不复活、不Destroy或SetActive(false)整个敌人。
+- 正式EnemyBasic.prefab数组显式引用根实体BoxCollider2D（1×1，fileID5116861915683848288）和Contact Attack Trigger子对象BoxCollider2D（1.5×1.2，fileID5474585990382849456）。现有Manual/Auto测试Prefab均嵌套引用该正式敌人Prefab，没有覆盖新字段，继承此配置；不需重写场景/测试Prefab。GUID、初始enabled、Sprite与尺寸不改。EnemyContactAttack原IsAlive/CanAct保护与T17注册生命周期不改。
+- 修改4个实现/测试文件：Gameplay/EnemyBasic/EnemyBasic.cs、Prefabs/EnemyBasic/EnemyBasic.prefab、Tests/T09/T09SmokeDriver.cs、Tests/T09/Editor/T09SceneSetup.cs；另更新本人handoff。Editor创建工具同步绑定这两个Collider，供未来重新创建资产，**本轮不运行工具或编辑器**。
+- 原41个Check保留，新增5个检查：活体实体/攻击Collider启用、真实致死Bite后二者关闭、对象/Sprite保留、死后组件重新启用仍关闭且死亡一次、死后对象重新启用仍关闭且死亡一次；原J检查继续验证死体无接触伤害。新套件计划46项。**自动测试待用户/后续非GUI环境复跑**；此前41/0仅为修复前历史，不声称本轮46/0或Unity编译通过。
+- 全程未用GUI/Computer、未打开或操作Unity、未截图或Play/Stop。仅文件/Git与静态验证；现有验收为Play驱动，无独立CLI测试入口，本轮不启动编辑器或冒用独立C#编译代替Unity验收。Manual默认autoRun=false及独立Auto按钮不变。Esc/Pause、Core/Runtime/Input Actions、Wwise/主地图/Packages/ProjectSettings均未改，Wwise相对Ming无diff。
+- 用户接下来打开T09_Smoke，默认Manual，咬死EnemyBasic，核实HP0、尸体仍可见但不扣玩家HP，可左右穿过其位置；Stop/Play可重复。若运行Run T09 Auto Checks，应为原41项+5项碰撞检查，按实际结果反馈，不依赖历史通过数。
+
+### Manual Play 人工验收入口补充（2026-10-01）
+
+- 当前HEAD仍Soap/35dad0740254e0cd5279fc8ad35529a141969813。fetch后最新origin/Ming为b2498d6b75cd079d4964594804f2255517b8681f；只读其AGENTS规范16、WORK_PACKAGES与controller.handoff/C04新增审查和契约8发布记录，没有merge或覆盖当前T09未提交内容，没有改公共文档。
+- **当前默认入口已改为Manual，下文最初交付“Play自动开始”的描述仅历史。** 打开Assets/Scenes/Tests/T09/T09_Smoke.unity直接Play；点击Game View使其获得键盘焦点，A/D或方向键移动、Space跳跃、Enter/鼠标左键咬击。状态文字显示T09 MANUAL、真实玩家HP、真实EnemyBasic HP；死亡/击杀后Stop再Play开始新鲜人工夹具。
+- Manual保持唯一真实PlayerState、PlayerInputReader、PlayerAttackRouter、PlayerBiteAttack、T06运动、EnemyBasic和原平台/Camera。通过真实PlayerState.TryAcquireBodyCore仅准备测试躯干，无Arms；不模拟键盘、不自动攻击/移动/致死、不冻结RigidBody、不改RunPhase、不自动结束Play。敌人起点从1.05移到3，避免开局未经接近就自动遭接触伤害。人工死亡是靠近活敌后的真实接触风险；不新增正式复活或保护。
+- 屏幕按钮 **Run T09 Auto Checks** 是明确自动入口。点击后先停用当前Manual根，释放旧Bootstrap，再激活独立T09AutoChecksRig.prefab的新鲜玩家/敌人/Run/输入/注册Probe；不在已有人工血量、死敌、位置上直接运行检查。新Auto夹具从头部开始，只在它的Start执行原Verify；按钮在Auto禁用。回Manual需Stop/Play，测试夹具切换不是正式游戏重开。
+- 本轮只修改Tests/T09/T09SmokeDriver.cs、Editor/T09SceneSetup.cs、Tests.T09.asmdef（加既有UnityEngine.UI引用）、T09SmokeRig.prefab与本人交接；新增T09AutoChecksRig.prefab/meta。Editor工具Tools/pawgatory/T09/Prepare Manual Play（Ctrl+Alt+Shift+0）用PrefabUtility一次保存两模式资产，重开既有场景；保护Play/脏场景，不改场景GUID。正式EnemyBasic/Contact/Config、T07/Combat/Locomotion、Core/Runtime/Input Actions均未修改；未做T08、commit/push/stage。
+- 实际一次集中Play：默认停留Manual、Playing、HP100/100、敌人39/39，未自动跑检查或杀玩家；RigidBody资产约束仅FreezeRotation，移动/跳跃真实接线保留。工具发送的短按未取得可靠位移/跳跃证据，**不写成用户人工操作已验收**；原T06运动验证为此前历史。点击新按钮真实启动新Auto夹具，原41个Check及Verify主体未删除/弱化，仍输出41 passed / 0 failed；旧Manual根停用，Auto新注册初值1等检查通过，证明原玩家状态不作为测试输入。
+- 本轮停止GUI前最后Auto Play画面显示41/0、Dead（这是主动运行死亡检查的Auto夹具）；Console gameplay Error=0，现有AI Account API warning1未清除。已退出Play；随后只将Manual运行提示缩为三行，避免首行被既有面板裁切，这个文本调整未重复Play。用户随后明确停止Computer/GUI、不得再操作Unity/Play，已遵从；最终提示文本改动后的编辑器编译/视觉结果由用户自行验收，不再操作编辑器核实。静态配置确认默认资产autoRun=0、Auto资产=1，后者引用为空/按钮禁用，Manual明确引用独立Auto资产。当前等待用户实际人工验收，自动测试结果不替代它。
+- 本轮WwiseSettings.xml/wproj与最新Ming无diff；Gameplay代码内容hash保持本轮开始一致。git diff --check通过，未修改AGENTS/WORK_PACKAGES/controller.handoff或其他成员文件。
+
+**从T09起的Soap交付规则（先记个人handoff，待总控统一）：所有玩家可实际体验的T模块必须同时提供自动测试入口与用户可手动控制的Manual Play场景/模式；自动测试通过 ≠ 用户人工验收通过。后续T08/T10/T11同样执行。** 默认试玩不得自动注入输入/杀玩家；自动入口须明确，且采用独立新鲜夹具或明确重开后运行，不能污染用户人工试玩。
+
+**T09 独测通过，待战斗模块集成。** 2026-10-01（Australia/Sydney）；本轮仅新版T09站桩/接触敌人，未正式接Level_Whitebox，未做T08/T17、AI、掉落、敌人血条、正式美术、Windows构建或新Cue。
+
+### 基线与文件范围
+
+- 实际目录仍为 `D:/Making Games/2026GameJamUnity`（本机无F盘）；分支Soap，起始工作树干净，HEAD=`35dad0740254e0cd5279fc8ad35529a141969813`。已执行 `git fetch origin Ming Soap`；origin/Ming=`4d6b2e18d8386d2c5e2db4bd3a1b32c50edec8fd`，为当前HEAD祖先，无需再次合并。当前规范15及真实Core/Runtime源码为依据；未commit/push/stage。
+- 正式新增 `Assets/Scripts/Gameplay/EnemyBasic/`：EnemyBasic.cs、EnemyBasicConfig.cs、EnemyContactAttack.cs、IEnemyRegistrationAdapter.cs、Regrowth.Gameplay.EnemyBasic.asmdef及meta；程序集只引用Regrowth.Core/Unity内置。
+- 正式资产：`Assets/Configs/EnemyBasic/EnemyBasicConfig.asset`、`Assets/Prefabs/EnemyBasic/EnemyBasic.prefab`及目录/文件meta。
+- 独测：`Assets/Scripts/Tests/T09/` 的T09SmokeDriver、T09RegistrationProbe、运行/Editor程序集、Editor/T09SceneSetup及meta；`Assets/Prefabs/Tests/T09/T09SmokeRig.prefab`、`Assets/Scenes/Tests/T09/T09_Smoke.unity`及meta。仅从T07 rig创建自有副本，保留真实C01/C02/Input/Router/Bite与小平台，移除T07靶子/驱动/按钮；原T07源码/资产只读，无兼容修改。
+- 文档只更新本人Soap.handoff；总控文档、Core/Runtime、Input Actions、主地图、其他成员资产、Packages/ProjectSettings均未改。所有新增Assets均配对meta。
+
+### 生命、攻击与Inspector接线
+
+- EnemyBasic是每个敌人的唯一IHealth/IDamageable/运行攻击值持有者。首次有效启用从Config初始化HP/攻击，运行伤害只写自身字段；伤害正数且Playing/活着时才接受。HP钳至0；提交死亡标记后注销，再通知HealthChanged/Died；通知期间拒绝重入。死亡后拒绝伤害和运行快照，不因组件/对象启停复活；受伤活敌启停也保留HP。没有自行重开/设置Time.timeScale/修改玩家或RunPhase。
+- EnemyContactAttack独立负责FixedUpdate物理扫描，读取owner.RunContext/CanAct与owner.AttackDamage；只向显式绑定的实际玩家IDamageable/IHealth提交。沿碰撞体父链解析接收者并比对显式玩家引用，多个玩家Collider一周期只尝试一次；使用DamageKind.Enemy，Source为EnemyBasic根。成功后只读DamageApplied事件给诊断记录；不是第二次结算入口。
+- Config资产测试默认：最大HP39、接触伤害7、周期0.6游戏秒、玩家层Default(1)、包含玩家Trigger=true。**测试默认值，未冻结最终平衡。** HP/伤害首次初始化生效，启停不会重置；周期/层/Trigger策略每次扫描读取。临时Config副本26HP/9伤害/1.2秒在实际Play验证生效，没有写回正式资产。
+- 正式Prefab根只有一个EnemyBasic，1×1灰盒Sprite与实体BoxCollider2D；子对象Contact Attack Trigger为1.5×1.2 BoxCollider2D Trigger，持有唯一EnemyContactAttack。可见尺寸与实体碰撞bounds实测匹配，无Missing Script。攻击区不代表实体尺寸。
+- 集成者必须在EnemyBasic绑定唯一RunContext组件；可选registrationSource实现下述接口。子接触组件owner/attackTrigger在正式Prefab已绑定；playerDamageableSource须指向真实PlayerState。正式Prefab的跨场景Run/Player引用留空，由总控接线；缺必需绑定给带组件上下文的警告并拒绝受影响动作，不搜索或生成状态。Collider大小在Collider Inspector调整，视觉在SpriteRenderer调整。
+- Paused/Choosing/Dead/Won通过唯一RunContext门禁停止新伤害；阶段通知将下一接触时间设为当前游戏时间+新周期，恢复不会立即补发积压攻击。自身死亡也立即失去CanAct。
+
+### 后续T17的模块内可替换接点
+
+- 检查最新Core/Runtime后没有正式Enemy registry/强化服务，未新增Core接口或全局管理器。
+- `IEnemyRegistrationAdapter.Register(EnemyBasic enemy)` / `Unregister(EnemyBasic enemy)`：可选MonoBehaviour注入，首次有效活体启用注册，停用/死亡注销；死体重新启用不注册，存活启停重新注册但不重置数值。测试Probe仅在T09程序集，不是正式注册服务。
+- `EnemyBasic.TrySetRuntimeStats(int newMaximumHealth, int newCurrentHealth, int newAttackDamage)`：Unity主线程原子接受外部已计算的正数合法快照，拒绝死敌、0HP、越界与事件重入；HP或上限真实改变才发HealthChanged，仅攻击改变不发。可在Register中应用未来生成的外部快照；Config绝不被回写。当前HP/MaxHP/AttackDamage均有只读属性可供未来服务读取。
+- 未来总控/T17负责活体集合、全局状态、HP比例/叠加/取整和未来生成继承政策，再替换/适配上述接点；本轮没有实现任何multiplier/强化费用/比例算法，不声称T17已支持。此局部接口未升级Core正式契约。
+
+### Unity集中验证与复现
+
+- 当前没有暴露可调用Unity MCP工具/资源；使用已有Unity 6000.2.9f1、模块Editor工具与computer-use。开始确认目标D项目/T07场景非Play且无未保存星号，保护已有场景；全部源码完成后一次聚焦导入编译，域重载完成，无本轮C#错误。
+- Editor菜单 `Tools/pawgatory/T09/Create Smoke Scene`（Ctrl+Alt+Shift+9）一次实际生成/保存全部新资产并重开磁盘场景。工具拒绝Play、脏场景和已有T09场景；不覆盖用户资产、不修改Build Settings。保存之后读取YAML核实真实引用/尺寸/配置。
+- 打开 `Assets/Scenes/Tests/T09/T09_Smoke.unity` 后Play自动开始，约十余秒输出 `[T09 RESULT] 41 passed / 0 failed`。不需逐字段点击；测试中仅冻结玩家RigidBody，设备状态经InputSystem注入Enter，通过真实PlayerInputReader→PlayerAttackRouter→PlayerBiteAttack→Physics2D→EnemyBasic扣血。真实PlayerState首次取得躯干，无Arms，BiteDamage13；三次咬击39→26→13→0，HealthChanged3次、Died1次。继续真实Attack与直接伤害都不能重复死亡。
+- 接触链真实EnemyContactAttack→DamageRequest(Enemy,Source=enemy)→PlayerState扣血；两个玩家Collider同周期仅一次，1.2秒替代周期真实生效，Paused/Choosing期间不扣、恢复无积压。另用新的敌人实体和外部运行快照制作致死夹具，接触实际将PlayerState归0，经Bootstrap触发Run Dead，玩家死亡1次；之后不再产生有效伤害。
+- 41项包括初始化、真实咬击/死亡、死后拒绝、活/死启停保持、真实受伤Kind/Source、多个Collider/冷却、暂停/选择/恢复、Config生效/不回写、Prefab唯一状态/缺脚本/实体bounds、注册/注销、快照有效/无效和不可复活。Won门禁源码包含，当前RunController无公开Won迁移，未伪造正式胜利验收。
+- 同一轮Play末段sanity使用新鲜输入咬击、新鲜物理接触和第二次咬击，验证真实掉敌血/掉玩家血/击杀，输出 `[T09 PLAY SANITY]`；最后验证接触杀死玩家。非手工物理按键认证，不重复所有项目或进行第二轮Play。
+- GUI统计：1次只读应用清单；4次窗口快照；3次激活目标窗口；4次实际按键请求（装配2次，其中一次成功、一次因已有场景安全拒绝；进入/退出Play各1次）；另1次装配按键请求被工具因检测用户输入拦截、未执行。首次装配返回/前台状态不明确时只查询实际状态，未重复生成资产。仅一次源码导入编译、一次实际资产生成、一次集中Play；未逐项Inspector点击。退出Play后保留T09场景供接手。
+- 最终Play画面显示41/0及Dead玩家HP0，Console Error计数0、Warning1为现有Unity AI Account API不可访问提示；未手工清Console。日志保留既有Unity云403/License404、Wwise初始化/前台音频暂停信息，均未作为T09 gameplay错误修复；ProjectInfo/SoundBank范围外不动。
+- Git收尾：只有T09新增范围和本人handoff修改，暂存区为空；`git diff --check`通过。`Assets/WwiseSettings.xml`与`2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj`相对最新origin/Ming无diff，无自动漂移，无需恢复。未改Wwise、未生成Bank/新Cue。
+
+T09可作为下一项T08的真实敌人靶子与统一接触伤害基础；T08仍须另按新版任务独测，主地图与完整战斗/强化未集成。
 
 ## T07 V5 迁移与历史环境清理（2026-10-01，Australia/Sydney）
 
