@@ -1,0 +1,6 @@
+{
+    "name": "Regrowth.Gameplay.Locomotion",
+    "rootNamespace": "Regrowth.Gameplay",
+    "references": ["Regrowth.Core", "Regrowth.Audio.Core"],
+    "autoReferenced": true
+}

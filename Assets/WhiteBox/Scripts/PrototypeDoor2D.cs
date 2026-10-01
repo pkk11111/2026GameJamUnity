@@ -1,71 +1,35 @@
+// 职责：保留白板按钮/测试的门调用入口；唯一门状态、碰撞与表现由 T03 WorldDoor 持有。
+// 模块/维护：controller / Level 适配；依赖：Regrowth.Gameplay.SwitchDoor。
+// 接线：显式绑定同物体 WorldDoor，初始打开/可重新关闭在 WorldDoor Inspector 配置。
+// 交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。
 using UnityEngine;
 
-// Attach to an empty Door root at scale (1,1,1).
-// Visual is a child Square sprite; default collision size is 2 x 5 units.
-[DisallowMultipleComponent]
-[RequireComponent(typeof(BoxCollider2D))]
-public class PrototypeDoor2D : MonoBehaviour
+namespace Regrowth.Gameplay.WhiteBox
 {
-    [Header("Initial State")]
-    [Tooltip("Checked: initially visible and solid. Unchecked: initially hidden and passable.")]
-    public bool startClosed = true;
-
-    [Header("Door")]
-    public SpriteRenderer visual;
-    public Vector2 doorSize = new Vector2(2f, 5f);
-
-    private BoxCollider2D doorCollider;
-    private bool initialized;
-    private bool closed;
-
-    public bool IsClosed
+    [DisallowMultipleComponent]
+    public sealed class PrototypeDoor2D : MonoBehaviour
     {
-        get { Initialize(); return closed; }
-    }
+        [SerializeField, Tooltip("必填，同物体 T03 WorldDoor；它是本门唯一状态源。")]
+        private WorldDoor door;
 
-    private void Reset()
-    {
-        GetComponent<BoxCollider2D>().size = new Vector2(2f, 5f);
-        GetComponent<BoxCollider2D>().isTrigger = false;
-        visual = GetComponentInChildren<SpriteRenderer>(true);
-    }
+        public bool IsClosed => door != null && !door.IsOpen;
 
-    private void Awake()
-    {
-        Initialize();
-    }
+        private void Start()
+        {
+            if (door == null || door.gameObject != gameObject || !door.IsConfigured)
+            {
+                Debug.LogError("Level PrototypeDoor2D 缺少同物体有效 WorldDoor。", this);
+                enabled = false;
+            }
+        }
 
-    private void Initialize()
-    {
-        if (initialized) return;
-        doorCollider = GetComponent<BoxCollider2D>();
-        if (visual == null) visual = GetComponentInChildren<SpriteRenderer>(true);
-        doorCollider.size = new Vector2(Mathf.Max(0.01f, doorSize.x), Mathf.Max(0.01f, doorSize.y));
-        doorCollider.offset = Vector2.zero;
-        doorCollider.isTrigger = false;
-        initialized = true;
-        SetClosed(startClosed);
-    }
+        /// <summary>白板开关反转一次；停用、未接线或状态入口拒绝时 false。</summary>
+        public bool TryToggle() => TrySetClosed(!IsClosed);
 
-    public void Toggle()
-    {
-        Initialize();
-        SetClosed(!closed);
-    }
-
-    public void SetClosed(bool value)
-    {
-        Initialize();
-        closed = value;
-        // Keep the root active so every button can still reference this door.
-        doorCollider.enabled = value;
-        if (visual != null) visual.enabled = value;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.color = Application.isPlaying && !closed ? Color.gray : Color.cyan;
-        Gizmos.DrawWireCube(Vector3.zero, new Vector3(doorSize.x, doorSize.y, 0.1f));
+        /// <summary>适配旧白板调用；不再保存状态或第二次操作碰撞/音频。</summary>
+        public bool TrySetClosed(bool value)
+        {
+            return isActiveAndEnabled && door != null && door.TrySetOpen(!value);
+        }
     }
 }

@@ -1,0 +1,4 @@
+{
+    "name": "Regrowth.UI.Hud",
+    "references": ["Regrowth.Core", "UnityEngine.UI", "Unity.TextMeshPro"]
+}

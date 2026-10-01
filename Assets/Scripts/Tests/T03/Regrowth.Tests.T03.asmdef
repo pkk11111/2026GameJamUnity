@@ -1,0 +1,4 @@
+{
+    "name": "Regrowth.Tests.T03",
+    "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.Audio.Core", "Regrowth.Gameplay.SwitchDoor", "Regrowth.Gameplay.Locomotion", "Unity.InputSystem", "UnityEngine.UI", "Unity.TextMeshPro"]
+}

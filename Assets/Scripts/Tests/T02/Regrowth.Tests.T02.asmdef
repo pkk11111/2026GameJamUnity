@@ -1,0 +1,4 @@
+{
+    "name": "Regrowth.Tests.T02",
+    "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.UI.Hud", "UnityEngine.UI", "Unity.TextMeshPro"]
+}
