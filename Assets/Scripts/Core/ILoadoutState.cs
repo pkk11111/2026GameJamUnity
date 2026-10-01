@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Regrowth.Core
 {
-    /// <summary>Capacity 固定为 4；Items 不可被调用方修改；完成变更后通知。</summary>
+    /// <summary>Capacity 固定为 LoadoutRules.Capacity（3）；Items 不可被调用方修改；完成变更后通知。</summary>
     public interface ILoadoutState
     {
         int Capacity { get; }

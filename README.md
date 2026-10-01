@@ -1,37 +1,31 @@
-# GROWL AGAIN
+# pawgatory
 
-Unity 6.2（6000.2.9f1）2D 项目，目标 Windows。活动仓库 `F:/2026GameJamUnity`，总控分支 Ming；已发布基线 `649451f`。当前还有未提交的 Level/Soap 选择性集成，不能把旧 main 当作最新基线。
+Unity 6.2（6000.2.9f1）2D，目标Windows。活动仓库 `F:/2026GameJamUnity`，分支Ming；已提交基点 `0abac92`。本轮工作区为规范13/源码契约7，**未提交/未发布**。
 
-先读 [AGENTS.md](AGENTS.md)、[总控交接](docs/handoffs/controller.handoff)、[WORK_PACKAGES](docs/WORK_PACKAGES.md)。玩法阅读版见 [GAME_DESIGN](docs/GAME_DESIGN.md)。用户下一轮将提供新规则；本轮暂不把可领取宝箱放入地图，不提前实施未知规则。
+先读 [AGENTS.md](AGENTS.md)、[总控交接](docs/handoffs/controller.handoff)、[WORK_PACKAGES](docs/WORK_PACKAGES.md)。新版 [pawgatory_gameplay_design_v5(1).md](<docs/pawgatory_gameplay_design_v5(1).md>) 已取代旧GAME_DESIGN，只提供玩法/内容；Codex并行、代码、交接与音频要求以本地AGENTS为准。
 
-## 当前地图入口
+## 当前测试入口
 
-打开 `Assets/WhiteBox/Scenes/Level_Whitebox.unity` 后 Play。A/D或方向键移动，Space基础跳跃，左右Shift冲刺，E交互，R回出生点，Escape测试暂停。当前用户配置二段跳关闭，可在 `02 Actors/Test_Player/WhiteboxPlayer2D` 调整白板开关。相机仍为玩家子物体。
+打开 `Assets/WhiteBox/Scenes/Level_Whitebox.unity`，Play后可测试7个宝箱、三选一领取、重复拥有过滤、即时增益、三槽HUD和替换事务。01 World/Chests下为Chest_01–07；第一个箱中心(32.5,-11.5)，从左侧约(30,-12.2)可按E。
 
-这是试走场景：免费传送、按钮反复切换门、地刺击退、R只回位。HUD显示真实PlayerState的HP、四个构筑槽和姿态；试走能力不写构筑槽。7处宝箱仅为原地图标记。Portal_B交互区已下移到站立可用高度；地形、门2×6/6×2、地刺图块3×1/4×1比例保留。
+A/D或方向键移动、Space基础跳、E交互；有腿后可二段跳，有普通尾后Shift冲刺。卡片可鼠标选择或键盘导航/Enter确认，Esc或Cancel取消。R只回出生点，Esc在正常游玩时测试暂停。
 
-Hierarchy：00 Runtime、01 World（地形/光照/传送/门/开关/危险）、02 Actors、03 UI、90 Validation；WwiseGlobal由插件维护，保留根节点。8扇门复用Soap WorldDoor，白板适配器只转发反复开关。T06基础运动保留独测，地图只有WhiteboxPlayer2D一套刚体运动组件。
+地图目前跳过头部教学，以满血躯干测试状态开始。免费传送、反复按钮开门、地刺仅击退仍是试走；实际攻击、身体美术、正式收费、两支线、整局胜负/重开待下一轮。两条支线地图由地图迭代同学制作；入口条件门方案见新版规则。
 
-`90 Validation/Level Whitebox Play Checks` 默认autoVerify=false，自动检查会进入Dead；退出/重进Play恢复试走。该历史全能力回归要求在Play临时打开二段跳，不需要保存改动。所有开发测试场景均未加入Build Settings，SampleScene仍是模板占位；本轮未导出Windows。
+原速度7/跳高4.5、地面、门2×6／6×2、地刺3×1／4×1及Portal_B交互锚点保持。运动仍只有WhiteboxPlayer2D；其useLoadoutAbilities=true读取真实状态，关闭后才恢复旧Inspector试走技能开关。
 
-## 验证入口
+## 奖励配置和替换验证
 
-| 场景（Assets/Scenes/Tests 下） | 用途 |
-|---|---|
-| C01/C01_Smoke.unity | 输入缓冲、运行阶段与启动清理 |
-| C02/C02_Smoke.unity | 真实HP、构筑槽、姿态与死亡 |
-| C03/C03_Smoke.unity | 交互排序、去重和选择事务 |
-| T01/T01_Smoke.unity | 菜单生命周期、三项/四项显示 |
-| Integration/T01_C03.unity | 真实运行组件与T01菜单接线 |
-| T02/T02_Smoke.unity | HUD真实事件刷新、启停与换源 |
-| T03/T03_Smoke.unity | 正式一次性开关门与输入/阶段锁 |
-| T06/T06_Smoke.unity | 基础单跳、射线落地、碰墙与调参 |
-| T12/T12_Smoke.unity | 宝箱领取/取消、满槽替换、已拥有过滤与缓存修复 |
+`Assets/Configs/Chest/V5_WhiteboxRewards.asset`含腿、手剑、普通尾、回血、上限、攻击；暂定回血25、上限+15不附带回血、攻击+3。Chest_03/05使用`V5_RegrowthRewards.asset`优先曾拥有且当前缺失的身体部件。Inspector修改配置，不在运行时改共享资产存局内数据。
 
-T02自动检查，其余Soap入口用场景中的Run Checks。模拟键鼠验证前将Game视图置于焦点；最终结果及例外见总控交接。T12有隔离测试替身和仅供测试的回血配置，不能整套复制进地图或当最终奖励池。
+只有三种基础部件时，满三槽不会自然再抽到第四种不同保留项。替换已用独立测试及Play临时独立技能夹具验证；未实现喷火没有加入地图奖励池。
 
-## 目录与清理边界
+Play后菜单 **Tools/pawgatory/T12/Run V5 Checks (Play)** 可运行33项新回归。它只创建/销毁临时测试状态，不修改地图配置。地图7箱的打开/取消、真实E打开、鼠标领取、Esc取消及键盘替换已另行验证，场景保存后退出Play保持全箱未领取。
 
-正式接口/音频入口在 Scripts/Core、Scripts/Audio/Core；唯一状态与输入在 Scripts/Runtime；Soap模块在 Scripts/Gameplay 与 Scripts/UI；白板资源/适配在 WhiteBox；验证脚本、场景、Prefab、Editor工具按Tests保留。
+## 历史测试与剩余工作
 
-本轮删除空Tested节点和白板门重复状态代码；未导入Soap的恢复场景和Wwise漂移。已有独测有独立覆盖价值，保留其源码、配置、Prefab及meta。Wwise工程、插件、URP/TMP配置及使用中的缓存不作为无用内容删除。没有自动commit/push；发布时需包含未跟踪的新资产及对应meta。
+C01/C02/C03、T01/T02/T03/T06/T12、Integration/Level独测资源继续保留。旧C02/T02/T12里的四槽/站立独立剑断言和旧奖励池属于迁移前版本，后续迁移后再作新规则验收；当前T12使用上述V5入口。90 Validation的旧Level全能力检查默认关闭，不能直接作为本轮三槽回归。
+
+Hierarchy保留00 Runtime、01 World、02 Actors、03 UI、90 Validation和插件WwiseGlobal根；新增箱子按原标记中心放置，仅隐藏对应宝箱Tile，不删其他标记/地形。测试驱动不进入正式Build Settings。
+
+WwiseSettings.xml和Authoring工程保持用户当前Ming版本，未导入Soap的SoundBank路径变更。音频接口和Cue要求不变；Bank播放、完整整局及Windows导出尚未验收。

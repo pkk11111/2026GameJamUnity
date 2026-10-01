@@ -1,6 +1,6 @@
 // 职责：Level 白板跑跳、二段跳、冲刺、击退与试走回位；唯一 Rigidbody2D 写入者。
 // 模块/维护：controller / Level 适配；依赖：Core、Runtime 集中输入/阶段、Audio Core。
-// 接线：绑定 inputReader/runController；能力开关仅为用户保留的白板测试配置，不是正式构筑状态。
+// 接线：绑定 inputReader/runController；能力开关仅为用户保留的白板测试配置，只在useLoadoutAbilities关闭时覆盖权限。
 // 交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。所有调参实时读取，出生点首次 Awake 记录。
 using System.Collections.Generic;
 using Regrowth.Audio;
@@ -20,6 +20,14 @@ namespace Regrowth.Gameplay.WhiteBox
         private PlayerInputReader inputReader;
         [SerializeField, Tooltip("必填；唯一运行阶段，不在本组件修改时间倍率。")]
         private RunController runController;
+        [SerializeField, Tooltip("读取唯一构筑决定腿/尾权限；关闭后才使用下方旧白板技能开关。")]
+        private bool useLoadoutAbilities = true;
+        [SerializeField, Tooltip("读取模式必填，唯一PlayerState；不维护第二份能力状态。")]
+        private PlayerState playerState;
+        private bool DoubleJumpEnabled => useLoadoutAbilities
+            ? playerState != null && playerState.Contains(LoadoutItemId.Legs) : enableDoubleJump;
+        private bool DashEnabled => useLoadoutAbilities
+            ? playerState != null && playerState.Contains(LoadoutItemId.Tail) : enableDash;
 
         [Header("移动（单位/秒、单位、重力倍率；实时生效）")]
         [SerializeField, Min(0f), Tooltip("水平速度；保留地图作者保存值。")]
@@ -30,7 +38,7 @@ namespace Regrowth.Gameplay.WhiteBox
         private float gravityScale = 2f;
 
         [Header("仅白板：二段跳")]
-        [SerializeField, Tooltip("测试开关；正式能力将改读 ILoadoutState。")]
+        [SerializeField, Tooltip("旧试走开关；读取构筑时无效，正式二段跳来自腿。")]
         private bool enableDoubleJump;
         [SerializeField, Min(0.1f), Tooltip("第二跳相对起跳点上升高度，单位。")]
         private float doubleJumpHeight = 3f;
@@ -121,9 +129,9 @@ namespace Regrowth.Gameplay.WhiteBox
 
         private void OnEnable()
         {
-            if (inputReader == null || runController == null)
+            if (inputReader == null || runController == null || (useLoadoutAbilities && playerState == null))
             {
-                Debug.LogError("Level WhiteboxPlayer2D 缺少 inputReader/runController 引用。", this);
+                Debug.LogError("Level WhiteboxPlayer2D 缺少 inputReader/runController/playerState 引用。", this);
                 enabled = false;
                 return;
             }
@@ -180,7 +188,7 @@ namespace Regrowth.Gameplay.WhiteBox
                 jumpBuffer = jumpBufferTime;
             }
             bool requestDash = inputReader.TryConsumeDash();
-            if (dashing && (dashRemaining <= 0f || !enableDash))
+            if (dashing && (dashRemaining <= 0f || !DashEnabled))
             {
                 dashing = false;
                 body.linearVelocity = Vector2.zero;
@@ -210,7 +218,7 @@ namespace Regrowth.Gameplay.WhiteBox
                 Vector2 velocity = body.linearVelocity;
                 velocity.x = moveInput * moveSpeed;
                 bool canGroundJump = IsGrounded || coyoteRemaining > 0f;
-                bool canDoubleJump = enableDoubleJump && !doubleJumpUsed;
+                bool canDoubleJump = DoubleJumpEnabled && !doubleJumpUsed;
                 if (jumpBuffer > 0f && (canGroundJump || canDoubleJump))
                 {
                     bool isDoubleJump = !canGroundJump;
@@ -227,7 +235,7 @@ namespace Regrowth.Gameplay.WhiteBox
                     GameAudio.Play(AudioCue.PlayerJump, gameObject);
                 }
                 body.linearVelocity = velocity;
-                if (requestDash && enableDash && cooldownRemaining <= 0f
+                if (requestDash && DashEnabled && cooldownRemaining <= 0f
                     && (IsGrounded || (allowAirDash && !airDashUsed)))
                 {
                     dashing = true;

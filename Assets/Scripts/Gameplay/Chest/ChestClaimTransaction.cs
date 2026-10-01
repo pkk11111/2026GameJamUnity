@@ -1,6 +1,5 @@
-// 职责：单箱固定三卡与唯一领取事务；共享状态只经IPlayerStateCommands写。
-// Soap / T12；依赖Core/ChestRewardConfig；无UI/Runtime依赖，隔离替换测试复用同一实现。
-// 交接docs/handoffs/Soap.handoff；规范根AGENTS.md。总控适配：重开排除已持有项，只补失效卡；完整奖励池等待新规则。
+// 职责：V5宝箱配置/原子领取；依赖Core，真实状态归PlayerState，UI只展示。
+// 模块/维护：controller / T12（适配Soap模块）；交接：docs/handoffs/controller.handoff；规范：根AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Core;
@@ -10,6 +9,8 @@ namespace Regrowth.Gameplay
     internal sealed class ChestClaimTransaction
     {
         private readonly IHealth health;
+        private readonly IPlayerBodyState body;
+        private readonly IPlayerRewardCommands rewards;
         private readonly ILoadoutState loadout;
         private readonly IPlayerStateCommands commands;
         private readonly IRunContext run;
@@ -35,6 +36,8 @@ namespace Regrowth.Gameplay
             IRunContext run, IChoiceFlow flow, ChestRewardConfig config, string requestId, Action completed, Func<bool> ownerValid)
         {
             this.health = health;
+            body = health as IPlayerBodyState;
+            rewards = commands as IPlayerRewardCommands;
             this.loadout = loadout;
             this.commands = commands;
             this.run = run;
@@ -46,7 +49,8 @@ namespace Regrowth.Gameplay
         }
 
         internal bool CanBegin => !Claimed && session == null && !submitting && ownerValid()
-            && health.IsAlive && run.IsGameplayActive && !flow.IsOpen && config.IsValid;
+            && health.IsAlive && run.IsGameplayActive && !flow.IsOpen && config.IsValid
+            && (body == null || config.BodyTutorial != body.HasBodyCore);
 
         /// <summary>主线程；只有TryBegin成功才固定缓存。失败不消耗、不假造候选。</summary>
         internal bool TryBegin()
@@ -63,7 +67,7 @@ namespace Regrowth.Gameplay
             var options = new List<ChoiceOption>();
             foreach (var reward in selected)
             {
-                options.Add(new ChoiceOption(reward.Id, reward.Title, reward.Description));
+                options.Add(new ChoiceOption(reward.Id, DisplayTitle(reward), reward.Description));
             }
             var started = new Session();
             session = started;
@@ -91,16 +95,16 @@ namespace Regrowth.Gameplay
         // 新数组仅在选择入口接受后缓存，失败不得部分改写旧卡组。
         private ChestRewardDefinition[] SelectCurrentOptions()
         {
-            var selected = new ChestRewardDefinition[3];
+            var selected = new ChestRewardDefinition[config.BodyTutorial ? 1 : 3];
             var retainedIds = new HashSet<string>(StringComparer.Ordinal);
             var retainedItems = new HashSet<LoadoutItemId>();
-            int missing = 3;
+            int missing = selected.Length;
             if (cached != null)
             {
                 for (int i = 0; i < selected.Length; i++)
                 {
                     var reward = cached[i];
-                    if (reward.Kind == ChestRewardKind.Loadout && loadout.Contains(reward.Item))
+                    if (!IsAvailable(reward))
                     {
                         continue;
                     }
@@ -116,8 +120,8 @@ namespace Regrowth.Gameplay
             var legal = new List<ChestRewardDefinition>();
             foreach (var reward in config.Rewards)
             {
-                if (!retainedIds.Contains(reward.Id) && (reward.Kind == ChestRewardKind.Heal
-                    || (!loadout.Contains(reward.Item) && !retainedItems.Contains(reward.Item))))
+                if (!retainedIds.Contains(reward.Id) && IsAvailable(reward)
+                    && (reward.Kind != ChestRewardKind.Loadout || !retainedItems.Contains(reward.Item)))
                 {
                     legal.Add(reward);
                 }
@@ -125,6 +129,18 @@ namespace Regrowth.Gameplay
             if (legal.Count < missing)
             {
                 return null;
+            }
+            // 再生保留位只作用首次生成，不因取消/后来历史变化重刷其他合法卡。
+            if (cached == null && config.FavorRegrowth && body != null)
+            {
+                var candidates = legal.FindAll(value => value.Kind == ChestRewardKind.Loadout
+                    && LoadoutRules.IsBodyItem(value.Item) && body.WasEverOwned(value.Item));
+                if (candidates.Count > 0)
+                {
+                    var priority = candidates[UnityEngine.Random.Range(0, candidates.Count)];
+                    selected[0] = priority.Copy();
+                    legal.Remove(priority);
+                }
             }
             // 无放回等概率补空位；不改变保留卡的位置、内容或顺序。
             for (int i = 0; i < selected.Length; i++)
@@ -138,6 +154,61 @@ namespace Regrowth.Gameplay
                 legal.RemoveAt(index);
             }
             return selected;
+        }
+        private bool IsAvailable(ChestRewardDefinition reward)
+        {
+            if (reward.Kind == ChestRewardKind.BodyCore)
+            {
+                return body != null && !body.HasBodyCore;
+            }
+            if (reward.Kind != ChestRewardKind.Loadout)
+            {
+                return true;
+            }
+            if (loadout.Contains(reward.Item))
+            {
+                return false;
+            }
+            foreach (var held in loadout.Items)
+            {
+                // 互斥尾巴可作为明确换尾候选；同喷火来源不能重复。
+                if (LoadoutRules.Conflicts(held, reward.Item)
+                    && !(LoadoutRules.IsTail(held) && LoadoutRules.IsTail(reward.Item)))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        private string DisplayTitle(ChestRewardDefinition reward)
+        {
+            return reward.Kind == ChestRewardKind.Loadout && body != null && body.WasEverOwned(reward.Item)
+                && !string.IsNullOrWhiteSpace(reward.RegrowthTitle) ? reward.RegrowthTitle : reward.Title;
+        }
+        private bool Apply(Session expected, ChestRewardDefinition reward, LoadoutItemId? removed = null)
+        {
+            if (rewards != null)
+            {
+                if (reward.Kind == ChestRewardKind.BodyCore)
+                {
+                    return rewards.TryAcquireBodyCore(() => Complete(expected));
+                }
+                int heal = reward.Kind == ChestRewardKind.Heal ? reward.HealAmount : reward.BonusHeal;
+                var grant = new PlayerReward(reward.Kind == ChestRewardKind.Loadout ? (LoadoutItemId?)reward.Item : null,
+                    heal, reward.Kind == ChestRewardKind.MaximumHealth ? reward.EffectAmount : 0,
+                    reward.Kind == ChestRewardKind.Attack ? reward.EffectAmount : 0);
+                return rewards.TryApplyReward(grant, removed, () => Complete(expected));
+            }
+            // 旧独测替身兼容；正式Chest要求IPlayerRewardCommands，不会走这里。
+            if (reward.BonusHeal != 0)
+            {
+                return false;
+            }
+            bool applied = reward.Kind == ChestRewardKind.Heal
+                ? health.CurrentHealth == health.MaximumHealth || commands.TryHeal(reward.HealAmount)
+                : reward.Kind == ChestRewardKind.Loadout && (removed.HasValue
+                    ? commands.TryReplaceLoadoutItem(removed.Value, reward.Item) : commands.TryAddLoadoutItem(reward.Item));
+            return applied && Complete(expected);
         }
         private bool CanConfirm(Session expected, int stage)
         {
@@ -153,24 +224,44 @@ namespace Regrowth.Gameplay
             }
             ChestRewardDefinition reward = Array.Find(selected, value => value.Id == id);
             if (reward == null || !reward.IsValid
-                || (reward.Kind == ChestRewardKind.Loadout && loadout.Contains(reward.Item)))
+                || !IsAvailable(reward))
             {
                 return false;
             }
             submitting = true;
             try
             {
-                if (reward.Kind == ChestRewardKind.Heal)
+                if (reward.Kind != ChestRewardKind.Loadout)
                 {
-                    // 满血无变化也可领取；不造伤害，不把TryHeal的false一概视作成功。
-                    bool healed = health.CurrentHealth == health.MaximumHealth || commands.TryHeal(reward.HealAmount);
-                    return healed && Complete(expected);
+                    return Apply(expected, reward);
+                }
+                LoadoutItemId? oldTail = null;
+                foreach (var held in loadout.Items)
+                {
+                    if (LoadoutRules.IsTail(held) && LoadoutRules.IsTail(reward.Item))
+                    {
+                        oldTail = held;
+                    }
+                }
+                if (oldTail.HasValue)
+                {
+                    var replacement = oldTail.Value;
+                    var swap = new ChoiceOption("swap-tail", "Replace " + config.ItemTitle(replacement),
+                        "Lose the old tail and its ability; gain the selected tail.");
+                    if (flow.TryReplace(new ChoiceRequest(requestId, config.ReplacementTitle, new[] { swap }),
+                        oldId => ConfirmReplacement(expected, reward,
+                            new Dictionary<string, LoadoutItemId> { { "swap-tail", replacement } }, oldId), () => Cancel(expected)))
+                    {
+                        expected.Stage = 1;
+                        expected.PendingReward = reward;
+                    }
+                    return false;
                 }
                 if (loadout.Items.Count < loadout.Capacity)
                 {
-                    return commands.TryAddLoadoutItem(reward.Item) && Complete(expected);
+                    return Apply(expected, reward);
                 }
-                if (loadout.Capacity != 4 || loadout.Items.Count != 4)
+                if (loadout.Capacity != LoadoutRules.Capacity || loadout.Items.Count != LoadoutRules.Capacity)
                 {
                     return false;
                 }
@@ -205,7 +296,7 @@ namespace Regrowth.Gameplay
             Dictionary<string, LoadoutItemId> oldItems, string id)
         {
             if (!CanConfirm(expected, 1) || !ReferenceEquals(expected.PendingReward, reward)
-                || !reward.IsValid || loadout.Contains(reward.Item)
+                || !reward.IsValid || !IsAvailable(reward)
                 || !oldItems.TryGetValue(id, out var oldItem) || !loadout.Contains(oldItem))
             {
                 return false;
@@ -213,7 +304,7 @@ namespace Regrowth.Gameplay
             submitting = true;
             try
             {
-                return commands.TryReplaceLoadoutItem(oldItem, reward.Item) && Complete(expected);
+                return Apply(expected, reward, oldItem);
             }
             finally
             {

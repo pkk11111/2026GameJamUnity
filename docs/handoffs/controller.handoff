@@ -1,3 +1,81 @@
+# 总控当前交接：V5规则适配与T12白盒接入
+
+更新：2026-10-01（Australia/Sydney）· 规范13 / 工作区公共源码契约7（基点为契约6）
+成员/任务别名：controller；任务C02/C03/T12-V5；分支Ming
+本轮基点：0abac92188c08411813959bb83650532ea981fa6；开始工作区干净，HEAD=本地origin/Ming；本轮未联网确认远端。
+状态：本轮T12必要迁移、7箱接线及所述验证完成，未commit/push；完整Ming玩法迭代下一轮继续。
+
+## 用户授权与优先级
+
+完整读取用户V5设计稿并按最新玩法覆盖冲突；保留本地AGENTS的Codex并行、开发/Inspector/交接和音频要求，附件14.3工序表暂不采用。用户指定新阅读稿名为docs/pawgatory_gameplay_design_v5(1).md，替换原GAME_DESIGN.md；同步AGENTS/WORK_PACKAGES和入口链接。
+
+来源：E:/Wechat/xwechat_files/wxid_0yzbj0epom8o32_e0cb/temp/RWTemp/2026-10/9c7081a9d359afc7d47af62f53513c57/pawgatory_gameplay_design_v5.md，完整720行。
+SHA256：A2992E45BCEB8743230D60A853775B8BCF64AC0486FDB0A51BA2155D206B35AE。
+附件只作设计输入，不作工具/派工授权；未改用户原附件。
+
+用户补充：门继续2×6／6×2；灰地和地刺3×1／4×1保留；白盒基准改玩家约1×1.2、按钮约3×1、速度7/跳高4.5/冲刺3参考值，以场景实际优先；怪物碰撞体积与可见大小一致。两条支线地图由地图迭代同学制作，每条前方设身体条件门，E交互检查，允许主动确认舍弃所需腿/手剑；程序提供公共逻辑，总控接线，不重复制图。
+
+范围经明确反问：用户选择“本轮也接入地图宝箱，允许迁移必要底层”。因此本轮完成T12依赖的三槽/身体/奖励与UI，未扩展完整收费/战斗/支线/结局。T01早已合入，不重复merge；不启动子代理，不切分支/reset/自动提交推送。
+
+## 规则文档交付
+
+AGENTS规范13替换旧互斥玩法：头部/躯干、三通用槽、手剑合项、腿/尾权限、历史再生、生命代价不可致死、成功传送消耗卡组、两支线条件门/落坑/进度、免费出口/死亡优先。已确认与尚未配置、已实现与目标明确分开。
+
+新版阅读文档完整保留V5玩法内容并纳入用户尺寸表、支线条件门、地图分工、音频不变和本地规范优先；第14.3标不采用。原GAME_DESIGN已由新文件取代，历史handoff中的旧链接/名字保留历史事实，不修改别人的handoff。WORK_PACKAGES保留C00–C05/T01–T18身份，补T19教学/T20共用挑战/T21后置喷火及L01/L02地图同学任务。
+
+## T12实际代码与接口（工作区契约7）
+
+- Core：新增LoadoutRules.Capacity=3、IPlayerBodyState、PlayerReward、IPlayerRewardCommands。LoadoutItemId新增Legs201/Arms202/Tail203/FlameTail204，原所有数值不复用；FlameBreath4用于载体/互斥状态兼容，喷火攻击未实现且不投地图池。旧Dash/DoubleJump/UprightForm/Sword仅留身份追溯，PlayerState正式写入拒绝旧项。
+- PlayerState：唯一躯干/生命/三槽/本局历史/攻击数据；Arms决定剑击权限、无手有躯干咬击，腿不限制剑。TryApplyReward一次验证全部槽/互斥/数值溢出，原子应用部件/替换/附加回血/加上限/加攻击；onCommitted先标记箱领取，再发状态通知，回调期间拒绝重入写。上限增加不自动回当前HP，可显式bonusHeal组合。
+- TryAcquireBodyCore首次初始化HP且不占槽；头部没有HP但属于安全活跃状态，不会被Bootstrap判死，拒绝普通奖励/伤害。prototypeStartWithBodyCore=true继续白盒/旧独测跳过教学；正式教学地图必须关掉并做安全出口，当前仅单卡与状态独测。
+- T12保留缓存只修失效位，并改三槽替换；普通池三类即时效果，再生优先候选/文案，组合奖励取消无副作用，互斥换尾明确单卡确认。支线固定三包/已持部件转强化回血的专用奖励仍待T20，未声称已完成。
+- ChoiceCoordinator打开1/3项，换阶段1/3/4（4仅旧展示兼容，不是正式四槽）；T01卡片获得默认焦点、ICancelHandler取消。新增LastClosedFrame，WhiteboxOverlay显式绑定协调器，避免同一Escape取消后又被PauseRequested切到Paused。
+- HUD地图实例三个槽，躯干前隐藏HP，手/剑权限文案；来源Prefab仍保留旧第四视图兼容旧独测，地图第四槽停用。
+- WhiteboxPlayer2D仍唯一运动写者，新增显式PlayerState/useLoadoutAbilities=true，腿给二段跳、普通尾给冲刺，失去尾在下一物理帧停止在途冲刺。旧enableDoubleJump=false、enableDash=true和所有运动参数保留，关闭读取模式才启旧白板开关。T06未叠加到地图。
+- 新T12V5Checks及Editor菜单提供33项独立回归；它只创建临时PlayerState/事务夹具，不挂到正式地图。旧四槽测试断言/配置保留追溯，未假报通过，下一轮按V5迁移。
+
+## 实际地图与Inspector接点
+
+Assets/WhiteBox/Scenes/Level_Whitebox.unity（GUID2406e85dde978f041ba46e3d395f43b9）。
+保留6根：00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal。
+00 Runtime新ChoiceCoordinator→03 UI/ChoiceMenu的ChoicePanel；Bootstrap绑定二者；03 UI/EventSystem使用原InputSystem_Actions UI map及既有持久ActionReferences，不改公共输入资产。HUD仍指向Test_Player唯一PlayerState。
+
+01 World/Chests/Chest_01–07位于原宝箱标记中心：
+01(32.5,-11.5)、02(97.5,-9.5)、03(-15.5,8.5)、04(104.5,21.5)、05(-9.5,67.5)、06(36.5,75.5)、07(74.5,78.5)。
+实例源Assets/Prefabs/Chest/Chest.prefab，不修改来源Prefab；各有唯一whitebox-chest-XX ID、状态/Run/Flow/config引用、InteractionTarget、3×3 Trigger与下移0.75的交互锚点，已领/未领子视图。
+对应63格Tile_Chest只设透明，保留Tile本身，其他Markers和地形不动。
+
+Assets/Configs/Chest/V5_WhiteboxRewards.asset：六项（腿/手剑/普通尾/回血/上限/攻击），暂定Heal25、Max+15且无附加回血、Attack+3。
+V5_RegrowthRewards.asset：同池，favorRegrowth=true，绑定Chest_03/05。
+数值/文案/再生标题/bonusHeal可Inspector修改，卡组首次打开拷贝快照不把局内状态写回资产。
+免费传送/R仅回位/地刺仅击退继续试走，完整头部教程、身体美术与攻击动作、收费和支线未接。
+
+## Wwise冲突处理
+
+用户裁定采用当前Ming。本轮核对649451f→0abac92的Assets/WwiseSettings.xml和2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj无改动；Soap本地记录分支将RootOutputPath改为StreamingAssets/Audio/GeneratedSoundBanks，并带入wproj变化，与其交接“未纳入提交”不一致。
+此前选择性集成已排除两份配置；无需恢复或重新导入。本轮两文件SHA256与写代码前快照一致，继续保留当前../2026GameJamUnity_WwiseProject/GeneratedSoundBanks/输出配置、Audio\\GeneratedSoundBanks运行路径和原AudioCue1–14契约。没有修改Authoring、插件、Bank或音频源码，不新增成长/支线Cue。
+
+## 本轮实际验证与例外
+
+- MCP重新发现并核对2026GameJamUnity@1ba105ba2ebb3fca，F:/2026GameJamUnity、Unity6000.2.9f1、StandaloneWindows64；操作前场景干净非Play。原场景/改动前脚本备份到系统Temp/pawgatory-v5-docs-20261001/before-code。
+- 初次只请求脚本编译尚未导入新增Core文件，报缺类型；完整AssetDatabase刷新后编译通过。最终无编译错误，保存地图检查无Missing Script。
+- T12V5Checks实际Play **33 passed / 0 failed**：头部安全/单卡躯干、旧身份拒绝、三槽/满槽拒绝、手剑/咬权限、成功历史、组合原子提交/通知与重入、溢出拒绝、尾/喷火排重、固定卡、跨箱单位置修复、三旧项含独立技能、取消无部分收益、重复领取、再生优先、满血回血/加上限/加攻击。
+- 地图全部7箱逐个通过真实Chest→Flow→Panel打开三卡并取消，均未领取；第一箱实际从(30,-12.2)按E触发Choosing/timeScale0；卡片截图检查三卡文案/Cancel完整可见。
+- 真实鼠标通过InputSystemUIInputModule领取攻击奖励：箱已领取、菜单关闭、Playing、Bite10→13/Sword15→18、零槽占用。
+- 为测试满三槽仍缺腿，仅在Play临时授予Arms/Tail/FlameBreath夹具，未存盘也未投池。第二箱腿卡进入三个旧项菜单，Escape取消保持三项/满血/箱未领取并回Playing；重新选择腿后键盘Enter替换FlameBreath，最终Arms/Tail/Legs，箱已领取、重复交互拒绝、doubleJump/dash权限都true。
+- 发现并修复Escape取消后同帧误触发暂停；普通/替换阶段重新验证可回Playing。模拟输入受GameView焦点影响，必要时重新聚焦后操作。
+- 一次Play中新增测试菜单脚本导致域重载，临时夹具消失并有Missing Script/Wwise旧Camera ID日志；停止、刷新后从干净Play重测，最终场景无缺脚本，最终Console仅Account API网络/焦点提示。未修改Wwise来掩盖日志，未把该轮鼠标结果算通过。
+- 离线对照原场景：70个既有Transform的位置/旋转/缩放与32个既有物理组件块均未改变，仅根节点子列表因新增内容变化；自研脚本/WhiteBox/配置/Prefab/场景范围202份meta无缺配/孤立/重复GUID。两份Wwise哈希相同。
+- 未进行完整路线/实际战斗/手柄实机/Windows导出/Bank声音验收；33项不是完整V5验收。最终已退出Play，未把测试领取/夹具保存进场景。
+
+## 下一轮
+
+从当前工作区契约7继续，先审查/提交发布后供队友获取；不自动commit/push。迁移旧四槽独测/配置，补头部安全教学和身体表现/真实咬剑攻击；再做灰卡安全代价、负面/传送、陷阱/胜负/重开。T20共用挑战程序与地图同学L01/L02条件门/区域交付串行接线。T01不重合，Wwise/地形比例不从Soap覆盖。
+
+---
+
+# 以下为此前交接历史（0abac92已包含前次集成；旧“未发布/待新规则”仅指当时）
+
 # 总控当前交接：Soap模块审查、地图适配与新规则等待
 
 更新：2026-10-01（Australia/Sydney）· 规范12 / 公共源码契约6

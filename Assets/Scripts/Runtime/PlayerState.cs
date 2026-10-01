@@ -1,6 +1,5 @@
-// 职责：唯一玩家生命、构筑、姿态和攻击数值持有者；只发布已确认的最小状态事务。
-// 模块/维护：controller，C02；直接依赖：Core、GameAudio；GameBootstrap 显式初始化/解绑；无独立奖励/献祭系统。
-// 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
+// 职责：唯一生命/三槽/身体/历史/攻击状态；奖励先全量验证再提交，Bootstrap初始化，事件仅通知。
+// 模块/维护：controller / T12-V5；交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Audio;
@@ -9,171 +8,265 @@ using UnityEngine;
 
 namespace Regrowth.Runtime
 {
-    /// <summary>
-    /// 首次初始化满血/空构筑/四足。临时启停保留本生命周期状态，死亡不复活；
-    /// 新局方式待 C04，不提供 SetHealth、Reset 或直接改姿态入口。
-    /// </summary>
     [DisallowMultipleComponent]
     public sealed class PlayerState : MonoBehaviour, IHealth, IDamageable, ILoadoutState, IFormState,
-        IPlayerStateCommands, IPlayerCombatState
+        IPlayerStateCommands, IPlayerCombatState, IPlayerBodyState, IPlayerRewardCommands
     {
-        [Header("首次初始化参数（暂定测试值）")]
-        [SerializeField, Min(1), Tooltip("满血开局的最大生命；暂定100，首次初始化读取。不是最大生命代价下限。")]
+        [Header("初始化（暂定测试值；首次初始化读取）")]
+        [SerializeField, Min(1), Tooltip("躯干首次取得时的最大HP；默认100，后续部件再生不重复满血。")]
         private int initialMaximumHealth = 100;
-        [SerializeField, Min(0), Tooltip("基础咬击伤害；暂定10，首次初始化读取。0允许配置，命中端须跳过0伤害请求。")]
+        [SerializeField, Min(0), Tooltip("初始咬击伤害；实际动作模块读取，暂定10。")]
         private int initialBiteDamage = 10;
-        [SerializeField, Min(0), Tooltip("剑击伤害；暂定15，首次初始化读取。未实现攻击增减/负面叠加。")]
+        [SerializeField, Min(0), Tooltip("初始剑击伤害；暂定15，双手权限不依赖腿。")]
         private int initialSwordDamage = 15;
+        [SerializeField, Tooltip("仅白板/旧独测跳过躯干教学；正式教学场景必须关闭。首次初始化生效。")]
+        private bool prototypeStartWithBodyCore = true;
 
         private readonly LoadoutCollection loadout = new LoadoutCollection();
+        private readonly List<LoadoutItemId> everOwned = new List<LoadoutItemId>();
+        private IReadOnlyList<LoadoutItemId> historyView;
         private IRunContext run;
         private int currentHealth;
         private int maximumHealth;
         private int biteDamage;
         private int swordDamage;
         private bool notifying;
-
         public bool IsInitialized { get; private set; }
         public bool IsBound => run != null;
+        public bool HasBodyCore { get; private set; }
         public int CurrentHealth => currentHealth;
         public int MaximumHealth => maximumHealth;
-        public bool IsAlive => IsInitialized && currentHealth > 0;
-        public int Capacity => LoadoutCollection.SlotCapacity;
+        // 头部是安全的活跃状态；不能把尚未初始化的HP当死亡。
+        public bool IsAlive => IsInitialized && (!HasBodyCore || currentHealth > 0);
+        public int Capacity => LoadoutRules.Capacity;
         public IReadOnlyList<LoadoutItemId> Items => loadout.Items;
-        public PlayerForm CurrentForm => Contains(LoadoutItemId.UprightForm) ? PlayerForm.Upright : PlayerForm.Quadruped;
+        public IReadOnlyList<LoadoutItemId> EverOwnedItems => historyView ?? (historyView = everOwned.AsReadOnly());
+        public bool WasEverOwned(LoadoutItemId item) => everOwned.Contains(item);
+        public PlayerForm CurrentForm => Contains(LoadoutItemId.Arms) ? PlayerForm.Upright : PlayerForm.Quadruped;
         public int BiteDamage => biteDamage;
         public int SwordDamage => swordDamage;
-        public bool CanBite => CanAct && CurrentForm == PlayerForm.Quadruped;
-        public bool CanUseSword => CanAct && CurrentForm == PlayerForm.Upright && Contains(LoadoutItemId.Sword);
+        public bool CanBite => CanAct && HasBodyCore && !Contains(LoadoutItemId.Arms);
+        public bool CanUseSword => CanAct && HasBodyCore && Contains(LoadoutItemId.Arms);
         private bool CanAct => IsAlive && IsBound && isActiveAndEnabled && run.IsGameplayActive;
         private bool CanWrite => IsAlive && IsBound && isActiveAndEnabled && !notifying
             && (run.IsGameplayActive || run.Phase == RunPhase.Choosing);
-
-        /// <summary>变更完成后通知；死亡先 HealthChanged 后 Died。OnEnable订阅/OnDisable退订并读快照。</summary>
         public event Action HealthChanged;
         public event Action Died;
-        /// <summary>槽/姿态已全部提交后通知一次；回调中写命令被拒绝，避免部分通知重入。</summary>
         public event Action LoadoutChanged;
         public event Action<PlayerForm> FormChanged;
+        public event Action BodyChanged;
 
-        // Bootstrap 早于本组件 OnEnable；启动资格使用 enabled/activeInHierarchy。
         internal bool Initialize(IRunContext context)
         {
             if (context == null || IsBound || !enabled || !gameObject.activeInHierarchy
                 || (!IsInitialized && (initialMaximumHealth <= 0 || initialBiteDamage < 0 || initialSwordDamage < 0)))
             {
-                Debug.LogError("C02 PlayerState 初始化失败：检查入口唯一绑定、组件启用、正数初始HP和非负攻击配置。", this);
+                Debug.LogError("PlayerState 初始化失败：检查唯一绑定、启用和HP/攻击配置。", this);
                 return false;
             }
-
             run = context;
             if (!IsInitialized)
             {
-                maximumHealth = initialMaximumHealth;
+                HasBodyCore = prototypeStartWithBodyCore;
+                maximumHealth = HasBodyCore ? initialMaximumHealth : 0;
                 currentHealth = maximumHealth;
                 biteDamage = initialBiteDamage;
                 swordDamage = initialSwordDamage;
                 IsInitialized = true;
-                NotifyHealth(false);
+                Notify(false, true, false, CurrentForm, false);
             }
             return true;
         }
 
-        /// <summary>实际敌人/地形扣血才 true；只有 Playing，拒绝 default、死亡、暂停与重入。不实现护盾/自动无敌帧。</summary>
+        public bool TryAcquireBodyCore(Action onCommitted = null)
+        {
+            if (!CanWrite || HasBodyCore || initialMaximumHealth <= 0)
+            {
+                return false;
+            }
+            HasBodyCore = true;
+            maximumHealth = initialMaximumHealth;
+            currentHealth = maximumHealth;
+            notifying = true;
+            try
+            {
+                CommitOwner(onCommitted);
+                BodyChanged?.Invoke();
+                HealthChanged?.Invoke();
+            }
+            finally
+            {
+                notifying = false;
+            }
+            return true;
+        }
+
+        /// <summary>实际Playing敌人/地形伤害才true；头部安全期拒绝伤害，费用不得走这里。</summary>
         public bool TryTakeDamage(DamageRequest request)
         {
-            if (!CanAct || notifying || request.Amount <= 0
+            if (!CanAct || !HasBodyCore || notifying || request.Amount <= 0
                 || (request.Kind != DamageKind.Enemy && request.Kind != DamageKind.Terrain))
             {
                 return false;
             }
-
             currentHealth -= Math.Min(currentHealth, request.Amount);
-            NotifyHealth(true);
+            Notify(false, true, false, CurrentForm, true);
             return true;
         }
 
         public bool TryHeal(int amount)
         {
-            if (!CanWrite || amount <= 0 || currentHealth == maximumHealth)
+            if (!HasBodyCore || currentHealth == maximumHealth)
             {
                 return false;
             }
-            currentHealth += Math.Min(amount, maximumHealth - currentHealth);
-            NotifyHealth(false);
-            return true;
+            return TryApplyReward(new PlayerReward(heal: amount));
         }
-
         public bool Contains(LoadoutItemId item) => loadout.Contains(item);
-
-        public bool TryAddLoadoutItem(LoadoutItemId item)
-        {
-            if (!CanWrite || !IsFirstEditionItem(item))
-            {
-                return false;
-            }
-            PlayerForm previousForm = CurrentForm;
-            if (!loadout.TryAdd(item))
-            {
-                return false;
-            }
-            NotifyLoadout(previousForm);
-            PlayAbilityCue(item, AudioCue.AbilityGained);
-            return true;
-        }
+        public bool TryAddLoadoutItem(LoadoutItemId item) => TryApplyReward(new PlayerReward(item));
+        public bool TryReplaceLoadoutItem(LoadoutItemId removedItem, LoadoutItemId addedItem) =>
+            TryApplyReward(new PlayerReward(addedItem), removedItem);
 
         public bool TryRemoveLoadoutItem(LoadoutItemId item)
         {
-            if (!CanWrite || !IsFirstEditionItem(item))
+            if (!CanWrite || !HasBodyCore || !LoadoutRules.IsV5Item(item))
             {
                 return false;
             }
-            PlayerForm previousForm = CurrentForm;
+            PlayerForm previous = CurrentForm;
             if (!loadout.TryRemove(item))
             {
                 return false;
             }
-            NotifyLoadout(previousForm);
-            PlayAbilityCue(item, AudioCue.AbilityLost);
+            Notify(true, false, false, previous, false);
+            GameAudio.Play(AudioCue.AbilityLost, gameObject);
             return true;
         }
 
-        public bool TryReplaceLoadoutItem(LoadoutItemId removedItem, LoadoutItemId addedItem)
+        public bool TryApplyReward(PlayerReward reward, LoadoutItemId? removedItem = null, Action onCommitted = null)
         {
-            if (!CanWrite || !IsFirstEditionItem(removedItem) || !IsFirstEditionItem(addedItem))
+            if (!CanWrite || !HasBodyCore || !reward.IsValid
+                || (removedItem.HasValue && (!reward.Item.HasValue || !Contains(removedItem.Value))))
             {
                 return false;
             }
-            PlayerForm previousForm = CurrentForm;
-            if (!loadout.TryReplace(removedItem, addedItem))
+            long nextMaximum = (long)maximumHealth + reward.MaximumHealthIncrease;
+            long nextBite = (long)biteDamage + reward.AttackIncrease;
+            long nextSword = (long)swordDamage + reward.AttackIncrease;
+            if (nextMaximum > int.MaxValue || nextBite > int.MaxValue || nextSword > int.MaxValue)
             {
                 return false;
             }
-            NotifyLoadout(previousForm);
-            PlayAbilityCue(removedItem, AudioCue.AbilityLost);
-            PlayAbilityCue(addedItem, AudioCue.AbilityGained);
+            if (reward.Item.HasValue)
+            {
+                LoadoutItemId added = reward.Item.Value;
+                if (Contains(added) || (!removedItem.HasValue && Items.Count >= Capacity))
+                {
+                    return false;
+                }
+                foreach (LoadoutItemId held in Items)
+                {
+                    if ((!removedItem.HasValue || held != removedItem.Value) && LoadoutRules.Conflicts(held, added))
+                    {
+                        return false;
+                    }
+                }
+            }
+            PlayerForm previous = CurrentForm;
+            int nextHealth = (int)Math.Min(nextMaximum, (long)currentHealth + reward.Heal);
+            bool healthChanged = nextMaximum != maximumHealth || nextHealth != currentHealth;
+            if (reward.Item.HasValue)
+            {
+                bool changed = removedItem.HasValue
+                    ? loadout.TryReplace(removedItem.Value, reward.Item.Value) : loadout.TryAdd(reward.Item.Value);
+                if (!changed)
+                {
+                    return false;
+                }
+                if (!everOwned.Contains(reward.Item.Value))
+                {
+                    everOwned.Add(reward.Item.Value);
+                }
+            }
+            maximumHealth = (int)nextMaximum;
+            currentHealth = nextHealth;
+            biteDamage = (int)nextBite;
+            swordDamage = (int)nextSword;
+            notifying = true;
+            try
+            {
+                // 箱领取标记与数值/槽在任何状态订阅者运行前全部可见。
+                CommitOwner(onCommitted);
+                if (healthChanged)
+                {
+                    HealthChanged?.Invoke();
+                }
+                if (reward.Item.HasValue)
+                {
+                    LoadoutChanged?.Invoke();
+                }
+                if (CurrentForm != previous)
+                {
+                    FormChanged?.Invoke(CurrentForm);
+                }
+            }
+            finally
+            {
+                notifying = false;
+            }
+            if (removedItem.HasValue)
+            {
+                GameAudio.Play(AudioCue.AbilityLost, gameObject);
+            }
+            if (reward.Item.HasValue)
+            {
+                GameAudio.Play(AudioCue.AbilityGained, gameObject);
+            }
             return true;
         }
 
+        private void CommitOwner(Action callback)
+        {
+            if (callback == null)
+            {
+                return;
+            }
+            try
+            {
+                callback();
+            }
+            catch (Exception exception)
+            {
+                // 所有状态已提交；报告订阅方程序错误，不把成功事务伪报为false并重复领取。
+                Debug.LogException(exception, this);
+            }
+        }
         internal void Shutdown()
         {
-            // 解绑不是新局：HP/构筑/姿态/死亡标记保留，不能靠入口启停复活或刷新构筑。
             run = null;
         }
-
-        private static bool IsFirstEditionItem(LoadoutItemId item)
-        {
-            return item == LoadoutItemId.Dash || item == LoadoutItemId.DoubleJump
-                || item == LoadoutItemId.UprightForm || item == LoadoutItemId.Sword;
-        }
-
-        private void NotifyHealth(bool tookDamage)
+        private void Notify(bool itemsChanged, bool healthChanged, bool bodyChanged, PlayerForm previous, bool hurt)
         {
             notifying = true;
             try
             {
-                HealthChanged?.Invoke();
-                if (tookDamage)
+                if (healthChanged)
+                {
+                    HealthChanged?.Invoke();
+                }
+                if (itemsChanged)
+                {
+                    LoadoutChanged?.Invoke();
+                }
+                if (bodyChanged)
+                {
+                    BodyChanged?.Invoke();
+                }
+                if (CurrentForm != previous)
+                {
+                    FormChanged?.Invoke(CurrentForm);
+                }
+                if (hurt)
                 {
                     GameAudio.Play(AudioCue.PlayerHurt, gameObject);
                 }
@@ -187,33 +280,6 @@ namespace Regrowth.Runtime
                 notifying = false;
             }
         }
-
-        private void NotifyLoadout(PlayerForm previousForm)
-        {
-            notifying = true;
-            try
-            {
-                LoadoutChanged?.Invoke();
-                if (CurrentForm != previousForm)
-                {
-                    FormChanged?.Invoke(CurrentForm);
-                }
-            }
-            finally
-            {
-                notifying = false;
-            }
-        }
-
-        private void PlayAbilityCue(LoadoutItemId item, AudioCue cue)
-        {
-            // 音频契约只有技能 gained/lost；剑装备暂无独立获取事件，不冒用武器攻击。
-            if (item == LoadoutItemId.Dash || item == LoadoutItemId.DoubleJump || item == LoadoutItemId.UprightForm)
-            {
-                GameAudio.Play(cue, gameObject);
-            }
-        }
-
         private void OnDisable()
         {
             Shutdown();

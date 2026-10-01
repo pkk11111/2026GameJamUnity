@@ -1,6 +1,6 @@
 // 职责：IInteractable宝箱接收端、显式接线与本箱表现；唯一领取逻辑由ChestClaimTransaction持有。
-// Soap / T12；依赖Core/Audio.Core；不读设备/不直调UI/不写Time.timeScale。
-// 交接docs/handoffs/Soap.handoff；规范根AGENTS.md。必填同一状态源、唯一Run/ChoiceFlow与Config。
+// controller适配Soap / T12-V5；依赖Core/Audio.Core；不读设备/不直调UI/不写Time.timeScale。
+// 交接docs/handoffs/controller.handoff；规范根AGENTS.md。必填同一状态源、唯一Run/ChoiceFlow与Config。
 using Regrowth.Audio;
 using Regrowth.Core;
 using UnityEngine;
@@ -43,6 +43,7 @@ namespace Regrowth.Gameplay
             // 启动时其他组件可能尚未执行OnEnable；enabled/activeInHierarchy与C01启动资格一致。
             return stateSource != null && stateSource.enabled && stateSource.gameObject.activeInHierarchy && stateSource is IHealth
                 && stateSource is ILoadoutState && stateSource is IPlayerStateCommands
+                && stateSource is IPlayerRewardCommands && stateSource is IPlayerBodyState
                 && runSource != null && runSource.enabled && runSource.gameObject.activeInHierarchy && runSource is IRunContext
                 && choiceFlowSource != null && choiceFlowSource.enabled && choiceFlowSource.gameObject.activeInHierarchy && choiceFlowSource is IChoiceFlow
                 && rewardConfig != null && rewardConfig.IsValid && !string.IsNullOrWhiteSpace(InteractionId)
@@ -74,6 +75,7 @@ namespace Regrowth.Gameplay
         {
             return ValidReferences() && isActiveAndEnabled && actor != null && actor == stateSource.gameObject
                 && actor.activeInHierarchy && ((IHealth)stateSource).IsAlive && ((IRunContext)runSource).IsGameplayActive
+                && (rewardConfig.BodyTutorial != ((IPlayerBodyState)stateSource).HasBodyCore)
                 && !((IChoiceFlow)choiceFlowSource).IsOpen && !IsClaimed && (transaction == null || !transaction.IsPending);
         }
         /// <summary>true仅表示成功打开事务；只有最终奖励完成才消耗本箱。主线程调用。</summary>
@@ -86,7 +88,7 @@ namespace Regrowth.Gameplay
             EnsureTransaction();
             if (!transaction.TryBegin())
             {
-                Debug.LogWarning("[T12 Chest] 拒绝打开：合法候选不足3或选择入口拒绝；不会重抽已缓存卡组。", this);
+                Debug.LogWarning("[T12 Chest] 拒绝打开：合法候选不足（普通3/教学1）或选择入口拒绝；不会重抽已缓存卡组。", this);
                 return false;
             }
             return true;
