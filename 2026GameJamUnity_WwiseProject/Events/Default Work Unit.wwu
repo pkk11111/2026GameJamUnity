@@ -483,6 +483,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Move_NoFoots" ID="{6C8AFCF4-75AE-4144-B562-D57AB1EDCE10}">
+					<ChildrenList>
+						<Action Name="" ID="{CAEB0F3B-EA48-4C63-85C9-19930B5D7B60}" ShortID="191833899">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Move_NoFoots" ID="{1A1D2E19-917E-416C-A561-4664EF9242E5}" WorkUnitID="{54883B12-B7A9-4DC8-A819-7B3BA9B7B67A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

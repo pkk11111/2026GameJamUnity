@@ -361,6 +361,130 @@
 										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="Move_NoFoots" ID="{1A1D2E19-917E-416C-A561-4664EF9242E5}" ShortID="392466918">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{39201273-E1B0-4BD1-984A-8A8E9D9E0D5F}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="KS_Basic Cloth 2_1" ID="{0B76AFE7-9B4F-4822-9919-A8692ABB5A48}" ShortID="406879477">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-8</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{39201273-E1B0-4BD1-984A-8A8E9D9E0D5F}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="KS_Basic Cloth 2_1" ID="{B35E8BF8-EE9D-4CD7-9333-40D5960C8A7D}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.15552"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.08886"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.44709"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>KS_Basic Cloth 2_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="145562740"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="KS_Basic Cloth 2_1" ID="{B35E8BF8-EE9D-4CD7-9333-40D5960C8A7D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="KS_Basic Cloth 2_2" ID="{0FDF7F1F-913E-4B2A-8386-28115C5A1FFA}" ShortID="442977615">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{39201273-E1B0-4BD1-984A-8A8E9D9E0D5F}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="KS_Basic Cloth 2_2" ID="{4A8190EF-906D-4D2D-A916-06E765C47910}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.22439"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.1135"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.5908"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>KS_Basic Cloth 2_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="801920370"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="KS_Basic Cloth 2_2" ID="{4A8190EF-906D-4D2D-A916-06E765C47910}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="KS_Basic Cloth 2_3" ID="{D0C7412A-8D9A-4789-B07D-15BE8A6C8C9A}" ShortID="384657440">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{39201273-E1B0-4BD1-984A-8A8E9D9E0D5F}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="KS_Basic Cloth 2_3" ID="{B790FC13-8522-4915-8DF9-866F01802902}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.08644"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.11358"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.43775"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>KS_Basic Cloth 2_3.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="920313881"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="KS_Basic Cloth 2_3" ID="{B790FC13-8522-4915-8DF9-866F01802902}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="Combat" ID="{801997E6-B0D0-48A1-89DD-A554467EE643}" ShortID="498393224">
