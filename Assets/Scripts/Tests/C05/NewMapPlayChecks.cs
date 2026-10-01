@@ -1,3 +1,4 @@
+#if UNITY_EDITOR || C05_PLAYER_CHECKS
 // 职责：C05新地图真实组件Play验收；独立Tests程序集，临时驱动不得保存进主场景。
 // 维护：controller；依赖Core/Runtime/Challenge/WhiteBox/Chest/Choice与uGUI；不创建第二份玩家状态。
 // 交接：docs/handoffs/controller.handoff；规范根AGENTS.md。测试会修改本次Play状态，结束后退出Play复原。
@@ -257,3 +258,5 @@ namespace Regrowth.Tests.C05
         }
     }
 }
+
+#endif

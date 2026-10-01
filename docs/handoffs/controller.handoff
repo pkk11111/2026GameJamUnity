@@ -1,3 +1,43 @@
+# 总控当前交接：C05复验菜单与Windows程序测试构建
+
+更新：2026-10-01（Australia/Sydney）· 规范19 / 生产源码契约8
+成员/任务：controller / C05；Ming，开始HEAD 0d892a4且干净。用户已提交前轮美术规范。未fetch/merge新版T。
+状态：菜单Editor检查与Windows检查通过，普通/专用测试包已构建；本轮工具、文档待提交。最终封装由音频同学负责，T仍未全部提交，美术由其他成员负责。完整战斗/收费/支线失败结算等继续暂缓。
+
+## 最新规则补充：取消耐久
+
+用户明确取消耐久。已同步AGENTS V19、V5（1）阅读稿、WORK_PACKAGES及README：无耐久值/使用磨损/耗尽损坏，不设维修奖励、耐久代价或耐久UI；生命、冷却及已确认舍弃/替换规则不变。T02/T08/T12/T13验收同步，未改他人的历史交接。自研Assets/Scripts与Assets/WhiteBox/Scripts检索无耐久实现；宝箱候选“修复”是失效候选修复，保持原逻辑。此次规则更新未改生产代码或音频，不恢复暂缓玩法。
+
+## 修改与使用
+
+仅Assets/Scripts/Tests/C05范围：原NewMapPlayChecks加条件编译UNITY_EDITOR或C05_PLAYER_CHECKS；新增NewMapCheckLauncher、C05PlayerCheckBootstrap及Editor/C05EditorTools、C05BuildSceneFilter、Editor asmdef/.meta。程序集边界不改生产接口；测试入口发现组件只用于显式测试。
+- Run New Map Checks (Play)菜单要求单地图全新Playing/躯干/空槽空历史/9未领箱/2未开始门；StartChecks注入原检查，Current保留结果，临时DontSave对象不保存，重复拒绝。检查结束Dead，退出重进才重测。
+- Build Windows Trial与Build Windows Automated Checks菜单：QueueBuild(bool)验证干净单图/非Play/Windows64，返回唯一Builds/C05目录，以delayCall构建并保存C05-build-report.txt；BuildInProgress/LastOutputDirectory可读。显式场景Level_Whitebox，不改全局Build Settings（原值仍SampleScene）、输入、后端或生产脚本。
+- C05BuildSceneFilter只在此构建期间清除临时构建场景中的Regrowth.Tests.*组件，源地图未改。普通包C05运行类型不编译，专用包单次extraScriptingDefines开启自动驱动，90秒超时、日志结果和退出码0/1/2。
+- 详细复跑/包说明/新版T逐项依赖/音频封装交接见docs/C05_TEST_BUILD.md。同步AGENTS、WORK_PACKAGES、README和本交接。没有新T合入、没有美术导入或改音频接口。
+
+## 实际验证与产物
+
+1. Unity目标F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64，开始非Play、地图未脏。现有后端Mono2x且Windows构建支持已安装。Build Settings仍SampleScene，C05显式单图构建绕开错误入口但不改共享设置。
+2. 编译新工具成功，从新增菜单运行原真实地图检查，69 passed / 0 failed。第一次读取结果用FindObjectsByType未找到带DontSave对象（工具查询NullReference，不是检查失败）；Resources查询确认检查完成，随后增加Current显式结果引用和重复保护。Windows检查使用相同入口进一步验证。
+3. 普通包Builds/C05/20261001-081520-trial-1423f2/pawgatory-C05-trial.exe：Succeeded，Errors0、Warnings491，219612828字节，2分39.7秒。初始化清单无C05启动项，反射包中Regrowth.Tests.C05.dll仅Unity生成元数据类型，无运行检查类型。
+4. 专用包Builds/C05/20261001-081829-checks-7ad855/pawgatory-C05-checks.exe：Succeeded，Errors0、Warnings5，219639521字节，34.2秒。以-batchmode -nographics运行，checks-player.log实际C05_PLAYER_RESULT finished=True passed=69 failed=0，进程退出码0；Wwise终止、输入关闭日志正常。自动检查完成钩子仍仅隔离调用，不是地图完整目标/结算。
+5. 普通包隐藏窗口启动，trial-player.log显示Unity/D3D12/Input/Wwise引擎初始化成功，无匹配到的运行Exception/ERROR。没有人工完整输入/画面/路线试玩；隐藏进程MainWindowHandle=0无法CloseMainWindow，确认本轮exe路径后停止该进程，因此不声称普通包正常退出已验。自动包正常退出已验。
+6. 构建警告已区分：首次包含现有Sentis/ConvGeneric着色器变体等大量警告；增量5条为Pipeline缺RuntimePipelineConfig、App UI非持久设置、WwiseEventReference未用字段CS0414、Unity云符号上传403、Wwise暂存目录meta。没有为了消警告改第三方/包/项目设置。构建前Console已有Wwise Voice Starvation；专用无图形进程退出有ComputeBuffer释放与Development内存诊断，未认定为本轮玩法失败，音频/最终包仍需后续验收。
+7. 现有Wwise构建配置copy=true/generate=false，构建从项目已有Windows Init.bnk/SB_Main.bnk复制，未生成/修改Authoring源工程；这不证明游戏Cue映射或声音验收。最终素材和封装仍由音频同学管理。
+8. Unity/Wwise构建自动改写38个跟踪的URP/GlobalSettings/GraphicsSettings/PlayerSettings/UnityConnectSettings/Windows插件meta。开始干净且差异已核实，先备份到Builds/C05/build-side-effects-0d892a4，再仅这些路径恢复HEAD。PerformanceTest Resources由插件自行清理（收尾预期目录已不存在），剩余空SoundBank暂存及meta移入同一备份，未删除素材。刷新后源图、ProjectSettings、Wwise和输入无diff，原场景干净非Play，Build Settings原值保持。
+9. 没重跑C01/C02/C03/旧T独测，没改生产代码/地图/Prefab，没有完整教学/战斗/收费/失败区结算、真实键鼠/手柄Windows整局、声音试听或另一台Windows验收。两种本机产物均忽略不提交，包不是最终交付。
+
+收尾静态检查：git diff --check通过；新增C05资产/meta配对完整，全Assets 871个GUID无重复；本轮文档本地链接有效。AGENTS第9节音频与HEAD逐字一致；Wwise、Packages、ProjectSettings、源地图无diff。取消耐久仅文档更新，未为此重跑已通过的运行检查。
+
+## 下一步与分工
+
+用户确认T仍未全部提交，C05可独立测试已有链路，具体新T等待自己的真实文件/依赖，不能一刀切等待全部T，也不提前实现暂缓玩法。先由用户提交本轮工具与文档，让队友可复跑；音频同学取得确认程序基线与相关素材后完成最终封装/Bank/异机验收，总控继续模块接收与接口/地图集成。已准备可执行说明，不擅自联系他人或发布包。本轮无自动commit/push或子代理。
+
+---
+
+# 以下为美术规范历史交接（已由用户提交0d892a4）
+
 # 总控当前交接：美术自主迭代与队友本机交付
 
 更新：2026-10-01（Australia/Sydney）· 规范18 / 源码契约8
