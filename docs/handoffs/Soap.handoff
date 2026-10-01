@@ -1,5 +1,27 @@
-# Soap · T02 HUD / T03 SwitchDoor / T06 / T01
+# Soap · T12 / T02 HUD / T03 SwitchDoor / T06 / T01
 
+## T12 最新验证（2026-10-01，等待实体输入补验）
+
+- 基线：起始 Soap/origin/Soap `8d23453ff59a93f34dd6edd30ab2f31fcbdb71c4`，按此前授权合入 Ming/e7ef271 无冲突，HEAD `275498d1bdaa9545a98cdce4c34b0a426395c0d1`。最新只读核对 origin/Ming `649451f0b05e3be70afda2ae52c2265081fde831`（换对话框），规范10/公共契约6，T12无不兼容变化。脏工作区没有再次merge，没有commit/push/stage。
+- 文件：保留全部43个T12新增文件及meta。正式 `Assets/Scripts/Gameplay/Chest/`：Chest、ChestRewardConfig、ChestClaimTransaction、AssemblyInfo、asmdef；测试 `Assets/Scripts/Tests/T12/`：SmokeDriver、隔离四槽ProbeState、Editor场景/重载/配置修复工具、测试及Editor asmdef；`Assets/Configs/Chest/`五份池；`Assets/Prefabs/Chest/Chest.prefab`、`Assets/Prefabs/Tests/T12/T12SmokeRig.prefab`、`Assets/Scenes/Tests/T12/T12_Smoke.unity`。未加入Build Settings，未修改Core/Runtime/PlayerState/Input/T01/T02/T03/T06/主地图。
+- 本次修复：只从T12_Smoke移除Addressables专属InitBankHolder MonoBehaviour及其组件引用；保留普通WwiseGlobal/AkInitializer。执行Unity Tools/GROWL AGAIN/T12/Repair Saved Config Bindings，Chest.prefab.rewardConfig绑定T12_RewardPool，Smoke Rig.replacementConfig绑定T12_ReplacementFixture，各测试Chest池一并保存验证。先前生成器跨NewScene后资产卸载造成空引用，已在本T12 Editor工具切场景后重取持久资产，未重建既有实现。
+- Rig接线：唯一RunController/PlayerInputReader/GameBootstrap，唯一真实PlayerState/PlayerInteractor与灰盒运动；唯一ChoiceCoordinator→既有T01 ChoicePanel，Bootstrap显式绑定，同一PlayerState→T02 HUD。Chest根Box Trigger/InteractionTarget显式指本Chest与锚点；六个稳定唯一ID分别t12-chest-main、t12-chest-fixture-1至5，测试切换只启用一箱。Chest stateSource同时提供IHealth/ILoadoutState/IPlayerStateCommands，runSource和choiceFlowSource指唯一正式组件。独立Chest Prefab的跨场景状态/run/flow留空，集成必须显式绑定；不能整体复制测试Rig产生第二套Runtime。
+- Inspector入口：Chest ID/Prompt/状态与事务源/奖励Config/Closed与Claimed子视图；Config中稳定ID/Title/Description/Kind/Item/HealAmount及阶段标题。SpriteRenderer的Sprite/颜色/尺寸与可选Animator在子视图替换，UI/TMP仍用既有Prefab，正式逻辑不硬编码素材路径或视觉参数。Unity Inspector实改T12_HealPool首项HealAmount 7→9、Title Heal 7→Heal 9并保存，第二轮Play验证配置治疗量生效；保留9为测试默认值。
+- 事务：CanInteract只读，正式Chest不读E、不消费输入、不直调ChoicePanel、不写timeScale。部分Fisher-Yates无放回等概率抽3不同条目，排除已持有Loadout，满血Heal合法；真正TryBegin成功才复制缓存，取消重开不重抽，确认时再次校验。状态仅经IPlayerStateCommands Add/Heal/原子Replace；满血Heal可成功领取而HP不变。最终成功才claimed/关闭并发ChestOpened一次；重复/旧阶段/迟到回调无效。claimed及缓存保持本Chest实例生命周期，不承诺场景卸载后的存档。
+- 保存重载与Play：Unity6000.2.9f1中保存场景/Prefab/Config，再通过Load Scene从磁盘加载T12_Smoke。两轮实际Play自动验收均为 **41 passed / 0 failed**；第二轮在Inspector改Heal后执行。测试向当前Keyboard排入E的Input System状态事件，经正式Reader→Interactor→InteractionTarget→Chest→IChoiceFlow→T01→真实PlayerState→T02，不是主箱直接调用TryInteract。覆盖三卡/排除持有/满血Heal、取消固定卡组、真Add/HUD、真回血/HUD、满血领取、claimed单次、双击迟到、无效/失效确认保留、缺引用/不足三项拒绝、Paused/Choosing/Dead锁。
+- 隔离替换同样在上述Play中验证：纯Tests/T12状态持四旧项（900只在纯测试对象），真实Flow/Panel三卡→同Id四旧项且继续Choosing/timeScale=0；进入阶段不先删旧项，取消保留四项与箱子，原子写失败保持菜单，最终Replace/完成各一次，旧阶段与迟到callback无效。900未进入真实PlayerState或正式配置，正式池无Shield/FlameBreath/Spear。GameAudio请求由测试IAudioBackend计数，三次成功箱各ChestOpened一次；未验证真实Wwise声音。
+- 实体输入补验尚待：窗口工具发送E及点击Game测试按钮没有触发输入；不能据此声称实体键盘/鼠标已通过。已进入关闭autoVerify的新鲜Play，请求用户手动E→Cancel→E→选择Loadout并反馈。自动输入链两轮通过，但收到实体结果前不写“T12独测通过”。
+- Console：自动验收无FAIL/Exception/C#或Missing Script记录；已知Wwise/Account API Warning及测试故意缺引用/候选不足的上下文Warning保留记录，不清Console冒充通过。最终Console面板检查和退出Play尚待实体输入补验后完成。
+- 两份Wwise配置存在Unity启动时本机自动漂移，本轮未纳入T12，未stage/commit，交由音频/总控处理：`Assets/WwiseSettings.xml`、`2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj`。本次不修改或反复restore它们。Git检查仅这两份、Soap.handoff及43个T12新文件；Packages diff为空，没有新Addressables/其他场景/ProjectSettings变动。
+- 未完成/边界：C04跨宝箱旧候选失效后的补卡/重抽仍pending，只安全拒绝失效确认；主地图未集成、完整奖励系统未宣称完成、真实音频未验收。总控集成只接正式Chest/Config/Prefab到其唯一状态/Run/Flow及地图交互层与锚点，确保场景ID唯一、合法池足三项，复验T01/T02链。没有开始T13。
+### T12 鼠标接线修复与新回归（尚待最终实体卡片/Cancel验收）
+
+- 用户手测已确认实体E能打开菜单，但鼠标卡片/Cancel不响应。比对已发布Integration/T01_C03的C03 EventSystem，定位T12唯一EventSystem及InputSystemUIInputModule均启用，Actions Asset正确，但十个UI Action Reference全为空。旧41项用Button.onClick.Invoke验证事务，未覆盖设备鼠标到UI模块，不能拿旧结果当作真实鼠标通过。
+- 仅在Tests/T12 Editor工具增加Repair UI Action Bindings，给T12SmokeRig的Point/Click/RightClick/MiddleClick/ScrollWheel/Navigate/Submit/Cancel/TrackedDevicePosition/TrackedDeviceOrientation补齐持久引用。复用现有T03UIReferences中指向唯一Assets/InputSystem_Actions.inputactions的引用（action ID与Integration参考一致），未改该引用资产/输入资产/ChoiceMenu或Choice业务。工具同时防止将来新建T12实例再次缺引用；新增Editor asmdef的Unity.InputSystem引用。
+- Unity实际执行修复、保存本任务Prefab/Scene，再Load Scene从磁盘重载。EventSystem与UI module均只有一份。修复后已用真实鼠标事件点击Run T12 Checks，自动回归 **41 passed / 0 failed**，包含Paused/Choosing/Dead。autoVerify仍关闭，未通过脚本Invoke启动这轮回归。
+- 点击Console Warning确认上下文为主箱Chest，不是负面夹具。Inspector引用完整，原因是OnEnable校验使用其他组件isActiveAndEnabled而受启动调用顺序影响。仅Chest.ValidReferences改为enabled/activeInHierarchy启动资格（与C01方式一致）；仍保留接口/引用/配置/ID检查，运行期不可用仍拒绝。重新编译Play后主箱不再产生启动Warning。故意断开choiceFlowSource的Fixture4及候选不足的Fixture5诊断继续保留。
+- 已在本次Console实际观察唯一红色错误为Wwise Cannot find ProjectInfo.json at Assets/StreamingAssets/Audio/GeneratedSoundBanks，属于用户确认的范围外Bank环境问题；不声明整个项目Error=0。无新增C#、Missing Script、T12 gameplay Error。此错误存在期间游戏回归仍41/0；未修改Wwise/Packages/SoundBanks。
+- 当前关闭自动验证的新鲜Play，等待用户实体E打开并保留菜单，以继续实际卡片hover/鼠标Cancel/重开/鼠标确认/HUD与claimed验证。收到该结果并通过前仍不标记独测通过。没有commit/push，没有开始T13。
 ## T03 最新摘要（2026-10-01，Australia/Sydney）
 
 - **T03 独测通过，未集成。** 严格在T02实际Play26项通过并记录后开始；中断恢复保留现有T03代码，只修复本模块问题并生成此前缺失资产。没有开始T07。
