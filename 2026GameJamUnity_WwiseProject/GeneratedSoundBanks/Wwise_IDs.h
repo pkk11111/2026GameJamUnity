@@ -23,6 +23,7 @@ namespace AK
         static const AkUniqueID PLAY_ELITE_ATTACK = 2541263566U;
         static const AkUniqueID PLAY_ELITE_DEATH = 1693181748U;
         static const AkUniqueID PLAY_ELITE_HURT = 846005313U;
+        static const AkUniqueID PLAY_FIRE_HIT = 173576816U;
         static const AkUniqueID PLAY_FOOTSTEP = 1602358412U;
         static const AkUniqueID PLAY_JUMP = 3689126666U;
         static const AkUniqueID PLAY_LAND = 4285282925U;
@@ -35,6 +36,7 @@ namespace AK
         static const AkUniqueID PLAY_PLAYER_ABILITYLOSS = 1947064227U;
         static const AkUniqueID PLAY_PLAYER_BITE = 3012803982U;
         static const AkUniqueID PLAY_PLAYER_DEATH = 1835085974U;
+        static const AkUniqueID PLAY_PLAYER_FIRE = 1408288908U;
         static const AkUniqueID PLAY_PLAYER_HURT = 887999531U;
         static const AkUniqueID PLAY_PLAYER_SWORDSWING = 64556671U;
         static const AkUniqueID PLAY_PLAYERBITEHIT_ELITE = 800514070U;

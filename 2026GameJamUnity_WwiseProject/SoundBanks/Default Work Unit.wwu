@@ -27,6 +27,7 @@
 						<ObjectRef Name="Play_PlayerBiteHit_NPC" ID="{3029D6BA-2F77-4873-9848-0A2CF8756430}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_PlayerSwordHit_Elite" ID="{33A732E4-E6C1-48C8-9DC4-0264F6CE5841}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Player_AbilityLoss" ID="{B52DC17C-249F-48EF-B056-0F1B366C6591}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Fire_Hit" ID="{EFFCA27D-1AF3-4A49-9373-573D6770BAC4}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Player_Death" ID="{5FAF5A17-1297-4AC8-BA70-6195416876A9}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_NPC_Hurt" ID="{F986DA9F-E705-4AFE-A898-FA162490C137}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Card_Selected" ID="{486D09EE-B61D-4B18-8BEA-21552B9FC9BA}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
@@ -44,6 +45,7 @@
 						<ObjectRef Name="Play_UI_Click" ID="{AB1507B2-0782-4F2E-8C75-A79EB91EBCFD}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Jump" ID="{B5EAFE75-834A-4F3C-A154-BE49B12B2065}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_UI_Hover" ID="{1D6DFFC2-F743-4F61-B1F7-6A8EB85CCAA5}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Player_Fire" ID="{4C3EBE93-2E9B-4FA3-A127-0CE495DE6350}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_PlayerSwordHit_NPC" ID="{F75E5FA3-053F-4FAE-8139-CD399AA5D335}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>

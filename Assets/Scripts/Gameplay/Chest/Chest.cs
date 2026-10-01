@@ -91,12 +91,12 @@ namespace Regrowth.Gameplay
                 Debug.LogWarning("[T12 Chest] 拒绝打开：合法候选不足（普通3/教学1）或选择入口拒绝；不会重抽已缓存卡组。", this);
                 return false;
             }
+            GameAudio.Play(AudioCue.ChestOpened, gameObject);
             return true;
         }
         private void OnClaimed()
         {
             ApplyView();
-            GameAudio.Play(AudioCue.ChestOpened, gameObject);
         }
         private void ApplyView()
         {

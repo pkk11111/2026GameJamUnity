@@ -1,0 +1,50 @@
+# 宝箱、卡片与能力音频 — audio-rewards
+
+日期2026-10-01；Audio_Test，基线73be9cb；规范18，基于源码契约8追加AudioCue 15–19（不重排原值）。用户授权本轮宝箱/UI/能力动作接线。未提交Git，保留此前Wwise、地刺及用户场景调整。
+
+## 已实现与接线
+
+GameAudio → RewardAudioBackend → 当前SB_Main。场景 `Assets/WhiteBox/Scenes/Level_Whitebox.unity`，`00 Runtime/Audio_RewardBackend` 安装唯一后端；Bank Owner显式引用Audio_MusicZones。它保持启用直至场景结束，负责SB_Main加载；后端不另行加载、卸载或重播旧请求。初始化完成前的声音跳过并按Cue警告一次。
+
+| 事实/Cue | Wwise Event | 去重与发声对象 |
+|---|---|---|
+| ChestOpened | Play_Box_Open | Chest.TryInteract成功打开事务，箱子根；领取不再重复发 |
+| CardsPresented=17 | Play_Card_PopOut | ChoicePanel一组卡片实际展示一次，包含替换步骤；全局后端对象 |
+| CardHovered=18 | Play_Card_Hover | 已绑定且可交互卡片鼠标进入一次，移出重置；自动默认焦点不发 |
+| CardSelected=19 | Play_Card_Selected | 确认接受或成功进入新选择阶段；拒绝/取消/重复提交不发 |
+| AbilityGained | Play_Player_AbilityGain | 原PlayerState真实增加构筑项，玩家根；不在卡片预览或进入替换步骤时发 |
+| PlayerDash=15 | Play_Dash | 原WhiteboxPlayer2D确认权限/冷却后开始Dash；仍由原Shift输入驱动 |
+| PlayerDoubleJump=16 | Play_DoubleJump | 原控制器实际空中二段跳，第三跳拒绝静默 |
+| PlayerJump | Play_Jump | 地面/土狼时间的普通跳跃 |
+
+用户确认：获得能力播放Play_Player_AbilityGain，失去能力播放Play_Player_AbilityLoss。即时回血/上限/攻击提升没有构筑项增添，保持原语义。没有修改PlayerState奖励规则或原输入资产。AbilityLost已映射Play_Player_AbilityLoss；其它非本任务Cue未配置，不能宣称全部Gameplay音效已接通。
+
+## Inspector与维护
+
+- 后端Bank Owner必填；Mappings精确事件名实时读取，空名/未列出Cue静默。不要再安装另一个IAudioBackend覆盖它。
+- 全部9个Chest根添加AkGameObj，玩家已有发声组件保留；UI使用后端根，不挂在会销毁的卡片上。Choosing时不按Time.timeScale抑制UI音效。
+- 菜单 Tools/Audio/Install Whitebox Reward Audio 可幂等安装并保存当前白板。增加新箱后再运行可补AkGameObj；不开启未命名的声音。
+- 事件名/混音在Wwise改后重生成并交付Bank；本轮确认9个事件都在当前Windows SB_Main，没有修改Wwise素材/配置。
+- 场景中部件增益与UI确认同帧各发送一次，音量与素材长度由音频负责人试听调整；没有人为猜测延迟。
+
+## 验证证据及范围
+
+Unity6000.2.9f1完成编译；Tools/Audio/Verify Whitebox Reward Audio In Play Mode：72项PASS，日志Logs/Audio-Test-Merge-Verify.log包含 `[RewardAudioTest] ALL PASS`、最后Wwise playingID=151。
+
+覆盖9箱真实Chest→ChoiceCoordinator→ChoicePanel打开/取消，逐次开箱与弹卡计数，重复打开拒绝；悬浮停留去重/重进；真实按钮确认并完成一次奖励、重复按钮调用不重复确认；PlayerState真正授予Tail/Legs与重复领取拒绝；通过原输入缓冲注入请求并调用原FixedUpdate消费，验证无能力静默、二段跳、第三跳拒绝、Dash及进行中重复请求静默。不是自动按实体键盘测试；人工Shift/Space手感与混音响度仍由音频负责人试听。
+
+测试只在Play修改位置/能力，退出恢复，无箱子消费写入场景。现有Unity AI NoSubscription报错与此任务无关；本轮无C#编译错误。保存前保留用户未保存的UI改动，安装前快照Logs/RewardAudio-BeforeInstall.unity只作本机备份不提交。
+
+修改涉及Audio/Core枚举、Audio/Wwise模块、Chest开声时机、ChoicePanel/ChoiceCardView及UI程序集引用、原WhiteboxPlayer2D动作通知和主场景发声组件；无需队友创建新的奖励/输入/状态系统。
+
+
+本轮补充：场景已有序列化映射通过安装菜单补入AbilityLost，不覆盖用户其它映射。新增6项验证通过：移除已持有能力、Loss恰好一次、重复移除静默、原子替换成功、Loss/Gain各一次、无效替换静默。
+
+## Cancel与音乐诊断补充
+已接Cancel Play_UI_Hover/Play_UI_Click，场景绑定ChoiceCancelHover，UIHovered=20。UI取消声音只来自按钮接受处理，程序取消和Esc保持静默。UI Listener显式绑定现有唯一监听器；UI Gain Db暂定-10，只影响后端全局UI对象。
+新增Editor工具ChoiceMusicAudit：真实开箱5秒前/中/后录制输出并检查音乐同一ID进度，Cancel悬浮与点击去重通过。日志最新position=5984/10987/15990ms，timeScale=1/0/1。Wwise音乐Post添加AK_EnableGetMusicPlayPosition仅支持查询，不改混音。
+录音PCM对比：第一层环境床源素材对齐相关系数约1，前中后增益-17.03至-17.04dB，无音乐变调/停播；UI快速Hover+Click近满幅采样从528降到0，改后峰值15492/32768。录音Logs/ChoiceMusic-before.wav及ChoiceMusic.wav仅本地诊断不提交。当前结论是修复了实测UI削波，未复现用户全部音乐听感症状；高层音乐和实际输出设备需继续复听。编译无CS错误，场景已保存，未commit。
+
+## 淡蓝色机关接线
+已补SwitchActivated→Play_SwitchActivate默认与场景映射；RewardAudioSetup为所有8个PrototypeToggleButton2D安装AkGameObj，复用机关原来的成功交互通知。没有修改机关玩法源码和Wwise。Inspector事件映射仍位于00 Runtime/Audio_RewardBackend；世界发声不受UI Gain Db影响。
+新增Editor验证SwitchAudioVerification，通过Tools/Audio/Verify Whitebox Switch Audio In Play Mode执行。8机关各反复切换2次，共16次真实成功调用；远距、暂停、同帧重复请求均拒绝且不发声。日志[SwitchAudioTest] ALL PASS，最后playingID=465；无C#编译错误，已退出Play，测试门状态/位置不保存。新增工具与meta随代码交付；主场景已保存，未commit。

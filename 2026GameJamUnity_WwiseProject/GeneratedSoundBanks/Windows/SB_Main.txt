@@ -1,5 +1,6 @@
 Event	ID	Name			Wwise Object Path	Notes
 	64556671	Play_Player_SwordSwing			\Default Work Unit\Play_Player_SwordSwing	
+	173576816	Play_Fire_Hit			\Default Work Unit\Play_Fire_Hit	
 	210209267	Set_State_Exploration			\Default Work Unit\Set_State_Exploration	
 	472917121	Play_NPC_Fly			\Default Work Unit\Play_NPC_Fly	
 	583717387	Stop_Music_State			\Default Work Unit\Stop_Music_State	
@@ -9,6 +10,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	887999531	Play_Player_Hurt			\Default Work Unit\Play_Player_Hurt	
 	1339559671	Play_UI_Hover			\Default Work Unit\Play_UI_Hover	
 	1394990189	Set_State_Elite			\Default Work Unit\Set_State_Elite	
+	1408288908	Play_Player_Fire			\Default Work Unit\Play_Player_Fire	
 	1506249488	Play_Card_Selected			\Default Work Unit\Play_Card_Selected	
 	1570554494	Play_Trap_Attack			\Default Work Unit\Play_Trap_Attack	
 	1602358412	Play_Footstep			\Default Work Unit\Play_Footstep	
@@ -57,6 +59,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	83336308	KS_Sword Hit_1	.cache\52\{52743F71-27F3-3487-425F-44632983E91B}.wem		\Containers\Default Work Unit\Player\Combat\SwordHit\PlayerSwordHit_Elite\KS_Sword Hit_1		90684
 	97432376	Elite_Hurt	.cache\F0\{F072BCC6-0D5F-D337-CFA2-1E4C07CFCEA1}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Hurt		553268
 	107672874	Trap_Attack	.cache\75\{759063CE-25EA-9083-076B-6579D3738C90}.wem		\Containers\Default Work Unit\World\Trap_Attack		107504
+	108677356	Fire_Hit	.cache\65\{658D1D7A-1CF0-2DA3-7B13-7CBD9125DED2}.wem		\Containers\Default Work Unit\Player\Combat\Fire_Hit\Fire_Hit		294396
 	114950063	KS_Cartoon Swish_1	.cache\7D\{7D47E5AF-F2A3-45CD-C3DC-BF6B0BE08A17}.wem		\Containers\Default Work Unit\Player\Combat\Player_Bite\KS_Cartoon Swish_1		65572
 	120958241	Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 3	.cache\CF\{CF788E06-ED74-ACDB-624A-388244109A9E}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 3		24926
 	139475878	KS_Sword Hit_2	.cache\0B\{0B9EB26E-CFA0-3571-B6E3-3C703DE3F41E}.wem		\Containers\Default Work Unit\Player\Combat\SwordHit\PlayerSwordHit_Elite\KS_Sword Hit_2		96316
@@ -66,14 +69,13 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	213963947	KS_Sword Hit_4	.cache\FB\{FB012B7B-EA38-DA97-8891-C1706C9B7A1C}.wem		\Containers\Default Work Unit\Player\Combat\Player_SwordSwing\KS_Sword Hit_4		62164
 	249359183	User Interface, Alert, Pops, Cute, Zap, Pops SND115540	.cache\CB\{CB8E8F59-6533-8DC8-FE34-5E25619AFB4A}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Footsteps\User Interface, Alert, Pops, Cute, Zap, Pops SND115540		15716
 	270189213	Wings, Creature, Birdlike, Small, Constant, Normal SND53551 1	.cache\57\{57A9144E-0A41-2982-B730-A511453C046E}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Fly\Wings, Creature, Birdlike, Small, Constant, Normal SND53551 1		18592
-	341849073	Voices, Reaction, Male, Huh 01 SND23344	.cache\6B\{6BC3CFD4-AF08-C272-CC17-B4B68D9F5816}.wem		\Containers\Default Work Unit\Player\Movement\DoubleJump\Voices, Reaction, Male, Huh 01 SND23344		20832
 	357126924	KS_Barefoot_1	.cache\57\{57361E56-A2BD-7E7A-F8BD-149F390B5CA5}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\KS_Barefoot_1		76600
 	358291953	Card_PopOut	.cache\EF\{EF05F06D-2CC6-9AFD-ACFA-BD80A3325A20}.wem		\Containers\Default Work Unit\Loadout\Card\Card_PopOut		66648
 	386946135	Voices, Efforts, Male 01, Hurt, In Pain, Groan, Variations 01 SND118558 2	.cache\C5\{C5037604-B26F-AECC-8AF2-2C7D8D12631D}.wem		\Containers\Default Work Unit\Player\PlayerHurt_Vo\Player_Death\Voices, Efforts, Male 01, Hurt, In Pain, Groan, Variations 01 SND118558 2		326620
 	389871146	Human, Breath, Male, Out Of Breath, Male, Fast, Pant, Exhausted, Effort, Inhale, Exhale SND130284 2	.cache\15\{15C0B9B1-F512-4AE7-01DA-3DE44EC8963D}.wem		\Containers\Default Work Unit\Player\PlayerHurt_Vo\Player_Hurt\Human, Breath, Male, Out Of Breath, Male, Fast, Pant, Exhausted, Effort, Inhale, Exhale SND130284 2		124668
 	395781295	NPC_Death	.cache\01\{017F6C2B-6AF8-ECB3-642F-421390E35F04}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Death		390012
 	445545893	Player_AbilityLoss	.cache\75\{75552236-1552-05D8-1B0B-8162F2EC85A8}.wem		\Containers\Default Work Unit\Loadout\Ability\Player_AbilityLoss		92426
-	445893046	Jump	.cache\A8\{A8657931-5C0A-3D49-1A9C-71D08C7CB470}.wem		\Containers\Default Work Unit\Player\Movement\Jump		61310
+	445893046	Jump	.cache\79\{79EDD28E-9814-3E4A-543D-EC313CFC1CB9}.wem		\Containers\Default Work Unit\Player\Movement\Jump		61310
 	453519846	Portal_In	.cache\FD\{FD2AAEB5-3267-F2E2-21DB-D05B6EB2A0E9}.wem		\Containers\Default Work Unit\World\Portal_In		228812
 	465434361	Land	.cache\C1\{C1E7AF6E-514E-FEEE-76F5-DC3A27BFC000}.wem		\Containers\Default Work Unit\Player\Movement\Land		33016
 	482741366	KS_Barefoot_2	.cache\23\{23A4838B-8374-6B50-341F-23763C192D84}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\KS_Barefoot_2		77968
@@ -83,6 +85,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	543470827	Animals, Cat Domestic, Cat Desperate Meow 01 SND124061	.cache\94\{94480CE5-F0A9-5886-00E8-3BEEA411922F}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Attack\Animals, Cat Domestic, Cat Desperate Meow 01 SND124061		82074
 	565110506	Box_Open	.cache\C4\{C4D6222D-6EFF-0F9B-82DA-67CD6712CE7D}.wem		\Containers\Default Work Unit\Loadout\Box_Open		110822
 	584708002	demo_z1	.cache\E0\{E0A4190C-46FF-2DB1-982D-259C55FCD17E}.wem		\Containers\Default Work Unit\Music_State\Elite\Combat_Music\demo_z1		27053516
+	590450229	Voices, Reaction, Male, Huh 01 SND23344	.cache\5E\{5EF46A38-0CE6-A850-D75E-1C0D523D0C69}.wem		\Containers\Default Work Unit\Player\Movement\DoubleJump\DoubleJump_VO\Voices, Reaction, Male, Huh 01 SND23344		62268
 	607399203	Swooshes, Whoosh, Classic, Hollow, Low, Long SND55547 1	.cache\F8\{F8625BA0-4F02-2528-6A95-FB2B8D4CA535}.wem		\Containers\Default Work Unit\Player\Movement\DoubleJump\Swooshes, Whoosh, Classic, Hollow, Low, Long SND55547 1		103020
 	608211182	Human, Breath, Male, Out Of Breath, Male, Fast, Pant, Exhausted, Effort, Inhale, Exhale SND130284 1	.cache\01\{01EB0639-9C98-5D00-B43D-914B8840DE24}.wem		\Containers\Default Work Unit\Player\PlayerHurt_Vo\Player_Hurt\Human, Breath, Male, Out Of Breath, Male, Fast, Pant, Exhausted, Effort, Inhale, Exhale SND130284 1		110850
 	610976505	User Interface, Alert, Pops, Digital, Cute, Pops SND115539 1	.cache\3E\{3E5F484C-36D9-01F7-27AD-C6DEF1300378}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Footsteps\User Interface, Alert, Pops, Digital, Cute, Pops SND115539 1		4674
@@ -92,6 +95,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	671298666	Bird_N_Insects	.cache\46\{466DB658-AA70-114F-2D7F-D0C3FABF6C8C}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\Bird_N_Insects		11430504
 	698684403	Elite_Death	.cache\3D\{3D08CC4C-9088-162B-538B-15A67B1D348F}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Death		109924
 	728004166	Wings, Creature, Birdlike, Small, Constant, Normal SND53551	.cache\D7\{D7A4BE59-A648-34F5-E45A-40C4E6043752}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Fly\Wings, Creature, Birdlike, Small, Constant, Normal SND53551		15376
+	786388339	Player_Fire	.cache\32\{32704B36-E4CF-245D-2792-09574FC1DA89}.wem		\Containers\Default Work Unit\Player\Combat\Player_Fire		424652
 	788933838	User Interface, Alert, Pops, Digital, Cute, Pops SND115539	.cache\97\{971B04A9-264F-AB20-B817-2CBC1167261C}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Footsteps\User Interface, Alert, Pops, Digital, Cute, Pops SND115539		2928
 	789007287	Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 2	.cache\CA\{CA0059D0-0649-F10A-B214-8A0816EF1566}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 2		26200
 	810945889	3 Synth	.cache\2F\{2FED917A-60FC-6334-BD62-F6712002C5B8}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\3 Synth		35335840
@@ -107,5 +111,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1007180937	Card_Hover	.cache\56\{562E0F87-ACA3-4F7E-E597-7A45B825E25E}.wem		\Containers\Default Work Unit\Loadout\Card\Card_Hover		36804
 	1018728766	KS_Gore Punch_1	.cache\13\{13A747DC-2FA2-E818-C74D-798B07D637C3}.wem		\Containers\Default Work Unit\Player\Combat\BiteHit\PlayerBiteHit_NPC\KS_Gore Punch_1		52568
 	1036968042	Door_Open	.cache\A7\{A7373D83-3F4F-8693-294C-156280B3146C}.wem		\Containers\Default Work Unit\World\Door_Open		495456
+	1038361255	New Sound SFX	.cache\38\{38C656BA-50F5-296C-7B7C-FC8C2CFC9283}.wem		\Containers\Default Work Unit\Player\Movement\DoubleJump\DoubleJump_VO\New Sound SFX		35932
 	1041761545	KS_Massive Punch_1	.cache\88\{880106B4-138F-C049-A27C-39250D7624B9}.wem		\Containers\Default Work Unit\Player\Combat\BiteHit\PlayerBiteHit_Elite\KS_Massive Punch_1		62920
 

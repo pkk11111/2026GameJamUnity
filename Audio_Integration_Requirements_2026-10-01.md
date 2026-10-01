@@ -1,7 +1,11 @@
 # pawgatory 音频接口与 Unity 接入交接
 
 更新日期：2026-10-01。交接对象：程序、关卡、动画/UI、技术音频。
-核对分支：AudioPipeline。本文件替代此前同名报告，以当前已保存的 Wwise 工程及生成元数据为依据。
+
+**宝箱/卡片/能力增量（Audio_Test）：** 已安装 RewardAudioBackend，9箱成功打开播放 Play_Box_Open；一组卡片展示、鼠标进入卡片、接受卡片选择分别播放 Play_Card_PopOut / Hover / Selected。Tail与Legs真实领取播放Play_Player_AbilityGain；冲刺成功开始与二段跳成功分别播放Play_Dash / Play_DoubleJump。Unity Play 72项检查通过，详细接线及测试范围见 `docs/handoffs/audio-rewards.handoff`。能力成功获得/失去分别播放Play_Player_AbilityGain / Play_Player_AbilityLoss；即时数值奖励仍只发卡片确认声。
+
+**地刺增量已接入：** 当前SB_Main已扩展为42个Event、56个媒体条目，新增Play_Trap_Attack、Play_Player_Fire、Play_Fire_Hit；下文原39个Event/51媒体清单为此前基线。火焰两个事件本轮仅核对存在，未接入玩法。地刺7处全部接线并通过真实物理触碰/保护期去重/暂停抑制测试，详见 `docs/handoffs/audio-traps.handoff`。
+当前核对分支：Audio_Test；原始清单来源AudioPipeline。以当前已保存的 Wwise 工程及生成元数据为依据。
 
 **交付状态：三层交互音乐已接入 Level_Whitebox，Unity 编译及真实 Wwise State 测试通过；其余音效业务接线仍需逐项验收。** 当前工程已有游戏脚本和 GameAudio/IAudioBackend。音乐实现及调参入口见 `docs/handoffs/audio-music-zones.handoff`，项目规范以当前根 AGENTS.md 为准。
 
@@ -98,7 +102,7 @@ Elite 播放列表未见同样的显式无限循环设置，需播放超过曲�
 
 ### 4.1 统一音频入口
 
-Gameplay 只通知真实成功事实；Bank 加载、Wwise 类型与 Event 映射集中在音频适配层。已有 GameAudio/IAudioBackend 位于 Assets/Scripts/Audio/Core，目前默认 NullAudioBackend。继续扩展已有映射，不新建第二套同名接口。三层音乐由独立音频模块 ExplorationMusicZones 管理，不向 gameplay 散写 Wwise 字符串，也没有替换其他音效的后端。
+Gameplay 只通知真实成功事实；已有 GameAudio/IAudioBackend 位于 Assets/Scripts/Audio/Core。Level_Whitebox 的 00 Runtime/Audio_RewardBackend 安装 RewardAudioBackend，负责本轮12个已确认映射；其他未配置Cue仍静默。没有该组件的独立场景继续使用NullAudioBackend。三层音乐及SB_Main生命周期由ExplorationMusicZones管理，后端显式引用它，不重复加载/卸载Bank。不要在业务脚本散写Wwise字符串或另建同名音频接口。
 
 可在 Inspector 绑定 AK.Wwise.Event，然后在音频层通过 eventReference.Post(emitter) 调用。启动/Bank 就绪、空引用、返回值与去重由控制器处理。楼层统一使用 Event，业务不再同时直接 SetState。
 当前没有业务 RTPC 和怪物类型 Switch，不要求填写 Speed、Hope、EnemyType 等不存在的参数。
@@ -161,13 +165,14 @@ Gameplay 只通知真实成功事实；Bank 加载、Wwise 类型与 Event 映�
 
 Elite 目前没有专用脚步 Event；建议先复用 `Play_NPC_Footsteps` 作为其移动声，需试听确认是否符合体型。专用 Elite 移动音属于后续新增需求，不假装已有。飞行声若后续改成连续 loop，应改为“进入飞行状态只启动一次、离开/死亡/回收停止对应 playing ID”，并同步更新本文。
 
-### 世界交互（5 个）
+### 世界交互（原5个＋新增地刺）
 
 | Event | 唯一触发点 | emitter / 去重要求 |
 |---|---|---|
 | `Play_Door_Open` | 门状态 Closed → Opening，动作开始时 | 门；2 秒开门过程只发一次，不在第 2 秒又发；重复交互不重播 |
+| `Play_Trap_Attack` | PrototypeSpike2D成功接受玩家击退后 | 地刺本体；Spike_A～G已接，复用0.6秒击退保护去重；暂停/无效碰撞不发。当前没有生命伤害，不以扣血为前提 |
 | `Play_SwitchActivate` | 开关首次有效激活 | 开关；失败/重复激活不发；联动门各自发自己的开门音 |
-| `Play_Box_Open` | 领取事务成功且箱子变为已领取 | 宝箱；延续旧契约的“成功领取”语义；仅打开选择 UI/取消不发 |
+| `Play_Box_Open` | 成功打开宝箱选择事务 | 已按用户最新要求前移；重复打开拒绝不发，取消后重开再发，领取时不重复发 |
 | `Play_Portal_In` | 已验证落点、代价提交后玩家仍存活，实际开始离开 | 源传送门；本文约定 In=进入源门。取消、无效落点、付费致死均不发 |
 | `Play_Portal_Out` | 位置迁移成功、实际抵达 | 目的传送门；本文约定 Out=走出目的门；一次成功迁移只发一次 |
 
@@ -179,7 +184,7 @@ Elite 目前没有专用脚步 Event；建议先复用 `Play_NPC_Footsteps` 作�
 |---|---|---|
 | `Play_UI_Click` | 普通按钮的有效确认被接受 | 全局 UI；失效按钮不发；卡片确认走专用 Event |
 | `Play_UI_Hover` | 普通按钮首次获得悬停/导航焦点 | 焦点未改变不重发；卡片走专用 Event |
-| `Play_Card_Hover` | 卡片获得悬停/导航焦点 | 不叠加通用 UI_Hover |
+| `Play_Card_Hover` | 鼠标进入可交互卡片 | 本轮只接鼠标；停留不连播，离开再进再发；默认自动焦点不发，不叠加通用 UI_Hover |
 | `Play_Card_Selected` | 卡片选择被系统接受 | 不叠加 UI_Click；进入满槽替换步骤可作为一次被接受的 UI 选择，最终业务音等事务真正完成后才发 |
 | `Play_Card_PopOut` | 一组卡片面板实际展示 | 建议每次面板出现一次，不对布局刷新逐卡重复；若需逐卡动效节拍再统一调整 |
 | `Play_Player_AbilityGain` | 构筑项由未持有变为持有，事务完成 | 不能只因为点击卡片就发；即时回血等增益不自动按“能力获得”处理 |
@@ -205,15 +210,16 @@ Elite 目前没有专用脚步 Event；建议先复用 `Play_NPC_Footsteps` 作�
 
 ## 6. 程序接入规则与旧接口迁移
 
-推荐继续沿用旧设计的单一音频入口：业务发成功事实，音频适配层将事实映射到 Event。Wwise 类型、字符串、Bank 加载集中在音频层。**当前分支没有 GameAudio/AudioCue 实现；以下是移植时的映射要求，不能直接当作已可编译 API。**
+沿用GameAudio → IAudioBackend统一入口。当前已有GameAudio/AudioCue及本轮RewardAudioBackend；以下未被该后端配置的映射仍为待接入要求，不能当作全部音效已完成。
 
 | 旧 AudioCue | 当前 Event/迁移处理 |
 |---|---|
-| PlayerJump | 首跳 → Play_Jump；二段跳需增加区分信息 → Play_DoubleJump |
+| PlayerJump / PlayerDoubleJump / PlayerDash | 已接：Play_Jump / Play_DoubleJump / Play_Dash，仅动作成功 |
+| CardsPresented / CardHovered / CardSelected | 已接：Play_Card_PopOut / Play_Card_Hover / Play_Card_Selected |
 | PlayerBite | Play_Player_Bite，只对应动作开始；命中音另走有效伤害通知 |
 | PlayerWeaponAttack | Play_Player_SwordSwing，只对应挥剑；不兼任命中音 |
 | PlayerHurt / PlayerDied | Play_Player_Hurt / Play_Player_Death |
-| ChestOpened | Play_Box_Open，确认领取成功后 |
+| ChestOpened | 已接：Play_Box_Open，成功打开选择事务后 |
 | AbilityGained / AbilityLost | Play_Player_AbilityGain / Play_Player_AbilityLoss |
 | SwitchActivated | Play_SwitchActivate |
 | DoorOpened | Play_Door_Open，但触发时机必须明确为 Opening 开始，不能沿用“完全打开后” |
@@ -289,3 +295,14 @@ Elite 目前没有专用脚步 Event；建议先复用 `Play_NPC_Footsteps` 作�
 
 证据入口：Wwise Events/Containers/States/SoundBanks/Attenuations 工作单元、GeneratedSoundBanks/Windows/SB_Main.json 和 Event/*.json、Assets/WwiseSettings.xml、Assets/Wwise/Version.txt、ProjectSettings/ProjectVersion.txt。
 
+
+
+## Cancel与弹窗混音增量（2026-10-01）
+Cancel鼠标进入使用Play_UI_Hover，点击有效取消使用Play_UI_Click；重复进入/重复点击去重。Escape或代码关闭不假装点击。ChoiceCancelHover由安装工具加到场景Cancel按钮。UIConfirm/UIHovered映射已安装，UIHovered枚举追加为20。
+
+Audio_RewardBackend新增显式UI Listener和UI Gain Db（暂定-10dB），只降低全局UI发声对象，不影响音乐或玩家/宝箱世界发声。此次不改Wwise素材/Bank。Tools/Audio/Audit Choice Music In Play Mode录制Logs/ChoiceMusic.wav并检查真实音乐播放进度、ID和Cancel事件计数。两次第一层录音确认音乐持续播放且未变调/降音量；UI叠加削波从528个近满幅采样降至0。音乐独立段对齐源素材相关系数约1，增益稳定约-17.03dB。未复现用户所述全部听感问题，其他楼层/实际游玩/输出设备仍需复听；不得标为所有场景问题已修复。
+
+
+## 淡蓝色机关音效（2026-10-01）
+全部8个PrototypeToggleButton2D机关已绑定AkGameObj，现有成功切门通知SwitchActivated映射到Play_SwitchActivate。靠近后原E键交互成功才发，一次联动多门也只发一次；可反复切换，每次成功各发一次。远距、暂停、同帧重复/冷却拒绝不发。声音发在机关根，保留Wwise自身空间配置，不使用UI额外增益。当前Bank已包含事件，无需新增Wwise事件。
+Unity菜单Tools/Audio/Verify Whitebox Switch Audio In Play Mode已通过8机关共16次切换与远距/暂停/重复拒绝验证，返回有效Wwise播放ID。测试直接调用真实机关交互入口；未改输入、门状态规则或地图布局。场景已保存，未提交Git。

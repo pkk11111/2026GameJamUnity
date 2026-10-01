@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Traps.Editor",
+  "references": ["Regrowth.Audio.Traps", "Regrowth.Audio.Music", "Regrowth.WhiteBox", "Regrowth.Runtime", "AK.Wwise.Unity.API", "AK.Wwise.Unity.MonoBehaviour"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

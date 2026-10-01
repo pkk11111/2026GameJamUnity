@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{32404148-0A7B-40A4-8F98-5173BD22075A}",
     "Language": "SFX",
-    "Hash": "{8E8A0554-326A-C271-1E24-00B480C8E23F}",
+    "Hash": "{1C1AB258-7C23-C40B-18DF-22286D267857}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\SB_Main",
     "ShortName": "SB_Main",
     "Path": "SB_Main.bnk",
@@ -38,6 +38,14 @@
       "Location": "Memory",
       "ShortName": "KS_Gorey Stab_1.wav",
       "CachePath": "75/{759063CE-25EA-9083-076B-6579D3738C90}.wem"
+     },
+     {
+      "Id": "108677356",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Acid Burn_1.wav",
+      "CachePath": "65/{658D1D7A-1CF0-2DA3-7B13-7CBD9125DED2}.wem"
      },
      {
       "Id": "114950063",
@@ -112,14 +120,6 @@
       "CachePath": "57/{57A9144E-0A41-2982-B730-A511453C046E}.wem"
      },
      {
-      "Id": "341849073",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Voices, Reaction, Male, Huh 01 SND23344.wav",
-      "CachePath": "6B/{6BC3CFD4-AF08-C272-CC17-B4B68D9F5816}.wem"
-     },
-     {
       "Id": "357126924",
       "Language": "SFX",
       "Streaming": "false",
@@ -173,7 +173,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Swooshes, Whoosh, Low, Short 01 SND11975.wav",
-      "CachePath": "A8/{A8657931-5C0A-3D49-1A9C-71D08C7CB470}.wem"
+      "CachePath": "79/{79EDD28E-9814-3E4A-543D-EC313CFC1CB9}.wem"
      },
      {
       "Id": "453519846",
@@ -248,6 +248,14 @@
       "CachePath": "E0/{E0A4190C-46FF-2DB1-982D-259C55FCD17E}.wem"
      },
      {
+      "Id": "590450229",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Voices, Efforts, Male, Fighting Vocalizations, Grunts, Huh, Hah SND57553 3.wav",
+      "CachePath": "5E/{5EF46A38-0CE6-A850-D75E-1C0D523D0C69}.wem"
+     },
+     {
       "Id": "607399203",
       "Language": "SFX",
       "Streaming": "false",
@@ -318,6 +326,14 @@
       "Location": "Memory",
       "ShortName": "Wings, Creature, Birdlike, Small, Constant, Normal SND53551.wav",
       "CachePath": "D7/{D7A4BE59-A648-34F5-E45A-40C4E6043752}.wem"
+     },
+     {
+      "Id": "786388339",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Host_4.wav",
+      "CachePath": "32/{32704B36-E4CF-245D-2792-09574FC1DA89}.wem"
      },
      {
       "Id": "788933838",
@@ -440,6 +456,14 @@
       "CachePath": "A7/{A7373D83-3F4F-8693-294C-156280B3146C}.wem"
      },
      {
+      "Id": "1038361255",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Voices, Efforts, Male, Fighting Vocalizations, Grunts, Huh, Hah SND57553 2.wav",
+      "CachePath": "38/{38C656BA-50F5-296C-7B7C-FC8C2CFC9283}.wem"
+     },
+     {
       "Id": "1041761545",
       "Language": "SFX",
       "Streaming": "false",
@@ -543,10 +567,13 @@
       "DurationMax": "0.53607",
       "MediaRefs": [
        {
-        "Id": "341849073"
+        "Id": "590450229"
        },
        {
         "Id": "607399203"
+       },
+       {
+        "Id": "1038361255"
        }
       ]
      },
@@ -601,6 +628,20 @@
       "MediaRefs": [
        {
         "Id": "97432376"
+       }
+      ]
+     },
+     {
+      "Id": "173576816",
+      "Name": "Play_Fire_Hit",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Fire_Hit",
+      "GUID": "{EFFCA27D-1AF3-4A49-9373-573D6770BAC4}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.53281",
+      "DurationMax": "1.53281",
+      "MediaRefs": [
+       {
+        "Id": "108677356"
        }
       ]
      },
@@ -870,6 +911,20 @@
        },
        {
         "Id": "386946135"
+       }
+      ]
+     },
+     {
+      "Id": "1408288908",
+      "Name": "Play_Player_Fire",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Player_Fire",
+      "GUID": "{4C3EBE93-2E9B-4FA3-A127-0CE495DE6350}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.21122",
+      "DurationMax": "2.21122",
+      "MediaRefs": [
+       {
+        "Id": "786388339"
        }
       ]
      },
@@ -1227,6 +1282,6 @@
     ]
    }
   ],
-  "FileHash": "{515482AD-3ABF-ACB4-7C79-FA717C032104}"
+  "FileHash": "{7AE5491F-94CA-F277-AB08-3DE41B55C921}"
  }
 }

@@ -534,6 +534,8 @@ GameObject:
   - component: {fileID: 162444050}
   - component: {fileID: 162444049}
   - component: {fileID: 162444048}
+  - component: {fileID: 162444052}
+  - component: {fileID: 162444051}
   m_Layer: 0
   m_Name: Spike_B
   m_TagString: Untagged
@@ -685,6 +687,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162444051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162444047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &162444052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162444047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &174338044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -811,7 +852,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 230644489}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 661014658}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &174338045 stripped
 Transform:
@@ -970,6 +1014,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 174338045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &261654147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 291514890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &263898063
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1085,7 +1134,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1020, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1995779099}
   m_SourcePrefab: {fileID: 100100000, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
 --- !u!114 &263898064 stripped
 MonoBehaviour:
@@ -1319,13 +1371,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1047554165}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 291514895}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &291514891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 291514890}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &291514895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261654147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &305160265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,6 +1416,8 @@ GameObject:
   - component: {fileID: 305160268}
   - component: {fileID: 305160267}
   - component: {fileID: 305160266}
+  - component: {fileID: 305160270}
+  - component: {fileID: 305160269}
   m_Layer: 0
   m_Name: Spike_C
   m_TagString: Untagged
@@ -1488,6 +1569,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305160269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305160265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &305160270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305160265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &324566833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2154,6 +2274,7 @@ GameObject:
   - component: {fileID: 435925238}
   - component: {fileID: 435925241}
   - component: {fileID: 435925240}
+  - component: {fileID: 435925242}
   m_Layer: 0
   m_Name: Button_1/3
   m_TagString: Untagged
@@ -2251,6 +2372,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 435925238}
   interactionPoint: {fileID: 0}
+--- !u!114 &435925242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435925237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!1 &444352891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 978385267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &447930996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2377,7 +2527,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 549059791}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 555860629}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &447930997 stripped
 Transform:
@@ -2828,6 +2981,7 @@ GameObject:
   - component: {fileID: 535949089}
   - component: {fileID: 535949091}
   - component: {fileID: 535949090}
+  - component: {fileID: 535949092}
   m_Layer: 0
   m_Name: Test_Player
   m_TagString: Untagged
@@ -2975,7 +3129,7 @@ Transform:
   m_GameObject: {fileID: 535949084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31.54, y: -5.7, z: 0}
+  m_LocalPosition: {x: -12, y: -3.4, z: 0}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3054,6 +3208,30 @@ MonoBehaviour:
   initialBiteDamage: 10
   initialSwordDamage: 15
   prototypeStartWithBodyCore: 1
+--- !u!114 &535949092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &539243124
 GameObject:
   m_ObjectHideFlags: 0
@@ -3206,6 +3384,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171908537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &555860625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 447930996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &555860629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555860625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &556079444
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,6 +3532,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 956520190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &661014654 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 174338044}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &661014658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661014654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &739003227
 GameObject:
   m_ObjectHideFlags: 0
@@ -3356,6 +3592,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 939269307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &761430549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761430550}
+  - component: {fileID: 761430552}
+  - component: {fileID: 761430551}
+  m_Layer: 0
+  m_Name: Audio_RewardBackend
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &761430550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761430549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 976969443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &761430551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761430549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76465d41949d0f4c917d04523a30c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Wwise::Regrowth.Audio.RewardAudioBackend
+  bankOwner: {fileID: 1815237973}
+  uiListener: {fileID: 519420033}
+  uiGainDb: -10
+  mappings:
+  - cue: 5
+    eventName: Play_Box_Open
+  - cue: 17
+    eventName: Play_Card_PopOut
+  - cue: 18
+    eventName: Play_Card_Hover
+  - cue: 19
+    eventName: Play_Card_Selected
+  - cue: 6
+    eventName: Play_Player_AbilityGain
+  - cue: 1
+    eventName: Play_Jump
+  - cue: 15
+    eventName: Play_Dash
+  - cue: 16
+    eventName: Play_DoubleJump
+  - cue: 7
+    eventName: Play_Player_AbilityLoss
+  - cue: 11
+    eventName: Play_UI_Click
+  - cue: 20
+    eventName: Play_UI_Hover
+  - cue: 8
+    eventName: Play_SwitchActivate
+--- !u!114 &761430552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761430549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &768583928
 GameObject:
   m_ObjectHideFlags: 0
@@ -3682,7 +4015,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 226780156}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1575752013}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &870692094 stripped
 Transform:
@@ -3701,6 +4037,7 @@ GameObject:
   - component: {fileID: 873605929}
   - component: {fileID: 873605932}
   - component: {fileID: 873605931}
+  - component: {fileID: 873605933}
   m_Layer: 0
   m_Name: Button_B
   m_TagString: Untagged
@@ -3797,6 +4134,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 873605929}
   interactionPoint: {fileID: 0}
+--- !u!114 &873605933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873605928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &879789543
 GameObject:
   m_ObjectHideFlags: 0
@@ -4011,6 +4372,7 @@ GameObject:
   - component: {fileID: 938930351}
   - component: {fileID: 938930354}
   - component: {fileID: 938930353}
+  - component: {fileID: 938930355}
   m_Layer: 0
   m_Name: Button_D
   m_TagString: Untagged
@@ -4107,6 +4469,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 938930351}
   interactionPoint: {fileID: 0}
+--- !u!114 &938930355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938930350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &939269306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4233,7 +4619,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 739003228}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1344640039}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &939269307 stripped
 Transform:
@@ -4491,6 +4880,7 @@ Transform:
   m_Children:
   - {fileID: 2001872528}
   - {fileID: 1815237972}
+  - {fileID: 761430550}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &976969444
@@ -4632,13 +5022,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1239424348}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 978385272}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &978385268 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 978385267}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &978385272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444352891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1016768629
 GameObject:
   m_ObjectHideFlags: 0
@@ -4763,6 +5180,7 @@ GameObject:
   - component: {fileID: 1024123721}
   - component: {fileID: 1024123724}
   - component: {fileID: 1024123723}
+  - component: {fileID: 1024123725}
   m_Layer: 0
   m_Name: Button_C
   m_TagString: Untagged
@@ -4859,6 +5277,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1024123721}
   interactionPoint: {fileID: 0}
+--- !u!114 &1024123725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024123720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1031250648
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,6 +5545,7 @@ GameObject:
   - component: {fileID: 1058225894}
   - component: {fileID: 1058225897}
   - component: {fileID: 1058225896}
+  - component: {fileID: 1058225898}
   m_Layer: 0
   m_Name: Button_2/4
   m_TagString: Untagged
@@ -5200,6 +5643,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1058225894}
   interactionPoint: {fileID: 0}
+--- !u!114 &1058225898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058225893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1098323938
 GameObject:
   m_ObjectHideFlags: 0
@@ -5211,6 +5678,8 @@ GameObject:
   - component: {fileID: 1098323941}
   - component: {fileID: 1098323940}
   - component: {fileID: 1098323939}
+  - component: {fileID: 1098323943}
+  - component: {fileID: 1098323942}
   m_Layer: 0
   m_Name: Spike_F
   m_TagString: Untagged
@@ -5362,6 +5831,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1098323942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098323938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1098323943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098323938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1128038526
 GameObject:
   m_ObjectHideFlags: 0
@@ -5511,6 +6019,8 @@ GameObject:
   - component: {fileID: 1174812139}
   - component: {fileID: 1174812138}
   - component: {fileID: 1174812137}
+  - component: {fileID: 1174812141}
+  - component: {fileID: 1174812140}
   m_Layer: 0
   m_Name: Spike_E
   m_TagString: Untagged
@@ -5662,6 +6172,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1174812140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174812136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1174812141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174812136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1200262439
 GameObject:
   m_ObjectHideFlags: 0
@@ -6069,6 +6618,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2066573985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1320334221 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 1845562894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1344640035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 939269306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1344640039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344640035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1403574007
 GameObject:
   m_ObjectHideFlags: 0
@@ -6843,6 +7426,8 @@ GameObject:
   - component: {fileID: 1490096615}
   - component: {fileID: 1490096614}
   - component: {fileID: 1490096613}
+  - component: {fileID: 1490096617}
+  - component: {fileID: 1490096616}
   m_Layer: 0
   m_Name: Spike_G
   m_TagString: Untagged
@@ -6994,6 +7579,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1490096616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490096612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1490096617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490096612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1523383525
 GameObject:
   m_ObjectHideFlags: 0
@@ -7006,6 +7630,7 @@ GameObject:
   - component: {fileID: 1523383526}
   - component: {fileID: 1523383529}
   - component: {fileID: 1523383528}
+  - component: {fileID: 1523383530}
   m_Layer: 0
   m_Name: Button_A
   m_TagString: Untagged
@@ -7102,6 +7727,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1523383526}
   interactionPoint: {fileID: 0}
+--- !u!114 &1523383530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523383525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!1 &1575752009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 870692093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1575752013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575752009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1596823880
 GameObject:
   m_ObjectHideFlags: 0
@@ -7214,6 +7892,11 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!1 &1616997558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 2004297558}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1634971794
 GameObject:
   m_ObjectHideFlags: 0
@@ -68809,6 +69492,8 @@ GameObject:
   - component: {fileID: 1710141548}
   - component: {fileID: 1710141547}
   - component: {fileID: 1710141546}
+  - component: {fileID: 1710141550}
+  - component: {fileID: 1710141549}
   m_Layer: 0
   m_Name: Spike_D
   m_TagString: Untagged
@@ -68960,6 +69645,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710141549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710141545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1710141550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710141545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1721123010
 GameObject:
   m_ObjectHideFlags: 0
@@ -69092,6 +69816,8 @@ GameObject:
   - component: {fileID: 1776912480}
   - component: {fileID: 1776912479}
   - component: {fileID: 1776912478}
+  - component: {fileID: 1776912482}
+  - component: {fileID: 1776912481}
   m_Layer: 0
   m_Name: Spike_A
   m_TagString: Untagged
@@ -69243,6 +69969,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
+--- !u!114 &1776912481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776912477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1776912482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776912477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1797830534
 GameObject:
   m_ObjectHideFlags: 0
@@ -69313,6 +70078,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1962034569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1800358546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 1962034568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1805627698
 GameObject:
   m_ObjectHideFlags: 0
@@ -73989,13 +74759,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1128038527}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1845562899}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &1845562895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 1845562894}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1845562899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320334221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1854174370
 GameObject:
   m_ObjectHideFlags: 0
@@ -74565,13 +75362,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1799137735}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1962034573}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &1962034569 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 1962034568}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1962034573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800358546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1969892009
 GameObject:
   m_ObjectHideFlags: 0
@@ -74584,6 +75408,7 @@ GameObject:
   - component: {fileID: 1969892010}
   - component: {fileID: 1969892013}
   - component: {fileID: 1969892012}
+  - component: {fileID: 1969892014}
   m_Layer: 0
   m_Name: Button_1/2
   m_TagString: Untagged
@@ -74681,6 +75506,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1969892010}
   interactionPoint: {fileID: 0}
+--- !u!114 &1969892014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969892009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1986094081
 GameObject:
   m_ObjectHideFlags: 0
@@ -74716,6 +75565,23 @@ Transform:
   - {fileID: 496964300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1995779094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1020, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
+  m_PrefabInstance: {fileID: 263898063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1995779099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995779094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6746903a9ab55143beca58daeecdbe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.UI.Choice::Regrowth.UI.ChoiceCancelHover
 --- !u!1 &2001872524
 GameObject:
   m_ObjectHideFlags: 0
@@ -74929,13 +75795,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 426258613}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2004297563}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &2004297559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 2004297558}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2004297563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616997558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2023437531
 GameObject:
   m_ObjectHideFlags: 0
@@ -75259,6 +76152,7 @@ GameObject:
   - component: {fileID: 2110720592}
   - component: {fileID: 2110720595}
   - component: {fileID: 2110720594}
+  - component: {fileID: 2110720596}
   m_Layer: 0
   m_Name: Button_1/4
   m_TagString: Untagged
@@ -75356,6 +76250,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 2110720592}
   interactionPoint: {fileID: 0}
+--- !u!114 &2110720596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110720591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2133865485
 GameObject:
   m_ObjectHideFlags: 0

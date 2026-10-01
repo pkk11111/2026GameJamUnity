@@ -4,6 +4,7 @@
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
+using Regrowth.Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ using UnityEngine.EventSystems;
 namespace Regrowth.UI
 {
     /// <summary>ChoicePanel 创建的 Prefab 实例；每次绑定替换自己的监听，不改按钮美术。</summary>
-    public sealed class ChoiceCardView : MonoBehaviour, ICancelHandler
+    public sealed class ChoiceCardView : MonoBehaviour, ICancelHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("卡片引用")]
         [SerializeField, Tooltip("选择按钮；必填。美术与过渡在 Button/Image 上编辑。")]
@@ -27,6 +28,7 @@ namespace Regrowth.UI
         private string optionId;
         private Action<string> onSelected;
         private Action onCancelled;
+        private bool pointerInside;
 
         internal bool HasRequiredReferences => selectButton != null && titleText != null && descriptionText != null;
 
@@ -48,6 +50,7 @@ namespace Regrowth.UI
 
         internal void Unbind()
         {
+            pointerInside = false;
             if (selectButton != null)
             {
                 selectButton.onClick.RemoveListener(Select);
@@ -82,6 +85,17 @@ namespace Regrowth.UI
         {
             onSelected?.Invoke(optionId);
         }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (pointerInside) return;
+            pointerInside = true;
+            if (isActiveAndEnabled && onSelected != null && selectButton != null && selectButton.IsInteractable())
+                GameAudio.Play(AudioCue.CardHovered);
+        }
+
+        public void OnPointerExit(PointerEventData eventData) => pointerInside = false;
+        private void OnDisable() => pointerInside = false;
 
         private void OnDestroy()
         {

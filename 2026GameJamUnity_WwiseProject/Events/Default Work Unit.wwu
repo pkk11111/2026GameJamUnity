@@ -461,6 +461,28 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Player_Fire" ID="{4C3EBE93-2E9B-4FA3-A127-0CE495DE6350}">
+					<ChildrenList>
+						<Action Name="" ID="{225949D0-CF72-4DC5-B2B0-3AB17285C3C6}" ShortID="405854051">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Player_Fire" ID="{24DA95DA-652C-4720-B6EC-D07C03BF0B9A}" WorkUnitID="{54883B12-B7A9-4DC8-A819-7B3BA9B7B67A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Fire_Hit" ID="{EFFCA27D-1AF3-4A49-9373-573D6770BAC4}">
+					<ChildrenList>
+						<Action Name="" ID="{EF1FAEFA-A234-4153-9B84-87E39B897D85}" ShortID="550333735">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Fire_Hit" ID="{81E9BAC7-3F7E-4CCF-9136-9E50F265D4AC}" WorkUnitID="{54883B12-B7A9-4DC8-A819-7B3BA9B7B67A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -75,7 +75,8 @@ namespace Regrowth.Audio
             int initial = LocatePlayer();
             if (initial < 0) { Fail("出生点不在音乐区域中，请扩大区域或检查玩家引用。"); yield break; }
             if (!Apply(initial)) yield break;
-            MusicPlayingId = AkUnitySoundEngine.PostEvent(playEvent, gameObject);
+            MusicPlayingId = AkUnitySoundEngine.PostEvent(playEvent, gameObject,
+                (uint)AkCallbackType.AK_EnableGetMusicPlayPosition, null, null);
             if (MusicPlayingId == 0) { Fail("播放音乐失败：" + playEvent); yield break; }
             ready = true;
         }

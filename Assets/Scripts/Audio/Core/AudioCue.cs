@@ -19,6 +19,12 @@ namespace Regrowth.Audio
         BossStarted = 12,
         RunWon = 13,
         PlayerWeaponAttack = 14,
+        PlayerDash = 15,
+        PlayerDoubleJump = 16,
+        CardsPresented = 17,
+        CardHovered = 18,
+        CardSelected = 19,
+        UIHovered = 20,
     }
 }
 
