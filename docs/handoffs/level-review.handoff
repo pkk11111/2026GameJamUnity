@@ -1,0 +1,33 @@
+# C10修正：移除黄色标记，首次交互后常开
+
+用户截图明确九箱位置及“触发后保持吐舌头”；最新指令要求减少冗余测试。实查TM_Markers仍有81格不透明黄色Tile_Chest，覆盖真实宝箱；已在Unity中移除这81格占位，保留9个Chest对象/碰撞/奖励，Sprite排序12避免被前景10遮盖。Chest改为仅记录本局wasOpened，成功TryBegin后置true，取消/禁用后仍常开，奖励消费继续由IsClaimed决定；移除不再需要的LateUpdate轮询。编译刷新后Console错误0。短Play检查调用遇到Unity桥接空失败返回，已退出Play，未把这次调用记为通过，也未重复运行全套测试。此前“取消关箱”的实现与23项检查属于上一版记录，不覆盖本次行为。
+
+# C10 Level合并与宝箱外观（最新）
+
+- 日期/任务：2026-10-01 / level-review / C10；Ming HEAD 3c0bae7，MERGE_HEAD d1f9830。用户明确授权本地适配合并，只做宝箱、其他内容合并，减少重复测试；无commit/push。
+- 状态：合并冲突已解决，资源/场景/宝箱已接入，聚焦Play与保存重载检查完成；源码及文档补充尚未提交。
+- 处理：先保存用户场景并备份Temp/LevelMerge/Ming-before.unity，单文件stash保全；Git --no-commit --no-ff合并。唯一冲突为主场景，使用Unity预览源场景与共同基线，在Ming原场景中复制18棵新增对象树、重映射引用，应用8门美术与Level位置变化及31处Tile变化，保留Ming敌人出生标记/14敌AI、玩家/火焰、传送收费与七项卡池。没有拼接冲突YAML或用某一方整图丢掉另一方。预览临时资产已移除。
+- Level位置增量：玩家出生点(-12.14,-1.41)，另两处地图Transform位移按来源接入。用户未提交的BoxCollider尺寸1.6666667、worldScale=0.7及Character变换保持。
+- 宝箱：Assets/Prefabs/Chest/Chest.prefab与主图9箱绑定两张原图切片，关闭IMG_5506_0，打开IMG_5505_0；宽度共享Prefab1.2、主图3单位，保持比例并沿原交互框底部对齐，不改触发框。Sprite白色、Simple、sortingOrder8。
+- 代码：Chest.IsOpen只读同一事务（IsClaimed或IsPending）；交互接受即时ApplyView，LateUpdate只在子视图active变化时同步取消/阶段结束；取消不领取不刷卡，领取成功音频仍只发一次。closedView/claimedView序列化字段保留，后者现在承担选择中及已领取外观。无新状态写口/奖励逻辑。
+- 合并适配：9条提示仍用Level原距离检测/OnGUI方案；Hint_enemy文案F修正为Q/右键。原WorldDoorStripVisual所附门清除冲突的closedView控制，动画子对象保持激活；门碰撞/状态逻辑不变。其他Level脚本、SampleScene、_Recovery来源保留，不作为新主场景。
+- 验证：Unity6000.2.9f1编译后Console错误0；主图真实Chest.TryInteract→ChoicePanel→取消/重开/Submit链23 passed / 0 failed，包含9箱图片、三卡、不领取先开、取消关、卡组保持、领奖常开/不可重领、14敌/9提示/无missing script及用户碰撞尺寸。调用真实交互端口，未模拟键盘E；不称为人工试玩。退出Play后重开保存场景确认9箱必填引用、提示同场景玩家、无missing script与worldScale/collider保留。
+- 测试策略：按用户要求未复跑旧C01–C09、未新增测试夹具、未导出Windows、未做整局/其他模块功能测试。合入的Unity生成YAML/meta有原生尾随空格，未为格式批量重写资源。
+- 交付：共享AGENTS/WORK_PACKAGES/README/controller.handoff已增加本轮事实与Chest.IsOpen接点。Git merge保留待用户提交；未修改Wwise/Packages/ProjectSettings/Input Actions。
+
+---
+
+# Level 分支资源与宝箱检查
+
+- 成员/任务别名：level-review；日期：2026-10-01。
+- 分支/基线：当前 Ming/3c0bae74；读取 origin/Level/d1f9830。活动规范24，源码契约11，以 AGENTS 最新 C09 为准。
+- 状态：静态审查完成，宝箱状态资源映射及本次内容范围待用户答复，尚未集成。
+- 授权目标：查看 Level 新增美术、提示触发与宝箱缺口；不确定开关素材时先询问用户。
+- 已执行：fetch origin Level；读取规范、总控交接、工作包相关记录；对比分支源码/场景/Prefab/meta；通过 LFS 提取10张PNG到忽略目录 Temp/LevelReview_d1f9830，并目视检查8张Icon原图。
+- 资源：Assets/WhiteBox/Materials/Icon/IMG_5506.PNG 是闭嘴宝箱，IMG_5505.PNG 是吐舌头宝箱。拟映射未领取/已领取，已请求用户确认，尚未按此写入资产。两图各有一个已切片Sprite，主图引用各为0；Chest Prefab与Ming相同，仍是占位图。
+- 宝箱接点：Assets/Scripts/Gameplay/Chest/Chest.cs 的 closedView/claimedView 已按 IsClaimed 切换，领取成功 OnClaimed 才切图并发 ChestOpened；打开菜单或取消不消费。Level场景9箱 whitebox-chest-01至09；此次新增分支差异没有新宝箱奖励逻辑。Ming现有7项池/火焰尾/百分比生命奖励/攻击+10应保留，Level的旧6项配置不得覆盖。
+- 提示：PrototypeTutorialHint2D按玩家距离、半径3选最近提示，用OnGUI显示，非Collider Trigger；主场景9个实例均绑定玩家Transform 535949088。包含移动、跳跃、宝箱、按钮、传送、地刺、敌人和两处谜题。不会结算奖励/解锁支线。Hint_enemy的F技能文案与Ming实际Fire Q/右键不一致；正式接入需修正并核对运行阶段/UI方案。
+- 其他增量：背景/前景、按钮/传送/地刺/门/地形图、WorldDoorStripVisual。WorldArtworkSetup引用的world-artwork.handoff未随Level提交。SampleScene与_Recovery/0亦有大量场景数据，不作为当前主图直接替代。
+- 用户已有未提交改动：Level_Whitebox的玩家BoxCollider2D尺寸1→1.6666667、表现worldScale 0.42→0.7及Character对应变换。全部保留；未切分支、merge、stage、commit、push或写入生产源码/资产。
+- 验证边界：仅Git/源码/序列化引用与资源目视检查；没有Unity导入、编译、Play或Windows导出，不继承前轮通过数量。
+- 下一步：取得用户对两图映射及“宝箱内容”具体范围的答复；若实施集成，在当前Ming上保留C07–C09业务与用户场景改动，用Unity接入资源/提示/宝箱外观，验证领取一次、取消保持关闭及往返状态；同步总控公共文档。

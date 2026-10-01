@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tile_trap
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
   m_Sprite: {fileID: 7482667652216324306, guid: 99447ffafa851f447bc152343e34f79d, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
   m_Transform:
     e00: 1
     e01: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tile_CheckPoint
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
   m_Sprite: {fileID: 7482667652216324306, guid: 99447ffafa851f447bc152343e34f79d, type: 3}
-  m_Color: {r: 0.592316, g: 1, b: 0.33647794, a: 1}
+  m_Color: {r: 0.592316, g: 1, b: 0.33647794, a: 0}
   m_Transform:
     e00: 1
     e01: 0

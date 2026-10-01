@@ -16,10 +16,11 @@ namespace Regrowth.Gameplay
         [SerializeField, Tooltip("唯一IRunContext组件。")] private MonoBehaviour runSource;
         [SerializeField, Tooltip("唯一IChoiceFlow组件；禁止绑定ChoicePanel。")] private MonoBehaviour choiceFlowSource;
         [SerializeField, Tooltip("首次成功打开复制候选；本局缓存不写回资产。")] private ChestRewardConfig rewardConfig;
-        [SerializeField, Tooltip("可选未领取子视图，Sprite/Animator可替换，不能绑根。")] private GameObject closedView;
-        [SerializeField] private GameObject claimedView;
+        [SerializeField, Tooltip("可选关闭子视图；首次成功交互前显示，不能绑根。")] private GameObject closedView;
+        [SerializeField, Tooltip("可选打开子视图；首次成功交互后本局保持显示，取消领奖也不关闭。保留原字段名兼容Prefab。")] private GameObject claimedView;
         private string stableId;
         private bool identityCaptured;
+        private bool wasOpened;
         private ChestClaimTransaction transaction;
         public string InteractionId
         {
@@ -36,6 +37,8 @@ namespace Regrowth.Gameplay
         public string Prompt => prompt;
         public InteractionKind Kind => InteractionKind.Chest;
         public bool IsClaimed => transaction != null && transaction.Claimed;
+        /// <summary>仅外观状态：首次成功打开选择事务后本局保持打开，取消不改变；领取资格仍由IsClaimed决定。</summary>
+        public bool IsOpen => wasOpened || IsClaimed;
         internal ChestClaimTransaction Transaction => transaction;
 
         private bool ValidReferences()
@@ -60,6 +63,7 @@ namespace Regrowth.Gameplay
         private void OnDisable()
         {
             transaction?.CancelCurrent();
+            ApplyView();
         }
         private void EnsureTransaction()
         {
@@ -91,6 +95,8 @@ namespace Regrowth.Gameplay
                 Debug.LogWarning("[T12 Chest] 拒绝打开：合法候选不足（普通3/教学1）或选择入口拒绝；不会重抽已缓存卡组。", this);
                 return false;
             }
+            wasOpened = true;
+            ApplyView();
             return true;
         }
         private void OnClaimed()
@@ -100,13 +106,20 @@ namespace Regrowth.Gameplay
         }
         private void ApplyView()
         {
+            bool open = IsOpen;
             if (closedView != null && closedView != gameObject)
             {
-                closedView.SetActive(!IsClaimed);
+                if (closedView.activeSelf == open)
+                {
+                    closedView.SetActive(!open);
+                }
             }
             if (claimedView != null && claimedView != gameObject)
             {
-                claimedView.SetActive(IsClaimed);
+                if (claimedView.activeSelf != open)
+                {
+                    claimedView.SetActive(open);
+                }
             }
         }
     }
