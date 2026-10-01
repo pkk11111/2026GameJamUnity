@@ -28,6 +28,8 @@ namespace Regrowth.Gameplay
         public float CooldownRemaining => Mathf.Max(0f, (float)(nextAttackTime - Time.timeAsDouble));
         public bool IsWired => wired;
         public IPlayerCombatState CombatState => combat;
+        /// <summary>Read-only accepted-attack notification; presentation must never settle damage.</summary>
+        public event Action AttackStarted;
 
         private void OnEnable()
         {
@@ -52,6 +54,8 @@ namespace Regrowth.Gameplay
             try
             {
                 nextAttackTime = Time.timeAsDouble + config.CooldownSeconds;
+                try { AttackStarted?.Invoke(); }
+                catch (Exception ex) { Debug.LogWarning("[T07 Bite] Presentation failed; attack continues: " + ex.Message, this); }
                 try
                 {
                     GameAudio.Play(AudioCue.PlayerBite, gameObject);

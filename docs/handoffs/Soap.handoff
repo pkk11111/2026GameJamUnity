@@ -1,4 +1,56 @@
-# Soap · T09 / T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
+# Soap · T08 / T09 / T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
+
+## T08 最新摘要：即时攻击 / Damage + Range（2026-10-01）
+
+**Implemented; awaiting user manual verification and Auto Checks rerun.** 本节覆盖此前未提交T08的前摇/pending版本，当前不再要求攻击途中失去Arms验收。用户已确认T07+T09人工验收；其下历史awaiting语句仅为当时记录。
+
+> Arms no longer has durability and cannot normally be lost during a sword swing.
+> The old T08 mid-attack Arms-loss acceptance case is obsolete.
+> Bite vs Sword gameplay differentiation is now limited to damage and attack range;
+> Sword is intentionally superior in both.
+
+### 基线与边界
+
+执行git fetch origin Ming Soap；最新origin/Ming为0d892a44ae5208c9a05a2cb48a90c5c5a0625af2，只读规范18、WORK_PACKAGES、controller.handoff/契约8及实际本地Soap交接/源码/Manual-Auto资产。保留Soap/a44469c和已有未提交T08，没有merge/reset/stash/clean/stage/commit/push。本地项目D:/Making Games/2026GameJamUnity，采用最新规范允许各队友使用实际工作副本路径。本轮策划决定高于公共旧任务卡；不改AGENTS/WORK_PACKAGES，由Ming后续统一同步。
+
+改动范围仍为新Sword源码/配置/Prefab，T08测试源码/工具/Manual-Auto Prefab/场景及meta；另获本轮明确授权，为已验T07 PlayerBiteAttack仅增加accepted AttackStarted只读表现通知，以及新PlayerBiteFlash.cs/meta。Bite的伤害、去重、权限、范围、冷却和真实Enemy扣血逻辑没有重写；无新Core接口。PlayerState/RunController/Input/T09 Enemy及其测试/主地图/Wwise/Packages/ProjectSettings完全未改，没有BalanceManager、耐久、击退、吸血、穿透、暴击、硬直或额外状态。
+
+### 当前攻击与表现
+
+唯一链继续为PlayerInputReader → 原唯一PlayerAttackRouter → 同一实际PlayerState权限 → Bite或Sword，二者不会同次分发。头部不能攻击；Body无Arms咬击；Body+Arms无Legs也剑击。Remove/Add按钮只调用真实TryRemoveLoadoutItem/TryAddLoadoutItem(Arms)，奖励/替换状态变化后的下一Attack使用对应动作，不另建Sword item/HP/构筑。
+
+PlayerSwordAttack已移除AttackStage状态机、windup/pending/recovery、generation、Loadout/Health/Phase取消订阅及旧pending属性；接受后在TryAttack内立即OverlapCircle和一次伤害结算，然后只保留冷却。attacking bool仅防同步回调重入，不是跨帧攻击状态。按实际IDamageable父链解析并HashSet去重、多Collider一击一次、排除实际玩家自身；金额只读combat.SwordDamage，合法DamageRequest(Enemy, Source=真实玩家根)。实际接受才发AudioCue.PlayerWeaponAttack；无新Cue/Wwise字符串。动画/表现不提供伤害入口。Pause/Choosing/Dead继续由实际CanUseSword/CanBite阻止新攻击，不存未来命中，不改Time.timeScale。
+
+SwordConfig现在使用独立attackRange圆形世界半径1.8，删除hitSize/windupSeconds/recoverySeconds序列化字段；BiteConfig仍使用biteRadius半径1.2。T08两锚点统一局部x=0.65且方向固定朝右，便于只比较Range；测试默认冷却都0.6游戏秒，层mask1/includeTriggers=true一致。测试默认值/最终平衡未冻结，优势关系已确认而非具体差值冻结，不硬编码伤害比例/最小差值。
+
+剑保留金色横斩placeholder（1.6×0.12），真实接受且即时伤害同时短暂显示0.12游戏秒。新Bite表现为青色竖向jaw/flash placeholder（0.22×0.6），绑定真实Bite.AttackStarted，仅已接受动作显示0.12秒；不是命中成功才显示，距离外的合法空咬也有表现。表现只控制显式Renderer，无Collider/输入/HP/Animator伤害回调。权限/阶段失效在Update隐藏，组件启停也隐藏，不延迟结算或改变cadence。Bite受伤链此前T09真实41/0及用户验收成立；本轮静态源码/接线未发现链路错误，只增加表现，当前改动后的Play仍待复跑。
+
+### 参数唯一入口（不改代码可调）
+
+| 参数 | 调参资产/组件 | 当前T08测试默认 / 生效 |
+|---|---|---|
+| Initial Max HP | T08SmokeRig/T08AutoChecksRig的实际PlayerState.initialMaximumHealth | 100；首次身体初始化 |
+| Bite Damage | 同一PlayerState.initialBiteDamage | 13；首次状态初始化；运行读BiteDamage |
+| Sword Damage | 同一PlayerState.initialSwordDamage | 15；首次状态初始化；运行读SwordDamage |
+| Bite Range / Cooldown | 测试引用Assets/Configs/Bite/BiteConfig.asset的biteRadius / cooldownSeconds | 1.2世界半径 / 0.6游戏秒；每次动作读取 |
+| Sword Range / Cooldown | Assets/Configs/Sword/SwordConfig.asset的attackRange / cooldownSeconds | 1.8世界半径 / 0.6游戏秒；每次动作读取 |
+| Enemy Max HP / Contact Damage / Interval | Assets/Configs/EnemyBasic/EnemyBasicConfig.asset | 39 / 7 / 0.6游戏秒；HP/攻击首次初始化，interval实时 |
+| Presentation duration | Bite Origin的PlayerBiteFlash.flashSeconds / SwordAttackMount的PlayerSwordAttack.flashSeconds | 都0.12游戏秒；只控制闪光，不影响伤害或攻速 |
+| 测试距离 | T08 rig嵌套EnemyBasic Transform.localPosition.x；驱动rangeOnlyDistance同步值 | 2.8；仅独测布局/Auto位置 |
+
+所有数值均为“测试默认，最终平衡未冻结”。Bite/Sword Config没有Damage，PlayerState没有Range；PlayerState已有三个独立Inspector初始化字段，无须改结构或增加全局平衡系统。当前T08与T07/T09沿用的测试配置GUID指向上表BiteConfig资产，修改共享配置会影响引用它的测试，应同时回归。Enemy当前真实默认39HP未在Manual伪造/改变。
+
+### Manual 距离验收与 Auto
+
+Assets/Scenes/Tests/T08/T08_Smoke.unity仍直接保存可用，默认autoRun=0：真实Body+Arms、无Legs（仅通过命令准备），保留真实PlayerLocomotion和唯一输入/Router、Bite、Sword、Enemy、地面、Camera/EventSystem。屏幕显示Current Attack、Arms Yes/No、双方Damage/Range、玩家/Enemy HP；扩大既有测试状态面板供四行文字，不接正式HUD。
+
+出生后**不要移动**：玩家约x0，Bite/Sword中心x0.65，敌人x2.8。敌人contact Trigger左缘x2.05，距中心1.4 > Bite1.2；实体左缘x2.3，距中心1.65 < Sword1.8。因此Remove Arms后按Enter合法空咬但Enemy HP不变；Add Arms后按Enter即时Sword减少真实Enemy HP。随后向右靠近，Remove Arms后Bite也应真实扣血。两种表现肉眼不同，冷却均0.6；固定向右攻击。鼠标按钮与攻击左键共用既有输入，请以Enter明确观察每次扣血；Stop/Play重置。Manual不自动移动/攻击/注入设备/冻结/致死/改RunPhase。
+
+Run T08 Auto Checks保留：在inactive容器实例化独立已保存autoRun=1 fresh rig → 停旧Manual释放Bootstrap → 激活Auto；三个按钮在Auto禁用。Auto从头部测试，完全不继承人工残血/位置/尸体，可主动包含玩家死亡；结束不自动Stop，回Manual由用户Stop/Play。离线GenerateT08Assets.py默认拒绝覆盖差异，显式--update才更新本模块生成资产；本轮按授权更新已有未提交T08，不写其T09来源。所有GUID保留。
+
+重新按当前源代码统计Auto为**52项**（与前轮数字相同仅巧合，不保留旧用例凑数）：旧wind-up/失Arms取消/旧pending恢复/等待hit/recovery断言已经删除，替换为真实Damage/Range优势配置、共同锚点/相同cooldown、真实Sword-only距离下Bite miss与Sword立即hit实体、Bite青色表现/近距离伤害、即时结算/多Collider去重/自伤排除/拒绝Cue、Arms下一Attack切换/稳定玩家bounds、Pause/Choosing/Dead拒绝、组件启停无自动伤害、真实增益后伤害重读、Sword真杀Enemy及HP0/视觉消失/Collider关闭/不伤人/保留对象/一次Died/启停不复活。Auto才使用输入注入/真实敌人runtime测试快照/短期Audio spy；Manual不用。T07/T09原检查和Enemy实现均未删减。
+
+**自动Play没有运行，passed/failed未知，待用户/后续复跑；人工尚未验收当前修正版。** 本轮只非GUI操作，未打开Unity、未Play/Stop、未使用Computer/GUI/截图。完成Bite（含新表现）、Sword、Tests.T08及原Tests.T07/T09对新Bite程序集的独立C#9编译，使用当前项目Unity6000.2.9f1/Bee引用，最终均0 error / 0 warning，输出仅ignored Temp/T08Static；编译结果仅源码/API检查，不代表实际Unity导入/域重载/Console/物理运行验证。ValidateT08Assets.py通过，新增资产本地/外部引用、meta、唯一玩家与Router/Manual-Auto/真实嵌套Enemy静态检查通过；五份Config/Prefab/Scene的YamlDotNet结构解析通过；git diff --check通过。WwiseSettings.xml/wproj与最新origin/Ming无diff。未接主地图/最终角色美术/全局Facing/T10/T11/Pause菜单/Windows构建。
 
 ## T09 最新摘要
 
