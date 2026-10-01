@@ -8356,7 +8356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541644115592588579, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 1541644115592588579, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: uprightLabel
@@ -8442,6 +8442,10 @@ PrefabInstance:
       propertyPath: m_TextStyleHashCode
       value: -1183493901
       objectReference: {fileID: 0}
+    - target: {fileID: 4750085963120511399, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
+      propertyPath: interactionSource
+      value: 
+      objectReference: {fileID: 535949090}
     - target: {fileID: 4917160023359434644, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: m_TextStyleHashCode
       value: -1183493901
@@ -8568,7 +8572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8368459321584334068, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 8934428418861781926, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: m_Pivot.x

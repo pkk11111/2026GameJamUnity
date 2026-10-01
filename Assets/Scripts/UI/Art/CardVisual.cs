@@ -68,6 +68,9 @@ namespace Regrowth.UI.Art
             Fixed(descriptionText.rectTransform,Vector2.zero,style.descriptionSize);
             if (art) { Fixed(art,Vector2.zero,style.iconSize); }
             title.enableAutoSizing = descriptionText.enableAutoSizing = false;
+            title.alignment = TextAlignmentOptions.Center;
+            descriptionText.alignment = TextAlignmentOptions.Top;
+            title.margin = descriptionText.margin = Vector4.zero;
             title.fontSize = style.titlePointSize; descriptionText.fontSize = style.descriptionPointSize;
             var glow = (RectTransform)selectedGlow.transform;
             Fixed(glow,style.glowPosition,style.glowSize);

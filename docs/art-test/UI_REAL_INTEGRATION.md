@@ -1,3 +1,12 @@
+## 2026-10-01 卡牌正文居中与真实交互键提示修正
+
+- 修复来源：CardVisual迁移器仍写入TopLeft，正文因此整体左偏。现在运行时与原生Prefab/ArtTest均使用水平居中，标题Center、正文Top Center，清零不对称margin；保持标题24/正文22、共享局部坐标和根旋转。
+- PlayerHud新增InteractionHintView，显式只读唯一PlayerInteractor的IInteractionState/TargetChanged。底部中央显示32pt高对比`[E] Open chest`或当前目标Prompt；兼容现有`[E]`及`E - ...`前缀，避免重复键名。
+- 提示只随正式可交互目标显示：无目标隐藏，E开Choosing隐藏，Esc取消恢复，离开范围隐藏。没有自行检测距离、消费输入或调用交互/奖励接口。旧白盒调试说明保留。
+- 只做这两项的短Play：实际A走到Chest03，检查提示→E开卡→正文/标题居中→Esc恢复提示→D离开隐藏；未重复奖励、战斗或全图流程。首轮实拍发现源提示已自带[E]，修正去重后复核；最终10项通过、运行Error=0。自动输入不是人工验收。
+- 更新ChoiceCard/PlayerHud、UI_ArtTest、Level中PlayerHud只读绑定、UI表现脚本。原生保存的Tilemap重排不带回正式项目；地形/敌人/事务不变。
+- 原生截图：`docs/art-test/ui-preview/real-integration/Cards_CenteredText.png`、`InteractionHint_NearChest.png`；短检查日志：`docs/art-test/UI_ALIGNMENT_PROMPT_CHECKS.txt`。本轮未commit/push，未全局操控。
+
 # Dada UI 集成交接
 
 ## 本轮结果

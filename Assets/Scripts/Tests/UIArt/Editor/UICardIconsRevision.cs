@@ -216,7 +216,7 @@ namespace Regrowth.Tests.UIArt.Editor
             visual.DescriptionText.fontSize = 22;
             visual.Title.enableAutoSizing = visual.DescriptionText.enableAutoSizing = false;
             visual.Title.alignment = TextAlignmentOptions.Center;
-            visual.DescriptionText.alignment = TextAlignmentOptions.TopLeft;
+            visual.DescriptionText.alignment = TextAlignmentOptions.Top;
             visual.Title.textWrappingMode = visual.DescriptionText.textWrappingMode = TextWrappingModes.Normal;
             visual.Title.overflowMode = visual.DescriptionText.overflowMode = TextOverflowModes.Truncate;
             visual.ApplyVariant(variant);

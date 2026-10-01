@@ -44,12 +44,14 @@ namespace Regrowth.Tests.UIArt.Editor
                 if(s!=PlayModeStateChange.EnteredPlayMode || !SessionState.GetBool(Pending,false)) { return; }
                 SessionState.SetBool(Pending,false); Application.logMessageReceived+=Log;
                 deadline=EditorApplication.timeSinceStartup+240;
-                stack.Push(SessionState.GetBool("UIRealIntegrationChecks.Remaining",false) ? CheckRemaining() : Check()); EditorApplication.update+=Step;
+                stack.Push(SessionState.GetBool("UIRealIntegrationChecks.AlignmentPrompt",false) ? CheckAlignmentPrompt() :
+                    SessionState.GetBool("UIRealIntegrationChecks.Remaining",false) ? CheckRemaining() : Check()); EditorApplication.update+=Step;
             };
         }
         public static void BuildAndRun() { UIRealIntegrationRevision.Apply(); Run(); }
         public static void Run()
         {
+            SessionState.SetBool("UIRealIntegrationChecks.AlignmentPrompt",false);
             SessionState.SetBool("UIRealIntegrationChecks.Remaining",false);
             Directory.CreateDirectory(Output);
             EditorSceneManager.OpenScene(UIRealIntegrationRevision.MainMenu);
@@ -57,11 +59,55 @@ namespace Regrowth.Tests.UIArt.Editor
         }
         public static void RunRemaining()
         {
+            SessionState.SetBool("UIRealIntegrationChecks.AlignmentPrompt",false);
             Directory.CreateDirectory(Output);
             SessionState.SetBool("UIRealIntegrationChecks.Remaining",true);
             EditorSceneManager.OpenScene(UIFinalRevision.Level);
             SessionState.SetBool(Pending,true); EditorApplication.EnterPlaymode();
         }
+        public static void RunAlignmentPrompt()
+        {
+            UIAlignmentPromptRevision.Apply();
+            Directory.CreateDirectory(Output);
+            SessionState.SetBool("UIRealIntegrationChecks.AlignmentPrompt",true);
+            EditorSceneManager.OpenScene(UIFinalRevision.Level);
+            SessionState.SetBool(Pending,true); EditorApplication.EnterPlaymode();
+        }
+        private static IEnumerator CheckAlignmentPrompt()
+        {
+            InputSystem.settings=Object.Instantiate(InputSystem.settings);
+            InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
+            keyboard=InputSystem.AddDevice<Keyboard>();
+            yield return Wait(.3f);
+            var interactor=Object.FindFirstObjectByType<PlayerInteractor>();
+            var hint=Object.FindFirstObjectByType<InteractionHintView>();
+            var panel=Object.FindFirstObjectByType<ChoicePanel>();
+            var root=Ref<GameObject>(hint,"hintRoot"); var text=Ref<TMP_Text>(hint,"label");
+            InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.A));
+            float until=Time.unscaledTime+3;
+            while(!interactor.HasTarget && Time.unscaledTime<until) { yield return null; }
+            InputSystem.QueueStateEvent(keyboard,new KeyboardState()); yield return Wait(.1f);
+            Assert(interactor.HasTarget && root.activeInHierarchy && text.text.StartsWith("[E]") && text.text.IndexOf("[E]",3)<0,"Real nearby target shows independent E prompt");
+            report.AppendLine("Actual target="+interactor.InteractionId+"; visible prompt="+text.text);
+            Capture("InteractionHint_NearChest",true);
+            yield return KeyPress(Key.E);
+            Assert(panel.IsOpen && !root.activeSelf,"E opens actual Choice and hides interaction hint");
+            foreach(var card in panel.GetComponentsInChildren<CardVisual>())
+            {
+                Assert(card.DescriptionText.alignment==TextAlignmentOptions.Top && card.Title.alignment==TextAlignmentOptions.Center,"Both card text blocks horizontally centered");
+                Assert(card.DescriptionText.margin==Vector4.zero && card.Title.margin==Vector4.zero,"No asymmetric text margins");
+            }
+            Capture("Cards_CenteredText",true);
+            yield return KeyPress(Key.Escape);
+            Assert(!panel.IsOpen && root.activeSelf,"Cancel restores current-target hint");
+            InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.D)); until=Time.unscaledTime+3;
+            while(interactor.HasTarget && Time.unscaledTime<until) { yield return null; }
+            InputSystem.QueueStateEvent(keyboard,new KeyboardState()); yield return Wait(.1f);
+            Assert(!interactor.HasTarget && !root.activeSelf,"Leaving actual interaction range hides hint");
+            report.AppendLine("PASS targeted text alignment / approach E / choosing hidden / cancel restored / leave hidden. No reward/combat rerun.");
+        }
+
         private static void Step()
         {
             try
