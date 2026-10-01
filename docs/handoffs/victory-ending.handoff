@@ -1,0 +1,16 @@
+# C14 顶部绿色大门与结局画面
+
+任务别名：controller/victory-ending；日期2026-10-01；分支Ming，基线d881f65，保留C13未提交文档。状态：已实现并接主图，源码契约12。
+
+授权：碰到最顶部绿色大门即胜利，完整白屏后渐显附件原图。按本轮明确触碰规则不增加精英死亡条件、不收费或按E；普通传送不变。
+
+修改与接线：
+- Runtime/RunController新增TryWin(IHealth)：Playing、存活/HP>0且无死亡请求才提交Won；沿原ChangePhase统一停止时间/通知。重复请求和Resume均不能离开Won。
+- Runtime/VictoryPortal2D绑定唯一RunController/Test_Player/玩家BoxCollider；IMG_5500_0（98.45,109.64）新增17.04×16.13局部Box Trigger，对齐原Sprite bounds，继承原比例；不移动/缩放贴图。OnTrigger只记录接触，LateUpdate复验并一次发GameAudio.RunWon；未新增音频事件或Wwise映射。
+- UI/Hud/VictoryEndingView绑定唯一阶段；主图VictoryEndingCanvas排序32760，FullWhiteScreen全屏白色，EndingPicture原图等比显示。whiteHoldSeconds=0.4，fadeSeconds=2，均Inspector可调、unscaled秒。图已包含文字，不重复添加按钮/文案。
+- Assets/Art/UI/Ending/VictoryEnding.png为用户附件原字节；Single Sprite、2048上限、无压缩/无mipmap，SHA256与附件一致。相关meta交付。
+- UI不写时间倍率；Won通过原输入/战斗阶段读口停止操作。未实现重新开始/退出按钮，未改其他地图/敌人/收费/攻击。
+
+验证：Unity6000.2.9f1编译成功；一次主图短Play，以位置夹具将真实玩家放进真实触发器，经过物理与LateUpdate进入Won（精英仍存活）。胜利事件实测timeScale0、白底active、图片alpha0、HP100；随后alpha1，重复TryWin=false、TryResume=false、CanBite=false，Console错误0。查看完整白屏与最终图截图，覆盖HUD且图内文字完整。未实际跑完全路线、未验证独立音频输出或Windows导出；同帧死亡优先按延后复验/Run现有死亡路径实现，未另跑第二轮死亡场景。
+
+已退出Play，场景在Edit保存，测试位置/生命/相机不保存。截图Logs/UIRealIntegration/C14_White.png、C14_Ending.png；备份Logs/C14/Level_Whitebox.before.unity为忽略产物。未commit/push。

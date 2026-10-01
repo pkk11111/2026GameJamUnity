@@ -1,9 +1,11 @@
 // 职责：显示单个选项并回传稳定 ID；外观完全来自 Prefab，不创建美术。
 // 模块/维护：controller适配Soap / T01（T12地图导航）；依赖：ChoiceOption、uGUI、TMP。
-// 接线：Button、标题、说明必填；Icon 是可选的美术预留，不从玩法推导。
+// 接线：Button、标题、说明必填；Dada表现补充：可选Catalog按显式ID配图与精简文案。
+// 表现交接：docs/handoffs/Dada.handoff；原选择回调/事务归属不变。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using Regrowth.Core;
+using Regrowth.UI.Art;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,8 +23,10 @@ namespace Regrowth.UI
         private TMP_Text titleText;
         [SerializeField, Tooltip("说明 TMP；必填，每次显示从 ChoiceOption 填充。")]
         private TMP_Text descriptionText;
-        [SerializeField, Tooltip("可选图标位置；当前契约没有图标字段，保留 Prefab 的 Sprite，不按 ID 猜资源。")]
+        [SerializeField, Tooltip("图标由可选的显式表现映射填写；不匹配时清空，避免复用上张卡的图。")]
         private Image icon;
+        [SerializeField, Tooltip("仅显示层：稳定ID到图标和已审核精简文案；不改回传ID或奖励。")]
+        private CardPresentationCatalog presentation;
 
         private string optionId;
         private bool optionEnabled;
@@ -40,6 +44,18 @@ namespace Regrowth.UI
             onCancelled = cancelled;
             titleText.text = option.Title;
             descriptionText.text = option.Description;
+            if (presentation)
+            {
+                presentation.Resolve(option, out var sprite, out var heading, out var body);
+                titleText.text = heading;
+                descriptionText.text = body;
+                if (icon)
+                {
+                    icon.sprite = sprite;
+                    icon.color = Color.white;
+                    icon.enabled = sprite;
+                }
+            }
             selectButton.onClick.AddListener(Select);
         }
 

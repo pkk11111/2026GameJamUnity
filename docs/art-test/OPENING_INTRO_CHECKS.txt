@@ -1,0 +1,17 @@
+Soap 68a96cd; current Dada plus Ming 794b6b3; native Setup and two Play sessions.
+Cycle 1: sceneLoaded RGB all black; text alpha 0; no map/HUD/edge pixels.
+Page1 fully visible at 1.147s
+Page2 fully visible at 12.801s
+Default full intro duration=16.754 seconds (native frame scheduling/captures included).
+Latest Ming spawn/position=(-12.14, -1.53); placing interaction fixture beside actual Chest_03
+Chest target=whitebox-chest-03; player=(-15.50, 8.26)
+Cycle 1: MainMenu -> Intro -> movement/jump -> actual Chest E -> Choice -> cancel; HUD/Edge valid.
+Cycle assertions=19; errors=0; Intro warnings=0
+Followup: restore original InputSettings before Stop; short two-Play ownership checks only. Full story/interaction evidence above retained.
+Cycle 1: sceneLoaded RGB all black; text alpha 0; no map/HUD/edge pixels.
+Short cycle 1: interruption cleanup passed; now actual Stop then Play again.
+Cycle assertions=8; errors=0; Intro warnings=0
+Cycle 2: sceneLoaded RGB all black; text alpha 0; no map/HUD/edge pixels.
+Cycle 2: Intro replayed; external Playing -> Paused interrupted ownership; Intro finished without resuming that pause.
+Cycle assertions=10; errors=0; Intro warnings=0
+PASS INTRO INTEGRATION

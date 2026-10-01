@@ -1,5 +1,16 @@
 # pawgatory
 
+> C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。
+
+
+> 最新 C14（2026-10-01）：按用户最新通关规则，存活玩家碰到最顶部绿色大门IMG_5500_0即进入Won，无需E/代价选择，不额外检查精英死亡；覆盖旧终点收费及精英死亡前置。立即完整白屏0.4秒，再用unscaled时间2秒淡入用户提供的原结局图并保持，HUD被全屏覆盖。唯一RunController新增TryWin(IHealth)，仍由它设置timeScale；物理接触延迟到LateUpdate复验，保留死亡优先。主图原生绑定、目标Unity编译及一次短Play通过，重复胜利/恢复被拒绝，Console错误0；未全图/构建/音频试听。源码契约12（新增胜利写口），其余既有契约不变；未commit/push，见docs/handoffs/victory-ending.handoff。
+
+> 最新 C13（2026-10-01）撕咬排查：基线Ming/d881f65，未修改玩法源码/数值/场景。真实主图Play将玩家放到Enemy_05正面近身（仅位置/冻结夹具），PlayerBiteAttack.TryAttack返回true，IsWired/CanBite均true，HP100→90，碰撞/接收端正常。随后一次虚拟Enter未观察到第二次扣血（仍90），原因未定位，不能声称完整输入链通过或排除偶发漏判。按用户要求停止追加测试，移除虚拟设备/恢复输入设置并退出Play。当前普通HP100、咬10且敌人表现无受伤闪烁/血条；只说明反馈缺失，不把它认定为唯一原因。
+
+> 最新 C12（2026-10-01）：用户随后明确授权顶层精英使用精英动画、其他自行选普通怪动画。已在当前主图接14只：Elite_Exit→Dada Satan_Move，Enemy_01–13→Imp_Run；均原3帧/8FPS，保留原Sprite GUID及纸白素材。新增只读EnemySpritePresentation，纯视觉EnemyArt子节点按原碰撞尺寸缩放，按实际横向速度翻面，非Playing冻结、死亡隐藏；不改AI/生命/攻击/巡逻边界/根位置/物理。Unity编译和短Play显示/死亡隐藏检查通过、Console错误0，已Stop还原。未全套测试/导出/commit/push；C11敌人暂缓记录已由本轮完成替代。
+
+> 最新 C11（2026-10-01）：按用户授权从 Dada/416de1c 选择性接入 HUD/血条/身体图、卡牌框/20图标/字体、常驻边框及 InteractionHintView；在当前 Ming/794b6b3 主图原生接线，玩法/收费/数值/地图以本地为准。隐藏 WhiteboxOverlay 的左下调试文字，保留组件的 Esc 暂停。敌人映射按用户最新回复暂不处理；Dada 仅有独立预览，未自定主图动画。Unity 编译及必要短检查完成：当前宝箱交互→三卡→取消/提示恢复、HP100→90及fill0.9正确，Console错误0；未跑全套/导出。未commit/push。详情见 docs/handoffs/dada-ui-integration.handoff。
+
 > 最新 C10（2026-10-01）：按用户授权合入 Level/d1f9830 的美术、9处靠近提示及场景增量；当前 Ming/3c0bae7 的敌人/收费/火焰/数值保留，未提交合并。主场景冲突在Unity内按共同基线逐对象接入18棵新增对象树、既有视觉/位置及31处Tile变化；保留Ming敌人出生标记和用户人物碰撞尺寸1.6666667、表现worldScale=0.7。宝箱9实例与共享Prefab绑定关闭IMG_5506_0、打开IMG_5505_0；Chest.IsOpen记录本局首次成功交互；E交互被接受即吐舌头，此后取消或领取均保持打开，取消仍不消费奖励。已移除主图81格黄色Tile_Chest占位，9箱贴图排序12以显示在前景之上。Hint_enemy的F改为当前Q/右键；Level单门条带动画接线清除冲突的closedView绑定。目标Unity编译/Play宝箱聚焦检查23通过0失败，Console错误0，保存重载9箱绑定及提示引用检查通过；未跑全套回归/整局/Windows。详见 docs/handoffs/level-review.handoff。
 
 
