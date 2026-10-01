@@ -98,6 +98,8 @@ Packages/packages-lock.json linguist-generated
 *.ztl                   lfs
 
 # Audio
+*.bnk                   lfs
+*.wem                   lfs
 *.aif                   lfs
 *.aiff                  lfs
 *.it                    lfs

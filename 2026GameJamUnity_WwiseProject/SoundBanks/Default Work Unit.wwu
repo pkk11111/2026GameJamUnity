@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{DAC30DCE-CBB6-4A2A-9C29-6273A6634747}" SchemaVersion="133">
 	<SoundBanks>
-		<WorkUnit Name="Default Work Unit" ID="{DAC30DCE-CBB6-4A2A-9C29-6273A6634747}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{DAC30DCE-CBB6-4A2A-9C29-6273A6634747}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="SB_Main" ID="{32404148-0A7B-40A4-8F98-5173BD22075A}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Play_Player_Bite" ID="{23D41F39-4843-4006-8C20-9AA4A2DC4E0B}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_NPC_Death" ID="{C51263F8-3233-401E-B36A-4055BEC7D300}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Land" ID="{B6A3A078-0E2B-406B-867D-70CA0A3A015A}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Box_Open" ID="{F4C1678F-FE48-4076-97D5-3D1E4899A9BC}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Card_PopOut" ID="{682CBB8A-F698-4095-AD03-42DE26427A8D}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Footstep" ID="{BA0C4CEA-B259-4184-BD63-AA4D6D4B4870}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_NPC_Fly" ID="{9213703E-77CE-429D-B6EF-CC937CC24EAF}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerBiteHit_Elite" ID="{1F3A18AB-F8C0-434E-8472-AE0C8E5DAB10}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Portal_Out" ID="{572D1161-ACC9-437B-9C4E-7F4162B94A23}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Player_Hurt" ID="{38DD10E9-0949-445F-B100-BD92D79D9DE5}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Set_State_Elite" ID="{7C6FB677-6874-44BD-9630-F47ECF9AE20F}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Elite_Attack" ID="{22FD4DBA-CF45-451C-A536-892853921E96}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Set_State_Exploration" ID="{DF3EA47F-6D37-45D5-9057-BAEBCCB87CD6}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Card_Hover" ID="{DD5ACACD-91BC-45E5-8C5B-AAF47ECFE2C7}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_Music_State" ID="{9552CFE8-7DD7-464A-89FC-BA4D4FB47E65}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_SwitchActivate" ID="{FB344265-FE0C-47FE-8D0E-D6A3EE1DD297}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Set_State_Level1" ID="{B440A02A-9A79-4839-8CD2-2B0F7FD5221B}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Portal_In" ID="{32773275-CAA2-4847-8FE4-DCA64863BCE7}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_DoubleJump" ID="{A8D66745-E29A-4871-8BE5-1E4C101E5A23}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerBiteHit_NPC" ID="{3029D6BA-2F77-4873-9848-0A2CF8756430}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerSwordHit_Elite" ID="{33A732E4-E6C1-48C8-9DC4-0264F6CE5841}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Player_AbilityLoss" ID="{B52DC17C-249F-48EF-B056-0F1B366C6591}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Player_Death" ID="{5FAF5A17-1297-4AC8-BA70-6195416876A9}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_NPC_Hurt" ID="{F986DA9F-E705-4AFE-A898-FA162490C137}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Card_Selected" ID="{486D09EE-B61D-4B18-8BEA-21552B9FC9BA}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Set_State_Level2" ID="{0E94E6B9-5EE8-4C0F-83E7-E129DFE8D418}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Set_State_Level3" ID="{3AB35E9E-098A-4C7E-AFCC-84AF2E8CD212}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_NPC_Footsteps" ID="{BD098E9D-41DE-4CB6-B6B3-24EA315518E3}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Door_Open" ID="{705C6C18-5111-4D14-83F8-77FBEDC7C89E}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Elite_Hurt" ID="{D2BDD306-C6B7-4D66-97F4-731C8C1BE2A8}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Dash" ID="{E8CC82FA-6490-4DCC-A70C-602FCF1F4006}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Elite_Death" ID="{53DE025A-6158-4E08-9AF7-A43DF1731BDB}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Music_State" ID="{37C4E10D-7228-4E64-833C-836B826A5178}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Player_SwordSwing" ID="{423493D9-52D2-4E70-B7DC-6D7FC2908522}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Player_AbilityGain" ID="{291DDF2E-13A4-4ECB-A10C-1D47FEC2A467}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_UI_Click" ID="{AB1507B2-0782-4F2E-8C75-A79EB91EBCFD}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Jump" ID="{B5EAFE75-834A-4F3C-A154-BE49B12B2065}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_UI_Hover" ID="{1D6DFFC2-F743-4F61-B1F7-6A8EB85CCAA5}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerSwordHit_NPC" ID="{F75E5FA3-053F-4FAE-8139-CD399AA5D335}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundBanks>
 </WwiseDocument>

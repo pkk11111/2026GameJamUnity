@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{CDE9AC3D-2B42-1217-02C1-D64576EB9AF6}",
+    "Hash": "{248EE523-F188-20A2-3511-62452AFCFA2E}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -41,9 +41,69 @@
       "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus",
       "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
      }
+    ],
+    "StateGroups": [
+     {
+      "Id": "1000427711",
+      "Name": "Exploration_Level",
+      "ObjectPath": "\\States\\Default Work Unit\\Exploration_Level",
+      "GUID": "{9F9BDC8D-348B-4627-9302-3DCE45EBD7E8}",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\Exploration_Level\\None",
+        "GUID": "{777E2430-8F4E-4859-AE12-0B4577CE0983}"
+       },
+       {
+        "Id": "2678230380",
+        "Name": "Level3",
+        "ObjectPath": "\\States\\Default Work Unit\\Exploration_Level\\Level3",
+        "GUID": "{C3C61976-E71D-4886-85E4-3F8A24F95123}"
+       },
+       {
+        "Id": "2678230381",
+        "Name": "Level2",
+        "ObjectPath": "\\States\\Default Work Unit\\Exploration_Level\\Level2",
+        "GUID": "{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"
+       },
+       {
+        "Id": "2678230382",
+        "Name": "Level1",
+        "ObjectPath": "\\States\\Default Work Unit\\Exploration_Level\\Level1",
+        "GUID": "{A3A6FC8E-015D-4176-8463-4AE21ED0575E}"
+       }
+      ]
+     },
+     {
+      "Id": "1221856762",
+      "Name": "Music_Group",
+      "ObjectPath": "\\States\\Default Work Unit\\Music_Group",
+      "GUID": "{8668DBE2-B613-4E18-BC6D-68C2E51200C1}",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\Music_Group\\None",
+        "GUID": "{CDBDA90E-0C9D-4D0F-ADC0-01E733DBA200}"
+       },
+       {
+        "Id": "1464097230",
+        "Name": "Elite",
+        "ObjectPath": "\\States\\Default Work Unit\\Music_Group\\Elite",
+        "GUID": "{A037C371-4EEA-4B35-ABC8-5166F81F3E31}"
+       },
+       {
+        "Id": "2582085496",
+        "Name": "Exploration",
+        "ObjectPath": "\\States\\Default Work Unit\\Music_Group\\Exploration",
+        "GUID": "{B387292C-4E3C-41A8-902A-F8697A6B67D1}"
+       }
+      ]
+     }
     ]
    }
   ],
-  "FileHash": "{6064D318-C80F-5A82-F136-C213B39966B3}"
+  "FileHash": "{5B2245D6-5C6E-AF22-FE0D-90EEF5AD11B4}"
  }
 }
