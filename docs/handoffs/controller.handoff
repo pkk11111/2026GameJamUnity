@@ -1,3 +1,84 @@
+# 总控当前交接：C05新地图、9箱、条件门与美术规范
+
+更新：2026-10-01（Australia/Sydney）· 规范17 / 已提交源码契约8（Ming/b2498d6）
+成员/任务别名：controller；任务C00/C05，T20入口部分；分支Ming
+开始HEAD b2498d6，工作区干净；C04已由用户提交。fetch origin Level后确切来源ad3ea42。
+状态：本轮新图适配/9箱/两入口门已实现并验证；文件尚未提交。Core/Runtime契约8不变，新增C05组件端口见下文。完整教学/战斗/收费/地刺伤害/完整支线结算继续暂缓。
+
+## 授权与实际文件
+
+用户批准覆盖新地图、全部箱和两门；其他模块保留试走且标缺口。门未完成时补回对应部件失效、退出/失败重新检测、完成后可自由通过；靠近自动弹确认，取消后离开再靠近，已缺部件也确认开启。
+最新要求：AGENTS不保留“Unity MCP 操作与验证”章节；补美术资源由Codex接入/调度要求。唯一文件仍是AGENTS.md，不建AGENT.md副本。
+
+- 只从Level/ad3ea42取Assets/WhiteBox/Scenes/Level_Whitebox.unity，原场景干净非Play后先卸载，再git restore这一个已授权场景，随后在Unity编辑/保存/重载。没有整分支merge，未取SampleScene，场景.meta保持。
+- 新增Assets/Scripts/Gameplay/Challenge/InspectionDoor2D.cs、Regrowth.Gameplay.Challenge.asmdef及文件/目录meta；引用Core/Runtime/Audio.Core/WhiteBox。
+- WhiteboxPlayer2D仅加Action Relocated事件，在实际ApplyRelocation清速度/迁移后通知；原速度、跳高、输入和技能试走逻辑保持。
+- 新增Assets/Scripts/Tests/C05/NewMapPlayChecks.cs、Regrowth.Tests.C05.asmdef及meta；依赖Core/Runtime/Challenge/WhiteBox/Chest/UI.Choice/UnityEngine.UI。组件不自动运行，不保存进地图，Begin显式注入真实组件。
+- 更新AGENTS、WORK_PACKAGES、V5(1)阅读版、README与本交接。新增美术清单/导入切片/PPU/Pivot/Prefab/身体只读表现/动画触发/尺度碰撞/交付验收规范；未批量导入或生成美术。
+- 未改Core/Runtime/旧T源码和测试、Input Actions、Packages、ProjectSettings、Wwise、音频契约或其他成员交接；不自动commit/push、切分支、reset或启动子代理。
+
+## 场景、层级与Inspector
+
+路径Assets/WhiteBox/Scenes/Level_Whitebox.unity。6根00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal；02 Actors从来源Chests下恢复根，世界坐标保留。唯一玩家/运动/输入/运行/选择链保持，旧Level验证默认关闭。
+
+来源有9簇黄色Tile_Chest，但只有7个Chest实例；补Chest_08中心(-32.5,-10.5)、09中心(-39.5,66.5)，复用原Chest Prefab，唯一ID whitebox-chest-08/09，绑定真实PlayerState/RunController/ChoiceCoordinator/V5_WhiteboxRewards，Box触发3×3、InteractionPoint局部(0,-0.75)。未领取视图3×3、领取视图3×0.75，保留正常视觉/交互点独立。
+9箱对应81个标记Tile设透明，保留身份；实体未领取视图统一黄色场景override，避免隐藏黄标后深色箱体难辨。03/05仍再生优先，其余普通配置；新两箱并非完整支线奖励箱。
+其他箱中心：01(32.5,-11.5)、02(97.5,-9.5)、03(-15.5,8.5)、04(104.5,21.5)、05(-9.5,67.5)、06(36.5,75.5)、07(74.5,78.5)。
+
+入口父级01 World/Inspection Doors：
+- InspectionDoor1 (-22,49.5)：SIDE_ARMLESS_TRAVERSAL、Arms=202、外侧+X。
+- InspectionDoor2 (63.4,63.5)：SIDE_LEGLESS_PUZZLE、Legs=201、外侧-X。
+- 作者浅紫视觉1×5保持，根BoxCollider2D同尺寸isTrigger=false；独立Approach Zone Trigger4×6、向外偏移2.25，crossingMargin=0.1。
+- 必填唯一PlayerState、其根实体Collider、RunController、ChoiceCoordinator、WhiteboxPlayer2D、blocker/approachZone/独立closedView。菜单文案下次开启读取，其余身份/依赖/方向按新局配置。
+- 靠近单卡事务复用既有菜单暂停；持有则主动舍弃本项，无则主动确认开始；取消须出范围重试。菜单期间状态变更更新文案并要求再次确认，迟到回调拒绝。
+- 未完成补回部件、退出、R/传送、死亡撤销许可。人在门内/门体范围保留退路，离开后恢复实体，避免夹人。门开启隐藏子视觉、不停用根脚本。
+
+保留4个免费传送、8个按钮/8个普通门、7个仅击退地刺；12簇红敌人仍标记。新图普通门2×6／6×2不改，两InspectionDoor1×5单独处理。地刺当前实际视觉含4/5格，保留交付尺寸和椭圆Trigger，不按参考表3×1/4×1强改、不加实心承托；灰地与传送安全点保留。
+
+## 新增公开接点与未接部分
+
+InspectionDoor2D公开ChallengeId、HasAdmission、HasEntered、IsCompleted、IsOpen；ResetAdmission()撤销未完成许可，不做伤害/回位/返部件；TryCompleteChallenge()需已许可且跨入、仍缺指定部件、存活Playing才一次成功。未来T20在真实目标/终点验证后调用；当前地图没有调用者，不当挑战完成。
+WhiteboxPlayer2D.Relocated在实际位置迁移后同步通知，入口订阅撤销未完成许可；不是传送请求事件。既有Core/Runtime契约8和音频Cue未增改，入口成功复用DoorOpened。
+完整FallFailZone、安全点、目标/临时机关复位、终点判定、专用奖励及完整重开均未接；完成接点测试只是隔离调用，不声称完整支线可玩。后续新T20应整合当前唯一入口状态，不能再创建第二套许可/完成布尔值。
+
+## 实际验证
+
+1. Unity目标F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64；代码刷新编译通过。
+2. 首次测试组件asmdef误限Editor，Unity拒绝AddComponent，未运行检查；改为独立Tests运行程序集并完整刷新后可临时挂载。首次执行66项中65通过，1项是夹具错误地要求Choosing时可致死；真实PlayerState按现契约拒绝Choosing伤害。修正夹具为先断言拒绝，再Playing实际致死，补完成钩子检查后最终**69 passed / 0 failed**。
+3. C05覆盖每门实体阻挡和开门实际物理通过、单项舍弃/缺部件确认、取消不重弹/离开再进、迟到提交、菜单期间部件变化重确认、返回/补回/R/死亡资格撤销、占位不夹人；9箱通过实际PlayerInteractor打开3卡/暂停/取消，再领取一次。测试末端Dead，不保存。
+4. 完成钩子隔离检查：未跨入拒绝、符合许可/跨入时一次成功、已完成补回/返回仍通行。未触发实际地图终点或奖励链，没有完整T20验收。
+5. 退出检查后新开正常Play，实际运动接口移动到新增Chest_08附近(-34.3,-11.25)，虚拟键盘真实E打开3张奖励，GameView截图检查文案/卡片/Cancel可见；GameView聚焦后Esc取消，恢复Playing且菜单关闭，无同帧暂停。测试键盘device39已移除，退出Play。截图临时位于Temp/C05Verification/new-chest-menu.png（不提交）。
+6. 黄色箱体override保存重载；最终非Play/未脏，6根、9箱、2门、Missing Script=0、临时C05驱动=0、C04审查Errors为空。地面5808格与非宝箱标记339格内容哈希和导入后来源快照一致：
+   TM_Ground SHA256 Base64 aOCFX3G/FqmT0zD08S4pq3waRaGpJwk3jG+6EwW3WnU=
+   TM_Markers（排除Tile_Chest）Mcvd5/yyrd3mRCovZ+IXcrtOVC2svNV7cV94Na3ryks=
+   哈希串包含每个非空格坐标/Tile名/颜色/TileFlags；不能据此宣称整条路线可达。
+7. 最终Console没有error，保留1条Unity Account API网络/编辑器焦点超时warning，没有清日志。场景保存产生空YAML值后的行尾空格，收尾仅清行尾空白，不改序列化结构。
+8. 本轮没有重跑C01/C02/C03或旧T独测；此前32/69/63/33是历史。没有完整无强化主路、战斗、收费、支线失败/结算、手柄实机、Bank或Windows导出验证。
+9. 收尾git diff --check通过；865个.meta扫描无重复GUID，新增文件/目录meta齐全，16个本地文档链接有效。AGENTS第9节音频与开始逐字一致，Wwise/Packages/ProjectSettings/Input Actions无diff。再次重载地图，非Play/未脏/不编译、9个黄色未领取箱、6根。
+
+### C05复跑方式
+
+打开保存的新图并进入Play，向临时GameObject添加NewMapPlayChecks；仅测试入口允许查找依赖，生产组件全部Inspector绑定。等Finished后读取Passed/Failed/Results，退出Play后销毁夹具，不保存Play状态。以下为本轮实际调用（只有测试使用）：
+
+```csharp
+var player=UnityEngine.Object.FindFirstObjectByType<Regrowth.Runtime.PlayerState>();
+var run=UnityEngine.Object.FindFirstObjectByType<Regrowth.Runtime.RunController>();
+var flow=UnityEngine.Object.FindFirstObjectByType<Regrowth.Runtime.ChoiceCoordinator>();
+var panel=UnityEngine.Object.FindFirstObjectByType<Regrowth.UI.ChoicePanel>();
+var gates=UnityEngine.Object.FindObjectsByType<Regrowth.Gameplay.Challenge.InspectionDoor2D>(UnityEngine.FindObjectsSortMode.None);System.Array.Sort(gates,(a,b)=>string.CompareOrdinal(a.name,b.name));
+var boxes=UnityEngine.Object.FindObjectsByType<Regrowth.Gameplay.Chest>(UnityEngine.FindObjectsSortMode.None);System.Array.Sort(boxes,(a,b)=>string.CompareOrdinal(a.name,b.name));
+var go=new UnityEngine.GameObject("C05 TEMPORARY PLAY CHECKS - NEVER SAVE");
+var test=go.AddComponent<Regrowth.Tests.C05.NewMapPlayChecks>();test.Begin(player,run,flow,panel,gates,boxes);
+```
+
+## 下一步
+
+用户发布本轮改动后，队友才能取得C05组件和新图。新T逐项登记真实来源/基点/配置/Prefab/meta/独测及本人handoff；旧T弃用规则保持。下一轮若恢复完整挑战，先明确并接地图目标/失败区/安全点/机关组/专用奖励，复用入口状态；完整教学/战斗/收费/胜负与重开仍按实际依赖串行发布。美术按AGENTS§10.4先清点实际素材再接线，当前仅规范准备完成。
+
+---
+
+# 以下为C04历史交接（已由用户提交b2498d6，当时未提交状态为历史）
+
 # 总控当前交接：C04配置与新版T接线依据
 
 更新：2026-10-01（Australia/Sydney）· 规范16 / 已提交源码契约8（Ming/4d6b2e1）
