@@ -1,0 +1,6 @@
+{
+    "name": "Regrowth.UI.Intro",
+    "rootNamespace": "Regrowth.UI.Intro",
+    "references": ["Regrowth.Core", "Regrowth.Runtime", "Unity.TextMeshPro"],
+    "autoReferenced": true
+}

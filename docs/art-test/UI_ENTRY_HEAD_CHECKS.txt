@@ -1,0 +1,2 @@
+PASS MainMenu-first editor/build entry; initial head-only HUD with real HP preserved; real reward=flame-tail reveals body. ArtTest direct play preserved.
+Assertions=9; runtime errors=0; exit=0

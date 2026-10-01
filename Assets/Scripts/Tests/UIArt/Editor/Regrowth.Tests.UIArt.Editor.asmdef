@@ -16,7 +16,9 @@
     "Regrowth.Gameplay.Bite",
     "Regrowth.Gameplay.Sword",
     "Regrowth.Gameplay.Fire",
-    "Regrowth.Gameplay.EnemyBasic"
+    "Regrowth.Gameplay.EnemyBasic",
+    "Regrowth.UI.Intro",
+    "Regrowth.UI.Intro.Editor"
   ],
   "includePlatforms": [
     "Editor"

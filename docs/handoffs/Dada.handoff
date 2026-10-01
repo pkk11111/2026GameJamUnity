@@ -1,3 +1,22 @@
+## 2026-10-01 Opening Story Intro 集成
+
+- Dada/f3fa49f上no-commit同步最新Ming/794b6b3，保留既有UI；主场景唯一冲突按字段和新增对象树解决，未整场景覆盖。当前merge未提交、无未解决冲突；本轮未commit/push。
+- 只取Soap/68a96cd的13个Intro文件，源字节/GUID与默认文案参数保留；不合并Soap分支，不使用Soap旧Level，不覆盖Soap.handoff。
+- 原生OpeningStoryIntroSetup在当前合并场景执行、绑定唯一RunController并保存。正式Level只增加一个Intro实例/根登记，全部既有对象原样保留。
+- MainMenu→Start→两页黑底剧情→Gameplay通过；首次加载渲染全黑，无地图/HUD/Edge像素。成功流程约16.754秒（理论15.9秒，含取图/帧调度）。Intro warning/error0。自动渲染不冒充用户人眼验收。
+- 实际A/D、Space、Chest E三卡、Esc、真实HUD及Edge通过；同生命周期不重播通过。用户最终收口为“只完成这个黑屏”，后续重播/额外暂停归属检查已停止，未冒称通过。
+- 入口/13文件清单/Inspector七个时长参数/首轮检查失败记录/截图与日志：`docs/art-test/OPENING_INTRO_INTEGRATION.md`。
+
+## 2026-10-01 主菜单启动与初始头部HUD
+
+- 用户明确要求游戏开始先播放主界面；已将MainMenu设为构建第一场景、Level_Whitebox第二场景，保留原SampleScene和其他构建配置。这里取代此前“构建场景待登记”的状态。
+- 新增仅Editor使用的GameplayEntry：在Level_Whitebox、MainMenu或旧SampleScene点Play，先进入MainMenu；点击Start加载Level。退出Play仍返回原编辑场景。ArtTest/其他独立测试场景继续直接Play。没有运行时强制跳转，Start加载Level不会循环回菜单。
+- 左下HUD把头当第一部分：当前没有手、腿、普通尾或火尾时只显示头；获取任一部件后显示躯干及已持有部件。手部底图只在实际持有Arms时显示。失去全部部件后回到头部显示。只读当前Loadout，HP和玩家实际HasBodyCore/奖励规则不变。
+- PlayerHud.prefab默认隐藏Torso/ArmsBase，避免加载时闪出空身体。没有移除正式角色的身体或修改教程状态。
+- 本轮仅验证入口/头部两项：从Level点Play实际进入MainMenu、Start到Level、开局空构筑仅头且HP保留、通过真实宝箱领取第一件部件后身体HUD展开；ArtTest直开配置通过。构建场景已登记，未导出可执行文件。自动Play不替代人工体验。
+- 文件：BodyHudArt.cs、UI/Art/Editor/GameplayEntry.cs、PlayerHud.prefab、ProjectSettings/EditorBuildSettings.asset及定向Editor检查；主菜单/Level场景本身未重建。
+- 证据：`docs/art-test/UI_ENTRY_HEAD_CHECKS.txt`及`ui-preview/real-integration/Gameplay_InitialHeadOnly.png`、`Gameplay_AfterFirstBodyPart.png`。未commit/push，未全局控制电脑。
+
 ## 2026-10-01 卡牌正文居中与真实交互键提示修正
 
 - 修复来源：CardVisual迁移器仍写入TopLeft，正文因此整体左偏。现在运行时与原生Prefab/ArtTest均使用水平居中，标题Center、正文Top Center，清零不对称margin；保持标题24/正文22、共享局部坐标和根旋转。

@@ -11,6 +11,7 @@ using Regrowth.Runtime;
 using Regrowth.Gameplay;
 using Regrowth.UI;
 using Regrowth.UI.Art;
+using Regrowth.UI.Art.Editor;
 using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -44,13 +45,16 @@ namespace Regrowth.Tests.UIArt.Editor
                 if(s!=PlayModeStateChange.EnteredPlayMode || !SessionState.GetBool(Pending,false)) { return; }
                 SessionState.SetBool(Pending,false); Application.logMessageReceived+=Log;
                 deadline=EditorApplication.timeSinceStartup+240;
-                stack.Push(SessionState.GetBool("UIRealIntegrationChecks.AlignmentPrompt",false) ? CheckAlignmentPrompt() :
+                stack.Push(SessionState.GetBool("UIRealIntegrationChecks.EntryHead",false) ? CheckEntryHead() :
+                    SessionState.GetBool("UIRealIntegrationChecks.AlignmentPrompt",false) ? CheckAlignmentPrompt() :
                     SessionState.GetBool("UIRealIntegrationChecks.Remaining",false) ? CheckRemaining() : Check()); EditorApplication.update+=Step;
             };
         }
         public static void BuildAndRun() { UIRealIntegrationRevision.Apply(); Run(); }
         public static void Run()
         {
+            GameplayEntry.SetDirectSceneCheck(true);
+            SessionState.SetBool("UIRealIntegrationChecks.EntryHead",false);
             SessionState.SetBool("UIRealIntegrationChecks.AlignmentPrompt",false);
             SessionState.SetBool("UIRealIntegrationChecks.Remaining",false);
             Directory.CreateDirectory(Output);
@@ -59,6 +63,8 @@ namespace Regrowth.Tests.UIArt.Editor
         }
         public static void RunRemaining()
         {
+            GameplayEntry.SetDirectSceneCheck(true);
+            SessionState.SetBool("UIRealIntegrationChecks.EntryHead",false);
             SessionState.SetBool("UIRealIntegrationChecks.AlignmentPrompt",false);
             Directory.CreateDirectory(Output);
             SessionState.SetBool("UIRealIntegrationChecks.Remaining",true);
@@ -67,6 +73,8 @@ namespace Regrowth.Tests.UIArt.Editor
         }
         public static void RunAlignmentPrompt()
         {
+            GameplayEntry.SetDirectSceneCheck(true);
+            SessionState.SetBool("UIRealIntegrationChecks.EntryHead",false);
             UIAlignmentPromptRevision.Apply();
             Directory.CreateDirectory(Output);
             SessionState.SetBool("UIRealIntegrationChecks.AlignmentPrompt",true);
@@ -80,6 +88,7 @@ namespace Regrowth.Tests.UIArt.Editor
             InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
             keyboard=InputSystem.AddDevice<Keyboard>();
             yield return Wait(.3f);
+            yield return WaitForOpeningIntro();
             var interactor=Object.FindFirstObjectByType<PlayerInteractor>();
             var hint=Object.FindFirstObjectByType<InteractionHintView>();
             var panel=Object.FindFirstObjectByType<ChoicePanel>();
@@ -108,6 +117,71 @@ namespace Regrowth.Tests.UIArt.Editor
             report.AppendLine("PASS targeted text alignment / approach E / choosing hidden / cancel restored / leave hidden. No reward/combat rerun.");
         }
 
+        public static void RunEntryHead()
+        {
+            GameplayEntry.RegisterBuildEntry();
+            const string path="Assets/Prefabs/Hud/PlayerHud.prefab";
+            var root=PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var body=root.GetComponent<BodyHudArt>();
+                Ref<GameObject>(body,"torso").SetActive(false);
+                Ref<GameObject>(body,"armsBase").SetActive(false);
+                PrefabUtility.SaveAsPrefabAsset(root,path);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+            AssetDatabase.SaveAssets();
+            GameplayEntry.SetDirectSceneCheck(false);
+            EditorSceneManager.OpenScene(UIFinalRevision.ArtScene); GameplayEntry.Refresh();
+            Assert(!EditorSceneManager.playModeStartScene,"ArtTest keeps direct play");
+            EditorSceneManager.OpenScene(UIFinalRevision.Level); GameplayEntry.Refresh();
+            Assert(AssetDatabase.GetAssetPath(EditorSceneManager.playModeStartScene)==GameplayEntry.MainMenu,"Play from Level starts MainMenu");
+            var scenes=EditorBuildSettings.scenes.Where(s=>s.enabled).ToArray();
+            Assert(scenes[0].path==GameplayEntry.MainMenu && scenes[1].path==GameplayEntry.Level,"Build entry MainMenu then gameplay registered");
+            Directory.CreateDirectory(Output);
+            SessionState.SetBool("UIRealIntegrationChecks.EntryHead",true);
+            SessionState.SetBool(Pending,true); EditorApplication.EnterPlaymode();
+        }
+        private static IEnumerator CheckEntryHead()
+        {
+            InputSystem.settings=Object.Instantiate(InputSystem.settings);
+            InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
+            keyboard=InputSystem.AddDevice<Keyboard>(); yield return Wait(.4f);
+            var menu=Object.FindFirstObjectByType<MainMenuController>();
+            Assert(menu && SceneManager.GetActiveScene().path==GameplayEntry.MainMenu,"Actual Level Play enters MainMenu first");
+            Click(Ref<Button>(menu,"startButton").gameObject);
+            yield return Wait(1.2f);
+            yield return WaitForOpeningIntro();
+            Assert(SceneManager.GetActiveScene().path==GameplayEntry.Level,"Start loads registered gameplay scene");
+            var state=Object.FindFirstObjectByType<PlayerState>();
+            var hud=Object.FindFirstObjectByType<PlayerHud>(); var body=hud.GetComponent<BodyHudArt>();
+            var torso=Ref<GameObject>(body,"torso"); var baseArms=Ref<GameObject>(body,"armsBase");
+            Assert(((ILoadoutState)state).Items.Count==0 && !torso.activeSelf && !baseArms.activeSelf,"Empty real loadout hides torso and arm silhouette");
+            Assert(hud.GetComponentsInChildren<Transform>().Any(x=>x.name=="Head"),"Head remains visible");
+            Assert(Ref<GameObject>(body,"hpGroup").activeSelf && state.CurrentHealth>0,"HP and real body state remain intact");
+            Capture("Gameplay_InitialHeadOnly",true);
+            var interactor=Object.FindFirstObjectByType<PlayerInteractor>(); var panel=Object.FindFirstObjectByType<ChoicePanel>();
+            InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.A)); float until=Time.unscaledTime+3;
+            while(!interactor.HasTarget && Time.unscaledTime<until) { yield return null; }
+            InputSystem.QueueStateEvent(keyboard,new KeyboardState()); yield return Wait(.1f);
+            Assert(interactor.InteractionId=="whitebox-chest-03","Walk to Chest03");
+            string chosen=null;
+            var chests=Object.FindObjectsByType<Chest>(FindObjectsSortMode.None).OrderBy(c=>c.name=="Chest_03" ? 0 : 1).ThenBy(c=>c.name).ToArray();
+            foreach(var chest in chests)
+            {
+                if(chest.name!="Chest_03") { MoveFixture(state,(Vector2)chest.transform.position+new Vector2(0,-.6f)); yield return Wait(.1f); }
+                yield return KeyPress(Key.E); Assert(panel.IsOpen,"Actual chest request");
+                var card=panel.GetComponentsInChildren<CardVisual>().FirstOrDefault(c=>new[]{"legs","arms","tail","flame-tail"}.Contains(RuntimeId(c)));
+                if(!card) { yield return KeyPress(Key.Escape); continue; }
+                chosen=RuntimeId(card); Click(card.gameObject); yield return Wait(.2f); break;
+            }
+            Assert(chosen!=null && ((ILoadoutState)state).Items.Count>0 && torso.activeSelf,"First real body part reveals torso");
+            Assert(baseArms.activeSelf==((ILoadoutState)state).Contains(LoadoutItemId.Arms),"Arm base shown only when arms actually owned");
+            Capture("Gameplay_AfterFirstBodyPart",true);
+            report.AppendLine("PASS MainMenu-first editor/build entry; initial head-only HUD with real HP preserved; real reward="+chosen+" reveals body. ArtTest direct play preserved.");
+        }
+
         private static void Step()
         {
             try
@@ -128,7 +202,7 @@ namespace Regrowth.Tests.UIArt.Editor
             File.WriteAllText(Output+"checks.txt",report.ToString()); Debug.Log(report.ToString());
             if(keyboard!=null) { InputSystem.RemoveDevice(keyboard); }
             if(gamepad!=null) { InputSystem.RemoveDevice(gamepad); }
-            // C11/controller: batch verification may quit its process; an interactive editor must stay open.
+            // Keep interactive Unity open; only a batch runner owns process exit.
             if (Application.isBatchMode) { EditorApplication.Exit(code); }
             else { EditorApplication.isPlaying = false; }
         }
@@ -137,6 +211,15 @@ namespace Regrowth.Tests.UIArt.Editor
         private static void Assert(bool ok,string message)
         { if(!ok) { throw new Exception(message); } assertions++; }
         private static T Ref<T>(Object owner,string name) where T:Object => UIFinalRevision.Ref<T>(owner,name);
+        private static IEnumerator WaitForOpeningIntro()
+        {
+            var intro=Object.FindFirstObjectByType<Regrowth.UI.Intro.OpeningStoryIntro>();
+            if(!intro) { yield break; }
+            var root=Ref<GameObject>(intro,"introRoot");
+            float until=Time.unscaledTime+35;
+            while(root.activeSelf && Time.unscaledTime<until) { yield return null; }
+            Assert(!root.activeSelf,"Opening intro completes before gameplay UI checks");
+        }
         private static IEnumerator Wait(float seconds)
         { float end=Time.unscaledTime+seconds; while(Time.unscaledTime<end) { yield return null; } }
         private static IEnumerator KeyPress(Key key)
@@ -159,6 +242,8 @@ namespace Regrowth.Tests.UIArt.Editor
             InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
             keyboard=InputSystem.AddDevice<Keyboard>();
             yield return Wait(.3f);
+            yield return WaitForOpeningIntro();
+            yield return WaitForOpeningIntro();
             var state=Object.FindFirstObjectByType<PlayerState>();
             var panel=Object.FindFirstObjectByType<ChoicePanel>(); var hud=Object.FindFirstObjectByType<PlayerHud>();
             var interactor=Object.FindFirstObjectByType<PlayerInteractor>();
@@ -213,6 +298,7 @@ namespace Regrowth.Tests.UIArt.Editor
             Capture("MainMenu",false);
             Click(Ref<Button>(menu,"startButton").gameObject);
             yield return Wait(2);
+            yield return WaitForOpeningIntro();
             Assert(SceneManager.GetActiveScene().path==UIFinalRevision.Level,"Actual Start Button loads Level_Whitebox");
             var state=Object.FindFirstObjectByType<PlayerState>();
             var hud=Object.FindFirstObjectByType<PlayerHud>(); var body=hud.GetComponent<BodyHudArt>();
@@ -391,7 +477,7 @@ namespace Regrowth.Tests.UIArt.Editor
             Object.Destroy(root); yield return null;
         }
 
-        private static byte[] Capture(string name,bool world)
+        internal static byte[] Capture(string name,bool world)
         {
             const int width=1920,height=1080;
             var canvases=Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None).Where(c=>c.isRootCanvas && c.renderMode==RenderMode.ScreenSpaceOverlay).ToArray();

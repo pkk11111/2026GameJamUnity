@@ -25,10 +25,13 @@ namespace Regrowth.UI.Art
         public void Refresh()
         {
             if (body == null || loadout == null) { return; }
-            hpGroup.SetActive(body.HasBodyCore); torso.SetActive(body.HasBodyCore); armsBase.SetActive(body.HasBodyCore);
+            hpGroup.SetActive(body.HasBodyCore);
             bool hasArms=loadout.Contains(LoadoutItemId.Arms), hasLegs=loadout.Contains(LoadoutItemId.Legs);
             bool hasTail=loadout.Contains(LoadoutItemId.Tail), hasFlameTail=loadout.Contains(LoadoutItemId.FlameTail);
             bool hasFire=hasFlameTail || loadout.Contains(LoadoutItemId.FlameBreath);
+            // The head is the first HUD part. Do not show an empty body silhouette.
+            bool showBody=body.HasBodyCore && (hasArms || hasLegs || hasTail || hasFlameTail);
+            torso.SetActive(showBody); armsBase.SetActive(body.HasBodyCore && hasArms);
             arms.SetActive(hasArms); swordLabel.SetActive(hasArms);
             legs.SetActive(hasLegs); legsLabel.SetActive(hasLegs);
             tail.SetActive(hasTail || hasFlameTail); dashLabel.SetActive(hasTail);
