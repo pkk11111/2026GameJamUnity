@@ -1,0 +1,5 @@
+{
+    "name": "Regrowth.Tests.T03.Editor",
+    "references": ["Regrowth.Tests.T03", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.Gameplay.SwitchDoor", "Regrowth.Gameplay.Locomotion", "Unity.InputSystem", "UnityEngine.UI", "Unity.TextMeshPro", "Unity.RenderPipelines.Universal.Runtime"],
+    "includePlatforms": ["Editor"]
+}

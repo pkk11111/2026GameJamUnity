@@ -1,0 +1,6 @@
+{
+    "name": "Regrowth.Tests.T06",
+    "rootNamespace": "Regrowth.Tests.T06",
+    "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.Gameplay.Locomotion", "Unity.InputSystem", "UnityEngine.UI", "Unity.TextMeshPro"],
+    "autoReferenced": true
+}

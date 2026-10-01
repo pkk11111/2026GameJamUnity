@@ -1,10 +1,10 @@
 # GROWL AGAIN 统一开发规范与游戏契约
 
-规范版本：10，2026-10-01；公共源码契约版本 6，新增 IInteractionState/IChoiceFlow，既有接口与枚举值不变。用户为总控，其他程序人数未定、不超过 5 人；按最小可测试功能领取任务，不固定个人长期板块。本文使用标准文件名 AGENTS.md，作为所有 Codex 会话必读的唯一规则入口；不再另建 agent.md 副本以免内容漂移。
+规范版本：12，2026-10-01；公共源码契约版本 6，既有接口与枚举值不变；同步 Soap 模块接入与新规则等待边界。用户为总控，其他程序人数未定、不超过 5 人；按最小可测试功能领取任务，不固定个人长期板块。本文使用标准文件名 AGENTS.md，作为所有 Codex 会话必读的唯一规则入口；不再另建 agent.md 副本以免内容漂移。
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及最新已发布基线是 `Ming/e7ef271f0a83b7320343ce42cad23aeef975e60f`（重新定向：发布/测试资源文档整理）；业务与资产代码仍为349ba93的T01集成。2026-10-01再次以git ls-remote核对GitHub Ming/e7ef271，与本地HEAD及origin/Ming一致，开始工作区干净、无进行中的合并。用户已通过531535d提交Soap/239d019的T01合并，并以349ba93发布集成场景、层级整理及协作文档。C00/C01在e86074a，C02在4ffa05b，C03在5a7cc5b，发布记录fa54f5a仍可追溯；公共源码契约仍为6。本次只整理发布/测试入口记录，不自动commit/push。成员从总控指定的Ming提交创建任务分支，读取该提交随附的根AGENTS.md、任务卡与相关handoff；不另建Ming专用agent.md，不用旧main/旧项目规则，不自动切分支、合并或重置。
+当前总控分支 Ming，已核对本地 HEAD、origin/Ming 与 GitHub Ming 为 649451f0b05e3be70afda2ae52c2265081fde831（e7ef271 后的接手文档提交）。T01 已随 349ba93 发布，不重复合并。2026-10-01 用户授权读取 Level/795cf3325f16a794043713a0057361750d00f9ca，并在不改变白板试走功能与地图比例的前提下适配代码。现将所需 WhiteBox 资产与脚本选择性导入 Ming 工作区，未进行分支 merge、commit 或 push；本轮适配尚未发布。此前 T01/C01/C02/C03 基线及测试历史继续有效，但不代表本轮新代码通过。最新接线/验证见下方 Level 小节和 controller.handoff。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -23,7 +23,7 @@
 
 状态定义：**已确认**是用户明确答复；**技术约定**是本轮采用的实现边界；**待确认**不得据此实现业务；**预留**只有身份或计划，没有功能承诺；**已实现**仅指表中真实存在代码。
 
-公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；此前 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，此前C01/C02分别32/51项复验通过；C03契约6已随Ming/5a7cc5b发布，尚未主场景集成。Soap T01的ChoicePanel/ChoiceCardView已实现并随Ming/349ba93发布，本机独测41项、真实C03集成31项通过。运动、攻击动作、敌人、世界、正式HUD/结果UI和项目IAudioBackend适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
+公共契约与空音频入口已重写，新项目有 Unity 模板及 Wwise Integration。C00/C01 已随 Ming/e86074a 发布；此前 C02 PlayerState、最小写口、攻击读口与死亡停止接线已实现，独立场景实际 Play 51 项通过，旧 C01 32 项复验通过。C02 已随 Ming/4ffa05b 发布，供队友获取契约5真实接口。C03 的交互器/桥接和统一选择事务已实现，独立场景保存重载后实际Play57项通过，此前C01/C02分别32/51项复验通过；C03契约6已随Ming/5a7cc5b发布，交互器现用于白板，整局尚未验收。Soap T01的ChoicePanel/ChoiceCardView已实现并随Ming/349ba93发布，本机独测41项、真实C03集成31项通过。Soap/fe92dfd 的 T02 HUD、T03 开关门、T06 基础移动、T12 宝箱模块现已选择性导入（未发布），接入范围见下节。攻击动作、敌人、结果UI、付费传送和项目IAudioBackend适配器仍未实现。Integration 已安装不等于游戏音频映射或 Bank 交付已经完成。
 
 ### 成员自主范围与协作边界
 
@@ -97,6 +97,10 @@
 | G35 | 同类交互选距离锚点最近的；距离相同按稳定InteractionId的Ordinal顺序 | 仅按实例编号/物理查询返回顺序选取 |
 | G36 | 不可用对象跳过，继续按传送门→开关→宝箱选择可用对象 | 不可用传送门阻挡附近可用开关/宝箱 |
 | G37 | 宝箱奖励及满槽替换也暂停；同事务切阶段保持暂停，确认成功或取消后继续 | 奖励界面暂停仍待定；替换阶段临时解锁玩法 |
+| G38 | 怪物碰撞体积与怪物大小一致；实现/更换素材时同步核对实际尺寸 | 不另设大于或小于怪物本体的隐形碰撞体 |
+| G39 | 深蓝色按钮机关门保持 2×6 或 6×2；保留 Level 灰色地面比例、Grid 与 Tilemap 缩放 | 不为接程序或适配玩家而缩放地图/门 |
+| G40 | 地刺图块比例保持 3×1 或 4×1；本轮不改变原有摆放、缩放及检测区数据 | 不在脚本适配时重做地刺尺寸；既有椭圆检测区与图块是不同数据，不擅自等同 |
+| G41 | Level 白板试走暂保留开局二段跳/冲刺、免费传送、反复开关门与 R 回出生点，方便测试；测试完成后再转换为本规范正式玩法 | 这些行为不是正式奖励、付费传送、T03 一次性开门或新局重开，不覆盖 G01/G29 等正式规则 |
 
 满血开局的具体数值、负面叠加/下限及具体攻击参数未冻结。技能/装备不可重复、所有保留项满槽替换及姿态联动已确认。
 
@@ -114,7 +118,7 @@
 
 - Q01：三层路线长度、每层箱数、主线机关位置；不默认加 PB，若需要另行确认。
 - Q02：盾已确定主动冷却，首版不实现；后续再确认持续时间、冷却恢复和输入。
-- Q03：构筑槽/替换/姿态/首版单剑已确认；不同宝箱之间导致旧候选变为已拥有时怎样修复，以及传送成功后何时重抽尚需确认。
+- Q03：已确认角色持有的技能/装备不得出现在宝箱展示中，包括重新打开旧宝箱；兼容 G30，只补失效项、保留有效项。完整奖励池与不足三项的正式处理、传送成功后重抽时机等待下一轮新规则，本轮不在地图放可领取宝箱。
 - Q04：负面池方向、永久叠加与全图精英作用范围已确认；攻击变化幅度、叠加按基础值或当前值、取整/下限与未来生成敌人如何继承仍待确认。
 - Q05：百分比公式已确认见 G17，收费死亡顺序已确认见 G29；最大生命下限/归零是否允许、攻击下限与危险提示形式仍待确认。
 - Q06：已确认G35/G36：同类最近、相同距离按稳定Id，跳过不可用对象。扫描半径/区域与锚点为可调接线参数。
@@ -267,6 +271,40 @@ Soap分支239d019fd0848b71e65e358af1c4844ee010899a基于契约5，沿用的IChoi
 
 复查更新：用户已将上述文档整理提交并push到e7ef271，最新新对话基线以本文件顶部为准。Unity MCP的instances/custom-tools/project-info/editor-state及manage_scene.get_active已恢复；目标F:/2026GameJamUnity、Unity6000.2.9f1、T01_C03非Play/不脏/未编译/6根。一次execute_code深层引用读取返回TimeoutError，未取得该项结果、未重跑Play；不能把连接恢复写成新增功能验收。新会话先读本文件、controller.handoff与WORK_PACKAGES，再核对实际Git/Unity状态并保留改动。
 
+### Level 白板适配（本轮未发布）
+
+- 来源固定 Level/795cf33（同 Unity6000.2.9f1、无包/项目设置变更）；该分支基于旧 main/d1cd394，没有 AGENTS 或地图 handoff。Git 试合并无文本冲突，但原脚本不能直接作为正式业务。本轮按用户 G41 授权保留试走逻辑并接入契约6。
+- 入口 `Assets/WhiteBox/Scenes/Level_Whitebox.unity`，由原 SampleScene 内容建立独立试走入口；原 Ming SampleScene、Build Settings、T01 与原正式输入资产不改。地图只保留这份适配副本，Level 原稿继续由作者维护；后续正式接图需协调场景维护权，不同时改同一场景。
+- 原 WhiteBox 脚本/meta GUID 保留；源码命名空间 `Regrowth.Gameplay.WhiteBox`，程序集 `Regrowth.WhiteBox` 引用 Core/Runtime/Audio.Core/TMP/SwitchDoor。原序列化字段名及已有数值保留，改为私有 SerializeField 与中文提示；新增参数明确白板用途，不另建真实生命/构筑状态。
+- 场景只有一份 GameBootstrap、RunController、PlayerInputReader、PlayerState、PlayerInteractor。WhiteboxPlayer2D 绑定 inputReader/runController，唯一消费 Move/Jump/Dash 与白板 Reset；移动/跳跃/冲刺/迁移/击退由 FixedUpdate 写刚体。地面改为默认0.02游戏秒的三条 Physics2D.Raycast，统一 IsGrounded；脚步 Cue/试听未实现。
+- 白板能力开关仅是测试配置，真实 PlayerState 构筑仍为空。`TryTeleportTo(Vector2)`/`TryResetToStart()`/`TrySpikeKnockback(Vector2,float,float)` 是白板运动请求：Playing 接受、下一物理帧应用，失败无动作；R 只回位清运动，不复活或重置本局世界。不是正式 T06/T10/T11/T13/T14 的完成声明。
+- PlayerInputReader 增加可选 `prototypeResetActionPath` 与 `bool TryConsumePrototypeReset()`，正式场景默认路径为空、消费始终false；仍由同一适配器私有运行副本采样/缓冲/阶段清理，不改变 IPlayerInput。白板专用 `Assets/WhiteBox/Whitebox_Input.inputactions` 保留原操作并增加 R/右 Shift，输入配置由总控维护。
+- PrototypePortal2D/PrototypeToggleButton2D 实现 IInteractable，各自保存稳定 interactionId；InteractionTarget+小 Trigger 区域桥接到唯一 PlayerInteractor，沿用 G14/G35/G36 排序，一次 E 只处理一个对象。保留 A↔B、C↔D 原连接与按钮对应门；反复切换是 G41 测试例外。统一 uGUI/TMP 提示代替原 OnGUI，不增加设备轮询。
+- 用户随后要求修正 Portal_B 触发器：新增 InteractionPoint_B 于世界(-12.3,15.75,0)，Portal_B 的距离校验、InteractionTarget 锚点与 CircleCollider2D.offset 统一指向此站立高度；原门外观(-12.3,17.69,0)及传送 ExitPoint 不动。其余门默认以根为锚点，正常站立可按E返程。
+- 原 Main Camera 仍为玩家子物体，orthographicSize=15，保留父子关系与局部比例；无独立平滑/边界组件，不标 T04 完成。原门尺寸 2×6/6×2，地形、Tilemap 与地刺原数据保持；怪物尚无实体，G38 是后续验收规则，不假称已适配怪物。
+- 原地刺显示来自 TM_Markers 图块；7 个 PrototypeSpike2D 是另设的椭圆 Trigger，没有 SpriteRenderer。原椭圆尺寸并非 3×1/4×1；本轮原样保留，正式陷阱需要另行验证显示/判定一致性，不悄悄改变地图数据。
+- 实际跳跃/迁移、门打开及按钮成功触发已有 GameAudio Cue；白板不新增脚步身份或 Wwise 映射。空音频不阻塞。白板传送没有收费/落点验证/0.5秒抵达保护，地刺只有击退没有扣血；正式业务待后续任务替换。
+- 验证驱动 `Assets/Scripts/Tests/Level/LevelWhiteboxPlayChecks.cs` 默认 autoVerify=false，供手动试走；测试时调用 BeginVerification，最终验真实 Dead，退出/重进 Play 才恢复试走。具体真实结果只记交接，不以历史断言代替当前验收。
+本轮实际验证：白板保存重载后47/0，C01回归32/0，T01_C03集成31/0；speed9保存重载实测速度9后恢复7，Portal_B站立触发已验证。原图59个Transform/3个Grid或Tilemap/18个原Collider数据保持；764个meta无重复或孤立。完整路线、正式业务、Windows和Wwise声音未验证，截图工具内部日志见交接。
+
+### Soap 模块接入与下一轮规则（2026-10-01，未发布）
+
+用户确认游戏规则正在修改，下一轮将提供新版；本轮保留现行条款作为接手背景，不先猜测新版。地图不放可领取宝箱、不接奖励结算；7 处原宝箱 Tilemap 标记原样保留。已持有技能/装备不得展示为宝箱候选，包括旧宝箱重新打开。
+
+| 模块 | 实际代码与当前地图状态 |
+|---|---|
+| T01 | 原已发布 ChoicePanel/ChoiceCardView，不重复合并；本轮地图无领奖入口，因此不挂空菜单 |
+| T02 | Regrowth.UI.Hud / PlayerHud，TryBind(MonoBehaviour) 绑定同一 IHealth/ILoadoutState/IFormState；地图 03 UI/PlayerHud 绑定唯一 PlayerState，四槽/姿态/血量只读 |
+| T03 | Regrowth.Gameplay.SwitchDoor / WorldDoor、WorldSwitch；正式 WorldSwitch 仍一次开门。地图8扇门复用 WorldDoor 唯一状态，PrototypeDoor2D 仅转发 TryToggle/TrySetClosed；白板按钮保留多门反转 |
+| T06 | Regrowth.Gameplay.Locomotion / PlayerLocomotion：IsGrounded、ActualHorizontalSpeed、CanRequestFootsteps、Jumped，独测入口保留。地图继续使用 WhiteboxPlayer2D 唯一写刚体，禁止两套运动同时挂载 |
+| T12 | Regrowth.Gameplay.Chest / Chest、ChestClaimTransaction、ChestRewardConfig，独测入口保留；取消不重抽有效项，重新打开只补已持有的失效项，确认再次校验。完整奖励池及地图接入等待新规则 |
+
+WorldDoor 配置 blockingColliders/closedView/openView/startOpen/allowPrototypeReclose；默认 startOpen=false、allowPrototypeReclose=false，TryOpen() 幂等。新增 bool TrySetOpen(bool) 只在有效启用/真实改变时成功，关闭须显式授权；成功打开才发 DoorOpened/Opened。白板8门允许重新关闭，Door_2 初始打开，尺寸取原 Collider，不再由适配器复制修改。
+
+层级：00 Runtime、01 World（Grid/光照/Portals/Doors/Switches/Hazards）、02 Actors、03 UI、90 Validation；WwiseGlobal 保留插件根。父级单位缩放，移动保留世界变换。删除空 Tested，保留有独测用途的场景/Prefab/Editor 工具；未导入 Soap 的 _Recovery 和 Wwise 漂移。
+
+用户当前 Inspector 改动已保存：WhiteboxPlayer2D.enableDoubleJump=false，enableDash=true；保留测试开关可调能力，不擅自恢复二段跳。HUD 展示真实空构筑，白板试走能力不伪装成已领取技能。详细验证及最终接手状态见 controller.handoff。
+
 ### 卡片端口生命周期
 
 TryShow 在已有菜单打开时返回 false，不调用任何回调。UI 传回选项 Id，发起者重新验证并执行；tryConfirm 返回 true 才完成关闭，false 保持菜单并提示。UI 不能执行扣血、改能力、移动或标记箱子。确认期间禁止重复/重入提交；成功后回调不能再调用。
@@ -277,7 +315,7 @@ CancelCurrent 在关闭时无操作，在打开时关闭并恰好通知当前阶
 
 奖励与满槽替换允许取消且不领取/不消耗；传送按 G29 取消不收费。总控在提交前验证目的地，然后应用代价；若致死，结束原地事务、进入 Dead，不迁移位置、不发 Teleported。否则应用迁移并抵达保护。表现动画不能再次扣费，也不能靠淡出完成事件决定业务是否支付。
 
-随机卡组按 G30–G31 生成。抽取不保证能力/装备/效果各一项，不能因为“三选一”而伪造缺失的技能代价。奖励候选跨宝箱失效和门成功后卡组更新仍待确认。
+随机卡组按 G30–G31 生成。抽取不保证能力/装备/效果各一项，不能因为“三选一”而伪造缺失的技能代价。重新打开宝箱时排除已持有项，只补失效卡并保留有效卡；不足三项时独测实现拒绝打开且不消耗，不将其当作已冻结的正式玩法。门成功后卡组更新仍待确认。
 
 ### C02 最小状态写口与队友接点
 
@@ -306,8 +344,10 @@ C02 没有生命上限修改、攻击增减/叠加、百分比献祭、候选池
 | ChoiceCoordinator（C03） | IChoiceFlow：唯一选择事务、暂停、同Id切阶段、取消及迟到回调/重入保护 | 已实现，独立场景57项通过、已发布5a7cc5b；正式Presenter由T01提供 |
 | InteractionTarget（C03） | Collider到IInteractable显式桥接、场景稳定Id校验 | 已实现；模块绑定接收端与距离锚点 |
 | ChoicePanel（Soap T01） | IChoicePresenter正式展示实现，ChoiceCardView绑定卡片Prefab | 已实现，41项本机独测及31项C03集成通过；绑定ChoiceCoordinator，不修改阶段 |
-| RewardService / SacrificeService | 固定三候选、校验、替换事务与实际应用 | 候选失效修复、真实数值池与下限 |
-| Portal / Chest / WorldSwitch / WorldDoor | 交互和本轮状态 | 成功后卡组更新、地图联动；收费顺序已确认 |
+| Chest / ChestClaimTransaction（Soap T12） | 奖励三候选、校验、替换事务与单箱领取 | 已导入独测；完整池与地图接入等待新规则 |
+| SacrificeService / 正式Portal | 代价结算与付费迁移 | 真实负面池、叠加与下限等仍待确认 |
+| WorldSwitch / WorldDoor（Soap T03） | 一次开关与门状态；白板门显式授权可重新关闭 | 已实现并独测；WorldDoor用于地图，白板按钮语义保留 |
+| PlayerHud（Soap T02） / PlayerLocomotion（Soap T06） | 只读HUD / 基础单跳移动 | HUD已接地图；T06独测保留，地图暂用白板运动 |
 | GameBootstrap（C01/C02/C03） | 显式引用 RunController/InputReader/PlayerState，可选Interactor/Coordinator，死亡接线、事务清理与音频停止，唯一入口 | 不自动建对象，不实现新局重开 |
 
 技能和剑共享 ILoadoutState，不维护单独的真实武器槽。丢 UprightForm 不从 Items 删除 Sword；必须区分保留项持有、当前姿态和实际攻击权限，不允许从角色 Sprite/图标反推真实状态。PlayerState 已实现构筑变更与姿态联动，没有自由切姿态命令；奖励/舍弃事务服务仍由后续总控统一接入。
@@ -550,3 +590,5 @@ C00/C01已随Ming/e86074a发布，历史32项C01与16项Core断言不覆盖新�
 同轮用户新增 G33–G34：运动/脚步共用0.02秒地面射线扫描、输入仍集中读取，脚步单事件节奏限频且不依赖材质Switch Group。已登记T06/T05/T18对接；实际射线运动、脚步Cue/映射及试听尚未实现。
 
 规范版本10 / 契约6：按G35/G36完成交互选择，按G37统一暂停奖励/满槽替换。新增IInteractionState/IChoiceFlow、InteractionTarget/PlayerInteractor/ChoiceCoordinator与Bootstrap接线；MCP独立场景57项通过，C01/C02复验32/51项通过，参数保存重载、真实键盘/按钮及非法绑定验证完成。已随Ming/5a7cc5b发布，不改地图/队友正式UI，不实现未决代价或整局重开。
+
+规范版本12：从Soap/fe92dfd选择性接入T02/T03/T06/T12，T01不重复合并；T02地图HUD及T03门状态接入，T06保留独测。用户下一轮提供新规则，本轮不放可领取宝箱。T02 26/0、T03 27/0、T06 27/0、T12 47/0及鼠标卡片/取消通过；白板47/0（Play临时打开二段跳，保存配置仍关闭），地图HUD10项与8门状态复核通过。Grid/Tilemap/原碰撞数据保持，847个meta无重复/孤立/缺配对。未发布、未导出Windows；测试完整上下文见controller.handoff。

@@ -1,4 +1,124 @@
-# Soap · T01 Choice Menu
+# Soap · T12 / T02 HUD / T03 SwitchDoor / T06 / T01
+
+## T12 最新验证（2026-10-01，等待实体输入补验）
+
+- 基线：起始 Soap/origin/Soap `8d23453ff59a93f34dd6edd30ab2f31fcbdb71c4`，按此前授权合入 Ming/e7ef271 无冲突，HEAD `275498d1bdaa9545a98cdce4c34b0a426395c0d1`。最新只读核对 origin/Ming `649451f0b05e3be70afda2ae52c2265081fde831`（换对话框），规范10/公共契约6，T12无不兼容变化。脏工作区没有再次merge，没有commit/push/stage。
+- 文件：保留全部43个T12新增文件及meta。正式 `Assets/Scripts/Gameplay/Chest/`：Chest、ChestRewardConfig、ChestClaimTransaction、AssemblyInfo、asmdef；测试 `Assets/Scripts/Tests/T12/`：SmokeDriver、隔离四槽ProbeState、Editor场景/重载/配置修复工具、测试及Editor asmdef；`Assets/Configs/Chest/`五份池；`Assets/Prefabs/Chest/Chest.prefab`、`Assets/Prefabs/Tests/T12/T12SmokeRig.prefab`、`Assets/Scenes/Tests/T12/T12_Smoke.unity`。未加入Build Settings，未修改Core/Runtime/PlayerState/Input/T01/T02/T03/T06/主地图。
+- 本次修复：只从T12_Smoke移除Addressables专属InitBankHolder MonoBehaviour及其组件引用；保留普通WwiseGlobal/AkInitializer。执行Unity Tools/GROWL AGAIN/T12/Repair Saved Config Bindings，Chest.prefab.rewardConfig绑定T12_RewardPool，Smoke Rig.replacementConfig绑定T12_ReplacementFixture，各测试Chest池一并保存验证。先前生成器跨NewScene后资产卸载造成空引用，已在本T12 Editor工具切场景后重取持久资产，未重建既有实现。
+- Rig接线：唯一RunController/PlayerInputReader/GameBootstrap，唯一真实PlayerState/PlayerInteractor与灰盒运动；唯一ChoiceCoordinator→既有T01 ChoicePanel，Bootstrap显式绑定，同一PlayerState→T02 HUD。Chest根Box Trigger/InteractionTarget显式指本Chest与锚点；六个稳定唯一ID分别t12-chest-main、t12-chest-fixture-1至5，测试切换只启用一箱。Chest stateSource同时提供IHealth/ILoadoutState/IPlayerStateCommands，runSource和choiceFlowSource指唯一正式组件。独立Chest Prefab的跨场景状态/run/flow留空，集成必须显式绑定；不能整体复制测试Rig产生第二套Runtime。
+- Inspector入口：Chest ID/Prompt/状态与事务源/奖励Config/Closed与Claimed子视图；Config中稳定ID/Title/Description/Kind/Item/HealAmount及阶段标题。SpriteRenderer的Sprite/颜色/尺寸与可选Animator在子视图替换，UI/TMP仍用既有Prefab，正式逻辑不硬编码素材路径或视觉参数。Unity Inspector实改T12_HealPool首项HealAmount 7→9、Title Heal 7→Heal 9并保存，第二轮Play验证配置治疗量生效；保留9为测试默认值。
+- 事务：CanInteract只读，正式Chest不读E、不消费输入、不直调ChoicePanel、不写timeScale。部分Fisher-Yates无放回等概率抽3不同条目，排除已持有Loadout，满血Heal合法；真正TryBegin成功才复制缓存，取消重开不重抽，确认时再次校验。状态仅经IPlayerStateCommands Add/Heal/原子Replace；满血Heal可成功领取而HP不变。最终成功才claimed/关闭并发ChestOpened一次；重复/旧阶段/迟到回调无效。claimed及缓存保持本Chest实例生命周期，不承诺场景卸载后的存档。
+- 保存重载与Play：Unity6000.2.9f1中保存场景/Prefab/Config，再通过Load Scene从磁盘加载T12_Smoke。两轮实际Play自动验收均为 **41 passed / 0 failed**；第二轮在Inspector改Heal后执行。测试向当前Keyboard排入E的Input System状态事件，经正式Reader→Interactor→InteractionTarget→Chest→IChoiceFlow→T01→真实PlayerState→T02，不是主箱直接调用TryInteract。覆盖三卡/排除持有/满血Heal、取消固定卡组、真Add/HUD、真回血/HUD、满血领取、claimed单次、双击迟到、无效/失效确认保留、缺引用/不足三项拒绝、Paused/Choosing/Dead锁。
+- 隔离替换同样在上述Play中验证：纯Tests/T12状态持四旧项（900只在纯测试对象），真实Flow/Panel三卡→同Id四旧项且继续Choosing/timeScale=0；进入阶段不先删旧项，取消保留四项与箱子，原子写失败保持菜单，最终Replace/完成各一次，旧阶段与迟到callback无效。900未进入真实PlayerState或正式配置，正式池无Shield/FlameBreath/Spear。GameAudio请求由测试IAudioBackend计数，三次成功箱各ChestOpened一次；未验证真实Wwise声音。
+- 实体输入补验尚待：窗口工具发送E及点击Game测试按钮没有触发输入；不能据此声称实体键盘/鼠标已通过。已进入关闭autoVerify的新鲜Play，请求用户手动E→Cancel→E→选择Loadout并反馈。自动输入链两轮通过，但收到实体结果前不写“T12独测通过”。
+- Console：自动验收无FAIL/Exception/C#或Missing Script记录；已知Wwise/Account API Warning及测试故意缺引用/候选不足的上下文Warning保留记录，不清Console冒充通过。最终Console面板检查和退出Play尚待实体输入补验后完成。
+- 两份Wwise配置存在Unity启动时本机自动漂移，本轮未纳入T12，未stage/commit，交由音频/总控处理：`Assets/WwiseSettings.xml`、`2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj`。本次不修改或反复restore它们。Git检查仅这两份、Soap.handoff及43个T12新文件；Packages diff为空，没有新Addressables/其他场景/ProjectSettings变动。
+- 未完成/边界：C04跨宝箱旧候选失效后的补卡/重抽仍pending，只安全拒绝失效确认；主地图未集成、完整奖励系统未宣称完成、真实音频未验收。总控集成只接正式Chest/Config/Prefab到其唯一状态/Run/Flow及地图交互层与锚点，确保场景ID唯一、合法池足三项，复验T01/T02链。没有开始T13。
+### T12 鼠标接线修复与新回归（尚待最终实体卡片/Cancel验收）
+
+- 用户手测已确认实体E能打开菜单，但鼠标卡片/Cancel不响应。比对已发布Integration/T01_C03的C03 EventSystem，定位T12唯一EventSystem及InputSystemUIInputModule均启用，Actions Asset正确，但十个UI Action Reference全为空。旧41项用Button.onClick.Invoke验证事务，未覆盖设备鼠标到UI模块，不能拿旧结果当作真实鼠标通过。
+- 仅在Tests/T12 Editor工具增加Repair UI Action Bindings，给T12SmokeRig的Point/Click/RightClick/MiddleClick/ScrollWheel/Navigate/Submit/Cancel/TrackedDevicePosition/TrackedDeviceOrientation补齐持久引用。复用现有T03UIReferences中指向唯一Assets/InputSystem_Actions.inputactions的引用（action ID与Integration参考一致），未改该引用资产/输入资产/ChoiceMenu或Choice业务。工具同时防止将来新建T12实例再次缺引用；新增Editor asmdef的Unity.InputSystem引用。
+- Unity实际执行修复、保存本任务Prefab/Scene，再Load Scene从磁盘重载。EventSystem与UI module均只有一份。修复后已用真实鼠标事件点击Run T12 Checks，自动回归 **41 passed / 0 failed**，包含Paused/Choosing/Dead。autoVerify仍关闭，未通过脚本Invoke启动这轮回归。
+- 点击Console Warning确认上下文为主箱Chest，不是负面夹具。Inspector引用完整，原因是OnEnable校验使用其他组件isActiveAndEnabled而受启动调用顺序影响。仅Chest.ValidReferences改为enabled/activeInHierarchy启动资格（与C01方式一致）；仍保留接口/引用/配置/ID检查，运行期不可用仍拒绝。重新编译Play后主箱不再产生启动Warning。故意断开choiceFlowSource的Fixture4及候选不足的Fixture5诊断继续保留。
+- 已在本次Console实际观察唯一红色错误为Wwise Cannot find ProjectInfo.json at Assets/StreamingAssets/Audio/GeneratedSoundBanks，属于用户确认的范围外Bank环境问题；不声明整个项目Error=0。无新增C#、Missing Script、T12 gameplay Error。此错误存在期间游戏回归仍41/0；未修改Wwise/Packages/SoundBanks。
+- 当前关闭自动验证的新鲜Play，等待用户实体E打开并保留菜单，以继续实际卡片hover/鼠标Cancel/重开/鼠标确认/HUD与claimed验证。收到该结果并通过前仍不标记独测通过。没有commit/push，没有开始T13。
+## T03 最新摘要（2026-10-01，Australia/Sydney）
+
+- **T03 独测通过，未集成。** 严格在T02实际Play26项通过并记录后开始；中断恢复保留现有T03代码，只修复本模块问题并生成此前缺失资产。没有开始T07。
+- 恢复时Soap/HEAD仍为 `e6476d51637dcf529d88206e7217495ceec3d890`。重新fetch确认最新 `origin/Ming=349ba939d1002f2cf59995b6d800ae29c71f6fd9`（合并T01）；远端规范10、公共契约6，Core/Runtime相对fa54f5a无变化，T02/T03卡无不兼容变化。本轮没有merge/reset/stash/切分支/commit/push。
+
+### T03 文件与接线
+
+- 正式：`Assets/Scripts/Gameplay/SwitchDoor/WorldSwitch.cs`、`WorldDoor.cs`、`Regrowth.Gameplay.SwitchDoor.asmdef`及meta。正式程序集仅引用Core/Audio.Core，开关不读设备、不消费输入；CanInteract只读阶段、actor生命、配置及已使用状态。
+- 测试：`Assets/Scripts/Tests/T03/T03SmokeDriver.cs`、测试asmdef、`Editor/T03SceneSetup.cs`、Editor asmdef及目录/文件meta。测试按按钮启动，向当前Keyboard提交Input System设备状态事件，经现有Reader/Interactor运行；夹具定位和反射断开引用只在Tests中，不是正式迁移或状态管理器。
+- 资产：`Assets/Scenes/Tests/T03/T03_Smoke.unity`、`Assets/Prefabs/SwitchDoor/WorldSwitch.prefab`、`WorldDoor.prefab`、`Assets/Prefabs/Tests/T03/T03SmokeRig.prefab`、`Assets/Configs/T03/GrayboxSquare.png`、`T03UIReferences.asset`及全部meta。独立场景未加入Build Settings；没有修改T02、T01、T06、Core/Runtime/Input/Packages/ProjectSettings/主场景或其他成员资产。Unity `_Recovery`保留未动。
+- Rig：Runtime（唯一RunController、PlayerInputReader、GameBootstrap）/Graybox Player（唯一PlayerState、Rigidbody2D、BoxCollider2D、已有PlayerLocomotion、PlayerInteractor、Visual与Ground Ray Origin）/Test World（Floor、两组Switch/Door）/Camera/Tests UI/EventSystem。沿用已有T06组件，不改其源码/Prefab；Bootstrap显式绑定run/input/state/interactor，Interactor.actor为同一玩家。
+- 开关根挂WorldSwitch与InteractionTarget，桥接interactionSource指本开关、interactionPoint指本Transform；根Box Trigger加子Circle Trigger由同一个桥接去重。稳定ID分别 `t03-switch-a` / `t03-switch-b`，每个实例必须唯一。runSource绑定唯一RunController，door分别绑定Door A/B。
+- WorldDoor.blockingColliders显式绑定本门非Trigger BoxCollider2D；TryOpen首次提交IsOpen后关闭阻挡碰撞体，切Closed/Open子视图并通知一次。重复false且无事件/音频请求。状态在同场景往返、组件启停期间保持，不承诺卸载场景后的存档或整局重开。
+- Inspector入口：开关ID、Prompt、runSource/door/两种视图；门blockingColliders/closedView/openView；交互半径与Mask仍在既有PlayerInteractor，测试使用默认半径2、Default层、检测Trigger。SpriteRenderer Sprite/颜色/尺寸及可选Animator均可在Prefab子视图替换，不写死在正式C#；按钮/TMP/布局在Tests Rig内替换。
+- 单独WorldSwitch Prefab不保存跨场景run/door，集成时必须显式绑定；测试Rig已保存内部引用。总控只将正式开关/门组件及Prefab接入自己的唯一Runtime与地图，不整体复制测试Rig造成第二套玩家/输入/阶段。
+
+### T03 实际验证与修复
+
+- Unity6000.2.9f1非Play通过Tools/GROWL AGAIN/T03/Create Smoke Scene生成并保存缺失场景/Prefab；随后用Unity Load Scene从磁盘重载T03_Smoke，再实际进入Play。
+- 首次Play发现两条C03 InteractionTarget身份无效Error：桥接OnEnable可能早于WorldSwitch.Awake读取ID。修复仅WorldSwitch：首次读取InteractionId即捕获序列化身份，Awake复用该快照；不依赖组件执行顺序，后续ID稳定。没有修改共享C03。刷新完成Unity编译/Domain Reload后复验正常。
+- 修复后实际点击Run T03 Checks，**27 passed / 0 failed**。覆盖真实C01/C02/C03启动、稳定唯一ID、范围外无目标/范围内选中、20次CanInteract无副作用、双Collider同桥接、正式D输入被关闭门阻挡、正式E输入首次打开且事件各一次、开门后正式D输入实际穿过。
+- 重复/长按E及多次直接重复调用均不再打开；往返和组件启停保持已开。测试断开B的Door后拒绝并产生带组件上下文Warning，恢复引用重新可选。真实Pause/Resume、Choosing及真实PlayerState致死后的Dead禁止交互；恢复后暂停/选择期间的长按E不补触发。
+- GameAudio既有SwitchActivated/DoorOpened请求各一次，由Tests局部IAudioBackend记录；没有新增Cue/Wwise字符串，不宣称实际声音/Wwise验收通过。
+- 当前Console Error=0；首次注册失败错误已由上述修复解决，Unity编译/Play自动刷新Console后复验无新增Error，未手动清空掩盖错误。保留预期缺Door诊断Warning及Unity Account API网络Warning，Wwise暂停日志为插件日志。验证后退出Play，T03场景无脏标记。
+- 满足WORK_PACKAGES T03及用户本轮验收，无共享接口阻塞。尚未主地图集成、正式美术/动画、实际Wwise声音、Windows导出；未另做Inspector调参专项或场景卸载重进的世界状态持久化测试。跨任务门API需由总控登记；目前本模块调用WorldDoor.TryOpen即可。
+
+## T02 最新摘要（2026-10-01，Australia/Sydney）
+
+- **T02 独测通过，未集成。** T01/T06既有独测记录保留；总控最新349ba939已完成T01独立接线验收，其主地图/第一阶段整体状态以controller.handoff为准。
+- Soap实际HEAD `e6476d51637dcf529d88206e7217495ceec3d890`，先前工作区干净时按用户授权合入Ming/fa54f5ad，无冲突。中断后保留31个T02新增文件（包含目录meta），不重建现有代码/场景/Prefab；额外Unity `_Recovery`及meta保留未动。
+- 本次fetch确认 `origin/Ming=349ba939d1002f2cf59995b6d800ae29c71f6fd9`（合并T01），只git show读取远端规范/任务卡/controller和Soap交接；没有merge/reset/stash/切分支/commit/push。远端规范10/契约6，T02/T03任务卡及Core/Runtime源码与fa54f5a一致，无不兼容调整。
+
+### T02 文件、接线与可替换外观
+
+- 正式 `Assets/Scripts/UI/Hud/PlayerHud.cs`、`HudSlotView.cs`、`Regrowth.UI.Hud.asmdef`及meta：正式程序集只引用Core/uGUI/TMP，不引用Runtime写口或输入。单一stateSource须同一组件实现IHealth/ILoadoutState/IFormState；TryBind验证后退订旧源，再订阅并读取当前快照。OnDisable退订；OnEnable重新读取。无HP/构筑副本、无状态写命令/时间倍率写入。
+- Tests/T02：`T02SmokeDriver.cs`、`HudProbeState.cs`、测试asmdef、Editor/T02SceneSetup及Editor asmdef/meta。Driver通过真实PlayerState的伤害/治疗/构筑命令验证显示；局部Probe仅验未发布的MaximumHealth变动及事件监听计数，恢复真实绑定后结束，不进入主场景。
+- 资产：`Assets/Prefabs/Hud/PlayerHud.prefab`、`Assets/Prefabs/Tests/T02/T02SmokeRig.prefab`、`Assets/Scenes/Tests/T02/T02_Smoke.unity`、`Assets/Configs/T02/T02UIReferences.asset`及各meta；测试场景未加入Build Settings。
+- Rig层级：Runtime（唯一RunController/InputReader/Bootstrap）、唯一PlayerState、Player HUD、Tests UI、两个局部Probe、EventSystem、Camera。Bootstrap显式绑定run/input/state；HUD.stateSource指向同一PlayerState，healthText/formText及slots[4]绑定HUD子对象；Driver引用同一HUD/文字/槽位、三个TEST按钮及Probe。
+- HUD独立Prefab不保存跨场景真实状态源，总控放入场景后绑定唯一PlayerState。HUD Background Image、四槽Image/Icon/Unavailable Marker、TMP字体/颜色/字号、RectTransform/CanvasScaler均在Prefab编辑。PlayerHud.itemVisuals为Dash/DoubleJump/UprightForm/Sword的标签及可选Sprite映射；四足Sword只显示HELD / UNAVAILABLE，不释放构筑项。空图标合法，非逻辑依赖。
+- 显示文案healthFormat、quad/upright/empty/held/unavailable字段序列化，事件刷新时读取；源引用运行时用TryBind。占位Health Fill尚未启用/绑定（交付为当前/上限文字），后续可绑定有Sprite的Filled Image；无正式美术/动画/音频接线。
+
+### T02 真实验收
+
+- 先前Unity6000.2.9f1编译、场景保存/磁盘重载、首次Play26 passed/0 failed；中断恢复后现有有效文件未重做，通过Unity Load Scene再从磁盘载入T02_Smoke，实际Play再次 **26 passed / 0 failed**。
+- 覆盖初始100/100、空四槽、HealthChanged伤害100→90/治疗→95、真实构筑/姿态事件、四足持剑不可用、站立持剑可用、站立无剑、四项有序显示、移除站立保留Sword；HUD启停不写真实状态。
+- 局部上限Probe70/80→65/120显示正确；五轮HUD启停每种事件监听0→1，不累积；换A→B后A事件不影响当前显示，再换真实PlayerState后仍正常刷新（95→85）。
+- 恢复轮鼠标TEST Damage 10使HP85→75、Heal 5使75→80，Scenario清空四槽；自动Play已覆盖所有姿态/四槽组合。实际画面灰黑/脏白、文本和不可用标记可辨识。
+- Console Error=0，已有Unity Account API网络Warning及Wwise暂停日志；没有清空Console冒充通过。无编译/运行异常。最终退出Play，场景无脏标记。
+- 满足WORK_PACKAGES T02和本次全部HUD验收，无共享接口阻塞。尚未主地图集成、中文正式字体/正式图标、各分辨率、Windows导出、美术/音频验收；10.3代表性样式参数变更及缺引用专项未另做，不继承为已验证。
+- T02串行门槛已完成（实际Play、Console、交接）；随后按用户授权开始T03，仍不合并349ba939，不开始T07。
+
+## T06 最新摘要（2026-10-01，Australia/Sydney）
+
+- Soap，开始 HEAD `239d019fd0848b71e65e358af1c4844ee010899a`（T01 Down），开始工作区干净；T01 已独测通过的代码与下方记录全部保留。本轮没有切分支/merge/reset/stash/commit/push。
+- 实际运行源码基线仍含 Ming `4ffa05b95fce4cde1ed1274b7d1c2e1fc9c21ad5`，本地规范9/契约5。中途按用户要求 fetch，最新 `origin/Ming` 是 `5a7cc5b439c3ccc7dbd960df949491732e51e6cf`，提交 C03；直接用 git show 读取远端 AGENTS/WORK_PACKAGES/controller.handoff（规范10/契约6），没有把远端文件写入当前工作树。
+- 对照结果：T06 任务卡、G33/G34、IPlayerInput/IRunContext/PlayerInputReader 未变；RunController 仅注释变更，Bootstrap 只新增可选 C03 组件初始化/清理。当前 T06 与规范10兼容，不需要规则驱动的代码调整。尚未合入或实际运行 C03，因此不能写已通过契约6整合测试。
+- C03 的 IInteractionState 是只读交互提示，IChoiceFlow 由 ChoiceCoordinator 管选择暂停/同事务三四项；PlayerInteractor 独占 Interact，InteractionTarget 显式桥接物件。T06 不消费 Interact、不新增这些组件、不接奖励/开关门；后续集成由总控绑定真实组件。文档仍有 F: 与 C03待发布历史文字，用户的 D: 路径和实际 fetch 提交事实优先。
+- **T06 本轮授权范围独测通过，未集成。** Unity 6000.2.9f1 两轮实际 Play 均 **27 passed / 0 failed**；第二轮为 Inspector 修改6/9/0.15并保存、磁盘重载后的完整复验。T01 已独测通过的状态仍保留。
+
+### T06 文件与结构
+
+- `Assets/Scripts/Gameplay/Locomotion/PlayerLocomotion.cs`：正式基础水平移动/单次跳跃/唯一射线 Grounded；仅读 IPlayerInput、IRunContext、IHealth，FixedUpdate 先检查活动且存活；唯一正式刚体速度写者。`Regrowth.Gameplay.Locomotion.asmdef` 引用 Core/Audio.Core。
+- `Assets/Scripts/Tests/T06/T06SmokeDriver.cs`：真实 C01/C02接线的状态文本、Pause/Choosing/TEST Die/Run T06 Checks；向现有 Keyboard 注入标准 Input System 设备事件，经正常 Update → Reader → FixedUpdate → Physics，不创建第二输入适配器或模拟运行阶段。
+- `Assets/Scripts/Tests/T06/Editor/T06SceneSetup.cs`：仅 T06 的安全创建/磁盘重载工具。生成时保护当前脏场景/Play/已有场景，不覆盖现有场景；灰盒外观最终存 Unity 资产，不在运行时搭 UI。
+- T06 的 Tests 和 Editor asmdef（Editor引用项目现有URP组件，无新包），上述全部文件及目录 `.meta`。
+- `Assets/Scenes/Tests/T06/T06_Smoke.unity` + meta：地板、三平台、墙、忽略 Trigger、Rig；没有加入 Build Settings。已有 Wwise Integration 自动附加 WwiseGlobal，不是本任务的音频实现。
+- `Assets/Prefabs/Tests/T06/T06SmokeRig.prefab` + meta：Runtime（唯一 Run/Input/Bootstrap）、灰盒玩家（唯一 PlayerState、Rigidbody2D、BoxCollider2D、PlayerLocomotion）、Ground Ray Origin、独立 Visual、uGUI/TMP Tests UI、EventSystem/InputSystemUIInputModule、Camera。不得整体拷入主场景制造重复 Runtime/PlayerState；总控只抽取正式运动组件并显式接线。
+- `Assets/Configs/T06/GrayboxSquare.png`、`ZeroFriction.physicsMaterial2D`、`T06UIReferences.asset` 及 meta：占位白色 Sprite、零摩擦物理材质、现有 Input Actions 的 UI 持久引用（一个主资产及子资产）；不修改原 Input Actions。
+- 更新仅本交接。未改共享 Core/Runtime/Input/Packages/ProjectSettings、T01、主场景/地图/其他成员资产。
+
+### T06 接线与 Inspector 参数
+
+- motor 的 inputSource/runSource/healthSource 分别指向 Rig 中唯一 PlayerInputReader/RunController/玩家 PlayerState；body 指向同对象刚体，groundOrigin 指向脚底子对象。Bootstrap 绑定 run/input/state；inputActions 绑定现有公共输入资产。
+- 地面为现有 Default Layer，groundLayers=1；三条向下 Physics2D.Raycast，ContactFilter2D 排除 Trigger，显式跳过玩家本体/子物体/同刚体，法线Y排除墙。唯一结果 IsGrounded；起跳立即清 false、上升时不判 Grounded，空中请求一次消费并丢弃。
+- Rig Prefab 暂定速度5单位/秒、起跳速度8单位/秒、射线长度0.12；Scene Inspector 已保存 overrides：moveSpeed=6、jumpVelocity=9、rayLength=0.15。都实时读取，不在 Awake/Start 重置；射线配置在下次扫描生效。第二轮27/0复验通过，画面实际水平速度6。
+- groundScanInterval=0.02游戏秒；groundOrigin 本地(0,-0.45)，rayOffsets=(-0.38,0)/(0,0)/(0.38,0)；法线最小Y=0.65，上升速度上限0.1，实际水平速度阈值0.05；参数均 Inspector 可替换/调节。未改 fixedDeltaTime，首轮实际检查约0.02。
+- Rigidbody2D：Dynamic，重力倍率2.5、Continuous、Interpolate、锁Z旋转；BoxCollider2D为1×1，ZeroFriction材质。Camera已有URP额外相机数据（场景override），Sprite导入FullRect修正切片警告。
+- 外观只在 Scene/Prefab 的 SpriteRenderer、Image/Button、TMP、RectTransform/CanvasScaler/Camera 调整；Visual 子对象供未来Dog Sprite/Animator，不导入角色动画。Tests Editor 的资源路径仅制作测试资产，不用于正式运行绑定。
+- Jumped 仅成功起跳通知一次，调用现有 GameAudio.PlayerJump；没有脚步 Cue/音频请求。ActualHorizontalSpeed 来自物理位置变化，CanRequestFootsteps 只整理未来接入条件（Playing、存活、Grounded、有实际水平位移），不是扫描频率/播放节奏。未来音频发布后再接独立节奏与试听；本轮不宣称声音通过。
+
+### 已实际执行的 T06 验证
+
+- 场景安全创建并保存；Sprite FullRect修正后通过 Tools/GROWL AGAIN/T06/Reload Smoke Scene 从磁盘载入，01:42–01:43首次编辑器 Play 点击 Run T06 Checks，最终 **27 passed / 0 failed**，4次真实Jumped。
+- 首轮覆盖左右移动、平地Grounded、仅地面起跳/空中第二按拒绝/落地恢复、平台边缘外脚射线及跳离、空中顶墙不算地面/落地顶墙无实际位移、静止/空中无脚步条件；真实 Pause/Resume 与 held jump不补触发；Choosing owner锁/恢复无输入残留；通过真实PlayerState伤害归零→Bootstrap→Dead，移动/跳跃/脚步条件拒绝。
+- 检查还临时改变运动组件实际序列化字段：速度半值、跳跃0.75倍、射线4倍，实际物理响应通过后还原；仅Tests通过反射做调参，不给正式组件增加通用写口。
+- 退出Play后，实际Inspector把场景速度/跳跃/射线长度改为6/9/0.15，保存，再通过Reload Smoke Scene从磁盘载入并再次Play；点击Run T06 Checks，完整第二轮仍27/0。鼠标实测Pause/Resume按钮成功进入Paused/Playing。最终退出Play，场景无脏标记。
+- 首轮与相机修正后的编译均无源码Error。当前可见Console Error=0；已有账号API网络Warning与Wwise暂停/恢复日志，不清空日志冒充通过。首次Sprite切片与Camera额外数据Warning已修正；Unity编译/进入Play自带Clear on Play可能改变显示，结果保留在Editor.log。
+- Windows工具短促D/Space未产生可观测移动/起跳，不把这两次瞬时UI按键写为手动跑跳通过；跑跳验收来自上述Play中正式Input System设备事件/唯一Reader/真实物理链。窗口恢复和用户并行操作曾暂缓二次复验，用户留出操作时间、重建窗口工具连接后完成；现有脚本未重做。
+- 文件收尾：30个新增文件（含目录meta）及本交接修改；新增资产均有meta，Assets共738个meta无重复GUID；Scene/Prefab序列化无空Script，自研与共享GUID引用有效，外部Unity/InputSystem/TMP/uGUI/URP脚本来自现有包。关键motor/driver/Bootstrap引用非空。T06不在EditorBuildSettings，当前HEAD仍239d019，git diff --check通过。
+
+### 待完成与总控接入
+
+- 本轮12类要求已完成：左右移动、真实Grounded起跳、空中单跳拒绝、落地恢复、边缘可靠、墙面排除、暂停冻结、恢复无补跳、Choosing冻结、真实死亡冻结、Inspector参数生效、保存磁盘重载；分别由上述27项真实Play断言与Inspector/编辑器操作验证。未发现共享接口缺口或本轮运动逻辑Bug；修正了T06测试Sprite导入FullRect和相机URP配置警告。未标已集成。
+- 总控集成：共享玩家绑定唯一 input/run/state、同刚体和脚底锚点；统一正式groundLayer/角色碰撞尺寸，和地图作者试走速度/跳高/跨距。T06测试夹具定位不是正式传送/复活入口，不带Tests驱动进入正式场景。
+- 尚未做：C03运行集成、正式地图路线、Dash/DoubleJump/Bite/Sword/姿态、敌人、脚步Cue/独立节奏/映射/试听、完整游戏/Windows导出。后续运动扩展/击退/迁移API由总控串行协调，不能另一个组件争写同一刚体。
+
+## T01 既有独测记录（保留）
 
 更新：2026-10-01（Australia/Sydney）。
 规范版本 9 · 公共源码契约版本 5。

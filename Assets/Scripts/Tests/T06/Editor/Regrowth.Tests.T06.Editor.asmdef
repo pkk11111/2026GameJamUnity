@@ -1,0 +1,7 @@
+{
+    "name": "Regrowth.Tests.T06.Editor",
+    "rootNamespace": "Regrowth.Tests.T06.Editor",
+    "references": ["Regrowth.Tests.T06", "Regrowth.Gameplay.Locomotion", "Regrowth.Runtime", "Unity.InputSystem", "UnityEngine.UI", "Unity.TextMeshPro", "Unity.RenderPipelines.Universal.Runtime"],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": true
+}
