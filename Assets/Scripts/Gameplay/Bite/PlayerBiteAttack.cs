@@ -1,7 +1,7 @@
 // Soap/T07：分发器调用的咬击动作；不消费输入、不解释身体规则、不写运动/共享状态。
 // Inspector显式绑定攻击读口/判定锚点/配置；与分发器使用同一真实PlayerState。
-// 表现可调整biteOrigin；动画事件不得再次扣血。交接见docs/handoffs/Soap.handoff。
-// 直接依赖Core/Audio.Core/Gameplay.Combat/UnityEngine；规范：根AGENTS.md。
+// biteOrigin为右向参考偏移，视觉须使用独立子对象；动画事件不得再次扣血。交接见docs/handoffs/Soap.handoff。
+// 直接依赖Core/Audio.Core/Gameplay.Combat/Gameplay.Player/UnityEngine；规范：根AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Core;
@@ -15,8 +15,10 @@ namespace Regrowth.Gameplay
     {
         [SerializeField, Tooltip("唯一玩家攻击读口，必须与PlayerAttackRouter绑定同一组件。")]
         private MonoBehaviour combatStateSource;
-        [SerializeField, Tooltip("咬击圆心，表现可调整；每次动作即时读取世界坐标。")]
+        [SerializeField, Tooltip("右向参考偏移；实际圆心按唯一FacingSign镜像，视觉不可移动此锚点。")]
         private Transform biteOrigin;
+        [SerializeField, Tooltip("The unique PlayerFacing2D on the actual player, also bound to Sword/presentation.")]
+        private PlayerFacing2D facingSource;
         [SerializeField, Tooltip("既有咬击范围/冷却/目标配置；数值每次动作即时读取。")]
         private BiteConfig config;
         private IPlayerCombatState combat;
@@ -28,6 +30,16 @@ namespace Regrowth.Gameplay
         public float CooldownRemaining => Mathf.Max(0f, (float)(nextAttackTime - Time.timeAsDouble));
         public bool IsWired => wired;
         public IPlayerCombatState CombatState => combat;
+        public PlayerFacing2D Facing => facingSource;
+        public Vector3 HitCenter
+        {
+            get
+            {
+                Vector3 offset = combatStateSource.transform.InverseTransformPoint(biteOrigin.position);
+                offset.x *= facingSource.FacingSign;
+                return combatStateSource.transform.TransformPoint(offset);
+            }
+        }
         /// <summary>Read-only accepted-attack notification; presentation must never settle damage.</summary>
         public event Action AttackStarted;
 
@@ -35,7 +47,7 @@ namespace Regrowth.Gameplay
         {
             combat = combatStateSource as IPlayerCombatState;
             wired = combatStateSource != null && combat != null
-                && biteOrigin != null && config != null && config.IsValid;
+                && biteOrigin != null && config != null && config.IsValid && facingSource != null && facingSource.IsWired;
             if (!wired)
             {
                 Debug.LogWarning("[T07 Bite] Missing combat/origin/valid config; inspect this component.", this);
@@ -46,7 +58,8 @@ namespace Regrowth.Gameplay
         public bool TryAttack()
         {
             if (!isActiveAndEnabled || attacking || !wired || combatStateSource == null || biteOrigin == null
-                || config == null || !config.IsValid || Time.timeAsDouble < nextAttackTime || !combat.CanBite)
+                || config == null || !config.IsValid || facingSource == null || !facingSource.isActiveAndEnabled
+                || Time.timeAsDouble < nextAttackTime || !combat.CanBite)
             {
                 return false;
             }
@@ -68,7 +81,7 @@ namespace Regrowth.Gameplay
                     useTriggers = config.IncludeTriggers };
                 overlaps.Clear();
                 damaged.Clear();
-                Physics2D.OverlapCircle(biteOrigin.position, config.Radius, filter, overlaps);
+                Physics2D.OverlapCircle(HitCenter, config.Radius, filter, overlaps);
                 foreach (Collider2D collider in overlaps)
                 {
                     if (collider == null || collider.transform.IsChildOf(transform))
@@ -81,7 +94,8 @@ namespace Regrowth.Gameplay
                         continue;
                     }
                     if (target is Component component && (component.transform.IsChildOf(transform)
-                        || transform.IsChildOf(component.transform)))
+                        || transform.IsChildOf(component.transform)
+                        || (component.transform.position.x - combatStateSource.transform.position.x) * facingSource.FacingSign < 0f))
                     {
                         continue;
                     }
@@ -122,9 +136,9 @@ namespace Regrowth.Gameplay
 
         private void OnDrawGizmosSelected()
         {
-            if (biteOrigin != null && config != null)
+            if (biteOrigin != null && config != null && facingSource != null && combatStateSource != null)
             {
-                Gizmos.DrawWireSphere(biteOrigin.position, config.Radius);
+                Gizmos.DrawWireSphere(HitCenter, config.Radius);
             }
         }
     }

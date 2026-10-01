@@ -1,5 +1,31 @@
 # Soap · T08 / T09 / T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
 
+## 最新：玩家朝向底层（2026-10-01）
+
+**Facing foundation implemented; awaiting user manual verification and Auto Checks rerun.** 本节替代下文历史“固定右向”限制；不代表人工验收通过。
+
+本轮先 fetch origin Ming Soap，仅只读最新 origin/Ming 05c082e4cffd67e0ab7a2a3c6e60cea6f38dcc8f 的 AGENTS（规范19）、WORK_PACKAGES、controller.handoff 及 Soap.handoff，并读取当前本地真实实现。起始 Soap/HEAD/origin/Soap 为 29e59efc55d873a5ce57e5834ff7f5b434ac1030，工作树干净（此前 T08 已由用户提交）。没有 merge/reset/stash/clean/stage/commit/push。本地副本 D:/Making Games/2026GameJamUnity；全程文件/Git/静态 CLI，无 GUI/Computer、Unity 启动或 Play。
+
+### 唯一方向与接线契约
+
+中性目录 Assets/Scripts/Gameplay/Player/，程序集 Regrowth.Gameplay.Player 的业务依赖只有 Regrowth.Core。PlayerFacing2D.inputSource 显式绑定唯一 PlayerInputReader/IPlayerInput；默认 FacingSign=+1，MoveX>deadZone 变 +1，MoveX<-deadZone 变 -1，释放/死区/组件启停均保留最后方向。deadZone Inspector 测试默认0.05，非最终调参；NaN/Infinity 输入忽略。只读 FacingSign、IsFacingRight、Direction 和 FacingChanged；不消费攻击/跳跃按钮，不轮询设备，不授予或写入能力。Reader(-200) → Facing(-150) → Presentation(-100) 在 Update 依序读取；动作继续在原 Router 的 FixedUpdate 单次消费。Paused/Choosing/Dead 的输入屏蔽沿用真实 Reader，不新增阶段状态。
+
+从本轮起，玩家表现、Bite、Sword，以及未来 Dash/Flame 等所有方向消费者，必须显式读取同一 PlayerFacing2D 实例；禁止各自保存最后 MoveX、使用 Sprite/scale 反推方向，或另造 Facing 状态。未来 Dash/Flame 只需读取 FacingSign/Direction，本轮没有实现它们、二段跳或 T10/T11/T21。
+
+PlayerFacingPresentation 显式绑定玩家 Visual 子 Transform，仅镜像该子对象的 localScale.x；测试 Visual 增加青色小鼻尖以便观察朝向。玩家 root、Rigidbody2D、根 Collider、GroundOrigin、运动和基础参数不镜像、不移动。Visual 不含物理组件/地面探针/攻击参考锚点。
+
+Bite/Sword 的 facingSource 均绑定玩家根的同一个 Facing；攻击 Origin 保留右向参考偏移 x=0.65，HitCenter 把相对玩家局部偏移 x 乘 FacingSign 再变回世界位置。范围仍为 Bite 1.2 / Sword 1.8，伤害、冷却、权限与去重继续读原真实状态/配置。由于大圆会跨过玩家，候选真实 IDamageable 根在朝向反侧时排除，防止正面攻击命中近距离背后敌人。没有第二份方向。青色 Bite flash、金色 Sword slash 都读取动作 HitCenter 与同一 Facing；Sword slash 改为参考 Origin 的独立视觉子对象，避免移动参考锚点产生二次镜像。
+
+正式 BiteMount/SwordAttackMount 仍要求集成人显式绑定实际 combatStateSource 和 facingSource，不能挂第二个 Facing。T08 Manual/Auto 已接线；因 Bite 新依赖，同步为既有 T07SmokeRig、T09SmokeRig/T09AutoChecksRig 补唯一 Facing 与表现引用，原测试代码/EnemyBasic/注册生命周期未改。WirePlayerFacing.py 可离线幂等补这些旧测试资产；GenerateT08Assets.py 对 T09 模板只读调用 wire，自动生成本模块资产，不修改输入、运动或主地图。
+
+### 验证与人工入口
+
+T08_Smoke 仍默认 Manual；真实 Body+Arms/no Legs 初始测试准备沿用上轮，未新增能力授予。左右各一只真实 EnemyBasic，屏幕显示 Facing LEFT/RIGHT、左右敌人 HP；Remove/Add Arms 按钮继续仅测试真实 Arms 命令。Manual 无设备模拟、自动攻击或自动跑 Auto。Run T08 Auto Checks 按钮继续销毁不了/污染不了 Manual 状态：切到独立全新 Auto fixture，原52项全部保留，增加25项，共77项计划断言。新增包括默认/唯一源、左右与释放、真实摇杆死区、启停保留、视觉不能反写、两方向 Bite/Sword 真扣血且背面不命中、中心/flash/slash 同步、root/碰撞/探针不变、转向不攻击及 Paused/Choosing/Dead 防护。Auto 操作设备/冻结/HP仅在 Auto 内。
+
+非 GUI Roslyn 静态编译：Player（仅 Core 业务依赖）、Bite、Sword、T08、T07、T09 均0编译错误；这是源码检查，不替代 Unity 域重载或 Play。离线资产 GUID/local/external fileID/meta、唯一玩家/输入/Facing、默认 Manual/独立 Auto 检查通过；git diff --check 通过。Unity Auto 77项尚未运行，结果待后续复跑；本轮没有 Console/Play 证据，不能宣称 gameplay Error=0。Wwise、Core、Runtime、Input、Locomotion、主地图、ProjectSettings、Packages 均未改。
+
+用户人工验收：打开 Assets/Scenes/Tests/T08/T08_Smoke.unity 自行 Play；观察默认 RIGHT；A 转左、松键保持 LEFT，D 转右、松键保持 RIGHT；靠近对应侧敌人，Enter/鼠标左键剑击，Remove Arms 后咬击，检查朝向、闪光、HP一致，背侧敌人不被攻击；重复 Stop/Play。仍可移动/一段跳，碰撞/地面检测不应随转向改变。自动验收另点 Run T08 Auto Checks，等待77 passed/0 failed预期，实际结果由复跑确认。仅明确要求保存测试资产，勿保存 Play 中状态。
+
 ## T08 最新摘要：即时攻击 / Damage + Range（2026-10-01）
 
 **Implemented; awaiting user manual verification and Auto Checks rerun.** 本节覆盖此前未提交T08的前摇/pending版本，当前不再要求攻击途中失去Arms验收。用户已确认T07+T09人工验收；其下历史awaiting语句仅为当时记录。

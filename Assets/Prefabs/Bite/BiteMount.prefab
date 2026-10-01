@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteAttack
   combatStateSource: {fileID: 0}
   biteOrigin: {fileID: 240715110585778132}
+  facingSource: {fileID: 0}
   config: {fileID: 11400000, guid: a6cfbb46a7d50d24997c45b557ebe762, type: 2}
 --- !u!114 &7539472348186285646
 MonoBehaviour:

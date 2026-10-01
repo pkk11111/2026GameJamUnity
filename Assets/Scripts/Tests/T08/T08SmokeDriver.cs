@@ -19,6 +19,10 @@ namespace Regrowth.Tests.T08
     public sealed class T08SmokeDriver : MonoBehaviour
     {
         [SerializeField] private EnemyBasic enemy;
+        [SerializeField] private EnemyBasic enemyLeft;
+        [SerializeField] private PlayerFacing2D facing;
+        [SerializeField] private Transform visualRoot;
+        [SerializeField] private Transform groundOrigin;
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private PlayerState state;
         [SerializeField] private PlayerInputReader input;
@@ -47,6 +51,7 @@ namespace Regrowth.Tests.T08
         private AudioRecorder audioRecorder;
         private IAudioBackend previousBackend;
         private Keyboard addedKeyboard;
+        private Gamepad addedGamepad;
 
         private sealed class AudioRecorder : IAudioBackend
         {
@@ -75,6 +80,7 @@ namespace Regrowth.Tests.T08
             addArmsButton.onClick.RemoveListener(AddArms);
             RestoreTestBackend();
             if (addedKeyboard != null) { InputSystem.RemoveDevice(addedKeyboard); addedKeyboard = null; }
+            if (addedGamepad != null) { InputSystem.RemoveDevice(addedGamepad); addedGamepad = null; }
         }
         private void RestoreTestBackend()
         {
@@ -92,7 +98,7 @@ namespace Regrowth.Tests.T08
                 state.TryAcquireBodyCore();
                 state.TryAddLoadoutItem(LoadoutItemId.Arms);
                 stage = "Manual ready";
-                Debug.Log("[T08 MANUAL] Body + Arms, no Legs. Real controls; right-facing test attacks. Auto only by button.", this);
+                Debug.Log("[T08 MANUAL] Body + Arms, no Legs. Move to face left/right; release retains facing. Auto only by button.", this);
             }
         }
         public void RemoveArms() { if (!autoRun) state.TryRemoveLoadoutItem(LoadoutItemId.Arms); }
@@ -112,9 +118,9 @@ namespace Regrowth.Tests.T08
             string mode = state.CanUseSword ? "SWORD" : state.CanBite ? "BITE" : "NONE";
             status.text = $"T08 {(autoRun ? "AUTO" : "MANUAL")} | Current Attack: {mode} | Arms: {(state.Contains(LoadoutItemId.Arms) ? "Yes" : "No")}\n"
                 + $"Bite Damage: {state.BiteDamage} | Bite Range: {biteConfig.Radius:0.##} | Sword Damage: {state.SwordDamage} | Sword Range: {swordConfig.Range:0.##}\n"
-                + $"Player HP: {state.CurrentHealth}/{state.MaximumHealth} | Enemy HP: {enemy.CurrentHealth}/{enemy.MaximumHealth}\n"
+                + $"Facing: {(facing.IsFacingRight ? "RIGHT" : "LEFT")} | Player HP: {state.CurrentHealth}/{state.MaximumHealth} | Enemy R: {enemy.CurrentHealth} L: {enemyLeft.CurrentHealth}\n"
                 + (autoRun ? $"{stage} | {passed} passed / {failed} failed"
-                    : "Spawn: Sword-only distance. Remove Arms + Enter: miss; Add Arms + Enter: hit. A/D Move | Space Jump | Attack RIGHT");
+                    : "A/D Move + Face | Space Jump | Enter / LMB Attack | Remove/Add Arms: Bite/Sword. Release keeps facing.");
         }
         private void Check(bool ok, string label)
         {
@@ -136,6 +142,82 @@ namespace Regrowth.Tests.T08
         {
             yield return new WaitForSeconds(Mathf.Max(biteConfig.CooldownSeconds,
                 swordConfig.CooldownSeconds) + 0.08f);
+        }
+        private IEnumerator PressMove(Key key)
+        {
+            InputSystem.QueueStateEvent(Keyboard.current, new KeyboardState(key));
+            yield return new WaitForSecondsRealtime(0.08f);
+            InputSystem.QueueStateEvent(Keyboard.current, new KeyboardState());
+            yield return new WaitForSecondsRealtime(0.08f);
+        }
+        private IEnumerator VerifyFacing()
+        {
+            stage = "Single facing source / real two-sided attacks";
+            var collider = state.GetComponent<BoxCollider2D>();
+            Bounds bounds = collider.bounds;
+            Vector3 scale = state.transform.localScale, ground = groundOrigin.position;
+            Vector2 size = collider.size, offset = collider.offset;
+            Check(ReferenceEquals(bite.Facing, facing) && ReferenceEquals(sword.Facing, facing), "Bite/Sword share the explicit neutral facing instance");
+            Check(state.GetComponents<PlayerFacing2D>().Length == 1 && facing.FacingSign == 1, "one facing component, default right +1");
+            int hp = enemy.CurrentHealth, leftHp = enemyLeft.CurrentHealth;
+            int cues = audioRecorder.Swords + audioRecorder.Bites;
+            yield return PressMove(Key.A);
+            Check(facing.FacingSign == -1 && input.MoveX == 0f, "left input then release retains -1");
+            facing.enabled = false; facing.enabled = true;
+            Check(facing.FacingSign == -1, "disable/re-enable facing retains last direction");
+            Check(visualRoot.localScale.x < 0f, "left facing mirrors visual child only");
+            Check(enemy.CurrentHealth == hp && enemyLeft.CurrentHealth == leftHp && audioRecorder.Swords + audioRecorder.Bites == cues, "turning alone never attacks");
+            visualRoot.localScale = new Vector3(Mathf.Abs(visualRoot.localScale.x), visualRoot.localScale.y, visualRoot.localScale.z);
+            Check(facing.FacingSign == -1, "presentation scale cannot write or infer facing");
+            yield return null;
+            Check(facing.FacingSign == -1 && visualRoot.localScale.x < 0f, "presentation resumes reading the same facing");
+            addedGamepad = InputSystem.AddDevice<Gamepad>();
+            Set(facing, "deadZone", 0.5f); // Auto only: make processed, real small stick input observable.
+            InputSystem.QueueStateEvent(addedGamepad, new GamepadState { leftStick = new Vector2(0.3f, 0f) });
+            yield return new WaitForSecondsRealtime(0.08f);
+            Check(input.MoveX > 0f && input.MoveX < 0.5f && facing.FacingSign == -1, "real stick input inside configured dead zone preserves facing");
+            InputSystem.QueueStateEvent(addedGamepad, new GamepadState());
+            yield return new WaitForSecondsRealtime(0.08f);
+            Set(facing, "deadZone", 0.05f);
+            InputSystem.RemoveDevice(addedGamepad); addedGamepad = null;
+            yield return PressMove(Key.D);
+            Check(facing.FacingSign == 1 && input.MoveX == 0f && visualRoot.localScale.x > 0f, "right input then release retains +1 and right visual");
+            Check(facing.Direction == Vector2.right && facing.IsFacingRight, "readonly neutral Direction supports future consumers");
+            Vector3 rightPosition = enemy.transform.position, leftPosition = enemyLeft.transform.position;
+            enemyLeft.GetComponentInChildren<EnemyContactAttack>().enabled = false;
+            enemyLeft.TrySetRuntimeStats(500, 500, enemyLeft.AttackDamage);
+            enemy.transform.position = state.transform.position + Vector3.right * 1.05f;
+            enemyLeft.transform.position = state.transform.position + Vector3.left * 1.05f;
+            Physics2D.SyncTransforms();
+            state.TryRemoveLoadoutItem(LoadoutItemId.Arms);
+            yield return Ready(); hp = enemy.CurrentHealth; leftHp = enemyLeft.CurrentHealth;
+            yield return PressAttack();
+            Check(enemy.CurrentHealth == hp - state.BiteDamage && enemyLeft.CurrentHealth == leftHp, "right Bite hits real right enemy, never close opposite enemy");
+            Check(bite.HitCenter.x > state.transform.position.x && Vector3.Distance(biteVisual.transform.position, bite.HitCenter) < 0.001f && !biteVisual.flipX, "right Bite center and flash agree");
+            yield return PressMove(Key.A); yield return Ready(); hp = enemy.CurrentHealth; leftHp = enemyLeft.CurrentHealth;
+            yield return PressAttack();
+            Check(enemyLeft.CurrentHealth == leftHp - state.BiteDamage && enemy.CurrentHealth == hp, "released left Bite hits real left enemy only");
+            Check(bite.HitCenter.x < state.transform.position.x && Vector3.Distance(biteVisual.transform.position, bite.HitCenter) < 0.001f && biteVisual.flipX, "left Bite center and flash agree");
+            state.TryAddLoadoutItem(LoadoutItemId.Arms);
+            yield return Ready(); hp = enemy.CurrentHealth; leftHp = enemyLeft.CurrentHealth;
+            yield return PressAttack();
+            Check(enemyLeft.CurrentHealth == leftHp - state.SwordDamage && enemy.CurrentHealth == hp, "released left Sword hits real left enemy only");
+            Check(sword.HitCenter.x < state.transform.position.x && Vector3.Distance(slashVisual.transform.position, sword.HitCenter) < 0.001f && slashVisual.flipX, "left Sword center and slash agree");
+            yield return PressMove(Key.D); yield return Ready(); hp = enemy.CurrentHealth; leftHp = enemyLeft.CurrentHealth;
+            yield return PressAttack();
+            Check(enemy.CurrentHealth == hp - state.SwordDamage && enemyLeft.CurrentHealth == leftHp, "released right Sword hits real right enemy only");
+            Check(sword.HitCenter.x > state.transform.position.x && Vector3.Distance(slashVisual.transform.position, sword.HitCenter) < 0.001f && !slashVisual.flipX, "right Sword center and slash agree");
+            Check(state.transform.localScale == scale && collider.bounds == bounds && collider.size == size && collider.offset == offset && groundOrigin.position == ground, "turning and both attacks preserve root/collider/ground anchor");
+            Check(run.TryPause(), "facing regression enters Paused through actual controller");
+            yield return PressMove(Key.A);
+            Check(facing.FacingSign == 1 && !sword.TryAttack() && !bite.TryAttack(), "Paused input cannot change facing or attack");
+            run.TryResume();
+            Check(run.TryBeginChoosing(this), "facing regression enters Choosing through actual controller");
+            yield return PressMove(Key.A);
+            Check(facing.FacingSign == 1 && !sword.TryAttack() && !bite.TryAttack(), "Choosing input cannot change facing or attack");
+            run.TryEndChoosing(this);
+            enemy.transform.position = rightPosition; enemyLeft.transform.position = leftPosition;
+            Physics2D.SyncTransforms();
         }
         private EnemyBasic SpawnLiveTarget()
         {
@@ -273,6 +355,7 @@ namespace Regrowth.Tests.T08
             yield return Ready(); hp = enemy.CurrentHealth;
             yield return PressAttack();
             Check(enemy.CurrentHealth == hp - state.SwordDamage, "Sword reads current actual damage after reward");
+            yield return VerifyFacing();
             stage = "Real enemy death regression";
             enemy.TrySetRuntimeStats(state.SwordDamage * 2, state.SwordDamage * 2, enemy.AttackDamage);
             yield return Ready(); yield return PressAttack();
@@ -299,6 +382,8 @@ namespace Regrowth.Tests.T08
             yield return PressAttack(); yield return new WaitForSecondsRealtime(0.2f);
             Check(survivor.CurrentHealth == hp && audioRecorder.Swords == cues && audioRecorder.Bites == bites
                 && !slashVisual.enabled && !biteVisual.enabled, "Dead input cannot damage/cue/display");
+            yield return PressMove(Key.A);
+            Check(facing.FacingSign == 1, "Dead movement input cannot turn facing");
             stage = "DONE; Stop/Play returns to fresh Manual";
             Debug.Log($"[T08 RESULT] {passed} passed / {failed} failed; immediate real Bite/Sword/EnemyBasic. Manual acceptance is separate.", this);
             RestoreTestBackend();
