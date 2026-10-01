@@ -9,6 +9,8 @@ from pathlib import Path
 import re
 import uuid
 import sys
+from WirePlayerFacing import prepare_metadata, wire
+prepare_metadata()
 UPDATE = "--update" in sys.argv
 
 ROOT = Path(__file__).resolve().parents[5]
@@ -93,12 +95,13 @@ renderer = enemy_blocks[205179182264572143]
 renderer = renderer.replace('&205179182264572143', '&1006').replace('fileID: 7975838277919623124', 'fileID: 1004')
 renderer = renderer.replace('  m_Enabled: 1\n', '  m_Enabled: 0\n').replace('  m_Size: {x: 1, y: 1}', '  m_Size: {x: 1.6, y: 0.12}')
 renderer = renderer.replace('  m_Color: {r: 0.55, g: 0.45, b: 0.4, a: 1}', '  m_Color: {r: 1, g: 0.85, b: 0.25, a: 1}').replace('  m_SortingOrder: 0', '  m_SortingOrder: 5')
-action = '--- !u!114 &1003\nMonoBehaviour:\n' + common(1001) + f'  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {{fileID: 11500000, guid: {script}, type: 3}}\n  m_Name: \n  m_EditorClassIdentifier: Regrowth.Gameplay.Sword::Regrowth.Gameplay.PlayerSwordAttack\n  combatStateSource: {{fileID: 0}}\n  swordOrigin: {{fileID: 1005}}\n  config: {{fileID: 11400000, guid: {guid(config_path)}, type: 2}}\n  slashVisual: {{fileID: 1006}}\n  flashSeconds: 0.12\n'
-mount = HEADER + game_object(1001, 'Sword Attack Mount - bind actual player', (1002, 1003)) + transform(1002, 1001, 0, (1005,)) + action + game_object(1004, 'Sword Origin and Slash - RIGHT', (1005, 1006)) + transform(1005, 1004, 1002, x=0.65) + renderer
+action = '--- !u!114 &1003\nMonoBehaviour:\n' + common(1001) + f'  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {{fileID: 11500000, guid: {script}, type: 3}}\n  m_Name: \n  m_EditorClassIdentifier: Regrowth.Gameplay.Sword::Regrowth.Gameplay.PlayerSwordAttack\n  combatStateSource: {{fileID: 0}}\n  swordOrigin: {{fileID: 1005}}\n  facingSource: {{fileID: 0}}\n  config: {{fileID: 11400000, guid: {guid(config_path)}, type: 2}}\n  slashVisual: {{fileID: 1006}}\n  flashSeconds: 0.12\n'
+renderer = renderer.replace('fileID: 1004', 'fileID: 1010')
+mount = HEADER + game_object(1001, 'Sword Attack Mount - bind actual player', (1002, 1003)) + transform(1002, 1001, 0, (1005,)) + action + game_object(1004, 'Sword Origin - reference offset', (1005,)) + transform(1005, 1004, 1002, (1011,), x=0.65) + game_object(1010, 'Sword Slash - facing presentation', (1011, 1006)) + transform(1011, 1010, 1005) + renderer
 write(mount_path, mount)
 meta(mount_path)
 
-original = (ROOT / 'Assets/Prefabs/Tests/T09/T09SmokeRig.prefab').read_text()
+original = wire((ROOT / 'Assets/Prefabs/Tests/T09/T09SmokeRig.prefab').read_text())
 rig = blocks(original)
 assert len(rig) == len(re.findall(r'^--- !u!', original, re.M)), 'Duplicate source IDs'
 # Clone the inspected Auto button and its own child objects, with remapped local references only.
@@ -134,14 +137,14 @@ driver = re.sub(r'^  (config|registration):.*\n', '', driver, flags=re.M)
 driver = driver.replace('  body:', f'  sword: {{fileID: 9000003}}\n  swordConfig: {{fileID: 11400000, guid: {guid(config_path)}, type: 2}}\n  slashVisual: {{fileID: 9000004}}\n  body:', 1)
 driver = driver.replace('  testRigRoot:', f'  removeArmsButton: {{fileID: {remove_button}}}\n  addArmsButton: {{fileID: {add_button}}}\n  testRigRoot:', 1)
 driver = re.sub(r'^  testRigPrefab:.*$', f'  testRigPrefab: {{fileID: 3258771513088229276, guid: {guid(auto_path)}, type: 3}}', driver, flags=re.M)
-driver = driver.replace('  body:', '  biteVisual: {fileID: 9200003}\n  biteOrigin: {fileID: 6917685865574849787}\n  swordOrigin: {fileID: 9000005}\n  rangeOnlyDistance: 2.8\n  body:', 1)
+driver = driver.replace('  body:', '  facing: {fileID: 9300001}\n  visualRoot: {fileID: 5367696411087812162}\n  groundOrigin: {fileID: 6678514365033580998}\n  enemyLeft: {fileID: 9400003}\n  biteVisual: {fileID: 9200003}\n  biteOrigin: {fileID: 6917685865574849787}\n  swordOrigin: {fileID: 9000005}\n  rangeOnlyDistance: 2.8\n  body:', 1)
 rig[4535985388146873472] = driver
 # Cyan vertical jaws: presentation subscribes to accepted real Bite, owns no damage.
 rig[4928783787434640725] = rig[4928783787434640725].replace('  m_Layer:', '  - component: {fileID: 9200004}\n  m_Layer:', 1)
 rig[6917685865574849787] = rig[6917685865574849787].replace('  m_Children: []', '  m_Children:\n  - {fileID: 9200002}')
 rig[7139558766832064651] = rig[7139558766832064651].replace('      value: 3\n', '      value: 2.8\n')
 rig[6139287686119166189] = rig[6139287686119166189].replace('y: 355', 'y: 320').replace('y: 150', 'y: 220')
-bite_renderer = renderer.replace('&1006', '&9200003').replace('fileID: 1004', 'fileID: 9200001').replace('m_Size: {x: 1.6, y: 0.12}', 'm_Size: {x: 0.22, y: 0.6}').replace('m_Color: {r: 1, g: 0.85, b: 0.25, a: 1}', 'm_Color: {r: 0.2, g: 0.95, b: 1, a: 1}')
+bite_renderer = renderer.replace('&1006', '&9200003').replace('fileID: 1010', 'fileID: 9200001').replace('m_Size: {x: 1.6, y: 0.12}', 'm_Size: {x: 0.22, y: 0.6}').replace('m_Color: {r: 1, g: 0.85, b: 0.25, a: 1}', 'm_Color: {r: 0.2, g: 0.95, b: 1, a: 1}')
 bite_flash = '--- !u!114 &9200004\nMonoBehaviour:\n' + common(4928783787434640725) + f'  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {{fileID: 11500000, guid: {guid("Assets/Scripts/Gameplay/Bite/PlayerBiteFlash.cs")}, type: 3}}\n  m_Name: \n  m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteFlash\n  source: {{fileID: 1778559489657913939}}\n  visual: {{fileID: 9200003}}\n  flashSeconds: 0.12\n'
 bite_presentation = game_object(9200001, 'Bite Cyan Jaws - presentation only', (9200002, 9200003)) + transform(9200002, 9200001, 6917685865574849787) + bite_renderer + bite_flash
 
@@ -159,6 +162,10 @@ PrefabInstance:
       propertyPath: combatStateSource
       value: 
       objectReference: {{fileID: 1998222914354218060}}
+    - target: {{fileID: 1003, guid: {mount_guid}, type: 3}}
+      propertyPath: facingSource
+      value:
+      objectReference: {{fileID: 9300001}}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -191,7 +198,16 @@ SpriteRenderer:
   m_PrefabInstance: {{fileID: 9000001}}
   m_PrefabAsset: {{fileID: 0}}
 '''
-manual = HEADER + ''.join(rig.values()) + ''.join(new_buttons) + bite_presentation + nested
+# Mirror the existing real EnemyBasic instance for manual left/right acceptance.
+left_mapping = {7139558766832064651: 9400001, 1113573351264691579: 9400002, 4911819158684606080: 9400003}
+left_enemy = ''
+for old_id in left_mapping:
+    chunk = rig[old_id]
+    chunk = re.sub(r'(?<=&)(\d+)|(?<=fileID: )(\d+)', lambda m: str(left_mapping.get(int(m[0]), int(m[0]))), chunk)
+    chunk = chunk.replace('      value: 2.8\n', '      value: -2.8\n')
+    left_enemy += '\n'.join(line.rstrip() for line in chunk.splitlines()) + '\n'
+rig[7906253095266570849] = rig[7906253095266570849].replace('  m_Father:', '  - {fileID: 9400002}\n  m_Father:', 1)
+manual = HEADER + ''.join(rig.values()) + ''.join(new_buttons) + bite_presentation + nested + left_enemy
 manual = manual.replace('T09SmokeRig', 'T08SmokeRig').replace('T09 Real Player - Head then BodyCore', 'T08 Real Player - Body Arms no Legs').replace('T07 Test UI', 'T08 Test UI').replace('T09 MANUAL', 'T08 MANUAL').replace('Run T09 Auto Checks', 'Run T08 Auto Checks')
 assert 'Regrowth.Tests.T09::Regrowth.Tests.T09.T09SmokeDriver' not in manual
 write(manual_path, manual)

@@ -15,14 +15,22 @@ namespace Regrowth.Gameplay
         private void OnDisable() { if (source != null) source.AttackStarted -= Show; Hide(); }
         private void Show()
         {
+            PlaceVisual();
             hideTime = Time.timeAsDouble + (float.IsNaN(flashSeconds) || float.IsInfinity(flashSeconds)
                 ? 0.12f : Mathf.Max(0.01f, flashSeconds));
             if (visual != null) visual.enabled = true;
         }
         private void Update()
         {
+            if (source != null && source.IsWired) PlaceVisual();
             if (source == null || !source.isActiveAndEnabled || source.CombatState == null
                 || !source.CombatState.CanBite || Time.timeAsDouble >= hideTime) Hide();
+        }
+        private void PlaceVisual()
+        {
+            if (visual == null) return;
+            visual.transform.position = source.HitCenter;
+            visual.flipX = source.Facing.FacingSign < 0;
         }
         private void Hide() { if (visual != null) visual.enabled = false; }
     }

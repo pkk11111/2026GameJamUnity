@@ -6,7 +6,7 @@ import json
 import re
 
 ROOT = Path(__file__).resolve().parents[5]
-ASSETS = ('Assets/Scripts/Gameplay/Sword', 'Assets/Configs/Sword', 'Assets/Prefabs/Sword',
+ASSETS = ('Assets/Scripts/Gameplay/Player', 'Assets/Scripts/Gameplay/Sword', 'Assets/Configs/Sword', 'Assets/Prefabs/Sword',
           'Assets/Scripts/Tests/T08', 'Assets/Prefabs/Tests/T08', 'Assets/Scenes/Tests/T08')
 index = {}
 for base in (ROOT / 'Assets', ROOT / 'Library/PackageCache'):
@@ -65,6 +65,21 @@ assert manual.count('Regrowth.Runtime::Regrowth.Runtime.PlayerState') == 1
 assert manual.count('Regrowth.Runtime::Regrowth.Runtime.PlayerInputReader') == 1
 assert manual.count('Regrowth.Gameplay.Locomotion::Regrowth.Gameplay.PlayerLocomotion') == 1
 assert 'DamageDummy' not in manual
+assert manual.count('Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerFacing2D') == 1
+assert 'facingSource: {fileID: 9300001}' in manual
+assert re.search(r'propertyPath: facingSource\n      value: *\n      objectReference: \{fileID: 9300001\}', manual)
+assert 'enemyLeft: {fileID: 9400003}' in manual and 'value: -2.8' in manual
+assert 'm_GameObject: {fileID: 1010}' in mount and 'Sword Slash - facing presentation' in mount
+neutral = json.loads((ROOT / 'Assets/Scripts/Gameplay/Player/Regrowth.Gameplay.Player.asmdef').read_text())
+assert neutral['references'] == ['Regrowth.Core']
+for action_path in ('Bite/PlayerBiteAttack.cs', 'Sword/PlayerSwordAttack.cs'):
+    action = (ROOT / 'Assets/Scripts/Gameplay' / action_path).read_text(encoding='utf-8-sig')
+    assert 'private PlayerFacing2D facingSource;' in action and 'FacingSign' in action
+    assert 'MoveX' not in action and 'localScale =' not in action
+for rig_path in ('T07/T07SmokeRig.prefab', 'T09/T09SmokeRig.prefab', 'T09/T09AutoChecksRig.prefab'):
+    old_rig = (ROOT / 'Assets/Prefabs/Tests' / rig_path).read_text()
+    assert old_rig.count('Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerFacing2D') == 1
+    assert 'facingSource: {fileID: 9300001}' in old_rig
 assert 'Remove Arms' in manual and 'Add Arms' in manual and 'Run T08 Auto Checks' in manual
 assert '  m_Constraints: 4\n' in manual  # Manual motor can move/jump; no FreezeAll asset override.
 manual_guid = re.search(r'^guid: (\w+)', (ROOT / 'Assets/Prefabs/Tests/T08/T08SmokeRig.prefab.meta').read_text(), re.M)[1]
