@@ -25,6 +25,22 @@ namespace Regrowth.Audio
         CardHovered = 18,
         CardSelected = 19,
         UIHovered = 20,
+        PlayerMoveNoFeet = 21,
+        PlayerFootstep = 22,
+        PlayerLand = 23,
+        PlayerFire = 24,
+        FireHit = 25,
+        BiteHitNPC = 26,
+        BiteHitElite = 27,
+        SwordHitNPC = 28,
+        SwordHitElite = 29,
+        NPCHurt = 30,
+        NPCDeath = 31,
+        EliteHurt = 32,
+        EliteDeath = 33,
+        EliteAttack = 34,
+        PortalIn = 35,
+        PortalOut = 36,
     }
 }
 

@@ -181,7 +181,6 @@ namespace Regrowth.Gameplay.Challenge
             HasAdmission = true;
             leavingInvalidAttempt = false;
             SetOpen(true);
-            GameAudio.Play(AudioCue.DoorOpened, gameObject);
             return true;
         }
 
@@ -259,8 +258,10 @@ namespace Regrowth.Gameplay.Challenge
 
         private void SetOpen(bool open)
         {
+            bool opened = open && blocker.enabled;
             blocker.enabled = !open;
             closedView.SetActive(!open);
+            if (opened) GameAudio.Play(AudioCue.DoorOpened, gameObject);
         }
 
         private void OnDisable()

@@ -37,12 +37,14 @@ namespace Regrowth.Audio
             new Mapping(AudioCue.UIHovered, "Play_UI_Hover"),
             new Mapping(AudioCue.PlayerJump, "Play_Jump"),
             new Mapping(AudioCue.PlayerDash, "Play_Dash"),
-            new Mapping(AudioCue.PlayerDoubleJump, "Play_DoubleJump")
+            new Mapping(AudioCue.PlayerDoubleJump, "Play_DoubleJump"),
+            new Mapping(AudioCue.PlayerMoveNoFeet, "Play_Move_NoFoots"),
+            new Mapping(AudioCue.PlayerFootstep, "Play_Footstep")
         };
         private readonly Dictionary<AudioCue, int> counts = new Dictionary<AudioCue, int>();
         private readonly HashSet<AudioCue> warned = new HashSet<AudioCue>();
         public uint LastPlayingId { get; private set; }
-        public bool IsReady => bankOwner != null && bankOwner.MusicPlayingId != 0 && AkUnitySoundEngine.IsInitialized();
+        public bool IsReady => bankOwner != null && bankOwner.IsBankReady && AkUnitySoundEngine.IsInitialized();
         public int Count(AudioCue cue) => counts.TryGetValue(cue, out int count) ? count : 0;
 
         private void OnEnable()

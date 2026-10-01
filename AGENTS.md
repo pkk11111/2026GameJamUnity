@@ -1,5 +1,9 @@
 # pawgatory 统一开发规范与游戏契约
 
+> 全量现有事件接线（2026-10-01）：按用户确认接入SB_Main 41/43事件，排除Play_NPC_Footsteps、Play_NPC_Fly。AudioCue保留1–22并追加23–36；攻击HitAccepted、敌人DamageApplied仅通知成功结算；最高Elite_Exit为唯一精英。死亡停音乐保留Bank，火焰每目标每施放一次命中声，门与传送只在实际成功时响。接口/调参/验证见 [audio-full-events.handoff](docs/handoffs/audio-full-events.handoff)。本轮保存未commit/push，保留此前移动音频和Ming合并。
+
+> 玩家移动音频（2026-10-01）：AudioCue 21=PlayerMoveNoFeet、22=PlayerFootstep；主图按实际Move显示帧和真实落地位移发声，无Legs→Play_Move_NoFoots，有Legs→Play_Footstep。取代下文“尚无脚步身份”的历史描述。接线、帧配置和验证见 [audio-player-movement.handoff](docs/handoffs/audio-player-movement.handoff)。
+
 > Audio_Test 合并记录（2026-10-01）：保留 ce17b4e 音频交付，合入 Ming/3c0bae7。主图出生点采用 Ming；音频配置以本次 Audio_Test 实际资产为准。合并、测试适配和本机验收范围见 [audio-ming-merge.handoff](docs/handoffs/audio-ming-merge.handoff)。下方 Ming 历史记录的未接音频说明不覆盖此交付。
 
 > 最新 C09（2026-10-01）：从 Soap/60f9a55 选择性接入敌人AI与100/10配置，保留 Ming/a78185f 的收费、火球和人物实现。主图13只普通怪+1只精英；最底层大红块按用户要求拆为3只独立普通怪。攻击奖励/代价改为固定+10/-10点，最低6，取消共享攻击倍率；生命比例规则按Soap原文保留。C09 Play 59/0，Unity编译与保存重载通过；用户本轮明确授权commit/push Ming。以下C08百分比及旧接线记录仅为历史，不覆盖本节。

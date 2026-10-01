@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Regrowth.Core;
 using Regrowth.Runtime;
+using Regrowth.Audio;
 using UnityEngine;
 
 namespace Regrowth.Gameplay.WhiteBox
@@ -206,6 +207,8 @@ namespace Regrowth.Gameplay.WhiteBox
                 revision++;
                 if (success)
                 {
+                    GameAudio.Play(AudioCue.PortalIn, gameObject);
+                    GameAudio.Play(AudioCue.PortalOut, destination.gameObject);
                     lastTeleportFrame = Time.frameCount;
                     nextInteractionTime = Time.time + interactionCooldown;
                 }

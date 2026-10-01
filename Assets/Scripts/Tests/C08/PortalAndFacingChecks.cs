@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Regrowth.Core;
+using Regrowth.Audio;
 using Regrowth.Gameplay;
 using Regrowth.Gameplay.WhiteBox;
 using Regrowth.Presentation;
@@ -70,9 +71,11 @@ namespace Regrowth.Tests.C08
                 var portals = FindObjectsByType<PrototypePortal2D>(FindObjectsSortMode.None).OrderBy(p => p.name).ToArray();
                 var enemies = FindObjectsByType<EnemyBasic>(FindObjectsSortMode.None);
                 var buffs = FindFirstObjectByType<EnemyEnhancementService>();
+                var audio = FindFirstObjectByType<RewardAudioBackend>();
                 Check(portals.Length == 4 && portals.All(p => p.IsWired), "four real map portals wired to cost config and shared choice flow");
                 foreach (var portal in portals)
                 {
+                    int portalIn = audio.Count(AudioCue.PortalIn), portalOut = audio.Count(AudioCue.PortalOut);
                     var destination = Read<Transform>(portal, "destination");
                     Check(motor.CanLandAt(destination.position), portal.name + " actual destination is safe");
                     var interactionPoint = Read<Transform>(portal, "interactionPoint");
@@ -93,6 +96,7 @@ namespace Regrowth.Tests.C08
                     yield return Sample(.05f);
                     yield return Sample(.05f, Key.Escape);
                     Check(!panel.IsOpen && state.CurrentHealth == hp && Vector2.Distance(position, motor.Position) < .25f, portal.name + " Escape cancels without payment or teleport");
+                    Check(audio.Count(AudioCue.PortalIn) == portalIn && audio.Count(AudioCue.PortalOut) == portalOut, portal.name + " cancelled choice has no portal audio");
                     yield return Sample(.08f);
                     yield return Sample(.06f, Key.E);
                     Check(panel.IsOpen && string.Join(",", Request.Options.Select(o => o.Id)) == ids, portal.name + " reopening keeps card IDs/order");
@@ -108,6 +112,7 @@ namespace Regrowth.Tests.C08
                     Check(!panel.IsOpen && Vector2.Distance(motor.Position, destination.position) < .3f
                         && Read<PortalCostDefinition[]>(portal, "cached") == null, portal.name + " one accepted payment moves to paired exit and consumes deck");
                     Check(state.HasDamageProtection && !state.TryTakeDamage(new DamageRequest(1, DamageKind.Enemy)), portal.name + " arrival protection rejects enemy damage");
+                    Check(audio.Count(AudioCue.PortalIn) == portalIn + 1 && audio.Count(AudioCue.PortalOut) == portalOut + 1, portal.name + " committed teleport posts one departure and arrival despite repeat confirm");
                     yield return Sample(.55f);
                 }
 
@@ -115,6 +120,7 @@ namespace Regrowth.Tests.C08
                 floor.transform.position = new Vector3(1005, 99, 0);
                 floor.AddComponent<BoxCollider2D>().size = new Vector2(50, 1);
                 target = new GameObject("C08 temporary destination");
+                target.AddComponent<AkGameObj>();
                 target.transform.position = new Vector3(1010, 100.3f, 0);
                 var testPortal = portals[0];
                 testPortal.transform.position = new Vector3(1000, 100.3f, 0);
@@ -196,6 +202,7 @@ namespace Regrowth.Tests.C08
                 ForceDeck(testPortal, config, TeleportCostKind.CurrentHealth);
                 testPortal.TryInteract(state.gameObject);
                 wall = new GameObject("C08 temporary invalid landing");
+                int failedIn = audio.Count(AudioCue.PortalIn), failedOut = audio.Count(AudioCue.PortalOut);
                 wall.transform.position = target.transform.position;
                 wall.AddComponent<BoxCollider2D>().size = Vector2.one * 3;
                 Physics2D.SyncTransforms();
@@ -217,6 +224,7 @@ namespace Regrowth.Tests.C08
                 Destroy(wall); wall = null;
 
                 var art = state.GetComponent<PlayerCharacterPresentation>();
+                Check(audio.Count(AudioCue.PortalIn) == failedIn && audio.Count(AudioCue.PortalOut) == failedOut, "invalid landing and failed physical commit are silent at both ends");
                 var bite = state.GetComponent<PlayerBiteAttack>();
                 var sword = state.GetComponent<PlayerSwordAttack>();
                 var fire = state.GetComponent<PlayerFireAttack>();

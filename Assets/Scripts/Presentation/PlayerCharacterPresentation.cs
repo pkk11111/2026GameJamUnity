@@ -1,5 +1,6 @@
 // 职责：唯一真实身体状态 + 运动快照 + 成功动作通知驱动 Dada 角色帧；绝不提交伤害。
 // 维护 controller/C07；依赖 Runtime/Player/WhiteBox/Bite/Sword/Fire；规范 AGENTS.md。
+// 移动音频只读帧快照说明：docs/handoffs/audio-player-movement.handoff；不在表现层直接调用Wwise。
 using Regrowth.Core;
 using Regrowth.Runtime;
 using Regrowth.Gameplay;
@@ -30,6 +31,11 @@ namespace Regrowth.Presentation
         private double hurtUntil;
         public string CurrentFamily => current == null ? "" : current.family;
         public PlayerVisualAction CurrentAction => currentAction;
+        /// <summary>Read-only sampled sprite timing for presentation consumers such as movement audio.</summary>
+        public PlayerAnimationEntry CurrentAnimation => current;
+        public int CurrentFrameIndex { get; private set; }
+        /// <summary>Unwrapped frame number; distinguishes the same sprite in consecutive movement loops.</summary>
+        public int CurrentFrameSequence { get; private set; }
         public bool MissingAction
         {
             get;
@@ -160,7 +166,9 @@ namespace Regrowth.Presentation
             visual.enabled = true;
             float fps = current.clip != null ? current.clip.frameRate : 6f;
             int frame = Mathf.FloorToInt((float)(Time.timeAsDouble - sampledSince) * fps);
+            CurrentFrameSequence = frame;
             frame = action == PlayerVisualAction.Move ? frame % current.frames.Length : Mathf.Min(frame, current.frames.Length - 1);
+            CurrentFrameIndex = frame;
             visual.sprite = current.frames[frame];
             visual.flipX = facing.FacingSign < 0;
             float breathing = action == PlayerVisualAction.Idle && state.IsAlive ? 1f + 0.01f * Mathf.Sin(Time.time * Mathf.PI * 2f) : 1f;

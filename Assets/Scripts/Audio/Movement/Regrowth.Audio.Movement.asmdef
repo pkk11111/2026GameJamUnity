@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Movement",
+  "rootNamespace": "Regrowth.Audio",
+  "references": ["Regrowth.Audio.Core", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Regrowth.Presentation"],
+  "autoReferenced": true
+}

@@ -44,6 +44,7 @@ namespace Regrowth.Gameplay
         && actionGate != null && playerCollider != null && fireVisual != null && fireTrail != null
         && Valid(duration) && Valid(tickInterval) && Valid(cooldown) && Valid(speed) && Valid(radius);
         public event Action AttackStarted;
+        public event Action<IDamageable> HitAccepted;
         private static bool Valid(float value) => value > 0f && !float.IsNaN(value) && !float.IsInfinity(value);
         private void OnEnable()
         {
@@ -197,7 +198,11 @@ namespace Regrowth.Gameplay
                     continue;
                 }
                 damaged.Add(target);
-                target.TryTakeDamage(new DamageRequest(state.FireDamage, DamageKind.Enemy, state.gameObject));
+                if (target.TryTakeDamage(new DamageRequest(state.FireDamage, DamageKind.Enemy, state.gameObject)))
+                {
+                    try { HitAccepted?.Invoke(target); }
+                    catch (Exception ex) { Debug.LogException(ex, this); }
+                }
             }
         }
         private bool Occluded(Vector2 from, Vector2 to)

@@ -183,6 +183,17 @@ Transform:
   - {fileID: 1916340602}
   m_Father: {fileID: 1279264203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84358558 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1657835936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &90287414
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +206,7 @@ GameObject:
   - component: {fileID: 90287417}
   - component: {fileID: 90287415}
   - component: {fileID: 90287418}
+  - component: {fileID: 90287419}
   m_Layer: 0
   m_Name: Door_B
   m_TagString: Untagged
@@ -295,6 +307,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &90287419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90287414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &92306286
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +374,7 @@ GameObject:
   - component: {fileID: 93474487}
   - component: {fileID: 93474485}
   - component: {fileID: 93474488}
+  - component: {fileID: 93474489}
   m_Layer: 0
   m_Name: Door_C
   m_TagString: Untagged
@@ -438,6 +475,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &93474489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93474484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &104111583
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +622,17 @@ Transform:
   - {fileID: 1599132454}
   m_Father: {fileID: 1279264203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &141463472 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 649860640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &153696836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1177,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 273474158}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 273474157}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!4 &176889774 stripped
 Transform:
@@ -1117,7 +1195,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 176889773}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 273474152}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -1416,6 +1494,61 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1001, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
   m_PrefabInstance: {fileID: 263898063}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &273474152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 176889773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &273474155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 176889773}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273474152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564e398ab9315bbd9fbdc28b21892ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicAI
+--- !u!114 &273474157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273474152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 1
+  contact: {fileID: 325227097}
+  hurtInterval: 2.9
+--- !u!114 &273474158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273474152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &275500706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1947,6 +2080,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4, y: 6}
   m_EdgeRadius: 0
+--- !u!114 &325227097 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 176889773}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &341924454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,6 +2103,7 @@ GameObject:
   - component: {fileID: 341924456}
   - component: {fileID: 341924458}
   - component: {fileID: 341924457}
+  - component: {fileID: 341924459}
   m_Layer: 0
   m_Name: Portal_A
   m_TagString: Untagged
@@ -2058,6 +2203,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 341924456}
   interactionPoint: {fileID: 0}
+--- !u!114 &341924459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341924454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &362454525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2151,6 +2320,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 618348748}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &397957358 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1925499411}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &407737882
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,14 +3259,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1858159579}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1858159578}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &483900281 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 483900280}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1858159573}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -3558,6 +3738,8 @@ GameObject:
   - component: {fileID: 535949099}
   - component: {fileID: 535949098}
   - component: {fileID: 535949092}
+  - component: {fileID: 535949101}
+  - component: {fileID: 535949102}
   m_Layer: 0
   m_Name: Test_Player
   m_TagString: Untagged
@@ -3949,6 +4131,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerActionGate
   runSource: {fileID: 2001872525}
   healthSource: {fileID: 535949091}
+--- !u!114 &535949101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0eef20f67bf994a92e82614a3a320a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Movement::Regrowth.Audio.PlayerMovementAudio
+  state: {fileID: 535949091}
+  run: {fileID: 2001872525}
+  motor: {fileID: 535949089}
+  body: {fileID: 535949085}
+  input: {fileID: 2001872526}
+  presentation: {fileID: 535949098}
+  contactTimings:
+  - clip: {fileID: 7400000, guid: ac79e6258698245468b35126b37f5d9e, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 4d0275cac2025af40ba1833c4c92659d, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 9a89bd95a9a449c48a377005f6df3a5f, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: ceb33d0411497ca4fb30d5091aee5378, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: 440417759c695ac44aa73eb9418ae530, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: c04fce43dc8ca8440889202e9e425af6, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 296407585f23b8d47ac5f64ef85fec64, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 2ceed323fd22d6f41b21db152d8206fb, type: 2}
+    frames: 0000000003000000
+  - clip: {fileID: 7400000, guid: 0e65721afcb0dce4498188093339414f, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: 44e309a3d472eca4e8d8a1b46bbc6958, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 4ee9e25e2f318f2418cb82d1e18e4bbd, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 64d19619322fe8a4ca3b465d8165fee0, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: cf2a51c49037a2e4c82a3fe709af959f, type: 2}
+    frames: 0000000002000000
+  minimumMoveSpeed: 0.1
+  noFeetMinimumInterval: 0.48
+  footstepMinimumInterval: 0.42
+--- !u!114 &535949102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f13c8177e2a0e40b867df8ba9c86b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.PlayerCombatAudio
+  state: {fileID: 535949091}
+  motor: {fileID: 535949089}
+  bite: {fileID: 535949096}
+  sword: {fileID: 535949094}
+  fire: {fileID: 535949099}
+  elite: {fileID: 176889775}
+  eliteAI: {fileID: 273474155}
+  music: {fileID: 1815237973}
+  minimumAirTime: 0.08
 --- !u!1 &539243124
 GameObject:
   m_ObjectHideFlags: 0
@@ -4590,14 +4841,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1564793195}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1564793194}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &649860641 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 649860640}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1564793189}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -4668,6 +4925,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1218500087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &685913823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 955256661}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &686131533
 GameObject:
   m_ObjectHideFlags: 0
@@ -4699,6 +4961,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 41824922}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &689136521 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1485377962}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
+--- !u!1 &715151475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1407821677}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &739003227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4730,6 +5008,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 939269307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &759989903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1657835936}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &761430549
 GameObject:
   m_ObjectHideFlags: 0
@@ -4803,6 +5086,48 @@ MonoBehaviour:
     eventName: Play_UI_Hover
   - cue: 8
     eventName: Play_SwitchActivate
+  - cue: 21
+    eventName: Play_Move_NoFoots
+  - cue: 22
+    eventName: Play_Footstep
+  - cue: 2
+    eventName: Play_Player_Bite
+  - cue: 14
+    eventName: Play_Player_SwordSwing
+  - cue: 3
+    eventName: Play_Player_Hurt
+  - cue: 4
+    eventName: Play_Player_Death
+  - cue: 23
+    eventName: Play_Land
+  - cue: 24
+    eventName: Play_Player_Fire
+  - cue: 25
+    eventName: Play_Fire_Hit
+  - cue: 26
+    eventName: Play_PlayerBiteHit_NPC
+  - cue: 27
+    eventName: Play_PlayerBiteHit_Elite
+  - cue: 28
+    eventName: Play_PlayerSwordHit_NPC
+  - cue: 29
+    eventName: Play_PlayerSwordHit_Elite
+  - cue: 30
+    eventName: Play_NPC_Hurt
+  - cue: 31
+    eventName: Play_NPC_Death
+  - cue: 32
+    eventName: Play_Elite_Hurt
+  - cue: 33
+    eventName: Play_Elite_Death
+  - cue: 34
+    eventName: Play_Elite_Attack
+  - cue: 9
+    eventName: Play_Door_Open
+  - cue: 35
+    eventName: Play_Portal_In
+  - cue: 36
+    eventName: Play_Portal_Out
 --- !u!114 &761430552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4995,6 +5320,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 180, y: 44}
   m_EdgeRadius: 0
+--- !u!1 &796502935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1823530506}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &820315660
 GameObject:
   m_ObjectHideFlags: 0
@@ -5463,6 +5793,7 @@ GameObject:
   - component: {fileID: 905817183}
   - component: {fileID: 905817181}
   - component: {fileID: 905817184}
+  - component: {fileID: 905817185}
   m_Layer: 0
   m_Name: Door_4
   m_TagString: Untagged
@@ -5563,6 +5894,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &905817185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905817180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &913281688
 GameObject:
   m_ObjectHideFlags: 0
@@ -6009,14 +6364,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 955256669}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 955256668}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &955256662 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 955256661}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 685913823}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -6027,6 +6388,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 955256661}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &955256668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685913823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1632873606}
+  hurtInterval: 1.05
+--- !u!114 &955256669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685913823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &956520189
 GameObject:
   m_ObjectHideFlags: 0
@@ -6530,6 +6930,7 @@ GameObject:
   - component: {fileID: 1016768632}
   - component: {fileID: 1016768630}
   - component: {fileID: 1016768633}
+  - component: {fileID: 1016768634}
   m_Layer: 0
   m_Name: Door_D
   m_TagString: Untagged
@@ -6630,6 +7031,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &1016768634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016768629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1024123720
 GameObject:
   m_ObjectHideFlags: 0
@@ -6774,6 +7199,7 @@ GameObject:
   - component: {fileID: 1031250649}
   - component: {fileID: 1031250651}
   - component: {fileID: 1031250650}
+  - component: {fileID: 1031250652}
   m_Layer: 0
   m_Name: InspectionDoor2
   m_TagString: Untagged
@@ -6874,6 +7300,30 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &1031250652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031250648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1031722706
 GameObject:
   m_ObjectHideFlags: 0
@@ -7160,6 +7610,17 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &1064896036 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 2138536937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1098323938
 GameObject:
   m_ObjectHideFlags: 0
@@ -7396,6 +7857,17 @@ Transform:
   - {fileID: 2142675156}
   m_Father: {fileID: 1279264203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1112582324 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1509865867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1128038526
 GameObject:
   m_ObjectHideFlags: 0
@@ -7439,6 +7911,7 @@ GameObject:
   - component: {fileID: 1171908536}
   - component: {fileID: 1171908539}
   - component: {fileID: 1171908538}
+  - component: {fileID: 1171908540}
   m_Layer: 0
   m_Name: Portal_B
   m_TagString: Untagged
@@ -7539,6 +8012,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1171908536}
   interactionPoint: {fileID: 550303302}
+--- !u!114 &1171908540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171908535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1174277277
 GameObject:
   m_ObjectHideFlags: 0
@@ -7946,6 +8443,7 @@ GameObject:
   - component: {fileID: 1227628445}
   - component: {fileID: 1227628447}
   - component: {fileID: 1227628446}
+  - component: {fileID: 1227628448}
   m_Layer: 0
   m_Name: InspectionDoor1
   m_TagString: Untagged
@@ -8046,6 +8544,30 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &1227628448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227628444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1239424347
 GameObject:
   m_ObjectHideFlags: 0
@@ -8123,6 +8645,11 @@ Transform:
   - {fileID: 1805627699}
   m_Father: {fileID: 956520190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1275196328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1485377962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1279264202
 GameObject:
   m_ObjectHideFlags: 0
@@ -8471,14 +8998,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1714957824}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1714957823}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1329691500 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1329691499}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1714957818}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -8617,14 +9150,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1557969426}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1557969425}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1352591595 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1352591594}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1557969420}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -8768,6 +9307,7 @@ GameObject:
   - component: {fileID: 1407749072}
   - component: {fileID: 1407749075}
   - component: {fileID: 1407749074}
+  - component: {fileID: 1407749076}
   m_Layer: 0
   m_Name: Portal_D
   m_TagString: Untagged
@@ -8867,6 +9407,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1407749072}
   interactionPoint: {fileID: 0}
+--- !u!114 &1407749076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407749071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1407821677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8966,14 +9530,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1407821685}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1407821684}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1407821678 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1407821677}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 715151475}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -8984,6 +9554,56 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1407821677}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1407821684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715151475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1778346585}
+  hurtInterval: 1.05
+--- !u!114 &1407821685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715151475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!114 &1418583956 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1823530506}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1001 &1432853342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9319,6 +9939,11 @@ Transform:
   - {fileID: 486491296}
   m_Father: {fileID: 1279264203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1448061970 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1753591081}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1465838938
 GameObject:
   m_ObjectHideFlags: 0
@@ -9470,6 +10095,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 535949088}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467256815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 483900280}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1475405393
 GameObject:
   m_ObjectHideFlags: 0
@@ -9725,14 +10361,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1485377970}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1485377969}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1485377963 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1485377962}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1275196328}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -9743,6 +10385,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1485377962}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1485377969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275196328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 689136521}
+  hurtInterval: 1.05
+--- !u!114 &1485377970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275196328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1489671473
 GameObject:
   m_ObjectHideFlags: 0
@@ -10168,14 +10849,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1696598789}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1696598788}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1509865868 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1509865867}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1696598783}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -10319,6 +11006,55 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!1 &1539450355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 2138536937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1557969420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1352591594}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1557969425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557969420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 2010687451}
+  hurtInterval: 1.05
+--- !u!114 &1557969426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557969420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1560311974
 GameObject:
   m_ObjectHideFlags: 0
@@ -10350,6 +11086,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124516582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1564793189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 649860640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1564793194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564793189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 141463472}
+  hurtInterval: 1.05
+--- !u!114 &1564793195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564793189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!114 &1570702101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1925499411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1575752009 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
@@ -10379,6 +11170,17 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &1586102021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1753591081}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1596823880
 GameObject:
   m_ObjectHideFlags: 0
@@ -10391,6 +11193,7 @@ GameObject:
   - component: {fileID: 1596823883}
   - component: {fileID: 1596823881}
   - component: {fileID: 1596823884}
+  - component: {fileID: 1596823885}
   m_Layer: 0
   m_Name: Door_A
   m_TagString: Untagged
@@ -10491,6 +11294,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &1596823885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596823880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1599132453
 GameObject:
   m_ObjectHideFlags: 0
@@ -10527,6 +11354,28 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 2004297558}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1632631728 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1329691499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
+--- !u!114 &1632873606 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 955256661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1634971794
 GameObject:
   m_ObjectHideFlags: 0
@@ -71976,6 +72825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1639746812}
+  - component: {fileID: 1639746813}
   m_Layer: 0
   m_Name: ExitPoint_B
   m_TagString: Untagged
@@ -71998,6 +72848,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171908537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1639746813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639746811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1657835936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72109,14 +72983,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1657835944}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1657835943}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1657835937 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1657835936}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 759989903}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -72127,6 +73007,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1657835936}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1657835943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759989903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 84358558}
+  hurtInterval: 1.05
+--- !u!114 &1657835944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759989903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1692231678
 GameObject:
   m_ObjectHideFlags: 0
@@ -72139,6 +73058,7 @@ GameObject:
   - component: {fileID: 1692231681}
   - component: {fileID: 1692231679}
   - component: {fileID: 1692231682}
+  - component: {fileID: 1692231683}
   m_Layer: 0
   m_Name: Door_1
   m_TagString: Untagged
@@ -72239,6 +73159,74 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &1692231683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692231678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!1 &1696598783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1509865867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1696598788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696598783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1112582324}
+  hurtInterval: 1.05
+--- !u!114 &1696598789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696598783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1702076045
 GameObject:
   m_ObjectHideFlags: 0
@@ -72505,6 +73493,50 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!1 &1714957818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1329691499}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1714957823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714957818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1632631728}
+  hurtInterval: 1.05
+--- !u!114 &1714957824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714957818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1721123010
 GameObject:
   m_ObjectHideFlags: 0
@@ -72514,6 +73546,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721123011}
+  - component: {fileID: 1721123012}
   m_Layer: 0
   m_Name: ExitPoint_D
   m_TagString: Untagged
@@ -72536,6 +73569,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1907821514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721123012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721123010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1753591081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72647,14 +73704,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1753591089}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1753591088}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1753591082 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1753591081}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1448061970}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -72665,6 +73728,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1753591081}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1753591088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448061970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1586102021}
+  hurtInterval: 1.05
+--- !u!114 &1753591089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448061970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1773711002
 GameObject:
   m_ObjectHideFlags: 0
@@ -72958,6 +74060,17 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &1778346585 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1407821677}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &1797830534
 GameObject:
   m_ObjectHideFlags: 0
@@ -77554,6 +78667,8 @@ MonoBehaviour:
   bankName: SB_Main
   explorationEvent: Set_State_Exploration
   playEvent: Play_Music_State
+  eliteEvent: Set_State_Elite
+  stopEvent: Stop_Music_State
   settleSeconds: 0.15
   initializationTimeout: 15
   logTransitions: 0
@@ -77692,14 +78807,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1823530514}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1823530513}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1823530507 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1823530506}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 796502935}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -77710,6 +78831,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1823530506}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1823530513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796502935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1418583956}
+  hurtInterval: 1.05
+--- !u!114 &1823530514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796502935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1845562894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77948,6 +79108,50 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4, y: 6}
   m_EdgeRadius: 0
+--- !u!1 &1858159573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 483900280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1858159578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858159573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1467256815}
+  hurtInterval: 1.05
+--- !u!114 &1858159579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858159573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1887780971
 GameObject:
   m_ObjectHideFlags: 0
@@ -77991,6 +79195,7 @@ GameObject:
   - component: {fileID: 1907821513}
   - component: {fileID: 1907821516}
   - component: {fileID: 1907821515}
+  - component: {fileID: 1907821517}
   m_Layer: 0
   m_Name: Portal_C
   m_TagString: Untagged
@@ -78090,6 +79295,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1907821513}
   interactionPoint: {fileID: 0}
+--- !u!114 &1907821517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907821512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1916340601
 GameObject:
   m_ObjectHideFlags: 0
@@ -78220,14 +79449,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925499419}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925499418}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1925499412 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1925499411}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 397957358}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -78238,6 +79473,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1925499411}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1925499418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397957358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1570702101}
+  hurtInterval: 1.05
+--- !u!114 &1925499419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397957358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1930110807
 GameObject:
   m_ObjectHideFlags: 0
@@ -78403,6 +79677,7 @@ GameObject:
   - component: {fileID: 1940742356}
   - component: {fileID: 1940742354}
   - component: {fileID: 1940742357}
+  - component: {fileID: 1940742358}
   m_Layer: 0
   m_Name: Door_2
   m_TagString: Untagged
@@ -78503,6 +79778,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 1
   allowPrototypeReclose: 1
+--- !u!114 &1940742358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940742353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1956508174
 GameObject:
   m_ObjectHideFlags: 0
@@ -79213,6 +80512,17 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &2010687451 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1352591594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &2016861285
 GameObject:
   m_ObjectHideFlags: 0
@@ -79253,6 +80563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2023437532}
+  - component: {fileID: 2023437533}
   m_Layer: 0
   m_Name: ExitPoint_C
   m_TagString: Untagged
@@ -79275,6 +80586,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1407749073}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2023437533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023437531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2034777563
 GameObject:
   m_ObjectHideFlags: 0
@@ -79607,6 +80942,7 @@ GameObject:
   - component: {fileID: 2066573986}
   - component: {fileID: 2066573984}
   - component: {fileID: 2066573987}
+  - component: {fileID: 2066573988}
   m_Layer: 0
   m_Name: Door_3
   m_TagString: Untagged
@@ -79707,6 +81043,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &2066573988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066573983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2110720591
 GameObject:
   m_ObjectHideFlags: 0
@@ -79916,6 +81276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2133865486}
+  - component: {fileID: 2133865487}
   m_Layer: 0
   m_Name: ExitPoint_A
   m_TagString: Untagged
@@ -79938,6 +81299,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 341924455}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2133865487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133865485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &2138536937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80049,14 +81434,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2138536945}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2138536944}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &2138536938 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 2138536937}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1539450355}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
@@ -80067,6 +81458,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 2138536937}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2138536944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539450355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1064896036}
+  hurtInterval: 1.05
+--- !u!114 &2138536945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539450355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2142675155
 GameObject:
   m_ObjectHideFlags: 0

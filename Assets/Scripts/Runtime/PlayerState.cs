@@ -413,7 +413,7 @@ namespace Regrowth.Runtime
                 {
                     FormChanged?.Invoke(CurrentForm);
                 }
-                if (hurt)
+                if (hurt && IsAlive)
                 {
                     GameAudio.Play(AudioCue.PlayerHurt, gameObject);
                 }

@@ -1,5 +1,9 @@
 # pawgatory 工作包：当前结构、迁移顺序与验收
 
+> audio-full-events（2026-10-01）：用户已确认全量现有事件接线，41/43已保存；排除敌人脚步和Fly。依赖既有攻击/伤害成功通知、唯一PlayerState、Elite_Exit AI和音乐Bank Owner；不更改攻击结算与角色运动。战斗音频24/0、C08含传送音频86/0、原奖励72/0、三层音乐10点通过，其他回归和限制见 [交接](handoffs/audio-full-events.handoff)。未自动提交或推送。
+
+> audio-player-movement（2026-10-01）：主图13个Move Clip已配置接触帧，无腿/有腿按唯一Legs状态切换事件。脚步Play检查25/0；人工节奏听感待试听。参见 [交接](handoffs/audio-player-movement.handoff)。
+
 > Audio_Test 集成验收（2026-10-01）：Ming/3c0bae7 与 ce17b4e 音频交付已合并；音乐10点、奖励/UI/能力72项、7地刺、8机关16切换通过，C09 59/0、C07 30/0。两个旧测试夹具已适配动态AI；生产玩法不因测试改动。完整记录与限制见 [audio-ming-merge.handoff](handoffs/audio-ming-merge.handoff)。
 
 > 最新 C09（2026-10-01）：从 Soap/60f9a55 选择性接入敌人AI与100/10配置，保留 Ming/a78185f 的收费、火球和人物实现。主图13只普通怪+1只精英；最底层大红块按用户要求拆为3只独立普通怪。攻击奖励/代价改为固定+10/-10点，最低6，取消共享攻击倍率；生命比例规则按Soap原文保留。C09 Play 59/0，Unity编译与保存重载通过；用户本轮明确授权commit/push Ming。以下C08百分比及旧接线记录仅为历史，不覆盖本节。

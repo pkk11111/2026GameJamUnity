@@ -34,6 +34,8 @@ namespace Regrowth.Audio
         private string explorationEvent = "Set_State_Exploration";
         [SerializeField, Tooltip("仅初始化时播放一次，换层不重启。")]
         private string playEvent = "Play_Music_State";
+        [SerializeField] private string eliteEvent = "Set_State_Elite";
+        [SerializeField] private string stopEvent = "Stop_Music_State";
         [Header("运行参数")]
         [SerializeField, Min(0f), Tooltip("跨边界连续停留秒数，防止抖动；出生立即生效，使用未缩放时间。")]
         private float settleSeconds = 0.15f;
@@ -48,6 +50,23 @@ namespace Regrowth.Audio
         public uint MusicPlayingId { get; private set; }
         private bool ownsBank;
         private bool ready;
+        public bool IsBankReady => ready;
+        public bool IsEliteMusic { get; private set; }
+
+        /// <summary>Changes music state without restarting its playing instance.</summary>
+        public void SetEliteCombat(bool value)
+        {
+            if (!ready || MusicPlayingId == 0 || value == IsEliteMusic) return;
+            if (Post(value ? eliteEvent : explorationEvent)) IsEliteMusic = value;
+        }
+
+        /// <summary>Keep the bank resident so death and other SFX can finish.</summary>
+        public void StopMusic()
+        {
+            if (!ready || MusicPlayingId == 0) return;
+            Post(stopEvent);
+            MusicPlayingId = 0;
+        }
         private int pending = -1;
         private float pendingSince;
 
@@ -121,10 +140,11 @@ namespace Regrowth.Audio
             StopAllCoroutines();
             if (AkUnitySoundEngine.IsInitialized())
             {
-                if (MusicPlayingId != 0) AkUnitySoundEngine.StopPlayingID(MusicPlayingId);
+                if (MusicPlayingId != 0) { AkUnitySoundEngine.PostEvent(stopEvent, gameObject); AkUnitySoundEngine.StopPlayingID(MusicPlayingId); }
                 if (ownsBank) AkUnitySoundEngine.UnloadBank(bankName, IntPtr.Zero);
             }
             ready = false; ownsBank = false; MusicPlayingId = 0; CurrentLevel = 0; pending = -1;
+            IsEliteMusic = false;
         }
 
         private void OnDrawGizmosSelected()
