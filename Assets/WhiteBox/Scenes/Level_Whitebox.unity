@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 90287418}
 --- !u!4 &90287416
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 90287417}
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 93474488}
 --- !u!4 &93474486
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 93474487}
@@ -343,6 +343,96 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!1 &102576598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 102576599}
+  - component: {fileID: 102576600}
+  m_Layer: 0
+  m_Name: Bite Cyan Flash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &102576599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102576598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.95, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1935460401}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &102576600
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102576598}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 30
+  m_Sprite: {fileID: 1544458991335896636, guid: b5e6bc610748fba4ba36452f3fedfcc4, type: 3}
+  m_Color: {r: 0, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &104111583
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +641,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
@@ -767,15 +857,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -783,7 +873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -799,7 +889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 230644489}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -1096,7 +1186,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63e15684e930504597161a83097f081c, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.UI.Choice::Regrowth.UI.ChoicePanel
 --- !u!224 &263898065 stripped
 RectTransform:
@@ -1275,15 +1365,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -1291,7 +1381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -1307,7 +1397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1047554165}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -1354,7 +1444,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
@@ -1488,6 +1578,96 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &314479581
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 314479582}
+  - component: {fileID: 314479583}
+  m_Layer: 0
+  m_Name: Sword Gold Flash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &314479582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314479581}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.25881907, w: 0.9659259}
+  m_LocalPosition: {x: 1.35, y: 0, z: 0}
+  m_LocalScale: {x: 1.6, y: 0.16, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1935460401}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &314479583
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314479581}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 30
+  m_Sprite: {fileID: 1544458991335896636, guid: b5e6bc610748fba4ba36452f3fedfcc4, type: 3}
+  m_Color: {r: 1, g: 0.78, b: 0.1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &324566833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1792,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 1639746812}
@@ -1668,10 +1848,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 341924456}
   interactionPoint: {fileID: 0}
+--- !u!1 &362454525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 362454526}
+  m_Layer: 0
+  m_Name: Trial Enemies - stationary T09
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &362454526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362454525}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1465839252}
+  - {fileID: 1179810188}
+  - {fileID: 1514786764}
+  - {fileID: 1458731752}
+  m_Father: {fileID: 820315661}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &407737882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,7 +2249,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2044,7 +2259,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text:
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2171,7 +2386,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -2247,7 +2462,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 435925238}
   interactionPoint: {fileID: 0}
@@ -2333,15 +2548,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -2349,7 +2564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -2365,7 +2580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 549059791}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -2607,7 +2822,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
   m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
@@ -2638,7 +2853,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
@@ -2673,8 +2888,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
@@ -2783,7 +2998,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ee93f77efc4eb54995f0e5460922a23, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkAudioListener
   isDefaultListener: 1
   bOverrideScalingFactor: 0
@@ -2799,7 +3014,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
   m_listeners:
     initialListenerList: []
@@ -2828,6 +3043,11 @@ GameObject:
   - component: {fileID: 535949089}
   - component: {fileID: 535949091}
   - component: {fileID: 535949090}
+  - component: {fileID: 535949096}
+  - component: {fileID: 535949095}
+  - component: {fileID: 535949094}
+  - component: {fileID: 535949093}
+  - component: {fileID: 535949097}
   m_Layer: 0
   m_Name: Test_Player
   m_TagString: Untagged
@@ -2975,11 +3195,12 @@ Transform:
   m_GameObject: {fileID: 535949084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31.54, y: -5.7, z: 0}
+  m_LocalPosition: {x: -12.14, y: 8.6, z: 0}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 519420032}
+  - {fileID: 1935460401}
   m_Father: {fileID: 820315661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &535949089
@@ -2992,12 +3213,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74c31cd1340b88242b8363503ce692ad, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WhiteboxPlayer2D
   inputReader: {fileID: 2001872526}
   runController: {fileID: 2001872525}
   useLoadoutAbilities: 1
   playerState: {fileID: 535949091}
+  facingSource: {fileID: 535949097}
   moveSpeed: 7
   jumpHeight: 4.5
   gravityScale: 2
@@ -3029,7 +3251,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e035174ce199245b8826a69ff33cfa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.PlayerInteractor
   actor: {fileID: 535949084}
   interactionOrigin: {fileID: 0}
@@ -3048,12 +3270,91 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49d8143965636a2499e9d5170e9f2714, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.PlayerState
   initialMaximumHealth: 100
   initialBiteDamage: 10
   initialSwordDamage: 15
   prototypeStartWithBodyCore: 1
+--- !u!114 &535949093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9b824b8d0c4c3999750ce2c4c5e2d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.Combat::Regrowth.Gameplay.PlayerAttackRouter
+  inputSource: {fileID: 2001872526}
+  combatStateSource: {fileID: 535949091}
+  biteActionSource: {fileID: 535949096}
+  swordActionSource: {fileID: 535949094}
+--- !u!114 &535949094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf4427884c850208775f1e988887d5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.Sword::Regrowth.Gameplay.PlayerSwordAttack
+  combatStateSource: {fileID: 535949091}
+  swordOrigin: {fileID: 1398185664}
+  facingSource: {fileID: 535949097}
+  config: {fileID: 11400000, guid: 77bd8c95bd0b51fab207fc32531bd296, type: 2}
+  slashVisual: {fileID: 314479583}
+  flashSeconds: 0.18
+--- !u!114 &535949095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84da5d416622587a95a0e876199667f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteFlash
+  source: {fileID: 535949096}
+  visual: {fileID: 102576600}
+  flashSeconds: 0.18
+--- !u!114 &535949096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c997a66a97347044ba7e2fe89a59a88b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteAttack
+  combatStateSource: {fileID: 535949091}
+  biteOrigin: {fileID: 1398185664}
+  facingSource: {fileID: 535949097}
+  config: {fileID: 11400000, guid: a6cfbb46a7d50d24997c45b557ebe762, type: 2}
+--- !u!114 &535949097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723f591255c157e5a981d972eeb622b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerFacing2D
+  inputSource: {fileID: 2001872526}
+  deadZone: 0.1
 --- !u!1 &539243124
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,8 +3569,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_ComponentVersion: 2
   m_LightType: 4
   m_BlendStyleIndex: 0
@@ -3476,6 +3777,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 535949088}
+  - {fileID: 362454526}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &870692093
@@ -3560,15 +3862,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -3576,7 +3878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -3592,7 +3894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 226780156}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -3640,7 +3942,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -3715,7 +4017,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 873605929}
   interactionPoint: {fileID: 0}
@@ -3838,7 +4140,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 905817184}
 --- !u!4 &905817182
@@ -3913,7 +4215,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 905817183}
@@ -3950,7 +4252,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -4025,7 +4327,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 938930351}
   interactionPoint: {fileID: 0}
@@ -4111,15 +4413,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -4127,7 +4429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -4143,7 +4445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 739003228}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -4424,7 +4726,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09db05bcbbd8ffa42bc444bda98128fa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.ChoiceCoordinator
   presenter: {fileID: 263898064}
 --- !u!1001 &978385267
@@ -4509,15 +4811,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: c48e9083b5221104dbe6a514ff450841, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -4525,7 +4827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -4541,7 +4843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1239424348}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -4589,7 +4891,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1016768633}
 --- !u!4 &1016768631
@@ -4664,7 +4966,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1016768632}
@@ -4701,7 +5003,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -4776,7 +5078,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1024123721}
   interactionPoint: {fileID: 0}
@@ -4825,7 +5127,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f4a205560494fa4eb33e981fbc85789, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Challenge::Regrowth.Gameplay.Challenge.InspectionDoor2D
   challengeId: SIDE_LEGLESS_PUZZLE
   requiredMissingPart: 201
@@ -5041,7 +5343,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -5117,7 +5419,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1058225894}
   interactionPoint: {fileID: 0}
@@ -5149,7 +5451,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.25, y: 1.8}
   ellipseOffset: {x: 0, y: 0}
@@ -5343,7 +5645,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 2133865486}
@@ -5417,7 +5719,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1171908536}
   interactionPoint: {fileID: 550303302}
@@ -5449,7 +5751,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.84, y: 2.22}
   ellipseOffset: {x: 0, y: 0}
@@ -5583,6 +5885,76 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1179810187
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 362454526}
+    m_Modifications:
+    - target: {fileID: 2827846458870826507, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: runContextSource
+      value: 
+      objectReference: {fileID: 2001872525}
+    - target: {fileID: 4298201842566395314, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: playerDamageableSource
+      value: 
+      objectReference: {fileID: 535949091}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -44
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975838277919623124, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_Name
+      value: TrialEnemy_02
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+--- !u!4 &1179810188 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+  m_PrefabInstance: {fileID: 1179810187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1200262439
 GameObject:
   m_ObjectHideFlags: 0
@@ -5757,7 +6129,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f4a205560494fa4eb33e981fbc85789, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Challenge::Regrowth.Gameplay.Challenge.InspectionDoor2D
   challengeId: SIDE_ARMLESS_TRAVERSAL
   requiredMissingPart: 202
@@ -5990,6 +6362,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2066573985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1398185663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1398185664}
+  m_Layer: 0
+  m_Name: AttackOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1398185664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398185663}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.65, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1935460401}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1403574007
 GameObject:
   m_ObjectHideFlags: 0
@@ -6109,7 +6512,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 1721123011}
@@ -6182,7 +6585,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1407749072}
   interactionPoint: {fileID: 0}
@@ -6220,7 +6623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541644115592588579, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 1541644115592588579, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: uprightLabel
@@ -6488,6 +6891,146 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7381176177407594630, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
   m_PrefabInstance: {fileID: 1432853342}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1458731751
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 362454526}
+    m_Modifications:
+    - target: {fileID: 2827846458870826507, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: runContextSource
+      value: 
+      objectReference: {fileID: 2001872525}
+    - target: {fileID: 4298201842566395314, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: playerDamageableSource
+      value: 
+      objectReference: {fileID: 535949091}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975838277919623124, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_Name
+      value: TrialEnemy_04
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+--- !u!4 &1458731752 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+  m_PrefabInstance: {fileID: 1458731751}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1465839251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 362454526}
+    m_Modifications:
+    - target: {fileID: 2827846458870826507, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: runContextSource
+      value: 
+      objectReference: {fileID: 2001872525}
+    - target: {fileID: 4298201842566395314, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: playerDamageableSource
+      value: 
+      objectReference: {fileID: 535949091}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -51
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975838277919623124, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_Name
+      value: TrialEnemy_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+--- !u!4 &1465839252 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+  m_PrefabInstance: {fileID: 1465839251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1475405393
 GameObject:
   m_ObjectHideFlags: 0
@@ -6595,20 +7138,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 088d75b5242c39b4999a190e09fb657a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.WhiteBox::Regrowth.Gameplay.WhiteBox.WhiteboxOverlay
   interactor: {fileID: 535949090}
   inputReader: {fileID: 2001872526}
   runController: {fileID: 2001872525}
   choiceCoordinator: {fileID: 976969444}
   label: {fileID: 427396644}
-  instructions: 'PAWGATORY / CHEST TEST
+  instructions: 'PAWGATORY / MAIN ACTION TRIAL
 
-    A/D Move | Space Jump (legs: double
-    jump) | Shift Dash (tail)
+    A/D Move | Space Jump (legs:
+    double jump) | Shift Dash (tail)
 
-    E Interact | R Return only | Esc Pause | Chests:
-    choose one / Cancel'
+    Enter / LMB Attack: cyan BITE, gold SWORD
+    after Arms card
+
+    E Interact | R Return only | Esc Pause | Chests: choose
+    one / Cancel'
 --- !u!114 &1489671475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6619,7 +7165,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
@@ -6703,7 +7249,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.41, y: 1.59}
   ellipseOffset: {x: 0, y: 0}
@@ -6837,6 +7383,76 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1514786763
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 362454526}
+    m_Modifications:
+    - target: {fileID: 2827846458870826507, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: runContextSource
+      value: 
+      objectReference: {fileID: 2001872525}
+    - target: {fileID: 4298201842566395314, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: playerDamageableSource
+      value: 
+      objectReference: {fileID: 535949091}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -54
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 31.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975838277919623124, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+      propertyPath: m_Name
+      value: TrialEnemy_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+--- !u!4 &1514786764 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 47545bb351f721e48902f816b7fd26d9, type: 3}
+  m_PrefabInstance: {fileID: 1514786763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1523383525
 GameObject:
   m_ObjectHideFlags: 0
@@ -6866,7 +7482,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -6941,7 +7557,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1523383526}
   interactionPoint: {fileID: 0}
@@ -6974,7 +7590,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1596823884}
 --- !u!4 &1596823882
@@ -7049,7 +7665,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1596823883}
@@ -7084,7 +7700,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76cc981b661549847932b33de4c72c58, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Tests.Level::Regrowth.Tests.Level.LevelWhiteboxPlayChecks
   player: {fileID: 535949089}
   run: {fileID: 2001872525}
@@ -68526,7 +69142,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1692231682}
 --- !u!4 &1692231680
@@ -68601,7 +69217,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1692231681}
@@ -68669,7 +69285,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.07, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
@@ -68952,7 +69568,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac77a1a7344d004885c0e7c81a7a75f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 3.01}
   ellipseOffset: {x: 0, y: 0}
@@ -73702,15 +74318,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: c48e9083b5221104dbe6a514ff450841, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -73718,7 +74334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -73734,7 +74350,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1128038527}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -73860,7 +74476,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5fff9742b243047942781e0235ff54, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypePortal2D
   player: {fileID: 535949089}
   destination: {fileID: 2023437532}
@@ -73933,10 +74549,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1907821513}
   interactionPoint: {fileID: 0}
+--- !u!1 &1935460400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1935460401}
+  m_Layer: 0
+  m_Name: AttackPresentation - replace visuals with final art
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1935460401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935460400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0.6666667, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1398185664}
+  - {fileID: 102576599}
+  - {fileID: 314479582}
+  m_Father: {fileID: 535949088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1937834017
 GameObject:
   m_ObjectHideFlags: 0
@@ -74056,7 +74706,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 1940742357}
 --- !u!4 &1940742355
@@ -74131,7 +74781,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 1940742356}
@@ -74166,11 +74816,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67cef74d8b2812440a3b422b5341ccda, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkInitializer
   InitializationSettings: {fileID: 11400000, guid: 494d3a5c71523e84aa1a6965c4d9ac2c, type: 2}
-  basePath:
-  language:
+  basePath: 
+  language: 
   defaultPoolSize: 0
   lowerPoolSize: 0
   streamingPoolSize: 0
@@ -74278,15 +74928,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -74294,7 +74944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -74310,7 +74960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 1799137735}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -74358,7 +75008,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -74434,7 +75084,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1969892010}
   interactionPoint: {fileID: 0}
@@ -74502,7 +75152,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73fff15ca2041fc4e96140fc5af2284f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.RunController
   gameplayTimeScale: 1
 --- !u!114 &2001872526
@@ -74515,7 +75165,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32ed016bc465e0e46b157f7b37941933, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.PlayerInputReader
   inputActions: {fileID: -944628639613478452, guid: ee357ec774f7865409eb9bffff42ddbc, type: 3}
   moveActionPath: Player/Move
@@ -74536,7 +75186,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18920a59cf158044a98675c48eba688a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.GameBootstrap
   runController: {fileID: 2001872525}
   inputReader: {fileID: 2001872526}
@@ -74642,15 +75292,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: runSource
-      value:
+      value: 
       objectReference: {fileID: 2001872525}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: stateSource
-      value:
+      value: 
       objectReference: {fileID: 535949091}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: rewardConfig
-      value:
+      value: 
       objectReference: {fileID: 11400000, guid: b44e8495a1faa9347b03b27d42952300, type: 2}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionId
@@ -74658,7 +75308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628926131478365427, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: choiceFlowSource
-      value:
+      value: 
       objectReference: {fileID: 976969444}
     - target: {fileID: 6863975451207335352, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Color.b
@@ -74674,7 +75324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7132526772602855813, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: interactionPoint
-      value:
+      value: 
       objectReference: {fileID: 426258613}
     - target: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       propertyPath: m_Name
@@ -74843,7 +75493,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02911e56bf9d97344afa22af3d199306, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeDoor2D
   door: {fileID: 2066573987}
 --- !u!4 &2066573985
@@ -74918,7 +75568,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaee5fc2ccef6ee468cdead45a7bd367, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.SwitchDoor::Regrowth.Gameplay.WorldDoor
   blockingColliders:
   - {fileID: 2066573986}
@@ -74955,7 +75605,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dff5529541c0d3d44b300fa6e465def2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeToggleButton2D
   player: {fileID: 535949089}
   targetDoors:
@@ -75031,7 +75681,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3491bc056ae1614eb71d59a8b3526f5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 2110720592}
   interactionPoint: {fileID: 0}

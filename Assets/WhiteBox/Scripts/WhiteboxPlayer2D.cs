@@ -25,6 +25,8 @@ namespace Regrowth.Gameplay.WhiteBox
         private bool useLoadoutAbilities = true;
         [SerializeField, Tooltip("读取模式必填，唯一PlayerState；不维护第二份能力状态。")]
         private PlayerState playerState;
+        [SerializeField, Tooltip("主图显式绑定唯一朝向；旧独测未绑定时才保留原输入朝向。")]
+        private Regrowth.Gameplay.PlayerFacing2D facingSource;
         private bool DoubleJumpEnabled => useLoadoutAbilities
             ? playerState != null && playerState.Contains(LoadoutItemId.Legs) : enableDoubleJump;
         private bool DashEnabled => useLoadoutAbilities
@@ -183,7 +185,11 @@ namespace Regrowth.Gameplay.WhiteBox
             }
 
             float moveInput = inputReader.MoveX;
-            if (moveInput != 0f)
+            if (facingSource != null)
+            {
+                facing = facingSource.FacingSign;
+            }
+            else if (moveInput != 0f)
             {
                 facing = Mathf.Sign(moveInput);
             }
