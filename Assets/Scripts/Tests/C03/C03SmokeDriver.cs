@@ -75,7 +75,7 @@ namespace Regrowth.Tests.C03
 
         private void Update()
         {
-            statusText.text = "GROWL AGAIN / C03 INTERACTION + TRANSACTION SMOKE\n"
+            statusText.text = "pawgatory / C03 V5 INTERACTION + TRANSACTION SMOKE\n"
                 + "Real controller, local world/menu probes. No formal reward/payment/map.\n\n"
                 + $"Phase: {run.Phase}    Time: {Time.timeScale:0.##}    HP: {state.CurrentHealth}/{state.MaximumHealth}\n"
                 + $"Target: {interactor.InteractionId}    Prompt: {interactor.Prompt}\n"
@@ -129,18 +129,18 @@ namespace Regrowth.Tests.C03
         {
             return flow.TryBegin(new ChoiceRequest("c03-example", "TEST state commands", new[]
             {
-                new ChoiceOption("upright", "TEST Upright", "No random reward service"),
-                new ChoiceOption("sword", "TEST Sword", "No chest consumption"),
+                new ChoiceOption("arms", "TEST Arms + Sword", "One shared loadout item"),
+                new ChoiceOption("legs", "TEST Legs", "No chest consumption"),
                 new ChoiceOption("heal", "TEST Heal", "Full HP accepted as test business")
             }), id =>
             {
-                if (id == "upright")
+                if (id == "arms")
                 {
-                    return state.TryAddLoadoutItem(LoadoutItemId.UprightForm);
+                    return state.TryAddLoadoutItem(LoadoutItemId.Arms);
                 }
-                if (id == "sword")
+                if (id == "legs")
                 {
-                    return state.TryAddLoadoutItem(LoadoutItemId.Sword);
+                    return state.TryAddLoadoutItem(LoadoutItemId.Legs);
                 }
                 state.TryHeal(5);
                 return true;
@@ -250,8 +250,18 @@ namespace Regrowth.Tests.C03
                 int confirmed = 0;
                 int cancelled = 0;
                 var three = Request("session", 3);
-                Check(!flow.TryBegin(Request("one", 1), _ => true, () => cancelled++)
-                    && cancelled == 0 && run.IsGameplayActive, "formal opening requires three cards without callbacks on rejection");
+                Check(!flow.TryBegin(Request("two", 2), _ => true, () => cancelled++)
+                    && !flow.TryBegin(Request("four", 4), _ => true, () => cancelled++)
+                    && cancelled == 0 && run.IsGameplayActive, "two/four-card openings are rejected without callbacks");
+                Check(flow.TryBegin(Request("one-cancel", 1), _ => true, () => cancelled++)
+                    && presenter.OptionCount == 1 && run.Phase == RunPhase.Choosing, "single-card confirmation opens with real choice lock");
+                flow.Cancel();
+                Check(cancelled == 1 && run.IsGameplayActive && !flow.IsOpen, "single-card cancellation releases lock once");
+                cancelled = 0;
+                int singleConfirmed = 0;
+                Check(flow.TryBegin(Request("one-commit", 1), _ => { singleConfirmed++; return true; }, null)
+                    && presenter.TrySubmit("0") && singleConfirmed == 1 && run.IsGameplayActive,
+                    "single-card accepted confirmation completes once");
                 Check(flow.TryBegin(three, _ => { confirmed++; return false; }, () => cancelled++)
                     && flow.IsOpen && presenter.IsOpen && run.Phase == RunPhase.Choosing && Time.timeScale == 0f,
                     "three-card transaction opens and pauses real run");
@@ -262,15 +272,18 @@ namespace Regrowth.Tests.C03
                 Check(!presenter.TrySubmit("0") && confirmed == 1 && flow.IsOpen && presenter.IsOpen, "business false keeps paused menu");
                 var staleConfirm = presenter.CaptureConfirm();
                 var staleCancel = presenter.CaptureCancel();
-                Check(!flow.TryReplace(Request("other", 4), _ => true, () => cancelled++) && presenter.OptionCount == 3,
+                Check(!flow.TryReplace(Request("other", 3), _ => true, () => cancelled++) && presenter.OptionCount == 3,
                     "different transaction ID cannot replace");
                 presenter.RejectNextReplace = true;
-                Check(!flow.TryReplace(Request("session", 4), _ => true, () => cancelled++) && presenter.OptionCount == 3,
+                Check(!flow.TryReplace(Request("session", 3), _ => true, () => cancelled++) && presenter.OptionCount == 3,
                     "presenter replacement refusal preserves current phase callbacks");
+                Check(!flow.TryReplace(Request("session", 2), _ => true, null)
+                    && !flow.TryReplace(Request("session", 4), _ => true, null) && presenter.OptionCount == 3,
+                    "two/four-card replacements do not alter current transaction");
                 int replacementCancelled = 0;
-                Check(flow.TryReplace(Request("session", 4), _ => false, () => replacementCancelled++)
-                    && presenter.OptionCount == 4 && run.Phase == RunPhase.Choosing && Time.timeScale == 0f && cancelled == 0,
-                    "same-ID four-card replacement keeps pause and does not cancel old phase");
+                Check(flow.TryReplace(Request("session", 3), _ => false, () => replacementCancelled++)
+                    && presenter.OptionCount == 3 && run.Phase == RunPhase.Choosing && Time.timeScale == 0f && cancelled == 0,
+                    "same-ID three-card replacement keeps pause and does not cancel old phase");
                 Check(!staleConfirm("0") && confirmed == 1, "old phase confirm becomes stale");
                 staleCancel();
                 Check(flow.IsOpen && replacementCancelled == 0, "old phase cancellation cannot cancel replacement");
@@ -283,23 +296,32 @@ namespace Regrowth.Tests.C03
                 int finalConfirmed = 0;
                 Check(flow.TryBegin(Request("nested", 3), _ =>
                 {
-                    replacedInCallback = flow.TryReplace(Request("nested", 4), __ =>
+                    replacedInCallback = flow.TryReplace(Request("nested", 3), __ =>
                     {
                         finalConfirmed++;
-                        return state.TryAddLoadoutItem(LoadoutItemId.Sword);
+                        return state.TryAddLoadoutItem(LoadoutItemId.Legs);
                     }, () => cancelled++);
                     return false;
                 }, () => cancelled++), "reward-style replacement transaction begins");
-                Check(!presenter.TrySubmit("0") && replacedInCallback && presenter.OptionCount == 4 && flow.IsOpen && state.Items.Count == 0,
+                Check(!presenter.TrySubmit("0") && replacedInCallback && presenter.OptionCount == 3 && flow.IsOpen && state.Items.Count == 0,
                     "confirm can enter replacement without premature state mutation");
                 staleConfirm = presenter.CaptureConfirm();
-                Check(presenter.TrySubmit("2") && finalConfirmed == 1 && state.Contains(LoadoutItemId.Sword)
+                Check(presenter.TrySubmit("2") && finalConfirmed == 1 && state.Contains(LoadoutItemId.Legs)
                     && !flow.IsOpen && !presenter.IsOpen && run.IsGameplayActive,
                     "final confirm changes real player once and completes transaction");
                 Check(!staleConfirm("2") && !presenter.TrySubmit("2") && finalConfirmed == 1,
                     "completed callbacks and duplicate clicks cannot reapply");
-                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Sword), "test grant removed through real write port");
+                Check(state.TryRemoveLoadoutItem(LoadoutItemId.Legs), "test grant removed through real write port");
 
+                int tailConfirm = 0;
+                Check(flow.TryBegin(Request("single-stage", 3), _ =>
+                {
+                    flow.TryReplace(Request("single-stage", 1), __ => { tailConfirm++; return true; }, null);
+                    return false;
+                }, null) && !presenter.TrySubmit("0") && presenter.OptionCount == 1 && flow.IsOpen,
+                    "three-card transaction can enter same-ID explicit single confirmation");
+                Check(presenter.TrySubmit("0") && tailConfirm == 1 && run.IsGameplayActive && !flow.IsOpen,
+                    "single replacement confirmation releases the original lock");
                 presenter.RejectNextShow = true;
                 int beforeCancel = cancelled;
                 Check(!flow.TryBegin(Request("rejected", 3), _ => true, () => cancelled++) && !flow.IsOpen && run.IsGameplayActive
