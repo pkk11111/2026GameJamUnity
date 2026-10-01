@@ -1,0 +1,11 @@
+{
+    "name": "Regrowth.Tests.C05.Editor",
+    "rootNamespace": "Regrowth.Tests.C05",
+    "references": [
+        "Regrowth.Tests.C05"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "autoReferenced": true
+}

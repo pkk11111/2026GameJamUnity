@@ -1,0 +1,410 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72dc14e84b7b7064b84071f326e41ec2, type: 3}
+  m_Name: PlayerVisualLibrary
+  m_EditorClassIdentifier: Regrowth.Tests.Art::Regrowth.Tests.Art.PlayerVisualLibrary
+  families:
+  - body: 0
+    arms: 0
+    legs: 0
+    tail: 0
+    prefix: DogHead
+    animations:
+    - sourceName: DogHead_Move
+      clip: {fileID: 7400000, guid: 3d5d3613ff75d854fa9d791187389992, type: 2}
+      frames:
+      - {fileID: 897901223, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      action: 0
+    - sourceName: DogHead_Move
+      clip: {fileID: 7400000, guid: ac79e6258698245468b35126b37f5d9e, type: 2}
+      frames:
+      - {fileID: 897901223, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      - {fileID: -1334746331, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      - {fileID: -495963545, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      - {fileID: 2007962556, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      - {fileID: 751863392, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      - {fileID: 666852344, guid: 55498b25542e0364ca9a0f0d8111b8db, type: 3}
+      action: 1
+    - sourceName: DogHead_Jump
+      clip: {fileID: 7400000, guid: ff64984c6f586b34083162539d32d931, type: 2}
+      frames:
+      - {fileID: 1264987431, guid: f8b360b130ea79c4f99b317b189325b2, type: 3}
+      - {fileID: -1471587397, guid: f8b360b130ea79c4f99b317b189325b2, type: 3}
+      action: 2
+  - body: 1
+    arms: 0
+    legs: 0
+    tail: 0
+    prefix: Dog0
+    animations:
+    - sourceName: Dog0_Move
+      clip: {fileID: 7400000, guid: 4dc3fc9a6eaa506458e711497505d628, type: 2}
+      frames:
+      - {fileID: -885278374, guid: c7cc26fb807c6d64aa55c9f5af863347, type: 3}
+      action: 0
+    - sourceName: Dog0_Move
+      clip: {fileID: 7400000, guid: 4d0275cac2025af40ba1833c4c92659d, type: 2}
+      frames:
+      - {fileID: -885278374, guid: c7cc26fb807c6d64aa55c9f5af863347, type: 3}
+      - {fileID: 594389484, guid: c7cc26fb807c6d64aa55c9f5af863347, type: 3}
+      action: 1
+    - sourceName: Dog0_Jump
+      clip: {fileID: 7400000, guid: ab72726edf093d645bb3d2a443d583f9, type: 2}
+      frames:
+      - {fileID: 765947185, guid: f4c108679446266498d3978017689ffc, type: 3}
+      - {fileID: -793899415, guid: f4c108679446266498d3978017689ffc, type: 3}
+      action: 2
+    - sourceName: Dog0_Bite
+      clip: {fileID: 7400000, guid: 8fad29992504b27488cd6bfe4f18346d, type: 2}
+      frames:
+      - {fileID: 84239480, guid: d3bafdf59d44b0b4ba8fad0bc63750ba, type: 3}
+      action: 3
+  - body: 1
+    arms: 0
+    legs: 0
+    tail: 1
+    prefix: Dog0_NoArmsTail
+    animations:
+    - sourceName: Dog0_Move_NoArmsTail
+      clip: {fileID: 7400000, guid: f39c6aa552864a34bb0e853dfb599112, type: 2}
+      frames:
+      - {fileID: -469050034, guid: 4c4100f72779f6a46a9434a1251264f9, type: 3}
+      action: 0
+    - sourceName: Dog0_Move_NoArmsTail
+      clip: {fileID: 7400000, guid: c04fce43dc8ca8440889202e9e425af6, type: 2}
+      frames:
+      - {fileID: -469050034, guid: 4c4100f72779f6a46a9434a1251264f9, type: 3}
+      - {fileID: 1781152967, guid: 4c4100f72779f6a46a9434a1251264f9, type: 3}
+      action: 1
+    - sourceName: Dog0_Jump_NoArmsTail
+      clip: {fileID: 7400000, guid: b410bc37ae71cff489b41a84978f2e16, type: 2}
+      frames:
+      - {fileID: -1079387977, guid: 1a840425ce46e724c91d5df3fc7b885a, type: 3}
+      - {fileID: 603698091, guid: 1a840425ce46e724c91d5df3fc7b885a, type: 3}
+      action: 2
+    - sourceName: Dog0_Bite_Tail
+      clip: {fileID: 7400000, guid: c65a65177acc43c4aa6d5d41567ad273, type: 2}
+      frames:
+      - {fileID: -536645602, guid: 1abb3e1ef9ae7d54fa084b0615058e89, type: 3}
+      action: 3
+  - body: 1
+    arms: 0
+    legs: 0
+    tail: 2
+    prefix: Dog0_FlameTail
+    animations:
+    - sourceName: Dog0_Move_FlameTail
+      clip: {fileID: 7400000, guid: d5f6640ad01d3dd41badef505f94c3e2, type: 2}
+      frames:
+      - {fileID: -870703419, guid: 406032d8cf4151a4c9cb97ece9595c80, type: 3}
+      action: 0
+    - sourceName: Dog0_Move_FlameTail
+      clip: {fileID: 7400000, guid: 44e309a3d472eca4e8d8a1b46bbc6958, type: 2}
+      frames:
+      - {fileID: -870703419, guid: 406032d8cf4151a4c9cb97ece9595c80, type: 3}
+      - {fileID: -1457763220, guid: 406032d8cf4151a4c9cb97ece9595c80, type: 3}
+      action: 1
+    - sourceName: Dog0_Jump_FlameTail
+      clip: {fileID: 7400000, guid: 33fbe78d5e484324a8459382a7d4ec33, type: 2}
+      frames:
+      - {fileID: 1884270124, guid: a1df54baf8a043540b0a0b685486a792, type: 3}
+      - {fileID: -828490441, guid: a1df54baf8a043540b0a0b685486a792, type: 3}
+      action: 2
+    - sourceName: Dog0_Fire_FlameTail
+      clip: {fileID: 7400000, guid: f876bda11b0a1b049bb53cd9174223b9, type: 2}
+      frames:
+      - {fileID: -1896204205, guid: 29fc4c83eaee84640adc48b00ae357e9, type: 3}
+      action: 5
+  - body: 1
+    arms: 1
+    legs: 0
+    tail: 0
+    prefix: Dog0_Sword
+    animations:
+    - sourceName: Dog0_Sword_Move
+      clip: {fileID: 7400000, guid: 549405b887a5f154ba1e62e54c04c462, type: 2}
+      frames:
+      - {fileID: -1231517625, guid: 169471aa51856084e9a17627acb337a4, type: 3}
+      action: 0
+    - sourceName: Dog0_Sword_Move
+      clip: {fileID: 7400000, guid: 9a89bd95a9a449c48a377005f6df3a5f, type: 2}
+      frames:
+      - {fileID: -1231517625, guid: 169471aa51856084e9a17627acb337a4, type: 3}
+      - {fileID: 619019561, guid: 169471aa51856084e9a17627acb337a4, type: 3}
+      - {fileID: 1567738926, guid: 169471aa51856084e9a17627acb337a4, type: 3}
+      action: 1
+    - sourceName: Dog0_Sword_Jump
+      clip: {fileID: 7400000, guid: 3770ba923772ee744917e95fd8127201, type: 2}
+      frames:
+      - {fileID: 1171577707, guid: 2817c81d0fd68da4d9f4d8e371c6c853, type: 3}
+      - {fileID: 1096150721, guid: 2817c81d0fd68da4d9f4d8e371c6c853, type: 3}
+      action: 2
+    - sourceName: Dog0_Sword_Attack
+      clip: {fileID: 7400000, guid: 304e3690965dccc4687bfff334c06789, type: 2}
+      frames:
+      - {fileID: 1369407545, guid: 532c8fec1a6528d4b82e160d7eb3f72b, type: 3}
+      - {fileID: 1299215743, guid: 532c8fec1a6528d4b82e160d7eb3f72b, type: 3}
+      - {fileID: 848912346, guid: 532c8fec1a6528d4b82e160d7eb3f72b, type: 3}
+      action: 4
+  - body: 1
+    arms: 1
+    legs: 0
+    tail: 1
+    prefix: Dog0_TailSword
+    animations:
+    - sourceName: Dog0_Move_Tail
+      clip: {fileID: 7400000, guid: d723dc07c7f6ca345a6a5ccb5ed1afb4, type: 2}
+      frames:
+      - {fileID: 307723290, guid: b78e732f0e8a5a64ea99d06a77db237d, type: 3}
+      action: 0
+    - sourceName: Dog0_Move_Tail
+      clip: {fileID: 7400000, guid: 296407585f23b8d47ac5f64ef85fec64, type: 2}
+      frames:
+      - {fileID: 307723290, guid: b78e732f0e8a5a64ea99d06a77db237d, type: 3}
+      - {fileID: -211578071, guid: b78e732f0e8a5a64ea99d06a77db237d, type: 3}
+      - {fileID: -1399636299, guid: b78e732f0e8a5a64ea99d06a77db237d, type: 3}
+      action: 1
+    - sourceName: Dog0_Jump_Tail
+      clip: {fileID: 7400000, guid: d7fe0a0f8173feb42a24fb84da6d09a7, type: 2}
+      frames:
+      - {fileID: -2097830176, guid: ff48ac3f35837cf4fbac9c455b526c5a, type: 3}
+      - {fileID: 776249581, guid: ff48ac3f35837cf4fbac9c455b526c5a, type: 3}
+      action: 2
+    - sourceName: Dog0_Attack_Tail
+      clip: {fileID: 7400000, guid: a7c37cc043bbc9f4aa9a329bdb54082d, type: 2}
+      frames:
+      - {fileID: -1039584719, guid: 13a924c7a48a25e4d854e790c079dfcd, type: 3}
+      - {fileID: 1548996514, guid: 13a924c7a48a25e4d854e790c079dfcd, type: 3}
+      - {fileID: 1836961315, guid: 13a924c7a48a25e4d854e790c079dfcd, type: 3}
+      action: 4
+  - body: 1
+    arms: 1
+    legs: 0
+    tail: 2
+    prefix: Dog0_FlameTailSword
+    animations:
+    - sourceName: Dog0_Move_FlameTailSword
+      clip: {fileID: 7400000, guid: 5bf9ad97558d0234bbbfaeecf890c2c0, type: 2}
+      frames:
+      - {fileID: 878839902, guid: 88ea99c4da1350a4d8e42ded0cd2fe98, type: 3}
+      action: 0
+    - sourceName: Dog0_Move_FlameTailSword
+      clip: {fileID: 7400000, guid: 4ee9e25e2f318f2418cb82d1e18e4bbd, type: 2}
+      frames:
+      - {fileID: 878839902, guid: 88ea99c4da1350a4d8e42ded0cd2fe98, type: 3}
+      - {fileID: 1550966476, guid: 88ea99c4da1350a4d8e42ded0cd2fe98, type: 3}
+      - {fileID: 1128877495, guid: 88ea99c4da1350a4d8e42ded0cd2fe98, type: 3}
+      action: 1
+    - sourceName: Dog0_Jump_FlameTailSword
+      clip: {fileID: 7400000, guid: 461774885fa71cb4795562f0a620e8ad, type: 2}
+      frames:
+      - {fileID: 436523921, guid: b3164b08a4e5d794ebf7185f29ee80ef, type: 3}
+      - {fileID: -1427226128, guid: b3164b08a4e5d794ebf7185f29ee80ef, type: 3}
+      action: 2
+    - sourceName: Dog0_Attack_FlameTailSword
+      clip: {fileID: 7400000, guid: 06731533e50d9bb4f922ae009e6625f1, type: 2}
+      frames:
+      - {fileID: 1328767189, guid: 120262d106fa74948a034afb0ae812a3, type: 3}
+      - {fileID: 1243960661, guid: 120262d106fa74948a034afb0ae812a3, type: 3}
+      - {fileID: -352367017, guid: 120262d106fa74948a034afb0ae812a3, type: 3}
+      action: 4
+    - sourceName: Dog0_Fire_FlameTailSword
+      clip: {fileID: 7400000, guid: bc099221e815e274ab1af7d9c16ab688, type: 2}
+      frames:
+      - {fileID: 1220563007, guid: 373225418b244dc4aa993d81fbd7a08c, type: 3}
+      action: 5
+  - body: 1
+    arms: 0
+    legs: 1
+    tail: 0
+    prefix: Dog2_NoArms
+    animations:
+    - sourceName: Dog2_Move_NoArms
+      clip: {fileID: 7400000, guid: 3d23b874307f29942b0f596e26619613, type: 2}
+      frames:
+      - {fileID: -1806333757, guid: 132aae71d99ea7d4998f0a34760b7b39, type: 3}
+      action: 0
+    - sourceName: Dog2_Move_NoArms
+      clip: {fileID: 7400000, guid: ceb33d0411497ca4fb30d5091aee5378, type: 2}
+      frames:
+      - {fileID: -1806333757, guid: 132aae71d99ea7d4998f0a34760b7b39, type: 3}
+      - {fileID: 213472661, guid: 132aae71d99ea7d4998f0a34760b7b39, type: 3}
+      - {fileID: -597689365, guid: 132aae71d99ea7d4998f0a34760b7b39, type: 3}
+      action: 1
+    - sourceName: Dog2_Jump_NoArms
+      clip: {fileID: 7400000, guid: 60fed2c87cad13347aa174b4b3358762, type: 2}
+      frames:
+      - {fileID: 1825880598, guid: 1d395f02a759a184b9b3708fbd88f9d9, type: 3}
+      - {fileID: -265790878, guid: 1d395f02a759a184b9b3708fbd88f9d9, type: 3}
+      action: 2
+    - sourceName: Dog2_Bite_NoArms
+      clip: {fileID: 7400000, guid: 6d72ec315c8b13b49bd53fef072fc04e, type: 2}
+      frames:
+      - {fileID: -147558748, guid: 3afddbf0456d3b249a468dbc1c27c92d, type: 3}
+      action: 3
+  - body: 1
+    arms: 0
+    legs: 1
+    tail: 1
+    prefix: Dog2_NoArmsTail
+    animations:
+    - sourceName: Dog2_Move_NoArmsTail
+      clip: {fileID: 7400000, guid: 50da5d04f57a29544ac56ac81a5d520f, type: 2}
+      frames:
+      - {fileID: -1510339730, guid: ae13235ba5461ce49aa5be59c7ce6048, type: 3}
+      action: 0
+    - sourceName: Dog2_Move_NoArmsTail
+      clip: {fileID: 7400000, guid: 2ceed323fd22d6f41b21db152d8206fb, type: 2}
+      frames:
+      - {fileID: -1510339730, guid: ae13235ba5461ce49aa5be59c7ce6048, type: 3}
+      - {fileID: -2079286318, guid: ae13235ba5461ce49aa5be59c7ce6048, type: 3}
+      - {fileID: -1532983109, guid: ae13235ba5461ce49aa5be59c7ce6048, type: 3}
+      - {fileID: -1693367471, guid: ae13235ba5461ce49aa5be59c7ce6048, type: 3}
+      - {fileID: 2079872410, guid: ae13235ba5461ce49aa5be59c7ce6048, type: 3}
+      action: 1
+    - sourceName: Dog2_Jump_NoArms_Tail
+      clip: {fileID: 7400000, guid: d89bbdd8c3422e84fb450d816d144076, type: 2}
+      frames:
+      - {fileID: -570291370, guid: d122105aa38c09045b1dae43d2f80e96, type: 3}
+      - {fileID: 1563648540, guid: d122105aa38c09045b1dae43d2f80e96, type: 3}
+      action: 2
+    - sourceName: Dog2_Bite_NoArms_Tail
+      clip: {fileID: 7400000, guid: cf206100e6109884aaa128f799ee4426, type: 2}
+      frames:
+      - {fileID: -478934544, guid: 2f1f6a2ac0bbfc8468c26d36540042c9, type: 3}
+      action: 3
+  - body: 1
+    arms: 0
+    legs: 1
+    tail: 2
+    prefix: Dog2_NoArmsFlameTail
+    animations:
+    - sourceName: Dog2_Move_NoArmsFlameTail
+      clip: {fileID: 7400000, guid: 4d21bcaae3650e14e8a1af6f4c637446, type: 2}
+      frames:
+      - {fileID: 913855889, guid: ac87dc2c109af7d488d255049c7d389f, type: 3}
+      action: 0
+    - sourceName: Dog2_Move_NoArmsFlameTail
+      clip: {fileID: 7400000, guid: 64d19619322fe8a4ca3b465d8165fee0, type: 2}
+      frames:
+      - {fileID: 913855889, guid: ac87dc2c109af7d488d255049c7d389f, type: 3}
+      - {fileID: -1184315609, guid: ac87dc2c109af7d488d255049c7d389f, type: 3}
+      - {fileID: 313325617, guid: ac87dc2c109af7d488d255049c7d389f, type: 3}
+      action: 1
+    - sourceName: Dog2_Jump_NoArmsFlameTail
+      clip: {fileID: 7400000, guid: c77019cb9f6402344925a4a7e346595e, type: 2}
+      frames:
+      - {fileID: -236417716, guid: 2fcc180bb23f9ae4c9c9f9841ec68a4d, type: 3}
+      - {fileID: 1420719618, guid: 2fcc180bb23f9ae4c9c9f9841ec68a4d, type: 3}
+      action: 2
+    - sourceName: Dog2_Fire_NoArmsFlameTail
+      clip: {fileID: 7400000, guid: f2acbc0331212e648aea8fb048bce9e4, type: 2}
+      frames:
+      - {fileID: -1507237787, guid: f11aef961e1d3ad47911419bb75ac31d, type: 3}
+      action: 5
+  - body: 1
+    arms: 1
+    legs: 1
+    tail: 0
+    prefix: Dog2_Sword
+    animations:
+    - sourceName: Dog2_Move_Sword
+      clip: {fileID: 7400000, guid: 690fea6a4f802cb45b93ea7187528077, type: 2}
+      frames:
+      - {fileID: -847255251, guid: 8162c86c26686cc4195f72d6ab74a546, type: 3}
+      action: 0
+    - sourceName: Dog2_Move_Sword
+      clip: {fileID: 7400000, guid: 440417759c695ac44aa73eb9418ae530, type: 2}
+      frames:
+      - {fileID: -847255251, guid: 8162c86c26686cc4195f72d6ab74a546, type: 3}
+      - {fileID: -748759251, guid: 8162c86c26686cc4195f72d6ab74a546, type: 3}
+      - {fileID: 2130742180, guid: 8162c86c26686cc4195f72d6ab74a546, type: 3}
+      action: 1
+    - sourceName: Dog2_Jump_Sword
+      clip: {fileID: 7400000, guid: a889e9d41c3817c4095262c38ee381e9, type: 2}
+      frames:
+      - {fileID: 1634404525, guid: 025e906ba519bbd4383ff192ddee5daa, type: 3}
+      - {fileID: -436304047, guid: 025e906ba519bbd4383ff192ddee5daa, type: 3}
+      action: 2
+    - sourceName: Dog2_Attack_Sword
+      clip: {fileID: 7400000, guid: 2973987a3d6206448aeb1e3a99c79377, type: 2}
+      frames:
+      - {fileID: -1518344229, guid: 823180191d96dea4aa249a48762c1a05, type: 3}
+      - {fileID: -1289738788, guid: 823180191d96dea4aa249a48762c1a05, type: 3}
+      action: 4
+  - body: 1
+    arms: 1
+    legs: 1
+    tail: 1
+    prefix: Dog2_Tail
+    animations:
+    - sourceName: Dog2_Move_Tail
+      clip: {fileID: 7400000, guid: 9c95e1154cef9d9488c94d3433dceb13, type: 2}
+      frames:
+      - {fileID: -2011447784, guid: b7a8e68ac9cd5a6439abdf5445273fab, type: 3}
+      action: 0
+    - sourceName: Dog2_Move_Tail
+      clip: {fileID: 7400000, guid: 0e65721afcb0dce4498188093339414f, type: 2}
+      frames:
+      - {fileID: -2011447784, guid: b7a8e68ac9cd5a6439abdf5445273fab, type: 3}
+      - {fileID: -1283264700, guid: b7a8e68ac9cd5a6439abdf5445273fab, type: 3}
+      - {fileID: 2078701236, guid: b7a8e68ac9cd5a6439abdf5445273fab, type: 3}
+      - {fileID: -31677968, guid: b7a8e68ac9cd5a6439abdf5445273fab, type: 3}
+      action: 1
+    - sourceName: Dog2_Jump_Tail
+      clip: {fileID: 7400000, guid: e7e664d6cf6a6d0428190e6895df9fdd, type: 2}
+      frames:
+      - {fileID: -1049920403, guid: 3d0b9b972ffd3e847940c78bbcaa5855, type: 3}
+      - {fileID: -1235203049, guid: 3d0b9b972ffd3e847940c78bbcaa5855, type: 3}
+      action: 2
+    - sourceName: Dog2_Attack_Tail
+      clip: {fileID: 7400000, guid: 625128ec9dfaebf4597344ee74086e6d, type: 2}
+      frames:
+      - {fileID: -43448303, guid: 73408865cf2321344843213f64d6d9c6, type: 3}
+      - {fileID: 266217879, guid: 73408865cf2321344843213f64d6d9c6, type: 3}
+      - {fileID: -1786004476, guid: 73408865cf2321344843213f64d6d9c6, type: 3}
+      - {fileID: 1235502927, guid: 73408865cf2321344843213f64d6d9c6, type: 3}
+      action: 4
+  - body: 1
+    arms: 1
+    legs: 1
+    tail: 2
+    prefix: Dog2_FlameTail
+    animations:
+    - sourceName: Dog2_Move_FlameTail
+      clip: {fileID: 7400000, guid: 9f92f4e3d6aad0641b9a27b43f7c80ee, type: 2}
+      frames:
+      - {fileID: 1110762467, guid: b146befd6ec73b04d8ce24a10f262dcc, type: 3}
+      action: 0
+    - sourceName: Dog2_Move_FlameTail
+      clip: {fileID: 7400000, guid: cf2a51c49037a2e4c82a3fe709af959f, type: 2}
+      frames:
+      - {fileID: 1110762467, guid: b146befd6ec73b04d8ce24a10f262dcc, type: 3}
+      - {fileID: -950102763, guid: b146befd6ec73b04d8ce24a10f262dcc, type: 3}
+      - {fileID: -213605847, guid: b146befd6ec73b04d8ce24a10f262dcc, type: 3}
+      - {fileID: -1026565506, guid: b146befd6ec73b04d8ce24a10f262dcc, type: 3}
+      action: 1
+    - sourceName: Dog2_Jump_FlameTail
+      clip: {fileID: 7400000, guid: f8216478ee39af640855ce2637b5e0fd, type: 2}
+      frames:
+      - {fileID: -1434732931, guid: d8f6fad50b5c7224a8158e3592a12ee3, type: 3}
+      - {fileID: 727878555, guid: d8f6fad50b5c7224a8158e3592a12ee3, type: 3}
+      action: 2
+    - sourceName: Dog2_Attack_FlameTail
+      clip: {fileID: 7400000, guid: 0122e4da94b775c418ed6c01664ca8b2, type: 2}
+      frames:
+      - {fileID: -1022059921, guid: 6320b0566db4edf45894498749ff20b0, type: 3}
+      - {fileID: 805360712, guid: 6320b0566db4edf45894498749ff20b0, type: 3}
+      - {fileID: 986213589, guid: 6320b0566db4edf45894498749ff20b0, type: 3}
+      - {fileID: 1981451769, guid: 6320b0566db4edf45894498749ff20b0, type: 3}
+      action: 4
+  unassignedVariants: []

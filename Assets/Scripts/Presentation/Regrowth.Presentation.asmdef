@@ -1,0 +1,14 @@
+{
+  "name": "Regrowth.Presentation",
+  "rootNamespace": "Regrowth.Presentation",
+  "references": [
+    "Regrowth.Core",
+    "Regrowth.Runtime",
+    "Regrowth.Gameplay.Player",
+    "Regrowth.Gameplay.Bite",
+    "Regrowth.Gameplay.Sword",
+    "Regrowth.Gameplay.Fire",
+    "Regrowth.WhiteBox"
+  ],
+  "autoReferenced": true
+}

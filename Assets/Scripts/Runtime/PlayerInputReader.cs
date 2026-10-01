@@ -13,7 +13,7 @@ namespace Regrowth.Runtime
     /// Move 连续值可在恢复后重新采样；按钮必须释放后再按，避免确认键泄漏至 gameplay。
     /// </summary>
     [DefaultExecutionOrder(-200)]
-    public sealed class PlayerInputReader : MonoBehaviour, IPlayerInput
+    public sealed class PlayerInputReader : MonoBehaviour, IPlayerInput, IPlayerFireInput
     {
         [Header("输入资产及动作路径")]
         [SerializeField, Tooltip("必填；Input Actions 资产。按键在资产编辑器修改，初始化时复制为私有实例。")]
@@ -32,6 +32,8 @@ namespace Regrowth.Runtime
         private string pauseActionPath = "System/Pause";
         [SerializeField, Tooltip("可选，仅白板试走回位 Button 路径；正式资产留空，不提供复活/重开。")]
         private string prototypeResetActionPath = "";
+        [SerializeField, Tooltip("可选 Fire Button；主图配置 Player/Fire，旧独测留空。")]
+        private string fireActionPath = "";
 
         [Header("缓冲")]
         [SerializeField, Min(0.01f), Tooltip("按钮请求有效期，真实秒；暂定 0.15，实时生效。每种动作最多一条。")]
@@ -40,10 +42,10 @@ namespace Regrowth.Runtime
         private InputActionAsset runtimeActions;
         private InputAction move;
         private InputAction pause;
-        private readonly InputAction[] buttons = new InputAction[5];
-        private readonly float[] expiresAt = new float[5];
-        private readonly bool[] buffered = new bool[5];
-        private readonly bool[] blockedUntilRelease = new bool[5];
+        private readonly InputAction[] buttons = new InputAction[6];
+        private readonly float[] expiresAt = new float[6];
+        private readonly bool[] buffered = new bool[6];
+        private readonly bool[] blockedUntilRelease = new bool[6];
         private IRunContext run;
         private IHealth playerHealth;
         private float moveX;
@@ -79,6 +81,7 @@ namespace Regrowth.Runtime
             buttons[2] = runtimeActions.FindAction(interactActionPath);
             buttons[3] = runtimeActions.FindAction(dashActionPath);
             pause = runtimeActions.FindAction(pauseActionPath);
+            buttons[5] = string.IsNullOrWhiteSpace(fireActionPath) ? null : runtimeActions.FindAction(fireActionPath);
             buttons[4] = string.IsNullOrWhiteSpace(prototypeResetActionPath)
                 ? null : runtimeActions.FindAction(prototypeResetActionPath);
 
@@ -113,6 +116,7 @@ namespace Regrowth.Runtime
         public bool TryConsumeAttack() => TryConsume(1);
         public bool TryConsumeInteract() => TryConsume(2);
         public bool TryConsumeDash() => TryConsume(3);
+        public bool TryConsumeFire() => TryConsume(5);
 
         /// <summary>白板专用可选输入；FixedUpdate 单次消费。默认未配置为 false，不属于正式重开契约。</summary>
         public bool TryConsumePrototypeReset() => TryConsume(4);
@@ -224,7 +228,8 @@ namespace Regrowth.Runtime
         {
             for (int index = 0; index < buttons.Length; index++)
             {
-                if (index == 4 && string.IsNullOrWhiteSpace(prototypeResetActionPath))
+                if ((index == 4 && string.IsNullOrWhiteSpace(prototypeResetActionPath))
+                    || (index == 5 && string.IsNullOrWhiteSpace(fireActionPath)))
                 {
                     continue;
                 }

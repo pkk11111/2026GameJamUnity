@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19217cb4d72c46348f21dd1f4ac97014, type: 3}
+  m_Name: MainPortalCosts
+  m_EditorClassIdentifier: Regrowth.WhiteBox::Regrowth.Gameplay.WhiteBox.PortalCostConfig
+  choiceTitle: Choose a cost to teleport
+  minimumAttackDamage: 6
+  arrivalProtection: 0.5
+  costs:
+  - id: COST_SHED_LEGS
+    title: Shed legs
+    kind: 1
+    amount: 1
+  - id: COST_SHED_ARMS
+    title: Shed arms and sword
+    kind: 2
+    amount: 1
+  - id: COST_SHED_TAIL
+    title: Shed tail
+    kind: 3
+    amount: 1
+  - id: COST_SHED_FLAME_TAIL
+    title: Shed flame tail
+    kind: 4
+    amount: 1
+  - id: COST_CURRENT_HP
+    title: Pay health
+    kind: 5
+    amount: 20
+  - id: COST_MAX_HP
+    title: Reduce maximum health
+    kind: 6
+    amount: 10
+  - id: COST_ATTACK
+    title: Weaken all attacks
+    kind: 7
+    amount: 10
+  - id: COST_ENEMY_HP
+    title: Strengthen enemy health
+    kind: 8
+    amount: 50
+  - id: COST_ENEMY_ATTACK
+    title: Strengthen enemy attack
+    kind: 9
+    amount: 5

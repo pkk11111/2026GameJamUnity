@@ -148,7 +148,7 @@ namespace Regrowth.UI
             GameAudio.Play(AudioCue.CardsPresented);
             if (cards.Count > 0)
             {
-                cards[0].Focus();
+                FocusFirstEnabled();
             }
         }
 
@@ -161,7 +161,7 @@ namespace Regrowth.UI
             bool valid = false;
             foreach (ChoiceOption option in currentRequest.Options)
             {
-                valid |= option.Id == optionId;
+                valid |= option.Id == optionId && option.IsEnabled;
             }
             if (!valid)
             {
@@ -201,7 +201,11 @@ namespace Regrowth.UI
                 SetInteractable(true);
                 if (IsOpen && cards.Count > 0)
                 {
-                    cards[0].FocusIfNone();
+                    if (UnityEngine.EventSystems.EventSystem.current != null
+                        && UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == null)
+                    {
+                        FocusFirstEnabled();
+                    }
                 }
                 if (cancelPending)
                 {
@@ -221,6 +225,19 @@ namespace Regrowth.UI
             {
                 cancelButton.interactable = value;
             }
+        }
+
+        private void FocusFirstEnabled()
+        {
+            for (int i = 0; currentRequest != null && i < cards.Count; i++)
+            {
+                if (currentRequest.Options[i].IsEnabled)
+                {
+                    cards[i].Focus();
+                    return;
+                }
+            }
+            cancelButton.Select();
         }
 
         private void Close()

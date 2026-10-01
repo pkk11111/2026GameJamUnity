@@ -26,6 +26,7 @@ namespace Regrowth.UI
         private Image icon;
 
         private string optionId;
+        private bool optionEnabled;
         private Action<string> onSelected;
         private Action onCancelled;
         private bool pointerInside;
@@ -36,6 +37,7 @@ namespace Regrowth.UI
         {
             selectButton.onClick.RemoveListener(Select);
             optionId = option.Id;
+            optionEnabled = option.IsEnabled;
             onSelected = selected;
             onCancelled = cancelled;
             titleText.text = option.Title;
@@ -45,7 +47,7 @@ namespace Regrowth.UI
 
         internal void SetInteractable(bool value)
         {
-            selectButton.interactable = value;
+            selectButton.interactable = value && optionEnabled;
         }
 
         internal void Unbind()
@@ -63,7 +65,7 @@ namespace Regrowth.UI
         /// <summary>默认选中第一张，键盘/手柄无须先点鼠标；取消仍经菜单唯一生命周期。</summary>
         internal void Focus()
         {
-            if (EventSystem.current != null && selectButton != null)
+            if (EventSystem.current != null && selectButton != null && selectButton.interactable)
             {
                 selectButton.Select();
             }
@@ -83,7 +85,10 @@ namespace Regrowth.UI
 
         private void Select()
         {
-            onSelected?.Invoke(optionId);
+            if (optionEnabled && selectButton.interactable)
+            {
+                onSelected?.Invoke(optionId);
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)

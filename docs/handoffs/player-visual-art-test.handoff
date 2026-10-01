@@ -1,0 +1,38 @@
+# 主角美术测试交接｜final 新命名同步
+
+- 任务别名：player-visual-art-test；更新：2026-10-01；分支 Dada；基线 HEAD `4d6b2e18d8386d2c5e2db4bd3a1b32c50edec8fd`。
+- 规范：AGENTS 15；沿用已有源码契约，未改公共 gameplay 接口。
+- 状态：资源同步完成，编译/资源检查通过；实机画面由用户自行 Play 验收，正式玩法集成未做。
+- 未 fetch、merge、切分支、reset、commit、push；未控制桌面输入。
+
+## 当前可接手摘要
+
+本轮橙色 PSD 补导 11 张横向 PNG，final 原有 31 张不覆盖，无 GIF。42 张 / 104 帧，包括 39 主角动作、3 敌人动作；主角 13 个完整身体组合、13 个临时 Idle。已授权的两处无手普通尾命名为 Dog0_Move_NoArmsTail / Dog0_Jump_NoArmsTail。Arms 必含 Sword，没有有手无剑的独立形象或旧变体回退。
+
+`Assets/Scenes/Tests/Art/PlayerVisual_ArtTest.unity` 保留原 Library 和场景 GUID。测试库替换为当前映射，Unassigned Variants 清空，旧命名资产移出 Assets 前已备份。原正式 gameplay / 场景 / 配置无改动。
+
+## 代码和接线
+
+- 新增 `Editor/PlayerVisualArtRefresh.cs` + `ArtRefreshManifest.json`：显式审核清单同步，Hash 预检，原生 AssetDatabase 移动、Sprite 切片与 Clip 更新，维护当前 Library。入口 Apply()；不自动启动或联网。
+- `PlayerVisualArtSetup` 的旧入口转到当前清单；Slice / MakeAnimation 供同步复用，保留已有 Clip GUID 并更新实际关键帧。
+- `PlayerVisualArtChecks` 更新为 13 组合、39 动作/13 Idle、0 未分配变体及当前缺失动作；另外校验 3 个敌人 Sprite/Clip。
+- Runtime Harness 行为不变；Library 的 Inspector 描述更新。参数与全部实际资源名称、帧数、FPS、操作步骤见 `docs/art-test/PLAYER_VISUAL_ART_TEST.md`。
+- 敌人仅位于 `Assets/Art/Characters/Enemies/Sprites` 和 `Animations`，未挂敌人控制器。旧模块资产外部引用预检后才移除旧资源。
+
+## 实际验证
+
+Unity 6000.2.9f1 独立验证副本运行 `Regrowth.Tests.Art.Editor.PlayerVisualArtRefresh.Apply`，原生导入并通过 1146 项资源/状态检查，0 失败，无 C# 编译错误。42 张 PNG / Clip 检查实际帧数、关键帧、500×500 切片和 FPS；当前 13 组合状态矩阵已更新。所有原有 final PNG 的 Hash 保持不变。用户要求导入后亲自检查，本次没有运行桌面/键鼠测试，也不将前版 864 次 Play 检查沿用为本版结果。
+
+## 已知差异和下一步
+
+- 动作需求表的 42 项均有 PNG；另有 3 个合法动作尚无图：无手火尾（无腿/有腿）的 Bite，以及有手有腿火尾 Fire，继续显示 MISSING。
+- 4 个已存在的 final PNG 与橙色 PSD 不同，依用户要求保留现有文件。尤其 Dog2_Move_NoArmsTail：final 5 帧，橙色 PSD 3 帧。全部名称列于说明文档。
+- 参考页“动作核对表”仍有旧名字；不要据此恢复已删除的旧变体。本轮只按当前动作需求表和 final 同步。
+- 用户停止 Play 并重新打开测试场景，即可检查新版组合、帧序和 FPS。若要替换上述 4 张，先明确采用新 PSD 内容，再刷新清单/映射。
+
+旧模块备份：`D:\01STUDY\2026gamejam\body\art\_Unity_Import_Backups\Before_Final_Refresh_20261001_192852`，包含上一版 handoff。完整交付结果见 `docs/art-test/delivery-verification.json`。
+
+Google Doc 的动作需求表：42 项序号和帧数已读回核验，2 处名称、9 处帧数已同步；其他分页未变。特效页 Projectile_Fireball_01 不在 final 或橙色组，本轮未导出。
+
+
+完整动作复核：13组合Move/Jump/Idle齐全，现行火尾方案应有42个主角源动作，已覆盖39；缺无手火尾的两种Bite和有手有腿火尾Fire。两种Bite可考虑显式复用现有Fire张嘴图。Projectile_Fireball_01未交付。独立喷火是另一种可选投放形式，不由当前火尾Harness覆盖；受击/死亡/冲刺等复用与效果方案仍需约定。详细矩阵和边界已写入当前操作说明。仅检查，未修改运行资产或Google Doc。

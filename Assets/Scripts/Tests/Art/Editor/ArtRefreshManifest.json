@@ -1,0 +1,516 @@
+{
+  "source": "Assets/Art/Characters/Player/Sprites",
+  "strips": [
+    {
+      "name": "Dog0_Attack_FlameTailSword",
+      "frames": 3,
+      "action": "Attack",
+      "fps": 12,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Attack_FlameTailSword.png",
+      "sha256": "d0184235864d948fa9527e16fe914598a1cdd05573c649e04befe240d2a9fd30"
+    },
+    {
+      "name": "Dog0_Attack_Tail",
+      "frames": 3,
+      "action": "Attack",
+      "fps": 12,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Attack_Tail.png",
+      "sha256": "99c0b88318d7c4372dad8de982fc25e2206de9152c6d9df6269ed91a12cb9eff"
+    },
+    {
+      "name": "Dog0_Bite",
+      "frames": 1,
+      "action": "Bite",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Bite.png",
+      "sha256": "352caae5792018cab1ed40fefacb44fca11db006531ad05a810c2da914a3a49d"
+    },
+    {
+      "name": "Dog0_Bite_Tail",
+      "frames": 1,
+      "action": "Bite",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Bite_Tail.png",
+      "sha256": "86da59108a6b1812e6c362870784d5c6acd1195c12350798dc543a496f7c935e"
+    },
+    {
+      "name": "Dog0_Fire_FlameTail",
+      "frames": 1,
+      "action": "Fire",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Fire_FlameTail.png",
+      "sha256": "dd4d827b7466ec9296eb5c674e60aafa6031412c91bc35498ec4afe2babfccb4"
+    },
+    {
+      "name": "Dog0_Fire_FlameTailSword",
+      "frames": 1,
+      "action": "Fire",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Fire_FlameTailSword.png",
+      "sha256": "92d4befeafe7ba55fc5ec60e4b466b5bf93741ed9b0d5377c733a1e6e9f15127"
+    },
+    {
+      "name": "Dog0_Jump",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Jump.png",
+      "sha256": "419f0b6789714d6422bd62eff33f3f8a448d109b073597a0aa797a655a7332a5"
+    },
+    {
+      "name": "Dog0_Jump_FlameTail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Jump_FlameTail.png",
+      "sha256": "16cc0488647aa555623cb5347a1e0e101edbbd27f60ac9e1bcd5b2bbeed429b5"
+    },
+    {
+      "name": "Dog0_Jump_FlameTailSword",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Jump_FlameTailSword.png",
+      "sha256": "f1402cb6ac5890e0acfb23d491d765c762aeb17b1526d9678d85419ec3267c0b"
+    },
+    {
+      "name": "Dog0_Jump_NoArmsTail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Jump_NoArmsTail.png",
+      "sha256": "66c6db72bcb33afd0454829cbb6345b271e3c4558916c5b32a7d9226633c330d"
+    },
+    {
+      "name": "Dog0_Jump_Tail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Jump_Tail.png",
+      "sha256": "8dec00eb4e8ef3093fe5c54c389ad5683757d394216fee641acb9c696912baed"
+    },
+    {
+      "name": "Dog0_Move",
+      "frames": 2,
+      "action": "Move",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Move.png",
+      "sha256": "e0e9d8e9ac284d9f1800eac404c6ad6f05355f037ddac6af096f2eb77334b73b"
+    },
+    {
+      "name": "Dog0_Move_FlameTail",
+      "frames": 2,
+      "action": "Move",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Move_FlameTail.png",
+      "sha256": "b5557692382c912c97d07f255bd696f34920600bb3049e3c74e73e9c6e31ad23"
+    },
+    {
+      "name": "Dog0_Move_FlameTailSword",
+      "frames": 3,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Move_FlameTailSword.png",
+      "sha256": "678a93dbcfcbd9f746f06976311f38fbd30ea7c927ade4945039849b5e672399"
+    },
+    {
+      "name": "Dog0_Move_NoArmsTail",
+      "frames": 2,
+      "action": "Move",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Move_NoArmsTail.png",
+      "sha256": "9e4167b6e484cba75a88226c1db4a8b52192967176dc1695b62760fd63b29007"
+    },
+    {
+      "name": "Dog0_Move_Tail",
+      "frames": 3,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Move_Tail.png",
+      "sha256": "955b0650ae5e413a6316b581e5b38ab9140411f659c9bcf319171c3c73a00dc8"
+    },
+    {
+      "name": "Dog0_Sword_Attack",
+      "frames": 3,
+      "action": "Attack",
+      "fps": 12,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Sword_Attack.png",
+      "sha256": "765062c5f54360f1b988bc67c809178256398f3951fc06d44cc7447b7fb23a82"
+    },
+    {
+      "name": "Dog0_Sword_Jump",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Sword_Jump.png",
+      "sha256": "31d8121683dc4d57357f996e0fa34be126555301b492733b571ea31c506d7e0c"
+    },
+    {
+      "name": "Dog0_Sword_Move",
+      "frames": 3,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog0_Sword_Move.png",
+      "sha256": "db85d10c13f328a1c4448af2452c72c46e715fde26b316c6407cd8d3d1bf1d20"
+    },
+    {
+      "name": "Dog2_Attack_FlameTail",
+      "frames": 4,
+      "action": "Attack",
+      "fps": 12,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Attack_FlameTail.png",
+      "sha256": "6a51793d0b94488afcb28fa72783a3e2a99794e52bd036a8003f561b7617ff6f"
+    },
+    {
+      "name": "Dog2_Attack_Sword",
+      "frames": 2,
+      "action": "Attack",
+      "fps": 12,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Attack_Sword.png",
+      "sha256": "a4e281d824c170d1e5769db5dffe7ebd35e9cfb5a8f3bbcced4347de6ccfbd4c"
+    },
+    {
+      "name": "Dog2_Attack_Tail",
+      "frames": 4,
+      "action": "Attack",
+      "fps": 12,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Attack_Tail.png",
+      "sha256": "3b9496943e6f1634856769afe3e9307d8baaed8e5fc576fe2ad0718e52b1e4fa"
+    },
+    {
+      "name": "Dog2_Bite_NoArms",
+      "frames": 1,
+      "action": "Bite",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Bite_NoArms.png",
+      "sha256": "e12a59d297262b6ef34a801ad3807fea59b8815a8e3688f3e7e439b3a91f5ac6"
+    },
+    {
+      "name": "Dog2_Bite_NoArms_Tail",
+      "frames": 1,
+      "action": "Bite",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Bite_NoArms_Tail.png",
+      "sha256": "39ce3dbbe2f94cf9e774e478f3f59e371f06670480c10c8929496ee3a2c85277"
+    },
+    {
+      "name": "Dog2_Fire_NoArmsFlameTail",
+      "frames": 1,
+      "action": "Fire",
+      "fps": 6.666666666666667,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Fire_NoArmsFlameTail.png",
+      "sha256": "84517f12ba9ed92aadbd9a2cbee485080848880340fd6b703e66aac7fb136130"
+    },
+    {
+      "name": "Dog2_Jump_FlameTail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Jump_FlameTail.png",
+      "sha256": "31d1511a1f50f8a9b70e5147492d30e0e36e3e57d62fe4304124722ab4c2e2c2"
+    },
+    {
+      "name": "Dog2_Jump_NoArms",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Jump_NoArms.png",
+      "sha256": "f0b03cae55ee440e78ea97a6589074e91a65a4c149d82a2245f7ef0692f2762f"
+    },
+    {
+      "name": "Dog2_Jump_NoArms_Tail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Jump_NoArms_Tail.png",
+      "sha256": "ea1abf8e4966f01b51f7e1973d0d39ef5d8787f8f72e0d5357c2e3cfc4c0d658"
+    },
+    {
+      "name": "Dog2_Jump_NoArmsFlameTail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Jump_NoArmsFlameTail.png",
+      "sha256": "56635a2d98de590caee0fa67617e3498ba278638ff7cf63546311e580e58604b"
+    },
+    {
+      "name": "Dog2_Jump_Sword",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Jump_Sword.png",
+      "sha256": "b34d79ee4a5d167d0f5fc7aa64c1e494f305fb3486f99170496223083c381468"
+    },
+    {
+      "name": "Dog2_Jump_Tail",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Jump_Tail.png",
+      "sha256": "92e8d9de4d90fce45fe8b5197d8172afe632661a9d6c49fedbea6228d855da76"
+    },
+    {
+      "name": "Dog2_Move_FlameTail",
+      "frames": 4,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Move_FlameTail.png",
+      "sha256": "95da87e17966295860140ef64259eb7dc0f2cf50764a219cb727baba8b43fe15"
+    },
+    {
+      "name": "Dog2_Move_NoArms",
+      "frames": 3,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Move_NoArms.png",
+      "sha256": "4edecd0cc670e90eceb03b56b1ba7651980e7dabf0d8981a586918bc1928c92a"
+    },
+    {
+      "name": "Dog2_Move_NoArmsFlameTail",
+      "frames": 3,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Move_NoArmsFlameTail.png",
+      "sha256": "3ceaaff9f92cc299fbf0fb6b7a17266e10bb59b5bcfe40098241a5e6577be324"
+    },
+    {
+      "name": "Dog2_Move_NoArmsTail",
+      "frames": 5,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Move_NoArmsTail.png",
+      "sha256": "f5df81dc3d996edfd53d21c8ca1f559763343c22d2a07a6368c3fc097faa8ee9"
+    },
+    {
+      "name": "Dog2_Move_Sword",
+      "frames": 3,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Move_Sword.png",
+      "sha256": "0f522717d5bda5067f7dc5e0b1acc7ad6b9bb7490e6c7f5c5bfe980c7d2f7e65"
+    },
+    {
+      "name": "Dog2_Move_Tail",
+      "frames": 4,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/Dog2_Move_Tail.png",
+      "sha256": "c1fad98d844d4ae3c1260486c255cd02bd33f35a1dececdfdfa2ef7f72a54e70"
+    },
+    {
+      "name": "DogHead_Jump",
+      "frames": 2,
+      "action": "Jump",
+      "fps": 6,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/DogHead_Jump.png",
+      "sha256": "78644b3bcce4f355a3305c77081bdc9929cbcd91fc54248b9c90d91d26a06b88"
+    },
+    {
+      "name": "DogHead_Move",
+      "frames": 6,
+      "action": "Move",
+      "fps": 8,
+      "player": true,
+      "path": "Assets/Art/Characters/Player/Sprites/DogHead_Move.png",
+      "sha256": "3eb0eeea1353a36a0c4f462b0351054f46dbdb800c5ebbdc9d89983861f2ac0b"
+    }
+  ],
+  "families": [
+    {
+      "body": false,
+      "arms": false,
+      "legs": false,
+      "tail": "None",
+      "prefix": "DogHead",
+      "names": [
+        "DogHead_Move",
+        "DogHead_Jump"
+      ]
+    },
+    {
+      "body": true,
+      "arms": false,
+      "legs": false,
+      "tail": "None",
+      "prefix": "Dog0",
+      "names": [
+        "Dog0_Move",
+        "Dog0_Jump",
+        "Dog0_Bite"
+      ]
+    },
+    {
+      "body": true,
+      "arms": false,
+      "legs": false,
+      "tail": "Normal",
+      "prefix": "Dog0_NoArmsTail",
+      "names": [
+        "Dog0_Move_NoArmsTail",
+        "Dog0_Jump_NoArmsTail",
+        "Dog0_Bite_Tail"
+      ]
+    },
+    {
+      "body": true,
+      "arms": false,
+      "legs": false,
+      "tail": "Flame",
+      "prefix": "Dog0_FlameTail",
+      "names": [
+        "Dog0_Move_FlameTail",
+        "Dog0_Jump_FlameTail",
+        "Dog0_Fire_FlameTail"
+      ]
+    },
+    {
+      "body": true,
+      "arms": true,
+      "legs": false,
+      "tail": "None",
+      "prefix": "Dog0_Sword",
+      "names": [
+        "Dog0_Sword_Move",
+        "Dog0_Sword_Jump",
+        "Dog0_Sword_Attack"
+      ]
+    },
+    {
+      "body": true,
+      "arms": true,
+      "legs": false,
+      "tail": "Normal",
+      "prefix": "Dog0_TailSword",
+      "names": [
+        "Dog0_Move_Tail",
+        "Dog0_Jump_Tail",
+        "Dog0_Attack_Tail"
+      ]
+    },
+    {
+      "body": true,
+      "arms": true,
+      "legs": false,
+      "tail": "Flame",
+      "prefix": "Dog0_FlameTailSword",
+      "names": [
+        "Dog0_Move_FlameTailSword",
+        "Dog0_Jump_FlameTailSword",
+        "Dog0_Attack_FlameTailSword",
+        "Dog0_Fire_FlameTailSword"
+      ]
+    },
+    {
+      "body": true,
+      "arms": false,
+      "legs": true,
+      "tail": "None",
+      "prefix": "Dog2_NoArms",
+      "names": [
+        "Dog2_Move_NoArms",
+        "Dog2_Jump_NoArms",
+        "Dog2_Bite_NoArms"
+      ]
+    },
+    {
+      "body": true,
+      "arms": false,
+      "legs": true,
+      "tail": "Normal",
+      "prefix": "Dog2_NoArmsTail",
+      "names": [
+        "Dog2_Move_NoArmsTail",
+        "Dog2_Jump_NoArms_Tail",
+        "Dog2_Bite_NoArms_Tail"
+      ]
+    },
+    {
+      "body": true,
+      "arms": false,
+      "legs": true,
+      "tail": "Flame",
+      "prefix": "Dog2_NoArmsFlameTail",
+      "names": [
+        "Dog2_Move_NoArmsFlameTail",
+        "Dog2_Jump_NoArmsFlameTail",
+        "Dog2_Fire_NoArmsFlameTail"
+      ]
+    },
+    {
+      "body": true,
+      "arms": true,
+      "legs": true,
+      "tail": "None",
+      "prefix": "Dog2_Sword",
+      "names": [
+        "Dog2_Move_Sword",
+        "Dog2_Jump_Sword",
+        "Dog2_Attack_Sword"
+      ]
+    },
+    {
+      "body": true,
+      "arms": true,
+      "legs": true,
+      "tail": "Normal",
+      "prefix": "Dog2_Tail",
+      "names": [
+        "Dog2_Move_Tail",
+        "Dog2_Jump_Tail",
+        "Dog2_Attack_Tail"
+      ]
+    },
+    {
+      "body": true,
+      "arms": true,
+      "legs": true,
+      "tail": "Flame",
+      "prefix": "Dog2_FlameTail",
+      "names": [
+        "Dog2_Move_FlameTail",
+        "Dog2_Jump_FlameTail",
+        "Dog2_Attack_FlameTail"
+      ]
+    }
+  ],
+  "moves": [],
+  "obsoleteSprites": []
+}
