@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainPortalCosts
   m_EditorClassIdentifier: Regrowth.WhiteBox::Regrowth.Gameplay.WhiteBox.PortalCostConfig
   choiceTitle: Choose a cost to teleport
-  minimumAttackPercent: 60
+  minimumAttackDamage: 6
   arrivalProtection: 0.5
   costs:
   - id: COST_SHED_LEGS

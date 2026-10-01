@@ -60,11 +60,11 @@ MonoBehaviour:
     regrowthTitle: 
   - id: attack
     title: Stronger Attacks
-    description: Bite and sword damage +3. No slot required.
+    description: All attacks +10 damage per hit, including each fire tick. No slot required.
     kind: 3
     item: 0
     healAmount: 25
-    effectAmount: 3
+    effectAmount: 10
     bonusHeal: 0
     regrowthTitle: 
   - id: flame-tail
@@ -82,7 +82,7 @@ MonoBehaviour:
   useCombatPercentages: 1
   healPercent: 20
   maximumHealthPercent: 10
-  attackPercentIncrease: 10
+  attackPointIncrease: 10
   choiceTitle: Choose one reward
   replacementTitle: Choose an old item to replace
   replacementDescription: Replace this held item.

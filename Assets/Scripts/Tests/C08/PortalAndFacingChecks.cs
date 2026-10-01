@@ -41,7 +41,7 @@ namespace Regrowth.Tests.C08
                 throw new InvalidOperationException("Fresh main scene Play required.");
             }
             var state = FindFirstObjectByType<PlayerState>();
-            if (state.Items.Count != 0 || state.AttackPercent != 100)
+            if (state.Items.Count != 0 || state.BiteDamage != 10 || state.SwordDamage != 20 || state.FireDamage != 8)
             {
                 throw new InvalidOperationException("Fresh empty state required.");
             }
@@ -126,7 +126,8 @@ namespace Regrowth.Tests.C08
                 {
                     motor.TryTeleportTo(testPortal.transform.position);
                     yield return Sample(.4f);
-                    Write(state, "currentHealth", 80); Write(state, "maximumHealth", 100); Write(state, "attackPercent", 100);
+                    Write(state, "currentHealth", 80); Write(state, "maximumHealth", 100); Write(state, "biteDamage", 10); Write(state, "swordDamage", 20); Write(state, "fireDamage", 8);
+                    if (cost.Kind == TeleportCostKind.Attack) state.TryApplyReward(new PlayerReward(attackIncrease: 10));
                     var held = PlayerState.CostItem(cost.Kind);
                     if (held.HasValue && !state.Contains(held.Value))
                     {
@@ -148,7 +149,7 @@ namespace Regrowth.Tests.C08
                     bool effect = held.HasValue ? !state.Contains(held.Value)
                         : cost.Kind == TeleportCostKind.CurrentHealth ? state.CurrentHealth == 64
                         : cost.Kind == TeleportCostKind.MaximumHealth ? state.MaximumHealth == 90 && state.CurrentHealth == 80
-                        : cost.Kind == TeleportCostKind.Attack ? state.AttackPercent == 90 && state.BiteDamage == 9 && state.SwordDamage == 18 && state.FireDamage == 8
+                        : cost.Kind == TeleportCostKind.Attack ? state.BiteDamage == 10 && state.SwordDamage == 20 && state.FireDamage == 8
                         : cost.Kind == TeleportCostKind.EnemyHealth ? baseEnemy.MaximumHealth == enemyMax + 50 && baseEnemy.CurrentHealth == (int)(((long)enemyHp * (enemyMax + 50) + enemyMax - 1) / enemyMax)
                         : baseEnemy.AttackDamage == enemyAttack + 5;
                     Check(effect && Vector2.Distance(motor.Position, target.transform.position) < .3f, cost.Id + " real effect and movement commit once");
@@ -172,7 +173,7 @@ namespace Regrowth.Tests.C08
                 {
                     state.TryRemoveLoadoutItem(item);
                 }
-                Write(state, "currentHealth", 1); Write(state, "maximumHealth", 1); Write(state, "attackPercent", 60);
+                Write(state, "currentHealth", 1); Write(state, "maximumHealth", 1); Write(state, "biteDamage", 10); Write(state, "swordDamage", 20); Write(state, "fireDamage", 8);
                 Write(testPortal, "cached", new[] { config.Costs.First(c => c.Kind == TeleportCostKind.CurrentHealth), config.Costs.First(c => c.Kind == TeleportCostKind.MaximumHealth), config.Costs.First(c => c.Kind == TeleportCostKind.Attack) });
                 Check(testPortal.TryInteract(state.gameObject), "all-grey boundary repairs one slot and opens");
                 Check(Request.Options.Count(o => o.IsEnabled) == 1 && Request.Options.Count(o => !o.IsEnabled) == 2, "all-grey repair preserves two grey slots");
@@ -185,13 +186,13 @@ namespace Regrowth.Tests.C08
                 panel.CancelCurrent();
                 Check(testPortal.TryInteract(state.gameObject) && repaired == string.Join(",", Request.Options.Select(o => o.Id)), "cancel does not reroll repaired deck");
                 panel.CancelCurrent();
-                Check(!state.CanPayTeleportCost(TeleportCostKind.CurrentHealth, 20, 60, out _)
-                    && !state.CanPayTeleportCost(TeleportCostKind.MaximumHealth, 10, 60, out _)
-                    && !state.CanPayTeleportCost(TeleportCostKind.Attack, 10, 60, out _), "service independently rejects lethal health and attack below 60%");
+                Check(!state.CanPayTeleportCost(TeleportCostKind.CurrentHealth, 20, 6, out _)
+                    && !state.CanPayTeleportCost(TeleportCostKind.MaximumHealth, 10, 6, out _)
+                    && !state.CanPayTeleportCost(TeleportCostKind.Attack, 10, 6, out _), "service independently rejects lethal health and attack below 6 damage");
                 Write(state, "currentHealth", 2); Write(state, "maximumHealth", 100);
-                Check(state.CanPayTeleportCost(TeleportCostKind.CurrentHealth, 20, 60, out _), "2 HP can legally pay one HP");
+                Check(state.CanPayTeleportCost(TeleportCostKind.CurrentHealth, 20, 6, out _), "2 HP can legally pay one HP");
 
-                Write(state, "currentHealth", 80); Write(state, "attackPercent", 100);
+                Write(state, "currentHealth", 80); Write(state, "biteDamage", 10); Write(state, "swordDamage", 20); Write(state, "fireDamage", 8);
                 ForceDeck(testPortal, config, TeleportCostKind.CurrentHealth);
                 testPortal.TryInteract(state.gameObject);
                 wall = new GameObject("C08 temporary invalid landing");

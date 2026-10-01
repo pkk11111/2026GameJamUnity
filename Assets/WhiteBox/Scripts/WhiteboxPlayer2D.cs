@@ -14,7 +14,7 @@ namespace Regrowth.Gameplay.WhiteBox
     /// <summary>保留原运动参数与测试技能；业务不得直接写本刚体。暂停清请求，保留已发生的物理状态。</summary>
     [DisallowMultipleComponent, DefaultExecutionOrder(-180)]
     [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
-    public sealed class WhiteboxPlayer2D : MonoBehaviour
+    public sealed class WhiteboxPlayer2D : MonoBehaviour, Regrowth.Gameplay.IPlayerBaseMoveSpeedProvider
     {
         [Header("总控接线")]
         [SerializeField, Tooltip("必填；唯一输入适配器，含白板可选 Reset 动作。")]
@@ -117,6 +117,8 @@ namespace Regrowth.Gameplay.WhiteBox
             && inputReader.IsInitialized && runController != null && runController.IsGameplayActive;
         public bool IsGrounded { get; private set; }
         public bool IsDashing => dashing;
+        /// <summary>AI读取唯一基础速度；不包含冲刺/击退，不复制配置。</summary>
+        public float BaseMoveSpeed => moveSpeed;
         /// <summary>实际R回位/传送完成后主线程通知；入口许可订阅者OnEnable注册、OnDisable退订，不重复执行迁移。</summary>
         public event Action Relocated;
 

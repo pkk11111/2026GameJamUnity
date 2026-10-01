@@ -17,8 +17,8 @@ namespace Regrowth.Runtime
         private int initialMaximumHealth = 100;
         [SerializeField, Min(0), Tooltip("初始咬击伤害；实际动作模块读取，暂定10。")]
         private int initialBiteDamage = 10;
-        [SerializeField, Min(0), Tooltip("初始剑击伤害；暂定15，双手权限不依赖腿。")]
-        private int initialSwordDamage = 15;
+        [SerializeField, Min(0), Tooltip("初始剑击伤害；默认20，双手权限不依赖腿。")]
+        private int initialSwordDamage = 20;
         [SerializeField, Min(1), Tooltip("火焰每跳基础伤害，暂定8；与旧加攻击奖励一同原子增加。")]
         private int initialFireDamage = 8;
         [SerializeField, Tooltip("仅白板/旧独测跳过躯干教学；正式教学场景必须关闭。首次初始化生效。")]
@@ -33,7 +33,6 @@ namespace Regrowth.Runtime
         private int biteDamage;
         private int swordDamage;
         private int fireDamage;
-        private int attackPercent = 100;
         private double protectionUntil;
         private bool notifying;
         public bool IsInitialized { get; private set; }
@@ -48,12 +47,10 @@ namespace Regrowth.Runtime
         public IReadOnlyList<LoadoutItemId> EverOwnedItems => historyView ?? (historyView = everOwned.AsReadOnly());
         public bool WasEverOwned(LoadoutItemId item) => everOwned.Contains(item);
         public PlayerForm CurrentForm => Contains(LoadoutItemId.Arms) ? PlayerForm.Upright : PlayerForm.Quadruped;
-        public int AttackPercent => attackPercent;
         public bool HasDamageProtection => Time.timeAsDouble < protectionUntil;
-        public int BiteDamage => Scaled(biteDamage, attackPercent);
-        public int SwordDamage => Scaled(swordDamage, attackPercent);
-        public int FireDamage => Scaled(fireDamage, attackPercent);
-        private static int Scaled(int value, int percent) => (int)(((long)value * percent + 99) / 100);
+        public int BiteDamage => biteDamage;
+        public int SwordDamage => swordDamage;
+        public int FireDamage => fireDamage;
         public bool CanUseFire => CanAct && HasBodyCore && Contains(LoadoutItemId.FlameTail);
         public bool CanBite => CanAct && HasBodyCore && !Contains(LoadoutItemId.Arms);
         public bool CanUseSword => CanAct && HasBodyCore && Contains(LoadoutItemId.Arms);
@@ -165,10 +162,7 @@ namespace Regrowth.Runtime
             long nextBite = (long)biteDamage + reward.AttackIncrease;
             long nextSword = (long)swordDamage + reward.AttackIncrease;
             long nextFire = (long)fireDamage + reward.AttackIncrease;
-            long nextPercent = (long)attackPercent + reward.AttackPercentIncrease;
-            if (nextMaximum > int.MaxValue || nextBite > int.MaxValue || nextSword > int.MaxValue || nextFire > int.MaxValue
-                || nextPercent > int.MaxValue || (nextBite * nextPercent + 99) / 100 > int.MaxValue
-                || (nextSword * nextPercent + 99) / 100 > int.MaxValue || (nextFire * nextPercent + 99) / 100 > int.MaxValue)
+            if (nextMaximum > int.MaxValue || nextBite > int.MaxValue || nextSword > int.MaxValue || nextFire > int.MaxValue)
             {
                 return false;
             }
@@ -208,7 +202,6 @@ namespace Regrowth.Runtime
             biteDamage = (int)nextBite;
             swordDamage = (int)nextSword;
             fireDamage = (int)nextFire;
-            attackPercent = (int)nextPercent;
             notifying = true;
             try
             {
@@ -272,10 +265,10 @@ namespace Regrowth.Runtime
         }
 
         /// <summary>模拟唯一状态的代价；敌人部分由唯一全图服务另验。false不修改，reason可用于灰卡。</summary>
-        public bool CanPayTeleportCost(TeleportCostKind kind, int amount, int minimumAttackPercent, out string reason)
+        public bool CanPayTeleportCost(TeleportCostKind kind, int amount, int minimumAttackDamage, out string reason)
         {
             reason = string.Empty;
-            if (!CanWrite || !HasBodyCore || amount <= 0 || minimumAttackPercent <= 0)
+            if (!CanWrite || !HasBodyCore || amount <= 0 || minimumAttackDamage <= 0)
             {
                 reason = "Player or cost is unavailable.";
                 return false;
@@ -307,11 +300,13 @@ namespace Regrowth.Runtime
                     reason = "Would reduce maximum health to zero.";
                     return false;
                 case TeleportCostKind.Attack:
-                    if ((long)attackPercent - amount >= minimumAttackPercent)
+                    if ((long)biteDamage - amount >= minimumAttackDamage
+                        && (long)swordDamage - amount >= minimumAttackDamage
+                        && (long)fireDamage - amount >= minimumAttackDamage)
                     {
                         return true;
                     }
-                    reason = "Attack cannot fall below " + minimumAttackPercent + "%.";
+                    reason = "Attack cannot fall below " + minimumAttackDamage + " damage points.";
                     return false;
                 case TeleportCostKind.EnemyHealth:
                 case TeleportCostKind.EnemyAttack:
@@ -326,10 +321,10 @@ namespace Regrowth.Runtime
         /// 主线程物理提交：全量复验后只执行一次费用与世界迁移。世界回调false必须无副作用；
         /// true必须已完成无通知的迁移/敌人写入，随后统一通知。死亡/重入/无效代价均拒绝。
         /// </summary>
-        public bool TryCommitTeleportCost(TeleportCostKind kind, int amount, int minimumAttackPercent,
+        public bool TryCommitTeleportCost(TeleportCostKind kind, int amount, int minimumAttackDamage,
             float protectionSeconds, Func<bool> tryCommitWorld, Action onCommitted)
         {
-            if (!CanPayTeleportCost(kind, amount, minimumAttackPercent, out _)
+            if (!CanPayTeleportCost(kind, amount, minimumAttackDamage, out _)
                 || tryCommitWorld == null || protectionSeconds < 0f || float.IsNaN(protectionSeconds)
                 || float.IsInfinity(protectionSeconds))
             {
@@ -364,7 +359,9 @@ namespace Regrowth.Runtime
                 maximumHealth = nextMaximum;
                 if (kind == TeleportCostKind.Attack)
                 {
-                    attackPercent -= amount;
+                    biteDamage -= amount;
+                    swordDamage -= amount;
+                    fireDamage -= amount;
                 }
                 protectionUntil = Math.Max(protectionUntil, Time.timeAsDouble + protectionSeconds);
                 CommitOwner(onCommitted);

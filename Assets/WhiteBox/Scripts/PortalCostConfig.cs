@@ -13,7 +13,7 @@ namespace Regrowth.Gameplay.WhiteBox
         [SerializeField] private string id;
         [SerializeField] private string title;
         [SerializeField] private TeleportCostKind kind;
-        [SerializeField, Min(1), Tooltip("生命为百分比，攻击为百分点，敌人为固定增量，舍弃填1。")]
+        [SerializeField, Min(1), Tooltip("生命为百分比，攻击为固定伤害点，敌人为固定增量，舍弃填1。")]
         private int amount = 1;
         public string Id => id;
         public string Title => title;
@@ -33,7 +33,7 @@ namespace Regrowth.Gameplay.WhiteBox
     public sealed class PortalCostConfig : ScriptableObject
     {
         [SerializeField] private string choiceTitle = "Choose a cost to teleport";
-        [SerializeField, Range(1, 100)] private int minimumAttackPercent = 60;
+        [SerializeField, Min(1), UnityEngine.Serialization.FormerlySerializedAs("minimumAttackPercent")] private int minimumAttackDamage = 6;
         [SerializeField, Min(0f)] private float arrivalProtection = 0.5f;
         [SerializeField] private PortalCostDefinition[] costs =
         {
@@ -48,14 +48,14 @@ namespace Regrowth.Gameplay.WhiteBox
             new PortalCostDefinition("COST_ENEMY_ATTACK", "Strengthen enemy attack", TeleportCostKind.EnemyAttack, 5)
         };
         public string ChoiceTitle => choiceTitle;
-        public int MinimumAttackPercent => minimumAttackPercent;
+        public int MinimumAttackDamage => minimumAttackDamage;
         public float ArrivalProtection => arrivalProtection;
         public IReadOnlyList<PortalCostDefinition> Costs => costs;
         public bool IsValid
         {
             get
             {
-                if (costs == null || costs.Length < 3 || minimumAttackPercent <= 0 || minimumAttackPercent > 100
+                if (costs == null || costs.Length < 3 || minimumAttackDamage <= 0
                     || arrivalProtection < 0f || float.IsNaN(arrivalProtection) || float.IsInfinity(arrivalProtection))
                 {
                     return false;

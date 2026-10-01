@@ -160,7 +160,7 @@ namespace Regrowth.Gameplay
                 case ChestRewardKind.MaximumHealth:
                     return "Increase maximum and current HP by " + ((long)health.MaximumHealth * config.MaximumHealthPercent + 99) / 100 + ".";
                 case ChestRewardKind.Attack:
-                    return "All attacks: +" + config.AttackPercentIncrease + " percentage points.";
+                    return "All attacks: +" + config.AttackPointIncrease + " damage per hit (including each fire tick).";
                 default: return reward.Description;
             }
         }
@@ -184,7 +184,7 @@ namespace Regrowth.Gameplay
                     }
                     PlayerReward percentageReward = reward.Kind == ChestRewardKind.Heal ? new PlayerReward(heal: (int)amount)
                         : reward.Kind == ChestRewardKind.MaximumHealth ? new PlayerReward(heal: (int)amount, maximumHealthIncrease: (int)amount)
-                        : new PlayerReward(attackPercentIncrease: config.AttackPercentIncrease);
+                        : new PlayerReward(attackIncrease: config.AttackPointIncrease);
                     return rewards.TryApplyReward(percentageReward, null, () => Complete(expected));
                 }
                 var grant = new PlayerReward(reward.Kind == ChestRewardKind.Loadout ? (LoadoutItemId?)reward.Item : null,

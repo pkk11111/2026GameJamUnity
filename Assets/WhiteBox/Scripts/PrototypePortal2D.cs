@@ -99,7 +99,7 @@ namespace Regrowth.Gameplay.WhiteBox
 
         private bool CanPay(PortalCostDefinition cost, out string reason)
         {
-            if (!state.CanPayTeleportCost(cost.Kind, cost.Amount, costConfig.MinimumAttackPercent, out reason))
+            if (!state.CanPayTeleportCost(cost.Kind, cost.Amount, costConfig.MinimumAttackDamage, out reason))
             {
                 return false;
             }
@@ -160,7 +160,9 @@ namespace Regrowth.Gameplay.WhiteBox
                         long maximum = state.MaximumHealth - ((long)state.MaximumHealth * cost.Amount + 99) / 100;
                         text = "Maximum HP: " + state.MaximumHealth + " -> " + maximum + "; current: " + state.CurrentHealth + " -> " + Math.Min(state.CurrentHealth, maximum); break;
                     case TeleportCostKind.Attack:
-                        text = "All attack multiplier: " + state.AttackPercent + "% -> " + (state.AttackPercent - cost.Amount) + "%."; break;
+                        text = "Damage -" + cost.Amount + ": bite " + state.BiteDamage + " -> " + (state.BiteDamage - cost.Amount)
+                            + ", sword " + state.SwordDamage + " -> " + (state.SwordDamage - cost.Amount)
+                            + ", fire/tick " + state.FireDamage + " -> " + (state.FireDamage - cost.Amount) + "."; break;
                     case TeleportCostKind.EnemyHealth:
                         text = "All living and future enemies: +" + cost.Amount + " maximum HP. Keep current HP ratio."; break;
                     case TeleportCostKind.EnemyAttack:
@@ -193,7 +195,7 @@ namespace Regrowth.Gameplay.WhiteBox
                 {
                     return false;
                 }
-                return state.TryCommitTeleportCost(cost.Kind, cost.Amount, costConfig.MinimumAttackPercent,
+                return state.TryCommitTeleportCost(cost.Kind, cost.Amount, costConfig.MinimumAttackDamage,
                     costConfig.ArrivalProtection,
                     () => cost.Kind == TeleportCostKind.EnemyHealth || cost.Kind == TeleportCostKind.EnemyAttack
                         ? enemies.TryCommit(cost.Kind, cost.Amount, move) : move(),
