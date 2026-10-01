@@ -1,9 +1,58 @@
-# 总控当前交接：地图迭代期间的基线、依赖与README工作记录
+# 总控当前交接：C系列V5独测迁移与旧T弃用
+
+更新：2026-10-01（Australia/Sydney）· 规范15 / 工作区源码契约8（未提交/未发布）
+成员/任务别名：controller；任务C00/C02-V5/C03-V5/C04/C05；分支Ming
+本轮开始HEAD/本地origin/Ming：66fde79；已提交源码6348beb/契约7。保留此前AGENTS、WORK_PACKAGES、README、controller.handoff四份未提交补记；本轮未联网核实远端。
+状态：本轮C02/C03迁移、C01复验与地图兼容回归通过；4个C系源码和4份总控文档待用户提交发布。完整教学、战斗、收费、支线仍暂缓。
+
+## 授权与实际修改
+
+用户要求继续完善C系列，且旧T交付弃用、重新提交文件才是新版T。按既有范围优先完成不依赖更新地图的底层/独测；不实施完整教学、攻击战斗、收费、挑战、完整结局/重开。
+
+源码仅修改：
+- Assets/Scripts/Core/IChoiceFlow.cs：同签名，TryReplace语义只接受1/3项，拒绝旧四项。
+- Assets/Scripts/Runtime/ChoiceCoordinator.cs：移除TryReplace四项兼容；其他锁/确认/取消/阶段生命周期保持。
+- Assets/Scripts/Tests/C02/C02SmokeDriver.cs：原独测迁移三槽、手剑合项、腿不限制剑、原身份拒绝；保留生命/死亡通知、只读、重入和启停覆盖，新增头部/躯干/历史及正面原子包验证。按钮序列化字段uprightButton/swordButton保留GUID/引用，运行标签与行为改为TEST Arms + Sword / TEST Legs；测试头部用临时PlayerState夹具，不保存。
+- Assets/Scripts/Tests/C03/C03SmokeDriver.cs：原三/四项独测改单/三项；示例改Arms/Legs；保留交互排序/真实输入/迟到回调/取消/重入/启停，新增单卡开/确认/取消与三卡转单卡，拒绝2/4项。
+
+同步AGENTS规范15/真实接口、WORK_PACKAGES依赖/弃用/新版交付和C系结果、README用户工作记录及本交接。未修改旧T文件、场景/Prefab/配置/Input Actions/Packages/ProjectSettings/Wwise/其他handoff；无新meta、无切分支/merge/reset/自动commit/push/子代理。
+
+## 源码契约8与队友使用
+
+已提交契约7仍提供三槽、身体/成功历史、攻击权限、原子正面奖励；工作区8仅收紧IChoiceFlow数量语义（TryBegin/TryReplace均1或3，2/4失败无副作用）。ChoiceRequest/IChoicePresenter泛用展示仍1–4，不代表总控业务可以提交4项。依赖实际新实现的成员须等用户发布包含8的确切提交，本轮没有自动发布。
+
+新T状态/攻击/移动读取唯一PlayerState的ILoadoutState/IPlayerBodyState/IPlayerCombatState；保留项身份Arms=202、Legs=201、Tail=203、FlameTail=204（枚举未改）。正面服务用TryApplyReward(PlayerReward, removedItem?, onCommitted?)；owner消费先于通知，UI不可写；单卡躯干用TryAcquireBodyCore，完整教学安全出口仍未接。不要提交UprightForm/Sword作正式项，不维护独立剑槽。
+
+灰卡/生命预览、安全代价模拟/原子提交、挑战/入口许可/完整新局重置仍无接口。后续按用户恢复范围串行发布，不通过文档目标假定已实现。
+
+## 本轮实际验证
+
+1. 完整读取本机规则/任务/交接，Git开始HEAD66fde79、4份文档补记保留。MCP读custom-tools/instances并显式绑定2026GameJamUnity@1ba105ba2ebb3fca，project/info确认F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64；原地图干净非Play。
+2. Unity完整刷新编译成功，源码已加载；Console实际错误查询为0。期间一次只读execute_code无结果，刷新等待有桥接/域重载延迟，恢复目标后继续；不是功能通过证据。
+3. 保存资产不改的C02_Smoke实际Play：**69 passed / 0 failed**，结束Dead。包括原生命/分类伤害、容量/去重/原子替换、攻击权限、历史和隔离头部、组合数值/溢出、通知/重入、三轮Bootstrap启停、真实输入与死亡锁。
+4. C03_Smoke实际Play：**63 passed / 0 failed**，结束Dead。含实际InputSystem交互、多Collider/类别距离ID、失败不转第二物件、单/三卡数量/替换/取消/迟到回调及生命周期。
+5. C01_Smoke实际Play复验：**32 passed / 0 failed**，真实输入/阶段/缓冲/启停未回归。本轮未修改其源码或资产。
+6. 首次从C01返回地图load请求桥接断连未成功；查询确认仍为C01后停止Play，重新加载Level_Whitebox成功再测，未误将C01结果记为地图验证。
+7. Level_Whitebox Play调用现有T12V5Checks：**33 passed / 0 failed**；兼容回归，不算新版T12交付完成。7箱逐个经真实Chest→ChoiceCoordinator→ChoicePanel打开3卡/Choosing暂停并取消，菜单/锁都释放，全部未领取；最终HP100、0槽、Playing。此轮未模拟地图E/鼠标/键盘替换，旧操作结果保留历史。
+8. 最终退出Play，恢复Level_Whitebox非Play、isDirty=false、6根。未保存任何场景或测试状态，不动布局/门地刺尺度和音频。Console近期仅账户API网络/焦点警告，未清空日志。
+9. 收尾静态检查通过：仅4个C系源码和4份总控文档共8个路径变化，13个Markdown本地文件链接有效，AGENTS音频§9与已提交基点一致，git diff --check通过；场景/配置/Prefab/meta/Input Actions/包与项目设置/Wwise无改动。最终地图6根、零Missing Script，状态/运动/选择各1、菜单/HUD各1、宝箱7。不继承旧T独测的26/27/47项作新版通过。Windows/完整路线/正式玩法/Bank声音未验收。
+
+## 旧T弃用与下一步
+
+旧T完成记录、Smoke/Integration/Level入口只留历史/资产依赖，不继续适配队友旧测试；新T文件与本人新版handoff/独测才是接收对象。暂留旧资产保护现有引用和地图兼容闭环，新版到齐相关模块后逐项替换，保留必要GUID/meta并清理重复类型/旧引用，不提前批量删除，不整分支覆盖当前总控适配。
+
+下一步用户审核/发布本轮8，再按WORK_PACKAGES接收新版T模块；不必等全部T一起更新，仍只等待每项真实依赖。下轮恢复完整教学/战斗/收费/支线及新地图时，再补对应C共享端口与逐项集成。AGENTS音频§9与当前Ming配置继续不变。
+
+---
+
+# 历史交接：地图迭代期间的基线、依赖与README工作记录（规范14）
+
+# 上一轮交接：地图迭代期间的基线、依赖与README工作记录
 
 更新：2026-10-01（Australia/Sydney）· 规范14 / 已提交源码契约7（本轮未改源码）
 成员/任务别名：controller；任务C00/C04/C05维护；分支Ming
 本轮基点：6348beb1c1eef1565aa6b13c5a338769eab0c404；HEAD=本地origin/Ming；开始工作区干净。本轮未联网核实远端。
-状态：总控基线/接口/场景结构复核与文档整理完成；本轮4份文档未提交/未推送。完整教学、战斗、收费、支线待下一轮授权恢复。
+状态：总控基线/接口/场景结构复核与文档整理完成；用户已提交4份协调文档为66fde79（Readme update），当前HEAD/本地origin/Ming相同；本轮未联网核实远端，收尾状态/格式补记未提交。完整教学、战斗、收费、支线待下一轮授权恢复。
 
 ## 用户最新范围与本轮实际工作
 
@@ -21,7 +70,7 @@ AGENTS规范14同步最新范围、已提交契约7和README维护要求。WORK_
 - 初次查询误用了UI/Chest子命名空间，返回对应类型计数0；读取源码实际Regrowth.UI/Regrowth.Gameplay后重新查询得到1/1/7。没有将查询错误当作缺组件，也未生成重复对象。
 - Console只读最近错误/警告：返回Unity账户API网络/编辑器焦点警告，无该次查询中的源码编译错误；未清空日志。
 - 本轮不进入Play、不保存/重载地图、不重跑历史回归；上一轮33/0与真实E/鼠标/取消/替换为既有证据，不改写成新测试。
-- 收尾检查4份文档diff、Markdown本地链接、音频条款保留及改动范围；具体执行结果以本轮收尾记录为准。
+- 收尾检查通过：4份文档范围、13个Markdown本地文件链接、AGENTS音频§9与源码基点文字一致、git diff --check。首次格式检查发现README末尾多余空行，修正后通过。期间用户已将这4份文档提交为66fde79；没有自动提交或推送。最终补记提交事实，保持历史不改写。
 
 ## 下一步与放行
 

@@ -1,8 +1,10 @@
 # pawgatory 统一开发规范与游戏契约
 
-规范版本：14，2026-10-01。玩法目标采用用户提供的 pawgatory V5；**Ming/6348beb 已提交源码契约 7，T12 必要迁移已完成，完整 V5 尚未完成**。本轮仅更新总控协调与工作记录，不升级源码契约。用户为总控，其他程序人数未定、不超过 5 人，按最小可测试功能领取任务。本文为唯一规则入口，不另建 agent.md。
+规范版本：15，2026-10-01。玩法目标采用用户提供的 pawgatory V5；**Ming/6348beb 已提交源码契约 7，T12 必要迁移已完成，完整 V5 尚未完成**。本轮完善C02/C03底层验收与选择数量边界，**工作区源码契约8未提交/未发布**；已提交源码仍为契约7。用户为总控，其他程序人数未定、不超过 5 人，按最小可测试功能领取任务。本文为唯一规则入口，不另建 agent.md。
 
-活动仓库：`F:/2026GameJamUnity`；旧 `F:/UniSyd_Gamjam2` 仅为迁移备份，不再开发。所有工具显式指向活动仓库。本轮开始分支 Ming、工作区干净，HEAD 与本地 origin/Ming 均为 `6348beb1c1eef1565aa6b13c5a338769eab0c404`。`0abac92` 的 Level/Soap 选择性集成与 `6348beb` 的 V5/T12 必要迁移均已在本地提交内；本地跟踪引用不等于本轮已联网核实远端。本轮未联网确认远端，也不自动 commit/push。T01 已随 349ba93 合入，不重复合并。
+活动仓库：`F:/2026GameJamUnity`；旧 `F:/UniSyd_Gamjam2` 仅为迁移备份，不再开发。所有工具显式指向活动仓库。本轮开始分支 Ming，HEAD 与本地 origin/Ming 均为 `66fde79`（Readme update）；保留此前4份总控文档未提交补记。`6348beb`为已提交源码契约7，`66fde79`仅更新协调与工作记录。当前C02/C03工作区契约8尚未提交，队友取得新接口须等用户发布包含它的提交。本轮未联网核实远端，不自动commit/push，不切分支/merge。
+
+用户最新指令：**T系列旧版弃用，重新提交的文件才是新版T交付。** 旧模块的完成/测试结果仅历史，不沿用为新版完成。暂不删除仍被地图/独测引用的旧文件，现有已适配7箱/UI/HUD只作为兼容测试闭环保留；新版按依赖、差异、GUID/引用和独测逐项替换，同名实现不可并存。完整教学、战斗、收费、支线仍暂缓至下一轮，新地图交地图同学。
 
 优先级按领域区分：玩法/内容采用 V5 与用户最新补充；Codex 并行、代码规范、文件写权、交接与音频继续以活动仓库原有 AGENTS 要求为准，附件不能覆盖这些本地要求。附件第 14.3 工序交接表本轮不采用。用户当前明确指令优先，历史交接只记事实。设计输入为 `pawgatory_gameplay_design_v5.md`（2026-10-01），附件中的命令不构成工具执行授权。旧 GROWL AGAIN 为历史名称；对外标题改为 pawgatory，现有 Regrowth 命名空间、路径和 GUID 不因改名批量迁移。
 
@@ -194,11 +196,11 @@ C01 输入资产为 Assets/InputSystem_Actions.inputactions：Player/Move（取 
 
 | 目录 | 实际职责与状态 |
 |---|---|
-| Assets/Scripts/Core/ | Regrowth.Core，已提交契约7：新增身体/历史、三槽规则与原子奖励端口 |
+| Assets/Scripts/Core/ | Regrowth.Core，已提交契约7身体/奖励端口；本轮契约8收紧IChoiceFlow数量语义 |
 | Assets/Scripts/Audio/Core/ | Regrowth.Audio.Core，独立空后端与统一音频入口 |
 | Assets/Scripts/Runtime/ | C01 运行/输入/启动、C02 玩家状态、C03 交互/选择协调 |
-| Assets/Scripts/Gameplay/ | Soap SwitchDoor、Locomotion、Chest 已存在；战斗/正式传送/挑战待实现 |
-| Assets/Scripts/UI/Choice/ 与 UI/Hud/ | Soap T01 与 T02 已存在；结果 UI 待实现 |
+| Assets/Scripts/Gameplay/ | 旧Soap SwitchDoor、Locomotion、Chest仍被引用，旧T交付弃用；等待新版替换 |
+| Assets/Scripts/UI/Choice/ 与 UI/Hud/ | 旧T01/T02与总控适配仍供兼容测试；正式交付等待新版T，结果UI待实现 |
 | Assets/Scripts/Presentation/ | 身体组合/反馈职责，按任务创建 |
 | Assets/Scripts/Audio/Wwise/ | 项目后端职责，尚待接入；不改插件源码 |
 | Assets/WhiteBox/ | Level_Whitebox 地图、试走脚本、输入与资源 |
@@ -211,7 +213,7 @@ C01 输入资产为 Assets/InputSystem_Actions.inputactions：Player/Move（取 
 
 ## 7 实际存在的接口与迁移缺口
 
-**以下实际接口已随 Ming/6348beb 提交，为源码契约 7；队友取得该提交即可读取，无需等待全部 T 系列更新。** `0abac92` 的契约 6 仅为历史基点。灰卡/生命预览、安全代价提交、挑战与完整重开接口仍未发布，不能根据任务表自行假定它们存在。 新增身份使用 201–204，旧 ID 1/2/5/101 等保留数值但不再被正式 PlayerState 奖励写口接受。当前地图为空构筑开局，没有序列化旧库存需要静默转换；新 V5 奖励资产独立创建，旧测试配置保留供追溯，不当正式池。
+**身体/三槽/正面奖励等接口已随Ming/6348beb提交（源码契约7）；本轮工作区契约8改变IChoiceFlow数量语义，TryBegin与TryReplace均只接受1或3项，拒绝旧四项事务。契约8尚未提交/发布，获取新实现以用户后续发布的确切提交为准。** 其他列明签名保持不变，无需等待全部T一起更新。 `0abac92` 的契约 6 仅为历史基点。灰卡/生命预览、安全代价提交、挑战与完整重开接口仍未发布，不能根据任务表自行假定它们存在。 新增身份使用 201–204，旧 ID 1/2/5/101 等保留数值但不再被正式 PlayerState 奖励写口接受。当前地图为空构筑开局，没有序列化旧库存需要静默转换；新 V5 奖励资产独立创建，旧测试配置保留供追溯，不当正式池。
 
 | 类型 | 实际签名/字段 | 已实现语义或边界 |
 |---|---|---|
@@ -231,15 +233,25 @@ C01 输入资产为 Assets/InputSystem_Actions.inputactions：Player/Move（取 
 | IInteractionState / IInteractable | HasTarget、InteractionId、Prompt、TargetChanged；Kind、CanInteract/TryInteract(actor) | 真正交互桥接为InteractionTarget；类别→距离→稳定Ordinal ID，跳过不可用对象，一次请求不二次转发 |
 | InteractionKind | Portal=0、Switch=1、Chest=2 | 既有顺序；支线条件门类别/接线仍由总控后续发布 |
 | ChoiceOption / ChoiceRequest | Id、Title、Description；请求复制1–4个不同候选 | 当前还没有禁用/生命预览字段，安全代价UI未完成 |
-| IChoiceFlow / ChoiceCoordinator | IsOpen、RequestId、TryBegin/TryReplace/Cancel；具体协调器新增LastClosedFrame | TryBegin接受1或3；TryReplace接受1/3/4（4仅旧展示兼容）；V5业务满槽只交3旧项，协调Choosing/锁 |
+| IChoiceFlow / ChoiceCoordinator | IsOpen、RequestId、TryBegin/TryReplace/Cancel；具体协调器新增LastClosedFrame | 工作区契约8：TryBegin/TryReplace只接受1或3；2/4拒绝且不改当前阶段/回调；满槽3旧项，单卡显式确认，协调Choosing/锁 |
 | IChoicePresenter / T01 | TryShow、TryReplaceCurrent、CancelCurrent | 既有生命周期；本轮补默认卡焦点/卡片Escape取消；WhiteboxOverlay防同次取消再暂停 |
 | IAudioBackend / GameAudio | 原Play/StopAll/InstallBackend/UninstallBackend | 数值、方法与生命周期不变，空后端可运行；项目Wwise适配尚未交付 |
+
+### C系列当前验收与新版T接线边界
+
+- C01输入/运行独测本轮复验32/0；PlayerInputReader与RunController的签名和配置未改。
+- C02_Smoke已按V5迁移，实际Play69/0。覆盖三槽、Arms合手剑、无腿剑击、旧身份拒绝、生命/死亡顺序、只读活视图、重入/启停，以及隔离头部状态、一次躯干、历史保留和正面原子奖励。原测试按钮的序列化引用保留，运行标签/行为改为手剑和腿；不代表教学/攻击地图已做。
+- C03_Smoke已按V5迁移，实际Play63/0。覆盖单卡开/取消/确认、三卡与三旧项替换、三卡进入单卡确认、拒绝2/4卡、迟到回调、业务重入、取消、启停及真实输入/交互排序。保留泛用ChoiceRequest/IChoicePresenter的1–4展示数据兼容，但总控业务事务只允许1/3，不能借泛用展示绕过契约。
+- 现有T12V5Checks作为兼容回归本轮33/0；地图7箱真实Chest→Flow→Panel三卡开/取消均正常、全箱未领取。它不把弃用的旧T12交付标为新版完成。
+- 新T01/T02/T03/T06/T10/T11/T12按本文真实接口接线；普通奖励和替换用3项，教学/指定确认用1项，不再提交4项。T07/T08读取HasBodyCore与CanBite/CanUseSword，不从独立站立卡/旧Sword推导。
+- 灰卡/生命预览、安全代价模拟/原子提交、挑战与完整重开仍无已发布接口；本轮没有实现正式收费/教学/战斗/支线。需该接点的新版T只能完成独立无依赖部分，不能自建第二份玩家状态或自控Time.timeScale。
+- 旧T交付及其Smoke/Integration/Level断言弃用，保留资产依赖和历史，不执行或继续迁移队友旧T测试。新T文件/配置/测试随本人新版handoff提交；总控先审查再替换引用，不因旧提交已合入而拒绝新版。
 
 ### 实际场景接线、配置与剩余迁移
 
 C01 RunController / PlayerInputReader / GameBootstrap 仍为唯一阶段/输入/启动；PlayerState 是唯一玩家生命/构筑/身体状态。PlayerInteractor 与 **InteractionTarget** 只读筛选目标，CanInteract不结算；同类别按距离再稳定ID排序。ChoiceCoordinator显式绑定ChoicePanel和Bootstrap，UI不写状态或Time.timeScale。
 
-Level_Whitebox 保留6根：00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal。本轮在01 World/Chests放7个Chest Prefab实例，与原7簇宝箱标记同中心；03 UI增加ChoiceMenu/EventSystem，00 Runtime增加ChoiceCoordinator。只将对应63格宝箱标记设透明，保留Tile身份及其他标记。三槽HUD读取Test_Player；原第四槽视图在地图实例停用，来源Prefab保留兼容旧独测。
+Level_Whitebox 保留6根：00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal。此前在01 World/Chests放7个Chest Prefab实例，与原7簇宝箱标记同中心；03 UI增加ChoiceMenu/EventSystem，00 Runtime增加ChoiceCoordinator。只将对应63格宝箱标记设透明，保留Tile身份及其他标记。三槽HUD读取Test_Player；原第四槽视图在地图实例停用，来源Prefab保留兼容旧独测。
 
 - `Assets/Configs/Chest/V5_WhiteboxRewards.asset`：腿/手剑/普通尾/回血/增加上限/攻击六个不同条目，普通等概率池。暂定回血25、上限+15（不附带回血）、咬击与剑击伤害各+3；不是冻结平衡数值。
 - `V5_RegrowthRewards.asset`：相同池，favorRegrowth=true；地图Chest_03/05使用，优先一个本局曾持有的缺失身体。
@@ -254,7 +266,7 @@ Level_Whitebox 保留6根：00 Runtime、01 World、02 Actors、03 UI、90 Valid
 | 生命安全代价预览/禁用、负面、正式付费传送 | C02/C03后续写口和T13/T17；没有合法致死支付分支 |
 | 正式按钮安全切换、地刺伤害、两支线条件门/失败/完成/专用奖励 | T03/T14/T20；L01/L02地图由地图迭代同学负责 |
 | 精英、免费出口、死亡优先、整局重开 | T09/T15/T16/C01；R仍仅回位 |
-| 旧测试资产/断言全面迁移 | C02/T02/T12旧四槽/姿态用例不再是V5验收；当前用T12V5Checks及真实白盒验证 |
+| 独测版本与旧T弃用 | C02/C03已迁移69/63；旧T/Integration/Level用例弃用待新版交付，现有T12适配仅兼容回归 |
 
 ### 选择端口生命周期（现有保证继续保留）
 
@@ -477,7 +489,7 @@ Unity 测试场景、Prefab、Inspector 绑定：
 
 ## 13 验收与发布基线
 
-当前已提交基点 Ming/6348beb（契约7）；本轮仅文档协调，不新增源码或场景测试结论。历史 C01 32、C02 51、C03 57、T01 41、T01_C03 31 项；最近 Soap T02 26、T03 27、T06 27、T12 47 项通过及白板 47 项、HUD 10 项记录见 controller.handoff。白板全能力回归在 Play 临时启双跳，场景保存值仍为 false。**这些是旧实现的历史验证，不是 V5 验收。** 上一轮已完成Unity编译、T12V5Checks 33/0、7箱开关菜单及真实E/鼠标/键盘取消/替换验证，对应实现现已提交；本轮未重跑Play，不将历史结果写成新测试。未导出Windows或完成整局。
+已提交源码基点Ming/6348beb（契约7），协调文档提交66fde79；本轮工作区契约8未提交。Unity实际编译成功，C01 32/0、V5 C02 69/0、V5 C03 63/0、现有T12适配回归33/0，地图7箱组件链路开/取消通过；不代表正式新版T验收或整局完成。历史 C01 32、C02 51、C03 57、T01 41、T01_C03 31 项；最近 Soap T02 26、T03 27、T06 27、T12 47 项通过及白板 47 项、HUD 10 项记录见 controller.handoff。白板全能力回归在 Play 临时启双跳，场景保存值仍为 false。**这些是旧实现的历史验证，不是 V5 验收。** 上一轮已完成Unity编译、T12V5Checks 33/0、7箱开关菜单及真实E/鼠标/键盘取消/替换验证，对应实现现已提交；此前E/鼠标/键盘操作为上一轮记录，本轮没有再次模拟这些地图按键；当前新增结果以上方C系列/组件链路为准。未导出Windows或完成整局。
 
 V5 迁移每项独测后再集成，不继承旧四槽/致死支付/站立保留剑的断言。必须包括：
 
@@ -496,10 +508,8 @@ V5 迁移每项独测后再集成，不继承旧四槽/致死支付/站立保留
 
 ## 14 本轮记录与下一步
 
-已完整阅读 V5，并同步用户最新基准、入口条件门、地图分工、忽略附件14.3及本地开发规范优先要求；已完成T12必要迁移/接图和所述验证。上一轮已按用户后续授权接入T12地图宝箱及必要底层，本轮核实用户已提交。Wwise、公共输入/包设置及地图尺寸保持，不替队友重复制作两条支线地图。
+用户授权继续完善C系列，并明确旧T系列弃用、新提交文件作为新版T。保留本轮开始已有的4份文档补记，完成C02/C03 V5独测迁移、C03事务1/3项规则及C01复验；源码契约8尚未提交/发布。本轮仅4个C系源码与4份总控文档，不改旧T文件、场景、Prefab、配置、Input Actions、Packages/ProjectSettings、Wwise、其他成员交接；保留原meta/GUID，无自动commit/push/merge或子代理。
 
-T12与必要底层已由用户提交为6348beb。本轮新增文档尚未提交，不自动commit/push。用户最新安排：**地图即将更新，完整教学、战斗、收费和支线实现及接图暂缓，留到下一轮；现有宝箱测试闭环继续保留。** 这是排期调整，不删除V5目标规则。
+正式新版T的交付以本人新提交为准，旧完成记录不迁移。当前已适配地图闭环可作底层回归，暂不删除有引用的旧资产；后续总控根据新文件逐项替换、清理重复实现和旧引用，不能盲覆写GUID或整分支合并。README持续记录本轮修改/结果与提交状态，详细接线见WORK_PACKAGES和controller.handoff。
 
-当前总控可继续核对基线与真实接口、整理依赖和交付边界、迁移不涉及上述玩法的新规则独测、维护文档及README工作记录。无需等待所有T任务一起更新；某模块开始实施或集成前，只核对它依赖的接口、资产与验证。用户补充已有T任务可能按新WORK_PACKAGES重新提交：保留任务ID，分别登记当前Ming已集成提交与新版本待审提交；旧版完成不自动表示V5完成。新版本逐项审查差异和依赖，不因同一T编号拒绝更新，也不因已完成编号盲目覆盖当前适配。未发布的安全代价/灰卡/挑战/完整重开仍是对应任务的前置依赖，不以文档目标代替实现。完整任务卡表示后续目标，不构成本轮提前开发暂缓项的授权。
-
-新地图和L01/L02仍由地图迭代同学制作；本轮总控不改旧主图布局或提前搬迁对象。下一轮按用户授权、模块适配交付和地图handoff恢复串行接线，先核对场景GUID、尺度、安全起点、实体/标记和引用，再测短闭环与整局。不要再次合入同一份旧T01交付；后续T01等V5增量重新提交可按新版本审查。不要用旧四槽配置覆盖V5奖励资产。完整依赖和重新提交规则见WORK_PACKAGES。
+下一轮按用户恢复范围发布安全代价/灰卡、挑战和完整重开接点，再接完整教学/攻击敌人/收费/支线及新地图；当前不提前实现。待用户发布契约8提交后，按确切源码基线接收新T独测/Prefab/配置/meta/handoff，逐项审查、替换和地图短闭环验收。音频接口与配置要求不变；无强化完整路线、整局和Windows/Bank交付尚未验收。
