@@ -1,3 +1,12 @@
+## 2026-10-01 Opening Story Intro 集成
+
+- Dada/f3fa49f上no-commit同步最新Ming/794b6b3，保留既有UI；主场景唯一冲突按字段和新增对象树解决，未整场景覆盖。当前merge未提交、无未解决冲突；本轮未commit/push。
+- 只取Soap/68a96cd的13个Intro文件，源字节/GUID与默认文案参数保留；不合并Soap分支，不使用Soap旧Level，不覆盖Soap.handoff。
+- 原生OpeningStoryIntroSetup在当前合并场景执行、绑定唯一RunController并保存。正式Level只增加一个Intro实例/根登记，全部既有对象原样保留。
+- MainMenu→Start→两页黑底剧情→Gameplay通过；首次加载渲染全黑，无地图/HUD/Edge像素。成功流程约16.754秒（理论15.9秒，含取图/帧调度）。Intro warning/error0。自动渲染不冒充用户人眼验收。
+- 实际A/D、Space、Chest E三卡、Esc、真实HUD及Edge通过；同生命周期不重播通过。用户最终收口为“只完成这个黑屏”，后续重播/额外暂停归属检查已停止，未冒称通过。
+- 入口/13文件清单/Inspector七个时长参数/首轮检查失败记录/截图与日志：`docs/art-test/OPENING_INTRO_INTEGRATION.md`。
+
 ## 2026-10-01 主菜单启动与初始头部HUD
 
 - 用户明确要求游戏开始先播放主界面；已将MainMenu设为构建第一场景、Level_Whitebox第二场景，保留原SampleScene和其他构建配置。这里取代此前“构建场景待登记”的状态。

@@ -88,6 +88,7 @@ namespace Regrowth.Tests.UIArt.Editor
             InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
             keyboard=InputSystem.AddDevice<Keyboard>();
             yield return Wait(.3f);
+            yield return WaitForOpeningIntro();
             var interactor=Object.FindFirstObjectByType<PlayerInteractor>();
             var hint=Object.FindFirstObjectByType<InteractionHintView>();
             var panel=Object.FindFirstObjectByType<ChoicePanel>();
@@ -151,6 +152,7 @@ namespace Regrowth.Tests.UIArt.Editor
             Assert(menu && SceneManager.GetActiveScene().path==GameplayEntry.MainMenu,"Actual Level Play enters MainMenu first");
             Click(Ref<Button>(menu,"startButton").gameObject);
             yield return Wait(1.2f);
+            yield return WaitForOpeningIntro();
             Assert(SceneManager.GetActiveScene().path==GameplayEntry.Level,"Start loads registered gameplay scene");
             var state=Object.FindFirstObjectByType<PlayerState>();
             var hud=Object.FindFirstObjectByType<PlayerHud>(); var body=hud.GetComponent<BodyHudArt>();
@@ -207,6 +209,15 @@ namespace Regrowth.Tests.UIArt.Editor
         private static void Assert(bool ok,string message)
         { if(!ok) { throw new Exception(message); } assertions++; }
         private static T Ref<T>(Object owner,string name) where T:Object => UIFinalRevision.Ref<T>(owner,name);
+        private static IEnumerator WaitForOpeningIntro()
+        {
+            var intro=Object.FindFirstObjectByType<Regrowth.UI.Intro.OpeningStoryIntro>();
+            if(!intro) { yield break; }
+            var root=Ref<GameObject>(intro,"introRoot");
+            float until=Time.unscaledTime+35;
+            while(root.activeSelf && Time.unscaledTime<until) { yield return null; }
+            Assert(!root.activeSelf,"Opening intro completes before gameplay UI checks");
+        }
         private static IEnumerator Wait(float seconds)
         { float end=Time.unscaledTime+seconds; while(Time.unscaledTime<end) { yield return null; } }
         private static IEnumerator KeyPress(Key key)
@@ -229,6 +240,8 @@ namespace Regrowth.Tests.UIArt.Editor
             InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
             keyboard=InputSystem.AddDevice<Keyboard>();
             yield return Wait(.3f);
+            yield return WaitForOpeningIntro();
+            yield return WaitForOpeningIntro();
             var state=Object.FindFirstObjectByType<PlayerState>();
             var panel=Object.FindFirstObjectByType<ChoicePanel>(); var hud=Object.FindFirstObjectByType<PlayerHud>();
             var interactor=Object.FindFirstObjectByType<PlayerInteractor>();
@@ -283,6 +296,7 @@ namespace Regrowth.Tests.UIArt.Editor
             Capture("MainMenu",false);
             Click(Ref<Button>(menu,"startButton").gameObject);
             yield return Wait(2);
+            yield return WaitForOpeningIntro();
             Assert(SceneManager.GetActiveScene().path==UIFinalRevision.Level,"Actual Start Button loads Level_Whitebox");
             var state=Object.FindFirstObjectByType<PlayerState>();
             var hud=Object.FindFirstObjectByType<PlayerHud>(); var body=hud.GetComponent<BodyHudArt>();
@@ -461,7 +475,7 @@ namespace Regrowth.Tests.UIArt.Editor
             Object.Destroy(root); yield return null;
         }
 
-        private static byte[] Capture(string name,bool world)
+        internal static byte[] Capture(string name,bool world)
         {
             const int width=1920,height=1080;
             var canvases=Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None).Where(c=>c.isRootCanvas && c.renderMode==RenderMode.ScreenSpaceOverlay).ToArray();
