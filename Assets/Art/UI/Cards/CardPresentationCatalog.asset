@@ -1,0 +1,303 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a866fbe14f6904bb1f763af57fb840, type: 3}
+  m_Name: CardPresentationCatalog
+  m_EditorClassIdentifier: Regrowth.UI.Art::Regrowth.UI.Art.CardPresentationCatalog
+  artworks:
+  - keyword: RestoreBody
+    sprite: {fileID: 21300000, guid: 777eaea49ac42be4d84aa3335f7ed602, type: 3}
+    previewTitle: Restore Body
+    previewDescription: 'Regrow your body.
+
+      Unlock HP and bite.'
+  - keyword: GrowLegs
+    sprite: {fileID: 21300000, guid: 7e09d2c867ead1d4a9dd7e7fc947c36a, type: 3}
+    previewTitle: Grow Legs
+    previewDescription: 'Double jump.
+
+      Uses 1 slot.'
+  - keyword: GrowTail
+    sprite: {fileID: 21300000, guid: 36a47f3cf3d67e242923ddc1562997e3, type: 3}
+    previewTitle: Grow Tail
+    previewDescription: 'Gain a dash.
+
+      Uses 1 slot.'
+  - keyword: GrowArms
+    sprite: {fileID: 21300000, guid: 0f7194916175aa44688ebc8060410c27, type: 3}
+    previewTitle: Grow Arms
+    previewDescription: 'Arms and sword.
+
+      Slash attack.
+
+      Uses 1 slot.'
+  - keyword: GrowFlameTail
+    sprite: {fileID: 21300000, guid: f37b6a8a15e0cc747b2a054a14df3ea4, type: 3}
+    previewTitle: Grow Flame Tail
+    previewDescription: 'Fire orb (Q / RMB).
+
+      Replaces tail / dash.
+
+      Uses
+      1 slot.'
+  - keyword: RestoreHP
+    sprite: {fileID: 21300000, guid: 02afa23f766c1ac4ebe87cf88d12dd65, type: 3}
+    previewTitle: Restore HP
+    previewDescription: 'Restore 20% max HP.
+
+      Full HP: no healing.'
+  - keyword: MaxHPUp
+    sprite: {fileID: 21300000, guid: d6b56c62a4bebf341b82d3ee36e4cccf, type: 3}
+    previewTitle: Max HP Up
+    previewDescription: 'Max and current HP
+
+      +10% max HP.'
+  - keyword: AttackUp
+    sprite: {fileID: 21300000, guid: 5b5eb83c60cab784bb2d5c2bd603eacb, type: 3}
+    previewTitle: Attack Up
+    previewDescription: 'All attacks +10.
+
+      Includes fire ticks.'
+  - keyword: LoseLegs
+    sprite: {fileID: 21300000, guid: f0992beebffea854cbc38cec119b5ba6, type: 3}
+    previewTitle: Lose Legs
+    previewDescription: 'Lose legs
+
+      and double jump.'
+  - keyword: LoseTail
+    sprite: {fileID: 21300000, guid: c4df830cc6483444398b889571bd21ba, type: 3}
+    previewTitle: Lose Tail
+    previewDescription: 'Lose tail
+
+      and dash.'
+  - keyword: LoseFlameTail
+    sprite: {fileID: 21300000, guid: 8e3aa2a40aaff95458e04b426930b4e7, type: 3}
+    previewTitle: Lose Flame Tail
+    previewDescription: 'Lose flame tail
+
+      and fire breath.'
+  - keyword: LoseArms
+    sprite: {fileID: 21300000, guid: 08f8eb99af42fcf4c8f1feae52337224, type: 3}
+    previewTitle: Lose Arms
+    previewDescription: 'Lose arms and sword.
+
+      Return to bite.'
+  - keyword: PayHP
+    sprite: {fileID: 21300000, guid: c56cc62ca573aad4bb82f73e31ea4f7e, type: 3}
+    previewTitle: Pay HP
+    previewDescription: Pay HP.
+  - keyword: MaxHPDown
+    sprite: {fileID: 21300000, guid: 56816950e203bb442bcee9ed6ed9258f, type: 3}
+    previewTitle: Max HP Down
+    previewDescription: Max HP down.
+  - keyword: AttackDown
+    sprite: {fileID: 21300000, guid: e7360c5a2affd3a4980b5cd747c537b3, type: 3}
+    previewTitle: Attack Down
+    previewDescription: Attack down.
+  - keyword: EnemyHPUp
+    sprite: {fileID: 21300000, guid: 268298e9935bf524e8da6b832f6c0f5a, type: 3}
+    previewTitle: Enemy HP Up
+    previewDescription: Enemies gain HP.
+  - keyword: EnemyAttackUp
+    sprite: {fileID: 21300000, guid: a212f19512cc0e34fb7fd0d6e845cfbb, type: 3}
+    previewTitle: Enemy Attack Up
+    previewDescription: Enemies hit harder.
+  - keyword: RegrowLegsAndHeal
+    sprite: {fileID: 21300000, guid: 9788c1a9a7541f843a78eae5d353451b, type: 3}
+    previewTitle: 'Regrow Legs
+
+      + Heal'
+    previewDescription: 'Regrow legs.
+
+      Gain a double jump.
+
+      Restore HP.
+
+      Uses
+      1 slot.'
+  - keyword: MaxHPUpEnhanced
+    sprite: {fileID: 21300000, guid: 4af500a8561d1cd4e81862c0c23c27fd, type: 3}
+    previewTitle: Greater Max HP
+    previewDescription: Gain more max HP.
+  - keyword: AttackUpEnhanced
+    sprite: {fileID: 21300000, guid: ef9d90af954ffb5498a2520b94bc286e, type: 3}
+    previewTitle: Greater Attack
+    previewDescription: Gain more attack.
+  bindings:
+  - optionId: legs
+    artworkKeyword: GrowLegs
+    sourceDescription: Double jump. Legs occupy one slot.
+    shortTitle: Grow Legs
+    regrowthTitle: Regrow Legs
+    shortDescription: 'Double jump.
+
+      Uses 1 slot.'
+  - optionId: arms
+    artworkKeyword: GrowArms
+    sourceDescription: Arms and sword share one slot. Basic attack becomes sword.
+    shortTitle: Grow Arms
+    regrowthTitle: Regrow Arms
+    shortDescription: 'Arms and sword.
+
+      Slash attack.
+
+      Uses 1 slot.'
+  - optionId: tail
+    artworkKeyword: GrowTail
+    sourceDescription: Dash. Tail occupies one slot.
+    shortTitle: Grow Tail
+    regrowthTitle: Regrow Tail
+    shortDescription: 'Gain a dash.
+
+      Uses 1 slot.'
+  - optionId: flame-tail
+    artworkKeyword: GrowFlameTail
+    sourceDescription: 'Q / RMB: slow flame orb, 8 damage every 0.2s while touching;
+      lasts 2s, cooldown 8s. Replaces normal tail / Dash.'
+    shortTitle: Grow Flame Tail
+    regrowthTitle: Regrow Flame Tail
+    shortDescription: 'Fire orb (Q / RMB).
+
+      Replaces tail / dash.
+
+      Uses
+      1 slot.'
+  - optionId: heal
+    artworkKeyword: RestoreHP
+    sourceDescription: Restore 25 HP. Can be chosen at full health.
+    shortTitle: Restore HP
+    regrowthTitle: Restore HP
+    shortDescription: 'Restore 25 HP.
+
+      Full HP: no healing.'
+  - optionId: max-health
+    artworkKeyword: MaxHPUp
+    sourceDescription: Maximum HP +15. Current HP stays unchanged.
+    shortTitle: Max HP Up
+    regrowthTitle: Max HP Up
+    shortDescription: 'Max HP +15.
+
+      No healing.'
+  - optionId: attack
+    artworkKeyword: AttackUp
+    sourceDescription: All attacks +10 damage per hit, including each fire tick.
+      No slot required.
+    shortTitle: Attack Up
+    regrowthTitle: Attack Up
+    shortDescription: 'All attacks +10.
+
+      Includes fire ticks.'
+  - optionId: 201
+    artworkKeyword: LoseLegs
+    sourceDescription: Replace this held item.
+    shortTitle: Replace Legs
+    regrowthTitle: 
+    shortDescription: 'Lose legs.
+
+      Gain chosen reward.'
+  - optionId: 202
+    artworkKeyword: LoseArms
+    sourceDescription: Replace this held item.
+    shortTitle: Replace Arms
+    regrowthTitle: 
+    shortDescription: 'Lose arms.
+
+      Gain chosen reward.'
+  - optionId: 203
+    artworkKeyword: LoseTail
+    sourceDescription: Replace this held item.
+    shortTitle: Replace Tail
+    regrowthTitle: 
+    shortDescription: 'Lose tail.
+
+      Gain chosen reward.'
+  - optionId: 204
+    artworkKeyword: LoseFlameTail
+    sourceDescription: Replace this held item.
+    shortTitle: Replace Flame Tail
+    regrowthTitle: 
+    shortDescription: 'Lose flame tail.
+
+      Gain chosen reward.'
+  - optionId: swap-tail
+    artworkKeyword: 
+    sourceDescription: Lose the old tail and its ability; gain the selected tail.
+    shortTitle: Swap Tail
+    regrowthTitle: 
+    shortDescription: 'Lose current tail.
+
+      Gain selected tail.'
+  - optionId: COST_SHED_LEGS
+    artworkKeyword: LoseLegs
+    sourceDescription: Lose this body part and its ability. Free one slot; it may
+      be regrown later.
+    shortTitle: Lose Legs
+    regrowthTitle: 
+    shortDescription: 'Lose legs
+
+      and double jump.'
+  - optionId: COST_SHED_ARMS
+    artworkKeyword: LoseArms
+    sourceDescription: Lose this body part and its ability. Free one slot; it may
+      be regrown later.
+    shortTitle: Lose Arms
+    regrowthTitle: 
+    shortDescription: 'Lose arms and sword.
+
+      Return to bite.'
+  - optionId: COST_SHED_TAIL
+    artworkKeyword: LoseTail
+    sourceDescription: Lose this body part and its ability. Free one slot; it may
+      be regrown later.
+    shortTitle: Lose Tail
+    regrowthTitle: 
+    shortDescription: 'Lose tail
+
+      and dash.'
+  - optionId: COST_SHED_FLAME_TAIL
+    artworkKeyword: LoseFlameTail
+    sourceDescription: Lose this body part and its ability. Free one slot; it may
+      be regrown later.
+    shortTitle: Lose Flame Tail
+    regrowthTitle: 
+    shortDescription: 'Lose flame tail
+
+      and fire breath.'
+  - optionId: COST_CURRENT_HP
+    artworkKeyword: PayHP
+    sourceDescription: 
+    shortTitle: Pay HP
+    regrowthTitle: 
+    shortDescription: Pay HP.
+  - optionId: COST_MAX_HP
+    artworkKeyword: MaxHPDown
+    sourceDescription: 
+    shortTitle: Max HP Down
+    regrowthTitle: 
+    shortDescription: Max HP down.
+  - optionId: COST_ATTACK
+    artworkKeyword: AttackDown
+    sourceDescription: 
+    shortTitle: Attack Down
+    regrowthTitle: 
+    shortDescription: Attack down.
+  - optionId: COST_ENEMY_HP
+    artworkKeyword: EnemyHPUp
+    sourceDescription: 
+    shortTitle: Enemy HP Up
+    regrowthTitle: 
+    shortDescription: Enemies gain HP.
+  - optionId: COST_ENEMY_ATTACK
+    artworkKeyword: EnemyAttackUp
+    sourceDescription: 
+    shortTitle: Enemy Attack Up
+    regrowthTitle: 
+    shortDescription: Enemies hit harder.

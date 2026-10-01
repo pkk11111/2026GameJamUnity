@@ -1337,7 +1337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1002, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
       propertyPath: m_SortingOrder
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1005, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
       propertyPath: m_IsActive
@@ -2437,8 +2437,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2496,11 +2496,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1489671477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 16}
-  m_SizeDelta: {x: -40, y: 145}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -35, y: 25}
+  m_SizeDelta: {x: 660, y: 155}
+  m_Pivot: {x: 1, y: 0}
 --- !u!1 &435925237
 GameObject:
   m_ObjectHideFlags: 0
@@ -8566,6 +8566,10 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 8368459321584334068, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
+      propertyPath: stateSource
+      value:
+      objectReference: {fileID: 535949091}
     - target: {fileID: 8934428418861781926, guid: 9b87ea167cb129241a912828405a84ba, type: 3}
       propertyPath: m_Pivot.x
       value: 0
