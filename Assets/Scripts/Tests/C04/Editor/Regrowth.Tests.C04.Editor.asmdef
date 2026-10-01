@@ -1,0 +1,13 @@
+{
+    "name": "Regrowth.Tests.C04.Editor",
+    "rootNamespace": "Regrowth.Tests.C04",
+    "references": [
+        "Regrowth.Core",
+        "Regrowth.Runtime",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "autoReferenced": true
+}

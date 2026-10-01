@@ -1,3 +1,40 @@
+# 总控当前交接：C04配置与新版T接线依据
+
+更新：2026-10-01（Australia/Sydney）· 规范16 / 已提交源码契约8（Ming/4d6b2e1）
+成员/任务别名：controller；任务C00/C04/C05；分支Ming
+本轮开始HEAD/本地origin/Ming：4d6b2e1，工作区干净；用户已提交前轮C系列。未fetch/联网核实远端。
+状态：C04只读审查及配置/接点清单完成、已验证；本轮新增Editor工具与4份总控文档待提交。运行契约8不变，完整教学/战斗/收费/支线暂缓。
+
+## 授权与实际文件
+
+用户继续总控、完善C系列；旧T交付弃用，新提交为新版T。不需要等待全部T更新，不提前实施已暂缓模块。
+
+新增Assets/Scripts/Tests/C04/Editor/C04SceneValidator.cs、Regrowth.Tests.C04.Editor.asmdef及C04/Editor文件夹和文件配对meta。仅Editor程序集，直接引用Core/Runtime/Unity.InputSystem，不引用旧T。同步AGENTS规范16/配置唯一来源/基线、WORK_PACKAGES§12接点/依赖、README完整工作记录及本交接。
+未改Runtime/Core/T代码、场景/Prefab/输入/现有配置/Packages/ProjectSettings/Wwise/其他成员handoff；无切分支/merge/reset/commit/push或子代理，保留所有原GUID。
+
+## 工具与实际接口
+
+非Play选中场景GameBootstrap，菜单Tools/pawgatory/C04/Validate Selected Bootstrap。公开Validate(GameBootstrap,bool requirePlayer=true)返回Report.Errors/Notes，默认正式玩家必填，C01纯输入独测可传false。
+只读选定入口及本场景启用组件，检查显式引用/重复入口/actor/菜单/有限正数/输入路径、不同动作与普通Button/无Hold/Dynamic Update。报告实际初始化HP、攻击、头部教学例外、倍率、缓冲、扫描配置和输入路径。不会创建运行实例、自动修绑定、启停动作、改变时间倍率或保存场景。
+不覆盖跨场景唯一性/模块内部引用/完整资产/Play，字段名由总控随Runtime维护；检查通过不能当新版T完成。少量数值仍由唯一PlayerState Inspector持有，不新增第二套共享状态/配置。
+
+## 实际验证与限制
+
+1. Unity目标F:/2026GameJamUnity，6000.2.9f1，StandaloneWindows64。强制Refresh/编译后Console零error；没有清日志。
+2. Level_Whitebox静态检查零错误；实值HP100、咬击10、剑15、prototypeStartWithBodyCore=true、倍率1、缓冲0.15、扫描半径2/Default/Trigger。白盒教学例外明确输出提示。
+3. 隔离Preview Scene 17/0：合法绑定、空选择、缺Run、禁用Input、重复Run、actor错误、非法倍率、NaN缓冲、无限半径、缺动作、动作重用、Action Hold、Binding Hold、错误菜单、缺正式玩家、显式C01无玩家许可和正式无玩家拒绝。
+4. 夹具finally销毁临时InputActionAsset、关闭Preview Scene，不保存；原ActiveScene/脏状态/Time.timeScale保持，始终非Play。首次动态测试代码因扩展方法未限定命名空间未编译，未执行；改为实际InputActionSetupExtensions静态调用后17项全部执行通过，不是项目源码编译错误。
+5. 本轮不重跑C01/C02/C03/T12 Play，不将前轮32/69/63/33当本轮或新版T验收。Windows/Bank/整局未测。
+6. 实际执行C04菜单成功，恢复原Selection；最终地图非Play/未脏、6根、Missing Script=0、未编译中。13个本地文档链接、GUID唯一性/新增meta配对、git diff --check均通过；AGENTS第9节音频与本轮开始逐字一致，Git范围仅4份文档+C04新Editor目录/meta。
+
+## 下一步
+
+运行契约8现有真实提交4d6b2e1，新版T按此确切提交读取AGENTS§7/WORK_PACKAGES§12；登记本人新提交/Prefab/配置/meta/独测/handoff，按模块依赖逐项审查，不继续开发弃用旧T。灰卡/生命安全代价/敌人强化/挑战/完整胜利重开仍无接口，按用户恢复范围下轮串行发布；新地图及两支线交地图同学，尺度/音频不变。
+
+---
+
+# 以下为历史交接（上一轮C系列后已由用户提交4d6b2e1，当时“未提交”为历史状态）
+
 # 总控当前交接：C系列V5独测迁移与旧T弃用
 
 更新：2026-10-01（Australia/Sydney）· 规范15 / 工作区源码契约8（未提交/未发布）
