@@ -1,0 +1,9 @@
+{
+    "name": "Regrowth.Tests.Art",
+    "rootNamespace": "Regrowth.Tests.Art",
+    "references": [
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "autoReferenced": true
+}
