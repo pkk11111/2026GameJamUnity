@@ -1,3 +1,13 @@
+## 2026-10-01 主菜单启动与初始头部HUD
+
+- 用户明确要求游戏开始先播放主界面；已将MainMenu设为构建第一场景、Level_Whitebox第二场景，保留原SampleScene和其他构建配置。这里取代此前“构建场景待登记”的状态。
+- 新增仅Editor使用的GameplayEntry：在Level_Whitebox、MainMenu或旧SampleScene点Play，先进入MainMenu；点击Start加载Level。退出Play仍返回原编辑场景。ArtTest/其他独立测试场景继续直接Play。没有运行时强制跳转，Start加载Level不会循环回菜单。
+- 左下HUD把头当第一部分：当前没有手、腿、普通尾或火尾时只显示头；获取任一部件后显示躯干及已持有部件。手部底图只在实际持有Arms时显示。失去全部部件后回到头部显示。只读当前Loadout，HP和玩家实际HasBodyCore/奖励规则不变。
+- PlayerHud.prefab默认隐藏Torso/ArmsBase，避免加载时闪出空身体。没有移除正式角色的身体或修改教程状态。
+- 本轮仅验证入口/头部两项：从Level点Play实际进入MainMenu、Start到Level、开局空构筑仅头且HP保留、通过真实宝箱领取第一件部件后身体HUD展开；ArtTest直开配置通过。构建场景已登记，未导出可执行文件。自动Play不替代人工体验。
+- 文件：BodyHudArt.cs、UI/Art/Editor/GameplayEntry.cs、PlayerHud.prefab、ProjectSettings/EditorBuildSettings.asset及定向Editor检查；主菜单/Level场景本身未重建。
+- 证据：`docs/art-test/UI_ENTRY_HEAD_CHECKS.txt`及`ui-preview/real-integration/Gameplay_InitialHeadOnly.png`、`Gameplay_AfterFirstBodyPart.png`。未commit/push，未全局控制电脑。
+
 ## 2026-10-01 卡牌正文居中与真实交互键提示修正
 
 - 修复来源：CardVisual迁移器仍写入TopLeft，正文因此整体左偏。现在运行时与原生Prefab/ArtTest均使用水平居中，标题Center、正文Top Center，清零不对称margin；保持标题24/正文22、共享局部坐标和根旋转。
@@ -38,7 +48,7 @@ ChoiceCard（CardRoot；原Button / ChoiceCardView保持）
 
 - 正式入口：`Assets/Scenes/Frontend/MainMenu.unity`。Start按钮实际加载 `Assets/WhiteBox/Scenes/Level_Whitebox.unity`。
 - 标题/背景/走路角色复用现有资源；走路使用Dog2_Move_Sword三帧动画。
-- Editor中未登记Build Settings时使用Editor场景加载。**正式打包前仍需总控将MainMenu和Level_Whitebox登记到构建场景列表，并选择MainMenu为入口**；本轮未修改共享构建设置。
+- Editor中未登记Build Settings时使用Editor场景加载。现已按用户最新要求登记MainMenu为首场景、Level_Whitebox为第二场景；未导出可执行文件。
 - `PlayerHud/GameplayEdgeOverlay` 属于常驻Gameplay Canvas，独立于ChoiceMenu.viewRoot。复用现有 `UI_Login_Edge_01/02/03` 三张实际边框纹理；`UI_HUD_Edge.png`静态旧资源保留。Login与Gameplay各有自己的动画实例和时钟。
 - 每帧1.2秒，8秒轻微呼吸，使用unscaledDeltaTime，RaycastTarget=false。E开卡/Choosing/timeScale0/Esc取消均不重启时钟。
 - 旧白盒操作/交互提示移到右下方，避开左下身体HUD；保留原读状态和暂停逻辑，未另造提示数据。
@@ -97,7 +107,7 @@ RegrowLegsAndHeal、MaxHPUpEnhanced、AttackUpEnhanced：素材保留在VISUAL O
 
 | 功能 | UI是否存在 | Backend是否存在 | 真实入口 | 本轮验证级别 | 缺什么 |
 |---|---|---|---|---|---|
-| Main Menu | 新正式场景 | 场景加载有 | Start Game | 自动实际点击通过；人工待验 | 构建场景登记 |
+| Main Menu | 新正式场景 | 场景加载有 | Start Game | 自动实际点击通过；人工待验 | 构建场景已登记；导出包未验 |
 | Gameplay Edge | 常驻三帧 | unscaled动画 | 进入Level | 真实E/取消期间连续通过 | 用户确认1.2秒节奏 |
 | HP | 骨头框/Fill/黑字 | PlayerState有 | 实际敌人接触 | REAL STATE；伤害链通过 | 用户视觉确认 |
 | Body status | 左下身体图 | Body/Loadout有 | 实际Chest领奖 | REAL STATE；四部件领取通过 | 用户组合视觉确认 |
