@@ -2,7 +2,7 @@
 
 Unity 2D Game Jam，主题 Regrowth。必要文件已迁入 Unity 6.2 新项目，当前正在冻结玩法并建设运行底层。
 
-当前总控工作与最新已发布基线为 Ming/349ba93（合并T01，公共契约6）；2026-10-01直接查询GitHub确认已推送。不要默认 main 已包含最新规范/代码。新会话工作目录为 F:/2026GameJamUnity，先读 AGENTS.md 和总控交接，再核对 Git 与 Unity MCP 的实际目标。
+当前总控工作与最新已发布基线为 Ming/e7ef271（发布/测试资源文档整理，公共契约6；业务/资产仍为349ba93）；2026-10-01再次查询GitHub确认已推送。不要默认 main 已包含最新规范/代码。新会话工作目录为 F:/2026GameJamUnity，先读 AGENTS.md 和总控交接，再核对 Git 与 Unity MCP 的实际目标。
 
 ## Development guidelines
 
@@ -48,3 +48,5 @@ Soap T01与总控集成/整理已由用户提交并推送到Ming/349ba93；详�
 本次核对5个测试场景、9个测试脚本，没有可退役的旧测试。C03ProbeTarget同时被C03及Integration场景引用，Integration程序集依赖Tests.C03；ChoiceMenuPlayChecks由驱动调用；T01SceneSetup虽不挂场景，却提供编辑器创建/重载入口。不能只看“无场景引用”或编号较早就删除脚本。未来有替代覆盖后，成组检查场景/Prefab/代码/asmdef/meta再退役。
 
 736个Assets meta无重复GUID、孤立meta或普通已跟踪文件缺meta；Wwise Mac.bundle内文件属于插件载荷。没有已跟踪缓存、临时或备份文件；旧一次性logRunSetup.txt已在前次发布删除。此次不移动/删除测试资源，也不调整美术素材。
+
+新对话从本仓库AGENTS.md、docs/handoffs/controller.handoff及docs/WORK_PACKAGES.md接手。Unity MCP复查已恢复项目/编辑器/活动场景查询；当前T01_C03非Play且已保存。一项深层execute_code读取超时，未重跑测试；接手时仍须核对实际Git与Unity状态。

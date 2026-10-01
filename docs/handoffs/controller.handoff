@@ -1,13 +1,13 @@
-# 总控当前交接：Ming发布核对与测试资源整理
+# 总控当前交接：新对话接手与Unity MCP复查
 
 更新：2026-10-01 · 规范10 / 公共源码契约6（未改接口或玩法）
 成员/任务别名：controller；任务：C05维护 / 分支Ming
-开始HEAD及本地origin/Ming：349ba939d1002f2cf59995b6d800ae29c71f6fd9（合并T01），工作区干净，无进行中的合并。
-状态：T01及独立集成已发布 / 文件与引用复核完成 / 本轮仅文档改动待提交 / 正式地图与第一阶段整体待验收。
+本次开始HEAD及本地origin/Ming：e7ef271f0a83b7320343ce42cad23aeef975e60f（重新定向），工作区干净，无进行中的合并；直接git ls-remote再次确认GitHub Ming同为e7ef271。业务/资产仍为349ba93的T01集成，e7ef271只发布5份整理文档。
+状态：T01及独立集成、资源整理文档均已发布 / MCP基础查询恢复 / 本轮接手说明文档待提交 / 正式地图与第一阶段整体待验收。
 
 ## 本轮核对与授权
 
-用户要求确认Ming是否已push，并整理分支内容，废弃测试可以删除；美术资源仍不调整。只在活动仓库F:/2026GameJamUnity工作，不自动commit/push，不切分支/merge，不启动子代理。
+此前用户要求确认Ming已push并整理废弃测试；此次要求重试Unity MCP，并准备在该项目的新对话继续。美术资源仍不调整。只在活动仓库F:/2026GameJamUnity工作，不自动commit/push，不切分支/merge，不启动子代理。
 
 实际执行git ls-remote origin refs/heads/Ming refs/heads/Soap，GitHub Ming为349ba939d1002f2cf59995b6d800ae29c71f6fd9，与本地HEAD及origin/Ming一致。上一轮T01合并已由用户通过531535db957a4051b1575267bc2d90552e2f8b82完成（父提交fa54f5a和239d019），349ba93发布真实集成场景/层级整理/日志删除及文档。因此下方历史“未提交合并”已过期，不再按它继续merge。
 
@@ -29,13 +29,13 @@
 
 只修改AGENTS.md、docs/WORK_PACKAGES.md、README.md、docs/GAME_DESIGN.md和本handoff：将过时的“未提交合并”改为已发布349ba93，整理测试覆盖/入口与保留原因；下方保留原验证事实作为历史。规范版本与公共契约不变，源码/asmdef/场景/Prefab/meta/项目设置无改动。
 
-实际检查：Git状态、远端提交、合并父提交及T01祖先关系；9个测试脚本调用/序列化引用；736个Assets meta无重复GUID、孤立meta或普通已跟踪文件缺meta（Mac.bundle内部载荷除外）；无已跟踪缓存/临时/备份文件。文档git diff --check通过；最终工作区只有上述5份文档改动。
+实际检查：Git状态、远端提交、合并父提交及T01祖先关系；9个测试脚本调用/序列化引用；736个Assets meta无重复GUID、孤立meta或普通已跟踪文件缺meta（Mac.bundle内部载荷除外）；无已跟踪缓存/临时/备份文件。此前5份整理文档已随e7ef271发布；此次仅4份接手状态文档，收尾检查git diff --check及工作区范围。
 
-Unity MCP的custom-tools/instances读取均报127.0.0.1:8080连接失败，未获得当前编辑器目标/脏场景状态；本次不修改场景、不重跑Unity编译/Play。32/51/57/41/31项均为下方此前已执行记录，不宣称本轮重新通过，也不把文件GUID检查说成Unity无Missing Script实测。
+此前MCP连接失败；本次重试instances、custom-tools、project/info、editor/state及manage_scene.get_active均成功。实例2026GameJamUnity@1ba105ba2ebb3fca，目标F:/2026GameJamUnity，Unity6000.2.9f1，StandaloneWindows64；当前Assets/Scenes/Tests/Integration/T01_C03.unity，非Play、isDirty=false、isCompiling=false、6根。一次只读execute_code查询深层组件/引用返回TimeoutError，未获得结果；不据此声称引用完整或零Missing Script已重新验证。不改/保存场景、不重跑编译/Play，32/51/57/41/31项仍是此前真实记录。
 
 ## 接手下一步
 
-发布基线使用Ming/349ba93；本次仅文档整理尚未自动提交或推送，用户按正常流程发布即可。接下来核对队友实际T02/T03/T06/T07交付并逐批测试集成，无需等完整美术地图；恢复Unity MCP后先读实际实例/项目/场景状态。C04未决池/代价下限/叠加/刷新、重开和同帧胜负继续按任务冻结；主地图/第一阶段整体/Windows/Wwise声音仍未验收。
+新对话工作目录明确设F:/2026GameJamUnity，分支Ming，发布基线e7ef271；先完整读取本仓库AGENTS.md、此handoff及WORK_PACKAGES对应C00–C05/第一阶段/待接任务，再核对Git与Unity实例/项目/脏状态，保留未提交改动。本次只更新AGENTS、WORK_PACKAGES、README和此交接4份文档，不自动提交或push；不重复合并已发布的T01。接下来核对队友实际T02/T03/T06/T07（Soap后续任务尚未合入）并逐批审查、独立验证及集成，无需等完整美术地图；MCP深层读取可单独重试，但一次超时不是功能失败。C04未决池/代价下限/叠加/刷新、重开和同帧胜负按任务冻结；主地图/第一阶段整体/Windows/Wwise声音仍未验收。
 
 ---
 

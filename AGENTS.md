@@ -4,7 +4,7 @@
 
 活动仓库：`F:/2026GameJamUnity`。旧 `F:/UniSyd_Gamjam2` 仅为迁移来源，不再开发。接手工具时明确把工作目录设为活动仓库；本文件在活动仓库的副本是现行规则，旧目录副本只用于迁移备份。
 
-当前总控工作分支及最新已发布基线是 `Ming/349ba939d1002f2cf59995b6d800ae29c71f6fd9`（合并T01）。2026-10-01直接以git ls-remote核对GitHub Ming，与本地HEAD及origin/Ming一致，开始工作区干净、无进行中的合并。用户已通过531535d提交Soap/239d019的T01合并，并以349ba93发布集成场景、层级整理及协作文档。C00/C01在e86074a，C02在4ffa05b，C03在5a7cc5b，发布记录fa54f5a仍可追溯；公共源码契约仍为6。本次只整理发布/测试入口记录，不自动commit/push。成员从总控指定的Ming提交创建任务分支，读取该提交随附的根AGENTS.md、任务卡与相关handoff；不另建Ming专用agent.md，不用旧main/旧项目规则，不自动切分支、合并或重置。
+当前总控工作分支及最新已发布基线是 `Ming/e7ef271f0a83b7320343ce42cad23aeef975e60f`（重新定向：发布/测试资源文档整理）；业务与资产代码仍为349ba93的T01集成。2026-10-01再次以git ls-remote核对GitHub Ming/e7ef271，与本地HEAD及origin/Ming一致，开始工作区干净、无进行中的合并。用户已通过531535d提交Soap/239d019的T01合并，并以349ba93发布集成场景、层级整理及协作文档。C00/C01在e86074a，C02在4ffa05b，C03在5a7cc5b，发布记录fa54f5a仍可追溯；公共源码契约仍为6。本次只整理发布/测试入口记录，不自动commit/push。成员从总控指定的Ming提交创建任务分支，读取该提交随附的根AGENTS.md、任务卡与相关handoff；不另建Ming专用agent.md，不用旧main/旧项目规则，不自动切分支、合并或重置。
 
 最新迁移决定：使用 Unity 6.2（6000.2.9f1）新建项目，路径为 F:/2026GameJamUnity。旧 6000.6.3f1 及其包版本仅是历史环境；只迁入自研源码/.meta、规范、交接与格式规则，保留新项目现有 .gitignore/.gitattributes、包与项目设置。新项目已有 Wwise Integration，不复制旧模板或降级插件。
 
@@ -264,6 +264,8 @@ Soap分支239d019fd0848b71e65e358af1c4844ee010899a基于契约5，沿用的IChoi
 已按源码调用、序列化GUID引用、程序集依赖与检查覆盖核对5个验收场景、9个测试脚本：当前全部保留，具体入口/用途见README。C03ProbeTarget被C03及T01_C03同时引用，Integration程序集依赖Tests.C03；ChoiceMenuPlayChecks由独测驱动调用；T01SceneSetup是仍可用的编辑器菜单工具，不因没有场景挂载就删除。不得将这些替身/驱动接入正式地图；退役某项测试时应先有等价覆盖，再成组检查脚本、场景、Prefab、asmdef和meta引用。
 
 736个Assets meta无重复GUID、孤立meta或已跟踪普通文件缺meta（Wwise Mac.bundle内部载荷除外）；无已跟踪Unity/IDE缓存，旧logRunSetup.txt已不存在。本次未改源码/资产，也未删除仍有用途的测试。Unity MCP连接不可用，未重新运行Unity，不把此前32/51/57/41/31项记录当作本次Play结果。
+
+复查更新：用户已将上述文档整理提交并push到e7ef271，最新新对话基线以本文件顶部为准。Unity MCP的instances/custom-tools/project-info/editor-state及manage_scene.get_active已恢复；目标F:/2026GameJamUnity、Unity6000.2.9f1、T01_C03非Play/不脏/未编译/6根。一次execute_code深层引用读取返回TimeoutError，未取得该项结果、未重跑Play；不能把连接恢复写成新增功能验收。新会话先读本文件、controller.handoff与WORK_PACKAGES，再核对实际Git/Unity状态并保留改动。
 
 ### 卡片端口生命周期
 
