@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3884136275078668334}
   - component: {fileID: 8108772278733959376}
+  - component: {fileID: 7539472348186285646}
   m_Layer: 0
   m_Name: BiteMount
   m_TagString: Untagged
@@ -45,10 +46,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c997a66a97347044ba7e2fe89a59a88b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteAttack
-  inputSource: {fileID: 0}
   combatStateSource: {fileID: 0}
   biteOrigin: {fileID: 240715110585778132}
   config: {fileID: 11400000, guid: a6cfbb46a7d50d24997c45b557ebe762, type: 2}
+--- !u!114 &7539472348186285646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090595173666798864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9b824b8d0c4c3999750ce2c4c5e2d8, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Regrowth.Gameplay.Combat::Regrowth.Gameplay.PlayerAttackRouter
+  inputSource: {fileID: 0}
+  combatStateSource: {fileID: 0}
+  biteActionSource: {fileID: 8108772278733959376}
+  swordActionSource: {fileID: 0}
 --- !u!1 &7663183291503464815
 GameObject:
   m_ObjectHideFlags: 0

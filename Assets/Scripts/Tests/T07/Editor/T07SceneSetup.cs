@@ -44,7 +44,7 @@ namespace Regrowth.Tests.T07.Editor
             GameObject ui = old.gameObject;
             Object.DestroyImmediate(old);
             ui.name = "T07 Test UI";
-            permission.GetComponentInChildren<TMP_Text>().text = "Current Form Toggle";
+            permission.GetComponentInChildren<TMP_Text>().text = "Body / Arms Toggle";
             checks.GetComponentInChildren<TMP_Text>().text = "Run T07 Checks";
             var body = rig.GetComponentInChildren<Rigidbody2D>();
             var player = body.gameObject;
@@ -53,6 +53,7 @@ namespace Regrowth.Tests.T07.Editor
             var state = player.GetComponent<PlayerState>();
             var stateFields = new SerializedObject(state);
             stateFields.FindProperty("initialBiteDamage").intValue = 13; // 真实PlayerState Inspector数值，非Bite伤害副本。
+            stateFields.FindProperty("prototypeStartWithBodyCore").boolValue = false;
             stateFields.ApplyModifiedPropertiesWithoutUndo();
             var input = rig.GetComponentInChildren<PlayerInputReader>();
             var run = rig.GetComponentInChildren<RunController>();
@@ -61,8 +62,11 @@ namespace Regrowth.Tests.T07.Editor
             origin.transform.SetParent(player.transform, false);
             origin.transform.localPosition = new Vector3(0.65f, 0f, 0f);
             var attack = player.AddComponent<PlayerBiteAttack>();
-            Bind(attack, "inputSource", input); Bind(attack, "combatStateSource", state);
+            Bind(attack, "combatStateSource", state);
             Bind(attack, "biteOrigin", origin.transform); Bind(attack, "config", config);
+            var router = player.AddComponent<PlayerAttackRouter>();
+            Bind(router, "inputSource", input); Bind(router, "combatStateSource", state);
+            Bind(router, "biteActionSource", attack);
             var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Configs/T06/GrayboxSquare.png");
             var floor = new GameObject("T07 Floor", typeof(SpriteRenderer), typeof(BoxCollider2D));
             floor.transform.SetParent(rig.transform, false);
@@ -84,6 +88,7 @@ namespace Regrowth.Tests.T07.Editor
             var dummy = dummyObject.GetComponent<T07DamageDummy>();
             var driver = ui.AddComponent<T07SmokeDriver>();
             Bind(driver, "attack", attack); Bind(driver, "config", config); Bind(driver, "body", body);
+            Bind(driver, "router", router);
             Bind(driver, "motor", motor); Bind(driver, "state", state); Bind(driver, "input", input);
             Bind(driver, "run", run); Bind(driver, "dummy", dummy); Bind(driver, "status", status);
             Bind(driver, "pauseButton", pause); Bind(driver, "permissionButton", permission);
@@ -105,6 +110,8 @@ namespace Regrowth.Tests.T07.Editor
             mountOrigin.transform.localPosition = origin.transform.localPosition;
             var mountAttack = mount.AddComponent<PlayerBiteAttack>();
             Bind(mountAttack, "biteOrigin", mountOrigin.transform); Bind(mountAttack, "config", config);
+            var mountRouter = mount.AddComponent<PlayerAttackRouter>();
+            Bind(mountRouter, "biteActionSource", mountAttack);
             PrefabUtility.SaveAsPrefabAsset(mount, "Assets/Prefabs/Bite/BiteMount.prefab");
             Object.DestroyImmediate(mount);
             PrefabUtility.SaveAsPrefabAsset(dummyObject, "Assets/Prefabs/Tests/T07/T07DamageDummy.prefab");
@@ -114,6 +121,53 @@ namespace Regrowth.Tests.T07.Editor
         }
         [MenuItem("Tools/GROWL AGAIN/T07/Reload Smoke Scene")]
         public static void Reload() { if (Safe()) { EditorSceneManager.OpenScene(ScenePath); Debug.Log("[T07] Reloaded saved smoke scene from disk."); } }
+        // 仅迁移已有T07资产，不创建地图；保护Play和当前未保存场景。
+        [MenuItem("Tools/GROWL AGAIN/T07/Migrate V5 Existing Assets")]
+        public static void MigrateV5()
+        {
+            if (!Safe() || !File.Exists(ScenePath))
+            {
+                Debug.LogWarning("[T07 V5] Refused: Play / dirty scene / missing existing smoke scene.");
+                return;
+            }
+            const string rigPath = "Assets/Prefabs/Tests/T07/T07SmokeRig.prefab";
+            var rig = PrefabUtility.LoadPrefabContents(rigPath);
+            try
+            {
+                var attack = rig.GetComponentInChildren<PlayerBiteAttack>();
+                var state = rig.GetComponentInChildren<PlayerState>();
+                var input = rig.GetComponentInChildren<PlayerInputReader>();
+                var router = attack.GetComponent<PlayerAttackRouter>();
+                if (router == null) router = attack.gameObject.AddComponent<PlayerAttackRouter>();
+                Bind(attack, "combatStateSource", state);
+                Bind(router, "inputSource", input); Bind(router, "combatStateSource", state);
+                Bind(router, "biteActionSource", attack);
+                var fields = new SerializedObject(state);
+                fields.FindProperty("prototypeStartWithBodyCore").boolValue = false;
+                fields.ApplyModifiedPropertiesWithoutUndo();
+                var driver = rig.GetComponentInChildren<T07SmokeDriver>();
+                Bind(driver, "router", router);
+                var driverFields = new SerializedObject(driver);
+                var button = (Button)driverFields.FindProperty("permissionButton").objectReferenceValue;
+                button.GetComponentInChildren<TMP_Text>().text = "Body / Arms Toggle";
+                PrefabUtility.SaveAsPrefabAsset(rig, rigPath);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(rig); }
+            const string mountPath = "Assets/Prefabs/Bite/BiteMount.prefab";
+            var mount = PrefabUtility.LoadPrefabContents(mountPath);
+            try
+            {
+                var attack = mount.GetComponent<PlayerBiteAttack>();
+                var router = mount.GetComponent<PlayerAttackRouter>();
+                if (router == null) router = mount.AddComponent<PlayerAttackRouter>();
+                Bind(router, "biteActionSource", attack);
+                PrefabUtility.SaveAsPrefabAsset(mount, mountPath);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(mount); }
+            AssetDatabase.SaveAssets();
+            EditorSceneManager.OpenScene(ScenePath);
+            Debug.Log("[T07 V5] Migrated existing Rig/Mount via Unity; reloaded saved T07 scene. No main map changes.");
+        }
         [MenuItem("Tools/GROWL AGAIN/T07/Repair Saved Camera")]
         public static void RepairCamera()
         {

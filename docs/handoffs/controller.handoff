@@ -1,4 +1,41 @@
-# 总控当前交接：V5规则适配与T12白盒接入
+# 总控当前交接：地图迭代期间的基线、依赖与README工作记录
+
+更新：2026-10-01（Australia/Sydney）· 规范14 / 已提交源码契约7（本轮未改源码）
+成员/任务别名：controller；任务C00/C04/C05维护；分支Ming
+本轮基点：6348beb1c1eef1565aa6b13c5a338769eab0c404；HEAD=本地origin/Ming；开始工作区干净。本轮未联网核实远端。
+状态：总控基线/接口/场景结构复核与文档整理完成；本轮4份文档未提交/未推送。完整教学、战斗、收费、支线待下一轮授权恢复。
+
+## 用户最新范围与本轮实际工作
+
+用户明确因地图更新，完整教学、战斗、收费与支线暂时不做，留下一轮；继续不依赖地图迭代的总控工作，并在Ming README同步记录其全部总控工作。无需等所有T任务统一完成：逐项检查真实接口和模块依赖，缺口仅阻塞对应任务；完整任务卡保留目标，不作为本轮提前实现暂缓项的授权。用户随后补充已有T任务可能按新版工作包重新提交：保留编号，分别登记当前已集成版本和新版待审提交，按差异/依赖/独测逐项放行，不将旧完成标记当V5完成。
+
+先完整读取现行AGENTS/WORK_PACKAGES及本交接，核对Git与Unity。用户已提交上一轮V5/T12为6348beb，旧“工作区契约7未提交”已过期，本文下方保留当时事实。本轮仅修改AGENTS、WORK_PACKAGES、README和本交接，不改源码/场景/Prefab/配置/输入/包/项目设置/Wwise/其他成员handoff，不切分支或merge，不自动commit/push，无子代理。
+
+AGENTS规范14同步最新范围、已提交契约7和README维护要求。WORK_PACKAGES补逐项依赖/恢复条件、已有T任务重新提交流程及当前/待审版本表，修正T11已读真实Tail及T07尚未集成状态；T01/T02/T12已提交闭环可直接复用，灰卡/安全代价/挑战/完整重开仍无已发布接口。README按阶段汇总规则重建与迁移、C00–C03、T01审查/集成整理、MCP接手、Level功能保留/比例/触发器、Soap选择性集成、V5与T12接图及当前协调记录；注明队友原作和总控适配，链接本交接保留详细历史证据。
+
+## 本轮实际验证
+
+- Git：开始状态干净，HEAD/本地origin/Ming为6348beb；first-parent日志核实0abac92与6348beb已在Ming。最初沙箱内git status因LFS临时目录写权限失败；申请正常提权后只读状态核对成功，不是合并或内容损坏。
+- Unity MCP：先读custom-tools/instances，再显式绑定2026GameJamUnity@1ba105ba2ebb3fca；project/info确认F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64。
+- 实际非Play只读场景核对：Level_Whitebox，isDirty=false、isPlaying=false、isCompiling=false；6根、Missing Script=0；唯一RunController/PlayerState/PlayerInputReader/PlayerInteractor/GameBootstrap/ChoiceCoordinator/WhiteboxPlayer2D，ChoicePanel与PlayerHud各1，Chest_01–07共7。LoadoutRules.Capacity=3，新T12V5Checks类型已加载。
+- 初次查询误用了UI/Chest子命名空间，返回对应类型计数0；读取源码实际Regrowth.UI/Regrowth.Gameplay后重新查询得到1/1/7。没有将查询错误当作缺组件，也未生成重复对象。
+- Console只读最近错误/警告：返回Unity账户API网络/编辑器焦点警告，无该次查询中的源码编译错误；未清空日志。
+- 本轮不进入Play、不保存/重载地图、不重跑历史回归；上一轮33/0与真实E/鼠标/取消/替换为既有证据，不改写成新测试。
+- 收尾检查4份文档diff、Markdown本地链接、音频条款保留及改动范围；具体执行结果以本轮收尾记录为准。
+
+## 下一步与放行
+
+当前优先事项为旧C02/T02/T12四槽夹具的契约7迁移和独测，不依赖地图更新；测试不得删减原生命、事务、事件/重入、生命周期覆盖。模块适配各自以6348beb接口为依据，总控共享文件串行，尚未登记新领取。旧T06与地图运动差异单独处理，不叠加两个运动写者。
+
+完整教学/攻击敌人/收费/支线及新地图组装本轮暂缓。下一轮用户恢复后，按WORK_PACKAGES§3.1逐项核对真实接口发布、模块适配/独测和地图handoff，保留尺度/GUID/7箱闭环及当前Ming音频配置；不重合T01，不因为任务编号已完成就自动merge。现有地图仍可测试宝箱、取消、三槽HUD及腿/尾权限，但不是完整V5整局。
+
+---
+
+# 历史记录：V5规则适配与T12白盒接入（现已提交为6348beb）
+
+以下为上一轮当时记录；旧“未提交/下一轮先发布”不代表当前状态。
+
+# 上一轮交接：V5规则适配与T12白盒接入
 
 更新：2026-10-01（Australia/Sydney）· 规范13 / 工作区公共源码契约7（基点为契约6）
 成员/任务别名：controller；任务C02/C03/T12-V5；分支Ming

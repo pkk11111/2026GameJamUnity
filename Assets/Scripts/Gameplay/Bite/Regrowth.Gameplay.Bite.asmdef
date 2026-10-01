@@ -1,1 +1,1 @@
-{"name":"Regrowth.Gameplay.Bite","rootNamespace":"Regrowth.Gameplay","references":["Regrowth.Core","Regrowth.Audio.Core"],"autoReferenced":true}
+{"name":"Regrowth.Gameplay.Bite","rootNamespace":"Regrowth.Gameplay","references":["Regrowth.Core","Regrowth.Audio.Core","Regrowth.Gameplay.Combat"],"autoReferenced":true}

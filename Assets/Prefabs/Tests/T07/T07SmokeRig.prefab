@@ -756,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Regrowth.Tests.T07::Regrowth.Tests.T07.T07SmokeDriver
   attack: {fileID: 1771939854127385660}
+  router: {fileID: 4569932265912311621}
   config: {fileID: 11400000, guid: a6cfbb46a7d50d24997c45b557ebe762, type: 2}
   body: {fileID: 5460599552389918699}
   motor: {fileID: 7373691432996589498}
@@ -833,7 +834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Current Form Toggle
+  m_text: Body / Arms Toggle
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1821,6 +1822,7 @@ MonoBehaviour:
   interactActionPath: Player/Interact
   dashActionPath: Player/Dash
   pauseActionPath: System/Pause
+  prototypeResetActionPath:
   buttonBufferSeconds: 0.15
 --- !u!114 &7150397011623912018
 MonoBehaviour:
@@ -1855,6 +1857,7 @@ GameObject:
   - component: {fileID: 5915247380812953465}
   - component: {fileID: 7373691432996589498}
   - component: {fileID: 1771939854127385660}
+  - component: {fileID: 4569932265912311621}
   m_Layer: 0
   m_Name: T07 Graybox Player
   m_TagString: Untagged
@@ -1968,6 +1971,7 @@ MonoBehaviour:
   initialMaximumHealth: 100
   initialBiteDamage: 13
   initialSwordDamage: 15
+  prototypeStartWithBodyCore: 0
 --- !u!114 &7373691432996589498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,10 +2015,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c997a66a97347044ba7e2fe89a59a88b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.PlayerBiteAttack
-  inputSource: {fileID: 6738898969993122888}
   combatStateSource: {fileID: 5915247380812953465}
   biteOrigin: {fileID: 3189345501729850407}
   config: {fileID: 11400000, guid: a6cfbb46a7d50d24997c45b557ebe762, type: 2}
+--- !u!114 &4569932265912311621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939586113418418136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9b824b8d0c4c3999750ce2c4c5e2d8, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Regrowth.Gameplay.Combat::Regrowth.Gameplay.PlayerAttackRouter
+  inputSource: {fileID: 6738898969993122888}
+  combatStateSource: {fileID: 5915247380812953465}
+  biteActionSource: {fileID: 1771939854127385660}
+  swordActionSource: {fileID: 0}
 --- !u!1 &8330155027150138038
 GameObject:
   m_ObjectHideFlags: 0

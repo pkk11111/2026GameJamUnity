@@ -1,5 +1,52 @@
 # Soap · T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
 
+## T07 V5 迁移与历史环境清理（2026-10-01，Australia/Sydney）
+
+**T07 V5 适配独测通过，待战斗模块集成。** 本轮仅同步Ming、清理已授权历史污染、适配和回归T07；未开始T08/T09/T10/T11，未正式接主地图。下方原T07 33/0记录完整保留为历史。
+
+### 基线与Git交付状态
+
+- 实际仓库 `D:/Making Games/2026GameJamUnity`（本机无F盘），分支Soap；起始干净，HEAD/origin/Soap=`256bbc7efb515de2644128e35cf3bfc2db12a071`。
+- `git fetch origin Ming Soap`核实Ming=`66fde7972f275cef59f805cf0df85d0947a8df4d`，规范14 / 已提交源码契约7；重新读取规范、工作包、V5阅读稿及controller/Soap交接。旧文档的暂缓排期由本轮用户明确授权恢复T07，其他模块继续不做。
+- Soap与Ming已分叉，不能fast-forward；`git merge --no-commit --no-ff origin/Ming`无冲突，将最新4份文档合入工作树。没有创建合并提交：HEAD仍256bbc7，MERGE_HEAD为66fde797。为满足不stage，已撤出merge自动暂存的4份文档；最终暂存区为空，合并待用户后续处理。未commit/push。
+- AGENTS、README、WORK_PACKAGES、controller.handoff差异完全来自Ming合并，本轮没有自行修改总控文档。README原Ming结尾空行导致全仓`git diff --check`提示；T07范围检查通过，不擅改来源文档。
+
+### Wwise pollution cleanup / _Recovery cleanup
+
+- 从origin/Ming精确恢复 `Assets/WwiseSettings.xml` 与 `2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj`。最终Git内容检查与Ming无差异；Git blob SHA分别为 `34845050c08a706629ce1d47c59a7f653aeab4a8`、`009c859aa6966402c3d687ebbe3105074e5c3127`，本地hash-object与origin/Ming一致。
+- 删除整个 `Assets/_Recovery/`（0.unity及其meta）与 `Assets/_Recovery.meta`；不存在残留。这些恢复/删除差异需保留供用户后续清理提交。
+- 未启动Wwise Authoring，未Generate/Copy SoundBanks，未修ProjectInfo环境问题；Packages/ProjectSettings未改。
+
+### 正式文件、唯一Attack结构与T08接点
+
+- 新增 `Assets/Scripts/Gameplay/Combat/PlayerAttackRouter.cs`、`IPlayerAttackAction.cs`、Combat asmdef及配对meta/目录meta。当前没有既有正式分发器，因此使用这个最小共享Gameplay组件；Combat只引用Core，不改Core/Runtime/IPlayerInput公共接口。
+- Router是正式唯一普通Attack消费者：FixedUpdate调用一次`IPlayerInput.TryConsumeAttack()`，读取同一`IPlayerCombatState`，CanUseSword优先→可选剑动作，否则CanBite→咬击，否则丢弃。请求拒绝不排队；有手但剑动作未绑定时只消费，不回退Bite、不发PlayerWeaponAttack。
+- `IPlayerAttackAction.CombatState`须与Router同源；`TryAttack()`只由Router在Unity主线程调用，动作自行复验权限/冷却。T08以后实现此接点并绑定swordActionSource，不能再次消费Attack；本轮没有Sword实现或模拟剑击。
+- 修改 `Gameplay/Bite/PlayerBiteAttack.cs`：去掉inputSource及FixedUpdate输入消费，改为IPlayerAttackAction；保留既有Physics2D圆形范围、实体HashSet去重、cooldown/miss/0伤害/自伤排除/PlayerBite/故障音频保护。命中前重查实际CanBite；添加动作重入保护，不改变状态、运动、动画或旧身份语义。Bite asmdef增加Combat引用。
+- Unity保存已有 `Assets/Prefabs/Bite/BiteMount.prefab` 与 `Assets/Prefabs/Tests/T07/T07SmokeRig.prefab`：新增Router、从Bite迁移输入绑定，Rig真实PlayerState从头部开始，测试按钮改Body / Arms Toggle；原GUID/fileID及配置、判定锚点保留。Unity保存Rig顺带序列化已有PlayerInputReader空prototypeResetActionPath，不赋值或扩展重开。
+- 修改仅Tests/T07的Driver、测试/Editor asmdef、T07SceneSetup；新增运行时临时输入转发计数器T07InputProbe及meta。旧Upright断言迁移为真实Arms流程，其余旧覆盖保留。没有修改PlayerState、公共输入、T06或主地图。
+
+### Inspector接线与复现
+
+- 复用 `Assets/Scenes/Tests/T07/T07_Smoke.unity`，该场景文件本轮未改；没有新建测试地图或保存Level_Whitebox。Unity先确认6000.2.9f1、正确D盘项目、原T02_Smoke干净且非Play，再迁移并从磁盘打开已有T07。
+- `Tools/GROWL AGAIN/T07/Migrate V5 Existing Assets`只迁移既有Rig/Mount并重载T07，拒绝Play/脏场景。迁移幂等，不重复挂Router。临时验证快捷键与Unity内置选择组冲突，实际选择迁移命令执行后已移除快捷键，最终只保留菜单。
+- Rig玩家根：Router.inputSource→唯一PlayerInputReader，Router.combatStateSource与Bite.combatStateSource→同一PlayerState，biteActionSource→该Bite；swordActionSource为空。Driver.router→该Router。PlayerState.prototypeStartWithBodyCore=false，initialBiteDamage=13；取得躯干使用真实TryAcquireBodyCore，Arms增删使用真实V5状态命令。
+- BiteMount跨场景input/combat为空，集成须绑定唯一玩家输入与状态，Router与Bite共用状态；不得整体复制Smoke Rig导致第二套Runtime/PlayerState。仅一个Router消费普通Attack，Bite动作不读输入。
+- 既有BiteConfig资产不变：半径1.2单位、冷却0.6游戏秒、TargetLayers=Default、IncludeTriggers=true，皆暂定可调值。Bite锚点local x=0.65；范围/配置数值每次动作读取，冷却已开始的截止时间不重算；输入/状态/动作引用重新启用绑定。伤害只读真实PlayerState；Router无额外设计数值。
+- 打开保存的T07，Play，点击Run T07 Checks运行全回归；手测按钮首次取得躯干，再次切换Arms。Tests替身/输入观察器仅自动Play临时创建，不进入正式Prefab/地图。
+
+### 真实Unity验证与边界
+
+- 本会话未暴露Unity MCP工具/资源；采用computer-use技能操作实际Unity，项目进程路径核实为D盘6000.2.9f1。Unity实际编译/域重载成功，再通过PrefabUtility迁移保存资产；场景磁盘重载后实际Play，鼠标点击启动自动检查，结果 **42 passed / 0 failed**。
+- 四状态：Head HasBodyCore=false→无Bite/伤害/Cue；真实取得BodyCore且无Arms→BiteDamage=13、一次PlayerBite；Arms且无Legs→CanUseSword=true、CanBite=false，T08缺失时不Bite/伤害/剑Cue；真实移除Arms→下一新Attack恢复一次Bite，旧请求不补打。
+- 完整保留多Collider单次、Request来源/分类、自伤、miss、冷却拒绝且不积压、半径/LayerMask/Trigger、外部CanBite、0伤害、动作开始后权限丢失、音频后端异常不阻断、Paused恢复不补打、Choosing、缺引用、真实Dead及T06移动/跳跃短回归。新增第二个Bite临时组件与转发计数器证明两个Attack各只成功消费一次；真实Bite Cue回调中取得Arms，命中前拒绝旧伤害。
+- 参数探针继续只克隆运行时Config，未改持久资产。没有设备轮询、自建正式玩家状态、Rigidbody写入、动画扣血或PlayerWeaponAttack调用。
+- 首次回归结束Console显示49条Log、8条预期Warning、0 Error；Warning为故障音频替身、临时第二Bite逐步接线/缺引用诊断。未手动清空Console，域重载/Unity自身Clear on Play会改变显示，完整结果另核对Editor.log。当前编译/T07 gameplay Error=0；Editor.log里早于本轮的Chest合并标记CS8300为历史记录，本轮工作区无冲突或该编译错误。
+- 已知Wwise `Cannot find ProjectInfo.json at Assets/StreamingAssets/Audio/GeneratedSoundBanks`仍是未处理的SoundBank环境问题，日志保有记录；本轮Play Console未再次出现该Error，不宣称音频环境已修复。账户/授权网络日志也是既有环境记录。
+- 未验证本轮实体键盘/手柄攻击、正式动画/朝向、真实Wwise声音、Windows导出或主地图战斗接线。自动输入均经Input System事件→真实Reader，不等同设备手测认证。
+- 最终格式/注释整理并移除冲突快捷键后，Unity再次编译/域重载；保存资产进入新鲜Play，完整复验仍42 passed / 0 failed，Console Error=0。退出Play后T07场景无脏标记。新增5项资产/目录均配对meta，全Assets无重复GUID；T07范围diff检查通过，Core/Runtime/WhiteBox/Packages/ProjectSettings及所有.unity无本轮差异。`git diff origin/Ming`核实4份总控文档与两份Wwise内容仍一致。
+- T07模块可交总控集成，也具备后续T09靶子替换为真实敌人的基础；本轮停在T07。T09需用户下一项授权，统一伤害/敌人注册等实际接口须核实，不自动开始。
+
 ## 合并后最新同步（2026-10-01，Ming V5）
 
 - 本文件用于解决 Soap → 最新 Ming 的 handoff 冲突。当前目标基线为 `origin/Ming=6348beb1c1eef1565aa6b13c5a338769eab0c404`（`New Game DesignV5`），根 `AGENTS.md` 已升级为规范13；旧规则段落继续保留为历史验证记录，不覆盖 V5。
