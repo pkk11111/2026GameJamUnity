@@ -1,0 +1,54 @@
+# Dada / Player Visual Art
+
+更新：2026-10-01。任务：主角美术资源与独立 Art Test 交付；正式 gameplay 未接。
+
+## 基线与状态
+
+- Dada 开始 HEAD / 来源 Ming 基线：`4d6b2e18d8386d2c5e2db4bd3a1b32c50edec8fd`（源码契约 8）。Dada 本地领先旧 origin/Dada，不以远端旧 Dada 覆盖工作区。
+- 本次 fetch 核对目标 Ming：`05c082e4cffd67e0ab7a2a3c6e60cea6f38dcc8f`。
+- Dada 文档规范 15；已核对目标 Ming 规范 19，遵循其美术异机交付规则。没有修改生产公共接口。
+- 当前交付提交以包含本文件的 `Art: add player visual animation test package` 提交为准；用 `git log -1 --format=%H -- docs/handoffs/Dada.handoff` 取得，避免文件内自引用提交 SHA。
+- 状态：独立资源/Play 自动检查通过，待 Ming 集成；仅单一美术提交 cherry-pick 到独立 Ming 工作副本，不整分支 merge，不自动 push。
+
+## 实际资产与参数
+
+39 张主角 PNG / 95 帧；39 个源动作 Clip + 13 个临时 Idle Clip，共 52 个 Clip；13 种合法身体组合。
+PNG `Assets/Art/Characters/Player/Sprites/`；Clip `Assets/Art/Characters/Player/Animations/`。
+配置 `Assets/Art/Characters/Player/Controllers/PlayerVisualLibrary.asset`；同目录 6 个测试 UI ActionReference 和 ArtPreview.renderTexture。
+场景 `Assets/Scenes/Tests/Art/PlayerVisual_ArtTest.unity`；脚本 `Assets/Scripts/Tests/Art/`。
+场景内 PlayerVisualRoot 的 Animator 由 PlayableGraph 直接驱动，没有单独 .controller 或 Prefab；测试引用完整保存在场景。
+
+每格 500×500，横向左到右；Multiple / Full Rect；PPU100 / Pivot中心 / Compression None / Max4096 / Bilinear / Clamp / 无 Mipmap / NPOT None。
+Move默认6或8 FPS、Jump6 FPS、Attack12 FPS，单帧 Bite/Fire约6.667 FPS（0.15秒）；具体逐项清单见操作说明。
+六个 Toggle 选择身体，六个动作按钮播放；FPS2–16实时生效，Hold0.05–0.5秒用于单帧，Replay/Pause/逐帧/PASS/FAIL供美术检查。
+全部跨对象绑定与 Library引用均持久保存。Editor 清单只含主角，默认从仓库内 PNG 重建，不依赖作者盘符，不自动运行。
+Idle = 对应 Move 第一帧 + PlayerVisualRoot 通用呼吸0.99–1.01、周期1秒；是测试阶段复用，不是正式 Idle 图已完成。
+
+## 身体组合与 MISSING
+
+13组合 Move / Jump / 临时Idle全部覆盖；Arms始终含剑；Head无攻击，无手用Bite、有手用Attack，普通尾/火尾互斥。
+保留3个合法缺项：Dog0_FlameTail/Bite、Dog2_NoArmsFlameTail/Bite、Dog2_FlameTail/Fire。
+用户最新指令：两种缺少的咬击动画先待定，等美术补充；本轮不补绘、不以Fire姿势代用。已有其他Bite照常交付。
+INVALID、UNAVAILABLE、MISSING在测试器明确区分；错误请求清空旧画面，不拿其他组合填空。
+4张保留的final图与新PSD存在版本差异，详情在操作说明；本轮不改原PNG或PSD。
+Projectile_Fireball_01未交付；敌人3张PNG/Clip留Dada本地，不进入本提交。独立Fire技能模式不属于当前Harness覆盖。
+
+## 实际验证
+
+Unity 6000.2.9f1 在与当前交付内容一致的 Dada 隔离副本执行实际 EnterPlaymode：1140 项资源检查、890 项 Play 检查均通过，0 失败。
+原 Dada 已有用户编辑器占用；首次额外 batch 启动退出，随后使用现有独立验证副本，未关闭原编辑器或接管键鼠。
+所有交付资产与被测副本逐字/哈希一致；场景保存→关闭→重开后无 Missing Script 或丢失的持久引用，再实际 Play。
+覆盖六个 Toggle 事件、64 种布尔输入×6 动作的状态解析、已交付动作逐帧/时长/循环、2→16 FPS 实时变化、单帧 Hold、Idle 呼吸、双尾互斥、暂停/逐帧、监听启停、MISSING 不保留旧图。
+全 Assets GUID 扫描无重复，本包新增文件/meta 配对完整；39 张 PNG 哈希与已审核源一致。原已跟踪文件哈希不变，正式共享文件无改动。
+包缓存有既有 Unity.Collections/Unsafe.dll 目录缺失日志；本模块无 C# 编译错误，全部检查实际完成，不称整个项目日志零错误。PASS/FAIL 会话按钮测试会故意输出一条 [ART TEST FAIL]，不是检查失败。
+图形美术最终审批仍由用户手动完成；自动 Play 使用隐藏、无图形 Unity 进程，不声称人工完整试玩或正式地图已接美术。
+PNG 将按既有 .gitattributes 进入 Git LFS；未授权 push，远端上传不在本轮声明通过。
+
+## Ming 总控后续接线
+
+此模块没有真实 PlayerState、输入消费、移动、攻击/伤害或正式地图接线。测试 Toggle 是独立预览输入，不能挂入正式玩家。
+后续单独任务从唯一 PlayerState 的身体/构筑只读接口读取组合，接唯一运动与攻击事件驱动动画；保持稳定碰撞体，手剑同得同失，取消/死亡/失去部件清表现残留。
+确定受击/死亡/冲刺/双跳/空中动作的复用或效果方案；完善待补动作与火球特效后再接技能，不由动画事件重复结算伤害或支付。
+共享 Player Prefab、Level_Whitebox、PlayerState、LoadoutRules、PlayerInputReader、WhiteboxPlayer2D、Input Actions、ProjectSettings、Packages、Wwise、公共记录和他人handoff均未修改。
+本任务为 Dada 美术交付，不冒用 Ming 总控身份更新 controller.handoff / README / WORK_PACKAGES / AGENTS。
+操作说明：`docs/art-test/PLAYER_VISUAL_ART_TEST.md`；文件清单和验证摘要随本包交付。
