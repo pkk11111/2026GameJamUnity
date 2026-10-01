@@ -1,7 +1,7 @@
-// 职责：从同一组件读取生命/构筑/姿态，事件刷新四槽HUD；绝不调用状态写口。
-// 模块/维护：Soap / T02；直接依赖：Core、TMP、HudSlotView；真实状态归PlayerState。
+// 职责：从同一组件读取生命/构筑/姿态，事件刷新三槽HUD；绝不调用状态写口。
+// 模块/维护：controller适配Soap / T02-V5；直接依赖：Core、TMP、HudSlotView；真实状态归PlayerState。
 // 接线：stateSource须同时实现三个只读接口；启用先读快照并订阅，停用/换源退订。
-// 交接：docs/handoffs/Soap.handoff；规范：根AGENTS.md。
+// 交接：docs/handoffs/controller.handoff；规范：根AGENTS.md。
 using System;
 using Regrowth.Core;
 using TMPro;
@@ -28,7 +28,7 @@ namespace Regrowth.UI
         private TMP_Text healthText;
         [SerializeField, Tooltip("必填：姿态文字。")]
         private TMP_Text formText;
-        [SerializeField, Tooltip("必填：恰好四个有序槽位；布局和外观在Prefab编辑。")]
+        [SerializeField, Tooltip("必填：至少三个有序槽位；布局和外观在Prefab编辑。")]
         private HudSlotView[] slots;
         [SerializeField, Tooltip("可选：Filled Image；颜色/Sprite/方向在Inspector，不依赖占位图。")]
         private Image healthFill;
@@ -45,13 +45,14 @@ namespace Regrowth.UI
         private IHealth health;
         private ILoadoutState loadout;
         private IFormState form;
+        private IPlayerBodyState body;
         private bool subscribed;
 
         private void OnEnable()
         {
             if (!TryBind(stateSource))
             {
-                Debug.LogError("[T02 PlayerHud] 检查同一状态源、HP/Form文字和四个槽位引用。", this);
+                Debug.LogError("[T02 PlayerHud] 检查同一状态源、HP/Form文字和三个槽位引用。", this);
             }
         }
 
@@ -73,11 +74,16 @@ namespace Regrowth.UI
             health = nextHealth;
             loadout = nextLoadout;
             form = nextForm;
+            body = source as IPlayerBodyState;
             if (isActiveAndEnabled)
             {
                 health.HealthChanged += Refresh;
                 loadout.LoadoutChanged += Refresh;
                 form.FormChanged += OnFormChanged;
+                if (body != null)
+                {
+                    body.BodyChanged += Refresh;
+                }
                 subscribed = true;
                 Refresh();
             }
@@ -86,7 +92,7 @@ namespace Regrowth.UI
 
         private bool ValidView()
         {
-            if (healthText == null || formText == null || slots == null || slots.Length != 4)
+            if (healthText == null || formText == null || slots == null || slots.Length < LoadoutRules.Capacity)
             {
                 return false;
             }
@@ -107,6 +113,10 @@ namespace Regrowth.UI
                 health.HealthChanged -= Refresh;
                 loadout.LoadoutChanged -= Refresh;
                 form.FormChanged -= OnFormChanged;
+                if (body != null)
+                {
+                    body.BodyChanged -= Refresh;
+                }
                 subscribed = false;
             }
         }
@@ -119,6 +129,11 @@ namespace Regrowth.UI
             {
                 return;
             }
+            healthText.gameObject.SetActive(body == null || body.HasBodyCore);
+            if (healthFill != null)
+            {
+                healthFill.gameObject.SetActive(body == null || body.HasBodyCore);
+            }
             healthText.text = string.Format(healthFormat, health.CurrentHealth, health.MaximumHealth);
             formText.text = form.CurrentForm == PlayerForm.Upright ? uprightLabel : quadrupedLabel;
             if (healthFill != null)
@@ -127,10 +142,11 @@ namespace Regrowth.UI
             }
             for (int i = 0; i < slots.Length; i++)
             {
+                slots[i].gameObject.SetActive(i < loadout.Capacity);
                 bool occupied = i < loadout.Items.Count;
                 LoadoutItemId item = occupied ? loadout.Items[i] : default;
                 ItemVisual visual = FindVisual(item);
-                bool unavailable = occupied && item == LoadoutItemId.Sword && form.CurrentForm != PlayerForm.Upright;
+                bool unavailable = occupied && (item == LoadoutItemId.FlameBreath || item == LoadoutItemId.FlameTail);
                 slots[i].Display(occupied ? (visual != null ? visual.label : item.ToString()) : emptyLabel,
                     visual?.icon, occupied, unavailable, occupied ? (unavailable ? unavailableLabel : occupiedLabel) : string.Empty);
             }

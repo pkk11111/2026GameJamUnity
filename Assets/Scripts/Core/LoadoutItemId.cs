@@ -2,7 +2,7 @@
 // 依赖：无。维护：总控；规范：根目录 AGENTS.md。
 namespace Regrowth.Core
 {
-    /// <summary>统一构筑槽身份；盾/喷火/长枪预留，不表示首版已实现。</summary>
+    /// <summary>稳定构筑身份。旧 Dash/DoubleJump/UprightForm/Sword 数值只留迁移追溯；V5 使用 Legs/Arms/Tail。喷火两种载体预留。</summary>
     public enum LoadoutItemId
     {
         Dash = 1,
@@ -12,5 +12,9 @@ namespace Regrowth.Core
         UprightForm = 5,
         Sword = 101,
         Spear = 102,
+        Legs = 201,
+        Arms = 202,
+        Tail = 203,
+        FlameTail = 204,
     }
 }

@@ -1,7 +1,7 @@
 // 职责：IChoicePresenter 的展示与回调生命周期；不拥有任何 gameplay 状态或时间倍率。
-// 模块/维护：Soap / T01；依赖：Regrowth.Core、ChoiceCardView、uGUI、TMP。
+// 模块/维护：controller适配Soap / T01（T12地图导航）；依赖：Regrowth.Core、ChoiceCardView、uGUI、TMP。
 // 接线：组件放在持续启用的根节点，viewRoot 为可隐藏的子节点；卡片外观来自序列化 Prefab。
-// 交接：docs/handoffs/Soap.handoff；规范：根目录 AGENTS.md。
+// 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Core;
@@ -132,11 +132,15 @@ namespace Regrowth.UI
             foreach (ChoiceOption option in request.Options)
             {
                 ChoiceCardView card = Instantiate(cardPrefab, cardContainer, false);
-                card.Bind(option, Submit);
+                card.Bind(option, Submit, CancelCurrent);
                 card.SetInteractable(!submitting);
                 cards.Add(card);
             }
             viewRoot.SetActive(true);
+            if (cards.Count > 0)
+            {
+                cards[0].Focus();
+            }
         }
 
         private void Submit(string optionId)
@@ -182,6 +186,10 @@ namespace Regrowth.UI
             {
                 submitting = false;
                 SetInteractable(true);
+                if (IsOpen && cards.Count > 0)
+                {
+                    cards[0].FocusIfNone();
+                }
                 if (cancelPending)
                 {
                     cancelPending = false;

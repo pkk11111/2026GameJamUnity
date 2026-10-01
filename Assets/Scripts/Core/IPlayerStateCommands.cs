@@ -13,10 +13,10 @@ namespace Regrowth.Core
         /// <summary>正数治疗，实际回血才 true；满血/死亡/非法请求 false，不复活。</summary>
         bool TryHeal(int amount);
 
-        /// <summary>首版保留项、未持有、槽未满才 true；满槽必须另提交替换。</summary>
+        /// <summary>V5保留项、未持有、槽未满才 true；满槽必须另提交替换。</summary>
         bool TryAddLoadoutItem(LoadoutItemId item);
 
-        /// <summary>确实持有的首版项才移除；删除站立会回四足但不删除剑。</summary>
+        /// <summary>确实持有的首版项才移除；删除双手连剑一起撤下，恢复基础咬击。</summary>
         bool TryRemoveLoadoutItem(LoadoutItemId item);
 
         /// <summary>旧项存在、新项未持有且不同才原子替换；失败不先移除旧项。</summary>

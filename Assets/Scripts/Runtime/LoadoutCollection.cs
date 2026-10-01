@@ -1,4 +1,4 @@
-// 职责：PlayerState 内部的唯一四项存储，提供不可写的活视图和原子替换。
+// 职责：PlayerState 内部的唯一三项存储，提供不可写的活视图和原子替换。
 // 模块/维护：controller，C02；直接依赖：Collections.Generic、Regrowth.Core；仅 PlayerState 正式持有。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using System;
@@ -8,12 +8,12 @@ using Regrowth.Core;
 namespace Regrowth.Runtime
 {
     /// <summary>
-    /// 只处理容量/身份/重复，不发事件。PlayerState 在外围限制首版四项；
+    /// 只处理容量/身份/重复，不发事件。PlayerState 在外围限制首版三项；
     /// 内部测试可用已定义的预留身份验收满槽替换，但不会授予正式玩家。
     /// </summary>
     internal sealed class LoadoutCollection
     {
-        internal const int SlotCapacity = 4;
+        internal const int SlotCapacity = LoadoutRules.Capacity;
         private readonly List<LoadoutItemId> items = new List<LoadoutItemId>(SlotCapacity);
         internal IReadOnlyList<LoadoutItemId> Items { get; }
 

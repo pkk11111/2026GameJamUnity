@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Regrowth.Runtime
 {
-    /// <summary>奖励/代价三项打开，替换三项或四项同Id；所有选择按确认规则暂停。</summary>
+    /// <summary>教学/指定舍弃单项或奖励三项打开；V5替换三项，保留四项展示兼容独测；所有选择按确认规则暂停。</summary>
     [DisallowMultipleComponent]
     public sealed class ChoiceCoordinator : MonoBehaviour, IChoiceFlow
     {
@@ -26,6 +26,7 @@ namespace Regrowth.Runtime
 
         public bool IsInitialized => run != null;
         public bool IsOpen => session != null;
+        public int LastClosedFrame { get; private set; } = -1;
         public string RequestId => session != null ? session.Request.Id : string.Empty;
         internal MonoBehaviour PresenterComponent => presenter;
         private IChoicePresenter Presenter => presenter != null ? presenter as IChoicePresenter : null;
@@ -50,7 +51,7 @@ namespace Regrowth.Runtime
         public bool TryBegin(ChoiceRequest request, Func<string, bool> tryConfirm, Action onCancel)
         {
             if (!IsInitialized || !isActiveAndEnabled || opening || submitting || closing || IsOpen
-                || request == null || request.Options.Count != 3 || tryConfirm == null
+                || request == null || (request.Options.Count != 1 && request.Options.Count != 3) || tryConfirm == null
                 || !health.IsAlive || !run.IsGameplayActive || Presenter == null || !presenter.isActiveAndEnabled || Presenter.IsOpen)
             {
                 return false;
@@ -105,7 +106,7 @@ namespace Regrowth.Runtime
             var current = session;
             if (!IsInitialized || !isActiveAndEnabled || current == null || opening || closing || Presenter == null || !presenter.isActiveAndEnabled
                 || request == null || request.Id != current.Request.Id || tryConfirm == null
-                || (request.Options.Count != 3 && request.Options.Count != 4) || run.Phase != RunPhase.Choosing || !health.IsAlive)
+                || (request.Options.Count != 1 && request.Options.Count != 3 && request.Options.Count != 4) || run.Phase != RunPhase.Choosing || !health.IsAlive)
             {
                 return false;
             }
@@ -241,6 +242,7 @@ namespace Regrowth.Runtime
 
         private void ReleaseStage()
         {
+            LastClosedFrame = Time.frameCount;
             input?.DiscardGameplayInput();
             if (run != null && run.IsInitialized && run.Phase == RunPhase.Choosing && !run.TryEndChoosing(this))
             {

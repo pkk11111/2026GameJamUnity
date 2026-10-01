@@ -30,6 +30,8 @@ namespace Regrowth.Runtime
         private string dashActionPath = "Player/Dash";
         [SerializeField, Tooltip("系统按键，仅发布请求；正式暂停菜单策略另行接线。")]
         private string pauseActionPath = "System/Pause";
+        [SerializeField, Tooltip("可选，仅白板试走回位 Button 路径；正式资产留空，不提供复活/重开。")]
+        private string prototypeResetActionPath = "";
 
         [Header("缓冲")]
         [SerializeField, Min(0.01f), Tooltip("按钮请求有效期，真实秒；暂定 0.15，实时生效。每种动作最多一条。")]
@@ -38,10 +40,10 @@ namespace Regrowth.Runtime
         private InputActionAsset runtimeActions;
         private InputAction move;
         private InputAction pause;
-        private readonly InputAction[] buttons = new InputAction[4];
-        private readonly float[] expiresAt = new float[4];
-        private readonly bool[] buffered = new bool[4];
-        private readonly bool[] blockedUntilRelease = new bool[4];
+        private readonly InputAction[] buttons = new InputAction[5];
+        private readonly float[] expiresAt = new float[5];
+        private readonly bool[] buffered = new bool[5];
+        private readonly bool[] blockedUntilRelease = new bool[5];
         private IRunContext run;
         private IHealth playerHealth;
         private float moveX;
@@ -77,6 +79,8 @@ namespace Regrowth.Runtime
             buttons[2] = runtimeActions.FindAction(interactActionPath);
             buttons[3] = runtimeActions.FindAction(dashActionPath);
             pause = runtimeActions.FindAction(pauseActionPath);
+            buttons[4] = string.IsNullOrWhiteSpace(prototypeResetActionPath)
+                ? null : runtimeActions.FindAction(prototypeResetActionPath);
 
             if (move == null || move.type != InputActionType.Value || move.expectedControlType != "Vector2"
                 || !ValidateButtons())
@@ -96,7 +100,7 @@ namespace Regrowth.Runtime
             move.Enable();
             foreach (InputAction button in buttons)
             {
-                button.Enable();
+                button?.Enable();
             }
             pause.Enable();
             pauseBlocked = pause.IsPressed();
@@ -109,6 +113,9 @@ namespace Regrowth.Runtime
         public bool TryConsumeAttack() => TryConsume(1);
         public bool TryConsumeInteract() => TryConsume(2);
         public bool TryConsumeDash() => TryConsume(3);
+
+        /// <summary>白板专用可选输入；FixedUpdate 单次消费。默认未配置为 false，不属于正式重开契约。</summary>
+        public bool TryConsumePrototypeReset() => TryConsume(4);
 
         public void DiscardGameplayInput()
         {
@@ -180,6 +187,10 @@ namespace Regrowth.Runtime
             for (int index = 0; index < buttons.Length; index++)
             {
                 InputAction button = buttons[index];
+                if (button == null)
+                {
+                    continue;
+                }
                 if (blockedUntilRelease[index])
                 {
                     if (!button.IsPressed())
@@ -213,6 +224,10 @@ namespace Regrowth.Runtime
         {
             for (int index = 0; index < buttons.Length; index++)
             {
+                if (index == 4 && string.IsNullOrWhiteSpace(prototypeResetActionPath))
+                {
+                    continue;
+                }
                 if (!IsPlainButton(buttons[index]) || buttons[index] == move || buttons[index] == pause)
                 {
                     return false;

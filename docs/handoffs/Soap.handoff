@@ -1,8 +1,16 @@
 # Soap · T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
 
+## 合并后最新同步（2026-10-01，Ming V5）
+
+- 本文件用于解决 Soap → 最新 Ming 的 handoff 冲突。当前目标基线为 `origin/Ming=6348beb1c1eef1565aa6b13c5a338769eab0c404`（`New Game DesignV5`），根 `AGENTS.md` 已升级为规范13；旧规则段落继续保留为历史验证记录，不覆盖 V5。
+- Ming 已在 `Level_Whitebox` 接入 T02/T03/T06/T12 的当前整合版本，并完成 7 个真实宝箱、Choice/T01、三槽 HUD 与 V5 奖励/替换链；T12 新版专项检查记录为 33 passed / 0 failed。旧 Soap T12 章节保留用于追溯当时独测，不再作为当前正式三槽/V5实现的最高依据。
+- Soap 的 T07 提交 `cf3bc97e24829483fdade59a4485ad59dd34b4a3` 保留：原独测 33/0，后续实体游玩验证无异常。其实现只依赖外部 `CanBite/BiteDamage`，方向与 V5 兼容；但尚未在 `6348beb1` 合并后的新版 PlayerState/Level 上重新回归，因此当前状态仍是“独测通过，待 V5 集成复验”。
+- V5 当前攻击语义：头部阶段不能攻击；取得躯干后，无 Arms 使用咬击，有 Arms 使用剑击；腿不是攻击前提。三槽/Legs/Arms/Tail 等 V5 身份、奖励与地图状态以后续 Ming 的 Core/Runtime/AGENTS/WORK_PACKAGES 为准。
+- Wwise 冲突与配置统一以 Ming 为准；Soap 历史中的本机 Wwise 漂移不恢复、不作为 T07/T12 功能要求。
+
 ## T07 最新摘要（2026-10-01，Australia/Sydney）
 
-- **T07 基础攻击机制自动独测通过，攻击许可规则待策划冻结；实体输入待补验。** 未集成、未宣称第一阶段通过。用户本轮新指令覆盖文档中的具体攻击许可设计，Bite不判断姿态/卡牌/视觉，只消费IPlayerCombatState.CanBite；Core/Runtime/PlayerState均未修改。真实Upright回归仅表示当前基线行为，待总控更新后复验。
+- **T07 基础攻击机制独测通过，未集成；合入 V5 后需回归复验。** 自动 Play 33 passed / 0 failed，用户后续实体游玩/攻击验证无异常。T07 不判断姿态/卡牌/视觉，只消费 `IPlayerCombatState.CanBite` 与 `BiteDamage`；因此原实现没有把旧版攻击许可写死。V5 已由总控把正式权限改为“有躯干且无 Arms 可咬击；有 Arms 改用剑击；头部不能攻击”。原 T07 的 Upright 回归仅保留为旧基线历史，不再作为 V5 玩法依据。
 - 基线：git fetch origin Ming Soap后，Soap/HEAD/origin/Soap=`fe92dfdae57dad9844b8a3c367c89c392b2b5ebf`，起始工作区干净；origin/Ming=`649451f0b05e3be70afda2ae52c2265081fde831`，只读最新AGENTS/WORK_PACKAGES T07/controller，规范10/契约6。不merge/reset/stash/commit/push/stage。
 - 文件：本轮35个T07新增文件（包括目录及资产meta），正式Gameplay/Bite：PlayerBiteAttack.cs、BiteConfig.cs、Regrowth.Gameplay.Bite.asmdef；Tests/T07：T07DamageDummy.cs、T07CombatFixture.cs、T07SmokeDriver.cs、测试asmdef、Editor/T07SceneSetup.cs及Editor asmdef。资产：Configs/Bite/BiteConfig.asset、Prefabs/Bite/BiteMount.prefab、Prefabs/Tests/T07/T07SmokeRig.prefab及T07DamageDummy.prefab、Scenes/Tests/T07/T07_Smoke.unity。全部meta配对；场景未加入Build Settings。唯一修改既有文件为本handoff，补T12用户确认并追加T07。
 - 场景装配：从T06SmokeRig副本解包，仅在新T07资产移除T06测试驱动，保留一套真实RunController/PlayerInputReader/GameBootstrap/PlayerState/Rigidbody2D/PlayerLocomotion；新增PlayerBiteAttack挂同一玩家根。inputSource→唯一Reader、combatStateSource→同一真实PlayerState、biteOrigin→玩家子锚点、config→BiteConfig.asset。唯一EventSystem/InputSystemUIInputModule复用既有InputSystem_Actions及T03持久UI references，十项引用齐全，未改这些共享资产。新增T07 Floor、双Collider靶子、Camera、Tests UI。普通WwiseGlobal由已有Integration自动创建，未做Wwise安装/改配置。
@@ -13,10 +21,12 @@
 - 参数验证：Play仅克隆Config到Tests运行对象，缩小Radius导致miss，关闭includeTriggers跳过靶子，LayerMask排除Default靶子，恢复持久配置后继续回归；没有污染保存Config或真实状态。可控combat fixture仅在Play临时创建并销毁，未保存到正式场景/Prefab，也不代替正式PlayerState。
 - 本轮修复：首次使用错误音频命名空间导致CS0234，已改为实际Regrowth.Audio并重新Unity编译通过；测试字段audio隐藏Component.audio的警告已通过字段改名解决。T06副本Camera缺URP additional data告警只在T07 Prefab补齐，保存后第二轮未再出现，T06原资产未改。没有共享业务Bug修改。
 - Console：最终Play面板Error=0；本轮最终C#编译Error/Missing Script/T07 gameplay Error均0。预期缺引用四次上下文Warning及故障音频替身Warning保留；Unity Account API Warning已知。编辑器域重载/退出Play仍曾报告范围外Wwise Cannot find ProjectInfo.json at Assets/StreamingAssets/Audio/GeneratedSoundBanks，不声明项目全流程Console Error=0，不修Wwise/Packages/Bank。没有手动Clear冒充通过。
-- 手测未验：需要用户新鲜Play（自动检查默认关闭），A/D走近靶子，实体左键或Enter查看Dummy HP/HitCount变化及快速连点cooldown。Current Form Toggle只通过真实Commands演示当前基线外部权限，不是冻结设计；按Pause及TEST Die可观察当前正式状态锁。自动验收最终停在Dead，必须Stop→Play重启后手测。本轮验证后已退出Play、场景已保存。
-- 集成/未完成：许可规则待策划/总控冻结更新后最终复验；实体左键/Enter/Gamepad尚未认证；主地图/正式动画朝向/音频Bank/Windows导出未验证，不启动T08/T09。总控集成时保证唯一Attack消费者、同一PlayerState端口、目标Layer/Trigger策略和玩家根接线；动画不得再次提交伤害。两份允许Wwise本机漂移不纳入T07、不restore/stage；当前Git未见它们或其他范围外改动。
+- 手测补验：用户后续已完成新鲜 Play 的实体游玩/攻击检查，反馈无异常，作为 T07 独测通过依据之一；自动回归仍为 33/0。Gamepad 未单独认证。旧 Current Form Toggle/Upright 演示只代表规范10历史基线，V5 攻击权限以后续 `PlayerState.CanBite/CanUseSword` 为准。
+- 集成/未完成：V5 攻击许可现已冻结在最新总控 `PlayerState`，但本 T07 是在规范10/契约6基线上完成，合入 Ming V5 后必须重新编译并做一次 T07→新版 PlayerState 的短回归，之后才能写“V5 已集成”。主地图正式接线、剑击切换、正式动画朝向、真实音频Bank、Windows导出仍未验证；Gamepad也未单独认证。总控集成时继续保证唯一 Attack 消费者、同一 PlayerState 端口、目标 Layer/Trigger 策略和玩家根接线；动画不得再次提交伤害。Wwise 配置以后续 Ming 为准。
 
 ## T12 最新验证（2026-10-01，独测通过、未集成）
+
+- **V5 合并说明：以下为 Soap 在旧规则下的 T12 独测历史。当前正式 T12/三槽/7箱状态以 Ming `6348beb1` 的 V5 实现、AGENTS/WORK_PACKAGES 与 controller.handoff 为准。**
 
 - **T12 独测通过，未集成。** 用户在T07派发中补充确认最终手测：实体E打开Chest、实体鼠标卡片选择、鼠标Cancel、取消后重开、PlayerState真实写入及T02 HUD联动均通过；自动回归41 passed / 0 failed。以下等待实体输入记录保留为当时历史状态，已由本确认补齐。已知Wwise ProjectInfo/Bank Error仍为范围外音频环境问题，不声明整个项目Console Error=0。
 
@@ -28,11 +38,11 @@
 - 事务：CanInteract只读，正式Chest不读E、不消费输入、不直调ChoicePanel、不写timeScale。部分Fisher-Yates无放回等概率抽3不同条目，排除已持有Loadout，满血Heal合法；真正TryBegin成功才复制缓存，取消重开不重抽，确认时再次校验。状态仅经IPlayerStateCommands Add/Heal/原子Replace；满血Heal可成功领取而HP不变。最终成功才claimed/关闭并发ChestOpened一次；重复/旧阶段/迟到回调无效。claimed及缓存保持本Chest实例生命周期，不承诺场景卸载后的存档。
 - 保存重载与Play：Unity6000.2.9f1中保存场景/Prefab/Config，再通过Load Scene从磁盘加载T12_Smoke。两轮实际Play自动验收均为 **41 passed / 0 failed**；第二轮在Inspector改Heal后执行。测试向当前Keyboard排入E的Input System状态事件，经正式Reader→Interactor→InteractionTarget→Chest→IChoiceFlow→T01→真实PlayerState→T02，不是主箱直接调用TryInteract。覆盖三卡/排除持有/满血Heal、取消固定卡组、真Add/HUD、真回血/HUD、满血领取、claimed单次、双击迟到、无效/失效确认保留、缺引用/不足三项拒绝、Paused/Choosing/Dead锁。
 - 隔离替换同样在上述Play中验证：纯Tests/T12状态持四旧项（900只在纯测试对象），真实Flow/Panel三卡→同Id四旧项且继续Choosing/timeScale=0；进入阶段不先删旧项，取消保留四项与箱子，原子写失败保持菜单，最终Replace/完成各一次，旧阶段与迟到callback无效。900未进入真实PlayerState或正式配置，正式池无Shield/FlameBreath/Spear。GameAudio请求由测试IAudioBackend计数，三次成功箱各ChestOpened一次；未验证真实Wwise声音。
-- 实体输入补验尚待：窗口工具发送E及点击Game测试按钮没有触发输入；不能据此声称实体键盘/鼠标已通过。已进入关闭autoVerify的新鲜Play，请求用户手动E→Cancel→E→选择Loadout并反馈。自动输入链两轮通过，但收到实体结果前不写“T12独测通过”。
-- Console：自动验收无FAIL/Exception/C#或Missing Script记录；已知Wwise/Account API Warning及测试故意缺引用/候选不足的上下文Warning保留记录，不清Console冒充通过。最终Console面板检查和退出Play尚待实体输入补验后完成。
+- 【历史过程记录】当时实体输入补验尚待：窗口工具发送E及点击Game测试按钮没有触发输入，因此当时没有声称实体键盘/鼠标已通过。之后用户已补验实体E、鼠标卡片选择与Cancel并确认通过；以本节顶部“T12独测通过”结论为最终旧版独测状态。
+- 【历史过程记录】当时自动验收无FAIL/Exception/C#或Missing Script记录；已知Wwise/Account API Warning及测试故意缺引用/候选不足的上下文Warning保留记录。后续实体输入已补验通过；Wwise ProjectInfo/Bank仍属范围外环境问题。
 - 两份Wwise配置存在Unity启动时本机自动漂移，本轮未纳入T12，未stage/commit，交由音频/总控处理：`Assets/WwiseSettings.xml`、`2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj`。本次不修改或反复restore它们。Git检查仅这两份、Soap.handoff及43个T12新文件；Packages diff为空，没有新Addressables/其他场景/ProjectSettings变动。
 - 未完成/边界：C04跨宝箱旧候选失效后的补卡/重抽仍pending，只安全拒绝失效确认；主地图未集成、完整奖励系统未宣称完成、真实音频未验收。总控集成只接正式Chest/Config/Prefab到其唯一状态/Run/Flow及地图交互层与锚点，确保场景ID唯一、合法池足三项，复验T01/T02链。没有开始T13。
-### T12 鼠标接线修复与新回归（尚待最终实体卡片/Cancel验收）
+### T12 鼠标接线修复与新回归（历史过程：当时尚待最终实体卡片/Cancel；后续已补验通过）
 
 - 用户手测已确认实体E能打开菜单，但鼠标卡片/Cancel不响应。比对已发布Integration/T01_C03的C03 EventSystem，定位T12唯一EventSystem及InputSystemUIInputModule均启用，Actions Asset正确，但十个UI Action Reference全为空。旧41项用Button.onClick.Invoke验证事务，未覆盖设备鼠标到UI模块，不能拿旧结果当作真实鼠标通过。
 - 仅在Tests/T12 Editor工具增加Repair UI Action Bindings，给T12SmokeRig的Point/Click/RightClick/MiddleClick/ScrollWheel/Navigate/Submit/Cancel/TrackedDevicePosition/TrackedDeviceOrientation补齐持久引用。复用现有T03UIReferences中指向唯一Assets/InputSystem_Actions.inputactions的引用（action ID与Integration参考一致），未改该引用资产/输入资产/ChoiceMenu或Choice业务。工具同时防止将来新建T12实例再次缺引用；新增Editor asmdef的Unity.InputSystem引用。

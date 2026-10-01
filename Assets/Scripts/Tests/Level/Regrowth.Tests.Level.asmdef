@@ -1,0 +1,6 @@
+{
+    "name": "Regrowth.Tests.Level",
+    "rootNamespace": "Regrowth.Tests.Level",
+    "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Unity.InputSystem"],
+    "autoReferenced": true
+}

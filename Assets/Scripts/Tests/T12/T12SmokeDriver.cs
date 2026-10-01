@@ -187,9 +187,25 @@ namespace Regrowth.Tests.T12
             chests[3].TryInteract(state.gameObject);
             state.TryAddLoadoutItem(LoadoutItemId.UprightForm); // 隔离模拟缓存项被外部命令取得。
             OptionButton("upright").onClick.Invoke();
-            Check(flow.IsOpen && !chests[3].IsClaimed && recorder.ChestCues == 3, "external stale option false / menu stays / C04 no refill");
+            Check(flow.IsOpen && !chests[3].IsClaimed && recorder.ChestCues == 3, "external mutation during open rejected safely");
             Check(!Field<Func<string, bool>>(panel, "confirm")("unknown"), "invalid option false");
             CancelButton.onClick.Invoke();
+            var beforeRepair = chests[3].Transaction.Cached.ToArray();
+            Check(!chests[3].TryInteract(state.gameObject) && !flow.IsOpen && !chests[3].IsClaimed,
+                "reopen cannot display owned cards when fewer than three legal options remain");
+            Check(chests[3].Transaction.Cached.SequenceEqual(beforeRepair), "failed repair leaves cached transaction untouched");
+            state.TryRemoveLoadoutItem(LoadoutItemId.Dash);
+            Check(chests[3].TryInteract(state.gameObject), "reopen repairs stale owned item when a valid replacement exists");
+            var repaired = chests[3].Transaction.Cached.ToArray();
+            Check(repaired.Length == 3 && repaired.All(value => value.Kind == ChestRewardKind.Heal || !state.Contains(value.Item))
+                && repaired.Select(value => value.Id).Distinct().Count() == 3, "all displayed repaired cards are distinct and unowned");
+            Check(Enumerable.Range(0, 3).All(i => beforeRepair[i].Id == "upright"
+                ? repaired[i].Id == "dash" : ReferenceEquals(beforeRepair[i], repaired[i])), "only invalid slot changed; valid card identity and position retained");
+            CancelButton.onClick.Invoke();
+            chests[3].TryInteract(state.gameObject);
+            Check(OptionIds().SequenceEqual(repaired.Select(value => value.Id)), "cancel after repair cannot reroll cards");
+            CancelButton.onClick.Invoke();
+            state.TryAddLoadoutItem(LoadoutItemId.Dash);
             SelectFixture(4);
             chests[4].enabled = false;
             var field = typeof(Chest).GetField("choiceFlowSource", BindingFlags.Instance | BindingFlags.NonPublic);

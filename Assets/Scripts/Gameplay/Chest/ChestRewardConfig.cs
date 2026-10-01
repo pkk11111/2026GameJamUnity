@@ -1,5 +1,5 @@
-// 职责：只保存宝箱奖励与替换文案；不保存卡组、生命或已领取状态。
-// Soap / T12；依赖Core/Unity；交接docs/handoffs/Soap.handoff；规范根AGENTS.md。
+// 职责：V5宝箱配置/原子领取；依赖Core，真实状态归PlayerState，UI只展示。
+// 模块/维护：controller / T12（适配Soap模块）；交接：docs/handoffs/controller.handoff；规范：根AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Core;
@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Regrowth.Gameplay
 {
-    public enum ChestRewardKind { Loadout, Heal }
+    public enum ChestRewardKind { Loadout = 0, Heal = 1, MaximumHealth = 2, Attack = 3, BodyCore = 4 }
 
     [Serializable]
     public sealed class ChestRewardDefinition
@@ -16,8 +16,14 @@ namespace Regrowth.Gameplay
         [SerializeField] private string title;
         [SerializeField, TextArea] private string description;
         [SerializeField] private ChestRewardKind kind;
-        [SerializeField, Tooltip("仅Dash/DoubleJump/UprightForm/Sword合法。")] private LoadoutItemId item;
+        [SerializeField, Tooltip("V5身体/技能身份；旧Dash/DoubleJump/UprightForm/Sword不可配置。")] private LoadoutItemId item;
         [SerializeField, Min(1), Tooltip("正数HP，首次打开读取；满血也允许领取。")] private int healAmount = 20;
+        [SerializeField, Min(1), Tooltip("加上限/加攻击数值；上限增加不自动回血，可另配bonusHeal。")] private int effectAmount = 10;
+        [SerializeField, Min(0), Tooltip("部件再生或上限奖励附带回血；所有效果同时提交，取消不回血。")] private int bonusHeal;
+        [SerializeField, Tooltip("曾拥有且当前缺失时的卡名；为空则用原卡名。")] private string regrowthTitle;
+        public int EffectAmount => effectAmount;
+        public int BonusHeal => bonusHeal;
+        public string RegrowthTitle => regrowthTitle;
         public string Id => id;
         public string Title => title;
         public string Description => description;
@@ -25,21 +31,25 @@ namespace Regrowth.Gameplay
         public LoadoutItemId Item => item;
         public int HealAmount => healAmount;
         public bool IsValid => !string.IsNullOrWhiteSpace(id) && !string.IsNullOrWhiteSpace(title)
-            && ((kind == ChestRewardKind.Heal && healAmount > 0)
-                || (kind == ChestRewardKind.Loadout && IsAllowed(item)));
+            && bonusHeal >= 0 && ((kind == ChestRewardKind.Heal && healAmount > 0)
+                || ((kind == ChestRewardKind.MaximumHealth || kind == ChestRewardKind.Attack) && effectAmount > 0)
+                || kind == ChestRewardKind.BodyCore || (kind == ChestRewardKind.Loadout && IsAllowed(item)));
         public static bool IsAllowed(LoadoutItemId value)
         {
-            return value == LoadoutItemId.Dash || value == LoadoutItemId.DoubleJump
-                || value == LoadoutItemId.UprightForm || value == LoadoutItemId.Sword;
+            return LoadoutRules.IsV5Item(value);
         }
         internal ChestRewardDefinition Copy() => (ChestRewardDefinition)MemberwiseClone();
     }
 
-    [CreateAssetMenu(menuName = "GROWL AGAIN/Chest Reward Config")]
+    [CreateAssetMenu(menuName = "pawgatory/Chest Reward Config")]
     public sealed class ChestRewardConfig : ScriptableObject
     {
         [SerializeField, Tooltip("至少3个当前合法不同条目；保留项不能重复身份，不配置预留项。")]
         private ChestRewardDefinition[] rewards;
+        [SerializeField, Tooltip("只用于固定躯干箱；恰好一个BodyCore奖励，不进入普通池。")] private bool bodyTutorial;
+        [SerializeField, Tooltip("首次生成时优先一项合法的曾持有缺失身体；其余等概率。")] private bool favorRegrowth;
+        public bool BodyTutorial => bodyTutorial;
+        public bool FavorRegrowth => favorRegrowth;
         [SerializeField] private string choiceTitle = "Choose one reward";
         [SerializeField] private string replacementTitle = "Choose an old item to replace";
         [SerializeField] private string replacementDescription = "Replace this held item.";
@@ -52,7 +62,7 @@ namespace Regrowth.Gameplay
         {
             get
             {
-                if (rewards == null || rewards.Length < 3)
+                if (rewards == null || (bodyTutorial ? rewards.Length != 1 : rewards.Length < 3))
                 {
                     return false;
                 }
@@ -61,6 +71,7 @@ namespace Regrowth.Gameplay
                 foreach (var reward in rewards)
                 {
                     if (reward == null || !reward.IsValid || !ids.Add(reward.Id)
+                        || (bodyTutorial != (reward.Kind == ChestRewardKind.BodyCore))
                         || (reward.Kind == ChestRewardKind.Loadout && !items.Add(reward.Item)))
                     {
                         return false;

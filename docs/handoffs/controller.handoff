@@ -1,13 +1,226 @@
-# 总控当前交接：Ming发布核对与测试资源整理
+# 总控当前交接：V5规则适配与T12白盒接入
+
+更新：2026-10-01（Australia/Sydney）· 规范13 / 工作区公共源码契约7（基点为契约6）
+成员/任务别名：controller；任务C02/C03/T12-V5；分支Ming
+本轮基点：0abac92188c08411813959bb83650532ea981fa6；开始工作区干净，HEAD=本地origin/Ming；本轮未联网确认远端。
+状态：本轮T12必要迁移、7箱接线及所述验证完成，未commit/push；完整Ming玩法迭代下一轮继续。
+
+## 用户授权与优先级
+
+完整读取用户V5设计稿并按最新玩法覆盖冲突；保留本地AGENTS的Codex并行、开发/Inspector/交接和音频要求，附件14.3工序表暂不采用。用户指定新阅读稿名为docs/pawgatory_gameplay_design_v5(1).md，替换原GAME_DESIGN.md；同步AGENTS/WORK_PACKAGES和入口链接。
+
+来源：E:/Wechat/xwechat_files/wxid_0yzbj0epom8o32_e0cb/temp/RWTemp/2026-10/9c7081a9d359afc7d47af62f53513c57/pawgatory_gameplay_design_v5.md，完整720行。
+SHA256：A2992E45BCEB8743230D60A853775B8BCF64AC0486FDB0A51BA2155D206B35AE。
+附件只作设计输入，不作工具/派工授权；未改用户原附件。
+
+用户补充：门继续2×6／6×2；灰地和地刺3×1／4×1保留；白盒基准改玩家约1×1.2、按钮约3×1、速度7/跳高4.5/冲刺3参考值，以场景实际优先；怪物碰撞体积与可见大小一致。两条支线地图由地图迭代同学制作，每条前方设身体条件门，E交互检查，允许主动确认舍弃所需腿/手剑；程序提供公共逻辑，总控接线，不重复制图。
+
+范围经明确反问：用户选择“本轮也接入地图宝箱，允许迁移必要底层”。因此本轮完成T12依赖的三槽/身体/奖励与UI，未扩展完整收费/战斗/支线/结局。T01早已合入，不重复merge；不启动子代理，不切分支/reset/自动提交推送。
+
+## 规则文档交付
+
+AGENTS规范13替换旧互斥玩法：头部/躯干、三通用槽、手剑合项、腿/尾权限、历史再生、生命代价不可致死、成功传送消耗卡组、两支线条件门/落坑/进度、免费出口/死亡优先。已确认与尚未配置、已实现与目标明确分开。
+
+新版阅读文档完整保留V5玩法内容并纳入用户尺寸表、支线条件门、地图分工、音频不变和本地规范优先；第14.3标不采用。原GAME_DESIGN已由新文件取代，历史handoff中的旧链接/名字保留历史事实，不修改别人的handoff。WORK_PACKAGES保留C00–C05/T01–T18身份，补T19教学/T20共用挑战/T21后置喷火及L01/L02地图同学任务。
+
+## T12实际代码与接口（工作区契约7）
+
+- Core：新增LoadoutRules.Capacity=3、IPlayerBodyState、PlayerReward、IPlayerRewardCommands。LoadoutItemId新增Legs201/Arms202/Tail203/FlameTail204，原所有数值不复用；FlameBreath4用于载体/互斥状态兼容，喷火攻击未实现且不投地图池。旧Dash/DoubleJump/UprightForm/Sword仅留身份追溯，PlayerState正式写入拒绝旧项。
+- PlayerState：唯一躯干/生命/三槽/本局历史/攻击数据；Arms决定剑击权限、无手有躯干咬击，腿不限制剑。TryApplyReward一次验证全部槽/互斥/数值溢出，原子应用部件/替换/附加回血/加上限/加攻击；onCommitted先标记箱领取，再发状态通知，回调期间拒绝重入写。上限增加不自动回当前HP，可显式bonusHeal组合。
+- TryAcquireBodyCore首次初始化HP且不占槽；头部没有HP但属于安全活跃状态，不会被Bootstrap判死，拒绝普通奖励/伤害。prototypeStartWithBodyCore=true继续白盒/旧独测跳过教学；正式教学地图必须关掉并做安全出口，当前仅单卡与状态独测。
+- T12保留缓存只修失效位，并改三槽替换；普通池三类即时效果，再生优先候选/文案，组合奖励取消无副作用，互斥换尾明确单卡确认。支线固定三包/已持部件转强化回血的专用奖励仍待T20，未声称已完成。
+- ChoiceCoordinator打开1/3项，换阶段1/3/4（4仅旧展示兼容，不是正式四槽）；T01卡片获得默认焦点、ICancelHandler取消。新增LastClosedFrame，WhiteboxOverlay显式绑定协调器，避免同一Escape取消后又被PauseRequested切到Paused。
+- HUD地图实例三个槽，躯干前隐藏HP，手/剑权限文案；来源Prefab仍保留旧第四视图兼容旧独测，地图第四槽停用。
+- WhiteboxPlayer2D仍唯一运动写者，新增显式PlayerState/useLoadoutAbilities=true，腿给二段跳、普通尾给冲刺，失去尾在下一物理帧停止在途冲刺。旧enableDoubleJump=false、enableDash=true和所有运动参数保留，关闭读取模式才启旧白板开关。T06未叠加到地图。
+- 新T12V5Checks及Editor菜单提供33项独立回归；它只创建临时PlayerState/事务夹具，不挂到正式地图。旧四槽测试断言/配置保留追溯，未假报通过，下一轮按V5迁移。
+
+## 实际地图与Inspector接点
+
+Assets/WhiteBox/Scenes/Level_Whitebox.unity（GUID2406e85dde978f041ba46e3d395f43b9）。
+保留6根：00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal。
+00 Runtime新ChoiceCoordinator→03 UI/ChoiceMenu的ChoicePanel；Bootstrap绑定二者；03 UI/EventSystem使用原InputSystem_Actions UI map及既有持久ActionReferences，不改公共输入资产。HUD仍指向Test_Player唯一PlayerState。
+
+01 World/Chests/Chest_01–07位于原宝箱标记中心：
+01(32.5,-11.5)、02(97.5,-9.5)、03(-15.5,8.5)、04(104.5,21.5)、05(-9.5,67.5)、06(36.5,75.5)、07(74.5,78.5)。
+实例源Assets/Prefabs/Chest/Chest.prefab，不修改来源Prefab；各有唯一whitebox-chest-XX ID、状态/Run/Flow/config引用、InteractionTarget、3×3 Trigger与下移0.75的交互锚点，已领/未领子视图。
+对应63格Tile_Chest只设透明，保留Tile本身，其他Markers和地形不动。
+
+Assets/Configs/Chest/V5_WhiteboxRewards.asset：六项（腿/手剑/普通尾/回血/上限/攻击），暂定Heal25、Max+15且无附加回血、Attack+3。
+V5_RegrowthRewards.asset：同池，favorRegrowth=true，绑定Chest_03/05。
+数值/文案/再生标题/bonusHeal可Inspector修改，卡组首次打开拷贝快照不把局内状态写回资产。
+免费传送/R仅回位/地刺仅击退继续试走，完整头部教程、身体美术与攻击动作、收费和支线未接。
+
+## Wwise冲突处理
+
+用户裁定采用当前Ming。本轮核对649451f→0abac92的Assets/WwiseSettings.xml和2026GameJamUnity_WwiseProject/2026GameJamUnity_WwiseProject.wproj无改动；Soap本地记录分支将RootOutputPath改为StreamingAssets/Audio/GeneratedSoundBanks，并带入wproj变化，与其交接“未纳入提交”不一致。
+此前选择性集成已排除两份配置；无需恢复或重新导入。本轮两文件SHA256与写代码前快照一致，继续保留当前../2026GameJamUnity_WwiseProject/GeneratedSoundBanks/输出配置、Audio\\GeneratedSoundBanks运行路径和原AudioCue1–14契约。没有修改Authoring、插件、Bank或音频源码，不新增成长/支线Cue。
+
+## 本轮实际验证与例外
+
+- MCP重新发现并核对2026GameJamUnity@1ba105ba2ebb3fca，F:/2026GameJamUnity、Unity6000.2.9f1、StandaloneWindows64；操作前场景干净非Play。原场景/改动前脚本备份到系统Temp/pawgatory-v5-docs-20261001/before-code。
+- 初次只请求脚本编译尚未导入新增Core文件，报缺类型；完整AssetDatabase刷新后编译通过。最终无编译错误，保存地图检查无Missing Script。
+- T12V5Checks实际Play **33 passed / 0 failed**：头部安全/单卡躯干、旧身份拒绝、三槽/满槽拒绝、手剑/咬权限、成功历史、组合原子提交/通知与重入、溢出拒绝、尾/喷火排重、固定卡、跨箱单位置修复、三旧项含独立技能、取消无部分收益、重复领取、再生优先、满血回血/加上限/加攻击。
+- 地图全部7箱逐个通过真实Chest→Flow→Panel打开三卡并取消，均未领取；第一箱实际从(30,-12.2)按E触发Choosing/timeScale0；卡片截图检查三卡文案/Cancel完整可见。
+- 真实鼠标通过InputSystemUIInputModule领取攻击奖励：箱已领取、菜单关闭、Playing、Bite10→13/Sword15→18、零槽占用。
+- 为测试满三槽仍缺腿，仅在Play临时授予Arms/Tail/FlameBreath夹具，未存盘也未投池。第二箱腿卡进入三个旧项菜单，Escape取消保持三项/满血/箱未领取并回Playing；重新选择腿后键盘Enter替换FlameBreath，最终Arms/Tail/Legs，箱已领取、重复交互拒绝、doubleJump/dash权限都true。
+- 发现并修复Escape取消后同帧误触发暂停；普通/替换阶段重新验证可回Playing。模拟输入受GameView焦点影响，必要时重新聚焦后操作。
+- 一次Play中新增测试菜单脚本导致域重载，临时夹具消失并有Missing Script/Wwise旧Camera ID日志；停止、刷新后从干净Play重测，最终场景无缺脚本，最终Console仅Account API网络/焦点提示。未修改Wwise来掩盖日志，未把该轮鼠标结果算通过。
+- 离线对照原场景：70个既有Transform的位置/旋转/缩放与32个既有物理组件块均未改变，仅根节点子列表因新增内容变化；自研脚本/WhiteBox/配置/Prefab/场景范围202份meta无缺配/孤立/重复GUID。两份Wwise哈希相同。
+- 未进行完整路线/实际战斗/手柄实机/Windows导出/Bank声音验收；33项不是完整V5验收。最终已退出Play，未把测试领取/夹具保存进场景。
+
+## 下一轮
+
+从当前工作区契约7继续，先审查/提交发布后供队友获取；不自动commit/push。迁移旧四槽独测/配置，补头部安全教学和身体表现/真实咬剑攻击；再做灰卡安全代价、负面/传送、陷阱/胜负/重开。T20共用挑战程序与地图同学L01/L02条件门/区域交付串行接线。T01不重合，Wwise/地形比例不从Soap覆盖。
+
+---
+
+# 以下为此前交接历史（0abac92已包含前次集成；旧“未发布/待新规则”仅指当时）
+
+# 总控当前交接：Soap模块审查、地图适配与新规则等待
+
+更新：2026-10-01（Australia/Sydney）· 规范12 / 公共源码契约6
+成员/任务别名：controller；任务C05-Soap；分支Ming
+基点：649451f0b05e3be70afda2ae52c2265081fde831
+来源：Soap/fe92dfdae57dad9844b8a3c367c89c392b2b5ebf（live ls-remote核对）；地图前次来源Level/795cf33
+状态：本轮选择性集成与所述验证完成，未提交/未发布；等待用户下一轮新规则，地图不接可领取宝箱。
+
+## 授权、保留与范围
+
+用户要求审查Soap的T01/02/03/06/12，适配现有地图、更新文档和整理层级/删除无用内容。后续明确：角色持有的技能/装备不出现在宝箱；完整游戏规则正在修改，下一轮发新版，本轮选择“不放可领取宝箱，只接HUD和其他模块”。不猜测新稿，不将测试池当正式规则。
+
+开始Ming=origin/Ming=远端649451f，已有上轮AGENTS/Runtime输入/5份文档及未跟踪WhiteBox/Tests-Level改动，全部保留。Unity当时Level_Whitebox有未保存改动；先备份磁盘场景至系统Temp/growl-soap-integration-before，再保存编辑器当前内容，确认仅用户将enableDoubleJump由true改成false；保留false。历史全能力47项回归仅在Play临时打开二段跳，退出后未保存覆盖用户设置。
+
+未整分支merge、commit、push、reset、切分支或启动子代理。T01早已合入，本轮未改T01源码/Prefab/旧集成场景。选择性git archive导入Soap的137个新增资产/源码/测试路径与原版Soap.handoff；后者与origin/Soap逐字一致，只读取/导入，没有编辑作者记录。排除Assets/_Recovery、WwiseSettings.xml和wproj漂移。Packages/ProjectSettings/正式InputActions/原SampleScene/Build Settings及Wwise未改。
+
+## 实际集成与代码
+
+- T02：Scripts/UI/Hud与PlayerHud.prefab导入；地图03 UI/PlayerHud的stateSource指向唯一Test_Player/PlayerState。HP/四槽/姿态只读；原Prefab不改，地图实例左上缩放0.62、半透明背景、禁止Graphic射线阻挡，操作提示放底部，已截图查看。
+- T03：Scripts/Gameplay/SwitchDoor及独测/Prefab导入。WorldDoor增加startOpen、allowPrototypeReclose（默认均false）及TrySetOpen(bool)；启用首次读取初态，以后启停不重置，只有真实开启才发Cue/Opened。默认正式WorldSwitch一次开门仍保留。地图8门绑定原Collider和DoorVisual子物体，Door_2初始打开，其余关闭，全部明确允许白板重新关闭。PrototypeDoor2D保留GUID和调用API，但删除重复closed/碰撞/尺寸/发音状态，仅转发同物体WorldDoor；不再有两个门状态所有者。WhiteBox程序集新增SwitchDoor依赖。
+- T06：Scripts/Gameplay/Locomotion及独测导入。源码只有基础单跳，参数用起跳速度，且没有白板二段跳/冲刺/传送/击退/R接口。因此本轮不替换地图WhiteboxPlayer2D、不同时挂两个运动组件。正式化时先冻结新规则，再整合运动入口和能力权限；不能直接叠加脚本。
+- T12：Scripts/Gameplay/Chest、配置/Prefab/独测导入。按用户已拥有项不展示的答复，ChestClaimTransaction在重新打开时排除旧卡组中已持有项，只补缺失位置，原有效项对象/顺序保持；等概率无放回补卡，仅选择入口接受后缓存。可选项不足三时沿用安全拒绝，不部分写缓存/消耗。确认再次校验，满槽替换保持同事务。T12SmokeDriver新增6项缓存修复回归。地图没有Chest/ChoiceCoordinator/空ChoicePanel，7处Tile_Chest原标记不动。完整池/不足三项正式玩法等待新规则，独测HealPool/ReplacementFixture不得复制为正式池。
+- 文档：AGENTS12/GAME_DESIGN/WORK_PACKAGES/README/本handoff同步实际状态和待新规则边界；README去除旧MCP不可用、旧基线、HUD未实现等过时入口描述。
+
+## Hierarchy与地图保留
+
+最终6个根：00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal。01 World下按Portals/Doors/Switches/Hazards分组，Grid/光照保留；02 Actors下Test_Player及原子相机；90 Validation下原Level Whitebox Play Checks（autoVerify=false）。新增组均单位变换，SetParent保持世界变换；WwiseGlobal继续插件根节点。
+
+只删除空且仅Transform的Tested，保留独立回归源码、场景、Prefab、配置和Editor工具。原61个仍存在Transform的位置/旋转/缩放数值逐项不变（Unity重挂父级把部分0序列化为-0，数值等价）；3个Grid/Tilemap与18个原Box/Polygon/Composite/Tilemap Collider序列化块逐字一致，12个交互Circle块亦逐字一致；Portal_B原站立锚点保持(-12.3,15.75)，8门原Collider尺寸2×6/6×2不变，灰色地面/地刺图块/检测椭圆不变。没有改按钮目标数组或传送连接。
+
+## 本轮实际验证
+
+Unity MCP实例2026GameJamUnity@1ba105ba2ebb3fca，实际F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64。
+
+| 验证 | 结果/范围 |
+|---|---|
+| T02_Smoke | 26 passed / 0 failed，真实状态/替身隔离HUD生命周期 |
+| T03_Smoke | 27/0，默认正式一次开门、真实输入/物理通过 |
+| T06_Smoke | 27/0，射线/平台/墙/暂停/死亡/参数实际生效 |
+| T12_Smoke | 47/0（原41+新增6），真实E→事务→T01→状态→HUD、固定卡组/已拥有修复/替换/缺引用拒绝 |
+| T12实际UI点击 | 使用InputSystem虚拟Mouse经过EventSystem/UIInputModule启动Run Checks；新Play再E打开，鼠标取消不领取，再E打开、鼠标选卡领取并恢复Playing；没有用Button.Invoke代替这两项点击检查 |
+| 地图HUD | MCP驱动真实伤害/治疗、持剑/站立/失去站立事件，检查10项通过；恢复空构筑；确认保存二段跳false、无第二运动组件、无可领取Chest |
+| 地图8门 | 每门核对初始状态，切换/恢复通过；Door_2初始打开 |
+| Level白板回归 | 47/0，真实键盘、刚体、门反复切换、Portal_B站立返程、尖刺/R/阶段锁；Play临时打开二段跳，不保存 |
+| 保存重载/视觉 | 地图重载后HUD缩放0.62/左上锚点、用户二段跳false保存；原生ScreenCapture截图已查看，未用MCP合成截图路径 |
+| 静态资源 | 847个meta无重复GUID、孤立meta或普通资源缺meta；保留原地图几何；git diff --check通过；没有暂存文件 |
+
+测试过程注意：编辑器失焦会丢弃输入。地图第一次得到35/12（失败集中在D/Jump/Dash/E/R键输入），不是最终通过；重新聚焦Game视图、新Play完整重跑47/0。T06第一次检查未跑完即离开，第二次在聚焦Game视图下完整27/0。MCP查虚拟Mouse时一次使用错误GetDevice筛选返回null，改用实测deviceId后完成点击验证；这属于验证脚本调用错误，没有改游戏逻辑掩盖失败。T12预期缺引用/池不足日志是拒绝验收；账户网络/无Bank等既有环境问题不声明音频通过。
+
+最终Unity：Assets/WhiteBox/Scenes/Level_Whitebox.unity，非Play、isDirty=false、6根、Missing Script=0，恰好一个Bootstrap/PlayerState/输入/运动与HUD，8个WorldDoor；speed7、二段跳false、冲刺true、autoVerify=false。最终Play的Console无error；未清空历史日志。
+
+## 下一步
+
+1. 保留本轮所有未提交/未跟踪文件，先核对用户是否已发布。不要再次整分支覆盖Level/Soap或重复合入T01。
+2. 等用户下一轮新玩法稿，先同步AGENTS、GAME_DESIGN和WORK_PACKAGES的互斥条款/接口边界，再安排实现。尤其奖励池/技能权限/门语义/收费/陷阱/重开，不照旧测试配置直接正式化。
+3. T06与白板运动需要在新规则下统一；T12地图接入尚未做，按用户要求暂留标记。T07/战斗、完整基础路线、音频和Windows导出仍是后续未验收项。
+4. 未验证整张三层路线/全部谜题通关、基础无强化可达性、正式付费/保护、地刺扣血、敌人/Boss、Wwise声音、Windows及另一台机器。本文只声明实际模块和所列地图回归。
+
+---
+
+以下为历史交接，当前状态以上方最新摘要为准。
+
+# 历史记录：Level 白板保留功能适配与触发区修正
+
+更新：2026-10-01 · 规范11 / 公共源码契约6
+成员/任务别名：controller；任务 C05-Level；分支 Ming
+基点：649451f0b05e3be70afda2ae52c2265081fde831；Level 来源 795cf3325f16a794043713a0057361750d00f9ca
+状态：本轮适配与独立验证完成 / 待用户提交发布 / 正式玩法转换、完整路线及 Windows 未验收。
+
+## 最新授权与工作区
+
+用户要求继续总控、读取 Level 地图并适配代码，随后确认保留白板试走功能，测试完成后再转正式 AGENTS 玩法；补充怪物碰撞体与怪物大小一致，深蓝门2×6/6×2、地面和地刺3×1/4×1比例保留。最后明确把 Portal_B 交互触发器调至正常站立位置。
+
+开始工作区干净。实际本地HEAD/origin/Ming和git ls-remote远端均为649451f（用户提示的e7ef271之后一份文档提交）；远端分支名区分大小写为Level/795cf33。T01早已合入，不重复合并。Level基于旧main/d1cd394，无AGENTS或handoff；git merge-tree仅生成试合并树，无文本冲突，不更改分支/索引。未执行分支merge、commit、push、reset、切分支或启动子代理。
+
+允许：Assets/WhiteBox及测试入口、Tests/Level、总控唯一输入适配器的可选白板Reset、AGENTS/WORK_PACKAGES/GAME_DESIGN/README及本handoff。原SampleScene、T01/旧测试资产、正式InputSystem_Actions、Packages/ProjectSettings/Build Settings、Wwise及他人handoff未修改。旧F:/UniSyd_Gamjam2未开发。
+
+## 实际代码与资源
+
+- 选择性导入Level的WhiteBox资源与原meta/GUID；地图原SampleScene内容另存Assets/WhiteBox/Scenes/Level_Whitebox.unity（新场景GUID2406e85dde978f041ba46e3d395f43b9），不覆盖原Ming模板场景。没有导入.vsconfig。WhiteSquare.png通过git lfs fetch取得，2097字节、SHA256 44f9592db7d11d11ed58c7cad12e35925d9974d6576fb0951b4fa0cd7c6eaf10核对一致。
+- 5个原脚本保留文件/GUID/序列化字段名和数值，改为Regrowth.Gameplay.WhiteBox命名空间；Regrowth.WhiteBox.asmdef引用Core/Runtime/Audio.Core/TMP。添加中文Tooltip、文件头/接口语义，配置为private SerializeField，不新增真实HP/构筑容器。
+- WhiteboxPlayer2D使用唯一PlayerInputReader/RunController，FixedUpdate消费Move/Jump/Dash/可选Reset，统一写刚体；保留原运动、土狼时间、落地缓冲、二段跳、冲刺、击退保护。地面改为G33三条Physics2D.Raycast，默认0.02秒，排除自身和Trigger；浮点步长容差防止实际退化为0.04秒。暂停/Choosing/Dead拒绝请求，失焦清本地等待请求。
+- 白板运动端口：IsGameplayActive/IsGrounded/IsDashing/Position/HasPendingRelocation只读；TryTeleportTo(Vector2)、TryResetToStart()、TrySpikeKnockback(Vector2,float,float)在主线程Playing接受请求、下一FixedUpdate写物理。重复迁移/非法向量/保护期/非活动拒绝。R只回位清运动，不复活、不重置门/HP/构筑。
+- PrototypePortal2D和PrototypeToggleButton2D实现IInteractable，经InteractionTarget+小Trigger接PlayerInteractor；稳定ID在场景保存，按既有类别/距离/ID排序。删除设备轮询、GetInstanceID排序和OnGUI。传送保留免费与共用0.35秒冷却；按钮保留反复切换、多门去重及0.25秒共用冷却。
+- PrototypeDoor2D保存本地门状态，TryToggle/TrySetClosed只真实变化成功，同状态false；门根始终启用，控制Collider/Sprite。PrototypeSpike2D保留椭圆法线击退和0.6秒保护，不加伤害；形状Awake/显式ContextMenu重建，不在OnValidate改其他组件。
+- 实际跳跃、迁移、开门和按钮动作走GameAudio成功Cue；不新增脚步身份，不声称Wwise映射已完成。白板可无音频后端运行。
+- PlayerInputReader增加可选prototypeResetActionPath和TryConsumePrototypeReset，默认空路径不提供输入，IPlayerInput和枚举不变。仍由同一适配器采样/缓冲/清理。专用Assets/WhiteBox/Whitebox_Input.inputactions复制正式资产并加入Whitebox/Reset=R和Dash右Shift；正式资产未改。
+- WhiteboxOverlay使用uGUI/TMP显示操作与唯一交互器提示，并在白板接Escape暂停；不另加输入模块/Camera/Listener。测试脚本LevelWhiteboxPlayChecks在Tests/Level独立程序集，临时物理跑道只在Play生成/销毁，不保存到地图。
+
+## Unity 入口和参数
+
+活动Unity MCP确认项目F:/2026GameJamUnity、Unity6000.2.9f1、StandaloneWindows64，实例2026GameJamUnity@1ba105ba2ebb3fca。本轮场景资产均经MCP配置/保存，没有拼接Unity YAML。
+
+打开Assets/WhiteBox/Scenes/Level_Whitebox.unity，直接Play手动试走。A/D或方向键移动、Space跳跃/二段跳、左右Shift冲刺、E交互、R回出生点、Escape白板暂停。Level Whitebox Play Checks.autoVerify=false为最终值；要自动回归可改true后进入Play，或Play调用BeginVerification；测试最后进入真实Dead，退出重进恢复手动试走，不用Bootstrap启停伪装复活。
+
+| 对象/资产 | 绑定、数值与生效时机 |
+|---|---|
+| Whitebox Runtime | 唯一RunController/PlayerInputReader/GameBootstrap；Bootstrap绑定run/input及Test_Player上的唯一PlayerState/PlayerInteractor，未接选择菜单 |
+| Test_Player/WhiteboxPlayer2D | inputReader/runController必填；原speed7、jumpHeight4.5、gravityScale2、doubleJumpHeight4；测试双跳/冲刺/空中冲刺均true，实时读取 |
+| 地面射线 | 原groundCheckDistance0.04、groundLayers Everything；新增scanInterval0.02秒、rayStartOffset0.02、raySpread0.9、minimumNormal0.65；同一grounded复用 |
+| 冲刺/辅助 | distance3、duration0.15秒、cooldown0.35秒；coyote0.08秒、jumpBuffer0.12秒；原值保留 |
+| 玩家几何 | 原BoxCollider局部1×1、Transform缩放1×1.5，出生(-12.34,-5.7,0)；刚体Dynamic/锁旋转/Continuous/Interpolate/重力2在场景配置，保留原Awake效果 |
+| 门/按钮 | 门2×6或6×2；Door_2初始开，其余初始关；门size/startClosed下次Play读取。按钮player/targetDoors/稳定Id必填，radius1.5、cooldown0.25，引用/半径实时读取 |
+| 传送门 | A↔B、C↔D，原ExitPoint和外观位置保留；player/destination/稳定Id必填，radius1.5、cooldown0.35 |
+| Portal_B触发区 | 新增InteractionPoint_B世界(-12.3,15.75,0)，局部offset(0,-1.94,0)；portal.interactionPoint、InteractionTarget.interactionPoint、根CircleCollider2D.offset一致，落地后直接E返程 |
+| 地刺 | 7个独立椭圆Trigger，原ellipseSize/Offset完整保留；击退10、控制锁0.25秒、保护0.6秒、最小上分量0.35；形状下次Play/ContextMenu生效，击退参数实时读取 |
+| 相机 | 原Main Camera仍为玩家子物体，orthographicSize15，局部(0,1,-10)，局部scale(1,0.6666667,1)；保留效果，没有平滑/地图边界实现 |
+| 提示UI | Whitebox Test Overlay显式绑定interactor/input/run/TMP；文案可Inspector调整 |
+| 回归驱动 | 绑定真实运行/输入/状态/运动、原A/B门、Button_A/Door_A/Spike_A/相机；默认autoVerify=false |
+
+原地刺显示是TM_Markers中的图块，椭圆Trigger没有SpriteRenderer，尺寸大于用户提到的3×1/4×1图块。本轮两份数据都原样保留；没有把图块尺寸强行覆写到椭圆。怪物目前只有地图标记，没有实体组件，G38仅为已确认后续验收要求。
+
+## 本轮真实验证
+
+1. Unity实际编译并反射加载全部适配类型；独立场景保存/重载后零Missing Script，运行/输入/状态/入口/交互各一份，12个交互目标稳定Id与桥接完整。
+2. LevelWhiteboxPlayChecks最终47 passed / 0 failed：真实输入跑跳/二段跳/第三跳拒绝/冲刺、射线落地、撞墙；暂停与Choosing清输入、冲刺暂停恢复；真实E门切换/长按不重复、免费A↔B往返/共用冷却/R回位；原尖刺实际Trigger击退与重复保护；真实HP死亡后Dead/物理冻结/请求拒绝。
+3. 第一轮45/2的失败源于旧Portal_B高于站立中心，随后验证跳起返程47/0。用户要求修正触发器后，改为独立低位锚点，再保存重载重新47/0；最终用例明确是standing second press，无跳跃绕过。
+4. 本轮实际复验C01_Smoke 32/0、T01_C03真实菜单集成31/0；两原场景未修改。没有重跑C02/C03全套，不将历史51/57作为本轮结果。
+5. Inspector代表参数：speed7改9，非Play保存/重载后实际输入D，Rigidbody2D.velocity.x=9；已恢复speed7并保存/重载，实查7。临时缺inputReader/runController的组件明确拒绝启用并给定位Error，临时对象已删除，未写入场景。
+6. 与原Level序列化对照：59个原Transform的父子/位置/旋转/缩放完全相同，3个Tilemap/Grid块和18个原Collider块完全相同，所有原doorSize/ellipseSize/Offset与运动参数相同。Portal_B改动只落在本轮新增锚点/交互CircleCollider；不改原地形或原碰撞器。
+7. 最终手动Play实查Portal_B：玩家(-12.3,15.77)且IsGrounded=true，PlayerInteractor选中whitebox-portal_b并显示E - Use portal；相机原效果正常。截图在被ignore的Logs/LevelAdapt，已查看。
+8. 764个Assets meta无重复GUID/孤立meta；WhiteBox及Tests/Level新增配对完整。WhiteSquare LFS内容hash核对；git diff --check通过（Git行尾转换提示不是检查失败）。原SampleScene/InputActions/Packages/ProjectSettings/旧测试资产无diff。
+9. 最终保持Level_Whitebox场景、非Play、isDirty=false，35根，speed7、autoVerify=false；未清空Console。无自研源码编译错误。中途有既有Wwise Voice Starvation/Unity账户网络日志；截图工具触发PlayerLoop递归Error，堆栈明确位于MCP插件ScreenshotUtility.cs:197，已记录，未改插件或声称Console全程零Error。缺引用拒绝的Error是刻意配置验收。
+
+## 未验证与下一步
+
+- 没有完整三层路线/所有门谜题通关、基础无技能可达性、正式奖励/收费/0.5秒到达保护、真实地刺扣血、怪物战斗/尺寸、Wwise声音、Windows导出或另一台机器验证。
+- 白板能力开关和免费传送等按用户G41暂留，不能直接当正式T03/T06/T10/T11/T13/T14已完成；后续转换时保留地图比例，按AGENTS冻结真实构筑/付费/陷阱规则。多门反复切换的谜题需协调正式开关语义。
+- 本轮内容尚未提交/推送，用户审核后一次提交WhiteBox、Tests/Level、PlayerInputReader及5份文档。不要把git merge-tree当作已merge，也不要再从Level整分支覆盖这份适配。
+- 下轮先保留本轮未提交文件，读规范11/本handoff/WORK_PACKAGES，再核对Git与Unity脏状态；按实际任务继续审查Soap后续T02/T03/T06/T07或转换白板，不重复合并T01、不另做一套输入/玩家状态。
+- MCP合成截图可触发插件内部PlayerLoop递归，后续避免重复使用该捕获路径；本轮已结束Play，原项目插件未修改。
+
+---
+
+
+# 总控当前交接：新对话接手与Unity MCP复查
 
 更新：2026-10-01 · 规范10 / 公共源码契约6（未改接口或玩法）
 成员/任务别名：controller；任务：C05维护 / 分支Ming
-开始HEAD及本地origin/Ming：349ba939d1002f2cf59995b6d800ae29c71f6fd9（合并T01），工作区干净，无进行中的合并。
-状态：T01及独立集成已发布 / 文件与引用复核完成 / 本轮仅文档改动待提交 / 正式地图与第一阶段整体待验收。
+本次开始HEAD及本地origin/Ming：e7ef271f0a83b7320343ce42cad23aeef975e60f（重新定向），工作区干净，无进行中的合并；直接git ls-remote再次确认GitHub Ming同为e7ef271。业务/资产仍为349ba93的T01集成，e7ef271只发布5份整理文档。
+状态：T01及独立集成、资源整理文档均已发布 / MCP基础查询恢复 / 本轮接手说明文档待提交 / 正式地图与第一阶段整体待验收。
 
 ## 本轮核对与授权
 
-用户要求确认Ming是否已push，并整理分支内容，废弃测试可以删除；美术资源仍不调整。只在活动仓库F:/2026GameJamUnity工作，不自动commit/push，不切分支/merge，不启动子代理。
+此前用户要求确认Ming已push并整理废弃测试；此次要求重试Unity MCP，并准备在该项目的新对话继续。美术资源仍不调整。只在活动仓库F:/2026GameJamUnity工作，不自动commit/push，不切分支/merge，不启动子代理。
 
 实际执行git ls-remote origin refs/heads/Ming refs/heads/Soap，GitHub Ming为349ba939d1002f2cf59995b6d800ae29c71f6fd9，与本地HEAD及origin/Ming一致。上一轮T01合并已由用户通过531535db957a4051b1575267bc2d90552e2f8b82完成（父提交fa54f5a和239d019），349ba93发布真实集成场景/层级整理/日志删除及文档。因此下方历史“未提交合并”已过期，不再按它继续merge。
 
@@ -29,13 +242,13 @@
 
 只修改AGENTS.md、docs/WORK_PACKAGES.md、README.md、docs/GAME_DESIGN.md和本handoff：将过时的“未提交合并”改为已发布349ba93，整理测试覆盖/入口与保留原因；下方保留原验证事实作为历史。规范版本与公共契约不变，源码/asmdef/场景/Prefab/meta/项目设置无改动。
 
-实际检查：Git状态、远端提交、合并父提交及T01祖先关系；9个测试脚本调用/序列化引用；736个Assets meta无重复GUID、孤立meta或普通已跟踪文件缺meta（Mac.bundle内部载荷除外）；无已跟踪缓存/临时/备份文件。文档git diff --check通过；最终工作区只有上述5份文档改动。
+实际检查：Git状态、远端提交、合并父提交及T01祖先关系；9个测试脚本调用/序列化引用；736个Assets meta无重复GUID、孤立meta或普通已跟踪文件缺meta（Mac.bundle内部载荷除外）；无已跟踪缓存/临时/备份文件。此前5份整理文档已随e7ef271发布；此次仅4份接手状态文档，收尾检查git diff --check及工作区范围。
 
-Unity MCP的custom-tools/instances读取均报127.0.0.1:8080连接失败，未获得当前编辑器目标/脏场景状态；本次不修改场景、不重跑Unity编译/Play。32/51/57/41/31项均为下方此前已执行记录，不宣称本轮重新通过，也不把文件GUID检查说成Unity无Missing Script实测。
+此前MCP连接失败；本次重试instances、custom-tools、project/info、editor/state及manage_scene.get_active均成功。实例2026GameJamUnity@1ba105ba2ebb3fca，目标F:/2026GameJamUnity，Unity6000.2.9f1，StandaloneWindows64；当前Assets/Scenes/Tests/Integration/T01_C03.unity，非Play、isDirty=false、isCompiling=false、6根。一次只读execute_code查询深层组件/引用返回TimeoutError，未获得结果；不据此声称引用完整或零Missing Script已重新验证。不改/保存场景、不重跑编译/Play，32/51/57/41/31项仍是此前真实记录。
 
 ## 接手下一步
 
-发布基线使用Ming/349ba93；本次仅文档整理尚未自动提交或推送，用户按正常流程发布即可。接下来核对队友实际T02/T03/T06/T07交付并逐批测试集成，无需等完整美术地图；恢复Unity MCP后先读实际实例/项目/场景状态。C04未决池/代价下限/叠加/刷新、重开和同帧胜负继续按任务冻结；主地图/第一阶段整体/Windows/Wwise声音仍未验收。
+新对话工作目录明确设F:/2026GameJamUnity，分支Ming，发布基线e7ef271；先完整读取本仓库AGENTS.md、此handoff及WORK_PACKAGES对应C00–C05/第一阶段/待接任务，再核对Git与Unity实例/项目/脏状态，保留未提交改动。本次只更新AGENTS、WORK_PACKAGES、README和此交接4份文档，不自动提交或push；不重复合并已发布的T01。接下来核对队友实际T02/T03/T06/T07（Soap后续任务尚未合入）并逐批审查、独立验证及集成，无需等完整美术地图；MCP深层读取可单独重试，但一次超时不是功能失败。C04未决池/代价下限/叠加/刷新、重开和同帧胜负按任务冻结；主地图/第一阶段整体/Windows/Wwise声音仍未验收。
 
 ---
 
