@@ -1,3 +1,46 @@
+## 2026-10-01 Dada：敌人美术同步核对与独立预览（本节纠正旧交接）
+
+- 实际仓库：D:/01STUDY/2026gamejam/2026GameJamUnity。任务开始时Dada为575eff3cca7e8ee4aada662a47e50ec823e32ed4；提交前检测到其他操作已将Dada同步到已发布Ming的3c0bae74cc2d6504ff63ea0261fc622b92cd9d2e，本次提交基于此当前HEAD，未回退或自行合并分支。
+- 已 fetch Ming，实际远端基线为 3c0bae74cc2d6504ff63ea0261fc622b92cd9d2e；已读取本地及最新 Ming 的 AGENTS、VISUAL_STYLE、WORK_PACKAGES、controller.handoff。规范24/源码契约11按本次范围核对，未改共享契约。
+- 纠正旧文“敌人未交付”：575eff3 和当前 Ming 实际都已有以下三张 PNG、三个 Clip 及正确 meta；与用户最新 final 导出逐字节相同。无需覆盖，不创建 _02，不新增 EnemyArt 目录。
+
+源目录：D:/01STUDY/2026gamejam/body/art/Unity_Animation_Export_20261001_162136/final/
+
+| 敌人 | 本地源文件（相对上述源目录） | 正式 Sprite | 正式 Clip | 实际帧数 | 原 PNG GUID（完整保留） |
+|---|---|---|---|---|---|
+| Imp | Imp_Run.png | Assets/Art/Characters/Enemies/Sprites/Imp_Run.png | Assets/Art/Characters/Enemies/Animations/Imp_Run.anim | 3 | aab50c0bca6ca284d913f7984616365c |
+| Hell Bat | Bat_Hover.png | Assets/Art/Characters/Enemies/Sprites/Bat_Hover.png | Assets/Art/Characters/Enemies/Animations/Bat_Hover.anim | 3 | c525022cd2cea694587cefd7c12a7d67 |
+| Satan | Satan_Move.png | Assets/Art/Characters/Enemies/Sprites/Satan_Move.png | Assets/Art/Characters/Enemies/Animations/Satan_Move.anim | 3 | 52739f1a0515ef84197fbe582175e358 |
+
+源文件时间为 2026-10-01 16:21:40–41；同时检查原始单帧目录 Imp、Bat_Hover、Satan_Move 和旧 Unity_SpriteSheets 下 *_01.png。旧条带与最新 final、Dada、Ming 的三个 SHA256 全部一致：
+
+- Imp_Run：ce46f5f04b1a16c32d51b00bb8eba762f94625520b568bc14c9005244a20a4d8
+- Bat_Hover：ca8fa5b5a6f0c099a26edb8e6c2142d505ccdce7c413cae5381f845ac8b58a0e
+- Satan_Move：714e6633af51b6db5c1b3cf516624730279d31dcf1a2954b60f1b4915f1181ef
+
+导入与动画：
+- 三张均1500×500横向条带，按500×500从左到右切3帧，保留原透明边缘与纸白区域；Sprite (2D and UI) / Multiple / Compression None / Alpha Is Transparency；100 PPU，中心 Pivot。
+- 原 PNG、PNG meta、Clip、Clip meta 全部未改；PNG GUID、Clip GUID和Sprite内部ID均保持。Clip当前8 FPS、0.375秒、Loop Time开启，key时间0/0.125/0.25秒，均引用当前导入Sprite子资源，无 Missing Sprite。速度可在 Unity Animation 窗口的 Samples 调整；预览Controller的Loop状态Speed也可调，退出Play后保存。
+- 仅原有Run/Hover/Move循环；未新增Attack/Hurt/Death，也未使用GIF作为Unity资源。
+
+本次新增：
+- Assets/Scenes/Tests/Art/EnemyVisual_ArtTest.unity（及meta），独立三敌人预览，不加入Build Settings。
+- Assets/Scenes/Tests/Art/EnemyPreview/：三份仅供预览的Controller和三份Unlit材质及meta，显式绑定上述原Clip与PNG。
+- Assets/Scripts/Tests/Art/Editor/EnemyVisualArtChecks.cs（及meta）：复用现有Editor程序集。菜单 Tools/pawgatory/Enemy Art/Open Preview；Run Checks (Play)可复现检查。场景使用内置SpriteRenderer/Animator，参数、材质、Clip、布局均保存在Unity资产中。
+- docs/art-test/ENEMY_ART_CHECKS.txt：本次Unity实际检查结果。
+
+验证：Unity6000.2.9f1在已有隔离测试项目运行；100项编辑态检查和49项Play检查通过。包括三组连续1→2→3循环、原始尺寸、调速、无Missing Sprite、保存关闭重开后持久引用、未加入Build Settings。新预览首轮截图暴露共享材质串图与文字位置问题，已改为明确绑定各自贴图的预览材质并修正布局；最终截图确认三组各显示自己的素材。测试期间未操作用户打开的Dada编辑器。
+
+Console：敌人预览Play期间无新增Error/Exception/Assert。隔离项目启动仍有既有Unity.Collections缓存缺失DLL及许可连接诊断，本次未改Packages/Library或音频，不把整个项目启动日志称为零错误。没有进行主图整局或Windows构建。
+
+Git/LFS：PNG由既有LFS规则跟踪，meta为普通Git文件。已使用全新LFS缓存从origin/Ming实际下载三对象，重新算SHA256全部匹配，证实远端对象完整；git lfs logs last无错误记录。当前证据不支持“图片上传失败”，旧交接记录不准确。此次没有新的PNG对象待传，新增预览与记录随独立提交交付。
+
+同步：用户后续明确要求尽快push，已授权推送Dada；提交信息 Art: sync enemy animation assets。仅stage本节和上述敌人预览/检查文件，原有UI/HUD/卡牌改动继续保留为未提交，不纳入本次。推送结果与SHA以本次最终回执为准；不push Ming、不merge整个Dada。Ming fetch后仅 cherry-pick 本次敌人美术提交；它的基线已含三组正式PNG/Clip。
+
+未决定：Imp/Bat/Satan与真实EnemyBasic种类、普通/精英、AI的表现映射尚未指定。最新Ming主图仍使用占位视觉；本次未修改EnemyBasic、AI、碰撞、伤害、主图或任何玩法绑定。
+
+---
+
 # Dada / Player Visual Art
 
 更新：2026-10-01。任务：主角美术资源与独立 Art Test 交付；正式 gameplay 未接。
