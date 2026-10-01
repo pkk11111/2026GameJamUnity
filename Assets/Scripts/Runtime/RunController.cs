@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Regrowth.Runtime
 {
     /// <summary>
-    /// 主线程阶段命令；C14终点在LateUpdate确认存活后进入Won，重开尚未接入。
+    /// 主线程阶段命令；C14终点在LateUpdate确认存活后进入Won，死亡重开由Bootstrap清理并重载场景。
     /// UI 不设置时间倍率；奖励/满槽替换与传送统一经 C03 ChoiceCoordinator 暂停。
     /// </summary>
     public sealed class RunController : MonoBehaviour, IRunContext
