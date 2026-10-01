@@ -21,6 +21,7 @@ namespace Regrowth.Gameplay
         private PlayerFacing2D facingSource;
         [SerializeField, Tooltip("既有咬击范围/冷却/目标配置；数值每次动作即时读取。")]
         private BiteConfig config;
+        [SerializeField] private PlayerActionGate actionGate;
         private IPlayerCombatState combat;
         private double nextAttackTime;
         private bool wired;
@@ -63,6 +64,7 @@ namespace Regrowth.Gameplay
             {
                 return false;
             }
+            if (actionGate != null && !actionGate.TryBegin(this, 0.35f)) { return false; }
             attacking = true;
             try
             {

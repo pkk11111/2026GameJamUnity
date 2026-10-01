@@ -1,5 +1,117 @@
 # Soap · T08 / T09 / T07 / T12 / T02 HUD / T03 SwitchDoor / T06 / T01
 
+## 最新：公共数值规则文档同步（2026-10-01）
+
+起始fetch确认Soap/HEAD/origin/Soap为1bb34c2bcd1f946d60f04077cc5450cb809b3757、origin/Ming为724c08c40e7572df0a4eddbb0351f774fed6d178；工作区干净。用户本轮明确授权只提交文档并push Soap，不merge/push Ming、不force。
+
+combat_rules.md/combat_parameters.csv已正确，保持字节不变。同步AGENTS、WORK_PACKAGES、README、V5阅读稿、C06与本audit/handoff：普通100/10、追击5（基础7×5/7）；攻击固定整数+10/-10、初始额外0、最低合法6，任一受影响攻击减后<6整笔拒绝、不Clamp；精英250/20、敌人强化+50/+5、生命20%/10%不变。更新AI已实现/独测准备、主图待接；负面/最低6与共享保护仍未实现。
+
+历史C06 39/0、T08 77/0、T09 50/0及当时39/7、剑15等事实保留并标historical/TEST ONLY；下方旧轮次“当前/未提交”等只代表当时。Numeric Value已由用户提交至1bb34c2；不是本轮修改生产代码。39/7组合仅legacy测试，生产仍有独立0.6接触周期，不能误写已彻底迁出。
+
+本轮只做静态全文/文档diff检查，无Gameplay/Prefab/Scene/Config/Packages/ProjectSettings/Input/Wwise修改，无Unity/GUI/Play，不增加测试通过结论。剩余匹配及逐项保留理由见docs/NUMERIC_DOC_SEARCH.md；提交与推送结果以本轮Git记录及最终回复为准。
+
+## 最新：全量数值审计与可表达参数同步（2026-10-01）
+
+**Implemented numeric/config changes; C/D migrations remain pending; awaiting Unity rerun and user manual verification.** 本节覆盖下方历史数值，不继承任何旧Manual/Auto passed。用户本轮追加两项决定：普通敌人最大生命100；攻击卡固定加减10点、最低6点，取消攻击百分比。精英仍250；生命百分比规则不变。
+
+### 基线、依据与审计
+
+重新`git fetch origin Ming Soap`，实际Soap/HEAD/origin/Soap=`397a1ca3c0f23646d4b98ecef064a04ecd5f9a7e`，origin/Ming=`724c08c40e7572df0a4eddbb0351f774fed6d178`，已包含Ming；起始工作区干净。本轮只在当前工作区修改，无merge/reset/stash/clean/commit/push。规范21/共享契约8，无新增共享接口。只读AGENTS、WORK_PACKAGES、controller交接，依据combat两文件和用户最新覆写检查实际Core/Runtime/Gameplay/WhiteBox/资产/主图/Tests。
+
+先保存[118项逐行审计](../Soap_numeric_audit.md)，再实施B类；收到新用户决定后更新目标与对应分类。实施前分类（按最终目标）：**A=33、B=10、C=31、D=44、E=0，总计118**。B修正后保留初始分类方便核对；10项B均已同步现有字段。E为旧测试值附录，118个正式ID没有仅由测试实现的完成项，不重复计数。A只代表源码/配置存在且值正确，不能推导主图完整接线或Play通过。
+
+### 实际生效的数值变化
+
+| 入口 | 原值 → 新值 | 说明 |
+|---|---|---|
+| EnemyBasicConfig类/正式asset | HP39→100，contact7→10 | 最新用户覆写HP；两个正式Enemy prefab继续引用该asset，主图4只站桩继承新生命/伤害；不自动接AI |
+| EnemyBasicConfig类/正式asset chaseSpeedFactor | 类1/资产0.7→5/7（序列化0.7142857142857143） | float运算基础7×factor结果5；不读瞬时速度，不复制玩家基础速度 |
+| PlayerState类默认/Level_Whitebox | Sword15→20 | Bite10、初始HP100不变；只改现有初始伤害，不重写状态 |
+| PlayerFacing2D类默认 | deadZone0.05→0.1 | 主图已有0.1；独测显式0.05作为E保留 |
+| BiteConfig/SwordConfig类与正式asset | 独立cooldown0.6→0.5 | C项可独立修正子值；仍非共享冷却，换手跨动作仍未迁移 |
+| 正式V5_WhiteboxRewards/V5_RegrowthRewards攻击卡 | effectAmount3→10，卡片说明同步 | 当前PlayerState固定整数加法同时给咬/剑+10；没有百分比或新倍率状态 |
+| V5_RegrowthRewards | favorRegrowth1→0 | 同时修正保底与抽样两项B；沿用现有普通无放回等概率路径，不启用未实现火焰尾 |
+| PrototypeSpike2D类/主图7个实例 | controlLockTime0.25→0.15秒 | 现有移动锁数值；完整伤害/攻击锁/共享保护仍C/D |
+| 两门Approach Zone | 外缘距门3.75→1.5单位 | 原宽4/中心±2.25，改宽1.5/中心±1.25；根实体宽1与门/地形尺度未动，高6未动 |
+
+CSV仍118项。用户取消攻击百分比后，三个参数ID更名以免继续误导：`player.attack_base_percent`→`player.attack_initial_bonus`（0），`player.attack_min_percent`→`player.attack_min_damage`（6），`numeric.percentage_storage`→`numeric.attack_damage_storage`（integer_damage_points）。gain/loss仍原ID，单位改HP_per_hit、数值10；喷火伤害描述和取整说明去掉攻击百分比。没有运行时CSV读取器/公共C#签名变更。combat_rules相应更新公式、普通敌HP示例/命中次数及5unit/s追击说明；其他生命比例/精英数值不变。
+
+### 正式与TEST ONLY分离，以及明确残留
+
+新增`Assets/Prefabs/Tests/LegacyCombat/`及meta：LegacyBiteConfig（圆1.2/独立0.6）、LegacySwordConfig（圆1.8/独立0.6）、LegacyEnemyBasicConfig（39/7/0.6）、LegacyEnemyBasic真实Prefab、LegacyRegrowthRewards旧优先池留档；名称/meta明确TEST ONLY。T07/T08旧回归和T09 Auto显式引用测试配置；T08两个nested Sword实例也显式覆盖config，保证驱动与真实剑动作使用同一legacy配置。T09 Manual敌人仍引用正式AI prefab/config，100HP/10接触；其独测玩家13 Bite保留，不冒充主图10 Bite。旧13 Bite/15 Sword/0.05 Facing只留明确Tests夹具。
+
+T07/T08/T09SmokeDriver原样保留全部断言；T09 AI两条速度断言由错误的隐含×1改为×真实config factor，不删覆盖。T08仍77项、T09仍78项计划检查，未执行。手动入口仍默认Manual，Auto按钮才运行回归，没有新增自动设备输入。
+
+正式配置和地图**没有引用TEST ONLY资产**，39/7已退出正式敌人配置。但不能宣称全部旧数值彻底清零：**正式圆半径1.2/1.8与每敌人独立0.6接触周期依旧是C类结构残留**。没有把圆改成某个猜测半径假冒1×1/1.5×1.5，也没有把0.6改0.5冒充共享保护。生命奖励固定25/+15/bonusHeal0同为C，未用固定20/+10伪装比例公式。下一轮主程序迁移后才可清除此类生产残留。
+
+旧T07/T09 Editor创建器已改用legacy路径，不能回写生产平衡配置；T07正式Mount仍引用正式Bite config。旧T08生成器会在任何写入前明确拒绝：它同时覆写正式SwordConfig并依赖已过期的pre-AI T09模板，须迁移后才能恢复使用；当前保存的T08场景可继续使用，不需生成器。
+
+### 仍阻塞的规则
+
+- C：咬/剑矩形、碰撞前缘、0.1/0.1/0.1时间轴、动作锁向/遮挡、共享0.5冷却、攻击/冲刺仲裁；当前仍即时圆形。未写未使用字段或抢写主程序动作底层。
+- C：玩家共享0.5受伤/抵达保护及同物理步多来源仲裁；EnemyContactAttack源码保持原样。地刺固定X4/Y4、epsilon0.05及成功伤害才击退也不能用旧椭圆法线调速度替代。
+- C：攻击最低6的统一校验写口、生命比例奖励/ceil、检测门本局永久消失/支线机关语义。减攻仍遵循完整模拟/拒绝低于6，不私自Clamp或部分支付；未实现该接口。
+- D：固定-10减攻/正式代价池与收费传送、喷火、正式精英/出口/胜负仲裁、T17全局敌人强化、地刺Terrain伤害、支线结算领奖、正式暂停/结果重开退出菜单。
+- Chase目标为5（当前主图base7）；**主图仍4只站桩，正式基础速度provider/AI接线尚未发布**，不能宣称主图已实测5。T09 TEST ONLY provider读取测试motor实际base5，所以其Chase为25/7≈3.5714，不能把测试速度误写为5；没有为凑5修改测试运动手感。
+
+### 本轮实际验证
+
+非GUI Roslyn静态编译15程序集通过：Core、Audio.Core、Runtime、Player、Combat、Bite、Sword、EnemyBasic、SwitchDoor、WhiteBox、Tests.T07/T08/T09、Tests.T07.Editor/T09.Editor。使用当前源码及新编译依赖，Unity/外部包引用取本机既有安装/缓存；首轮Editor检查缺URP命令行引用，补齐后全部通过，没有为编译改变项目Packages。不是Unity域重载结果。
+
+16份本轮配置/Prefab/场景通过YamlDotNet语法解析；T08/T09原静态引用/meta/Manual-Auto检查通过。新增`Tools/ValidateCombatParameters.py`可从命令行只读复跑118个ID/分类完整性、授权CSV差异、100/10、float基础7×5/7=5、真实+10奖励、测试引用隔离、主图逐块允许差异、原SmokeDriver未改、禁改路径检查。git diff --check通过。Wwise/Packages/ProjectSettings/Input Actions无本轮diff；AGENTS/WORK_PACKAGES/controller.handoff未改。
+
+完全未用GUI/Computer，未打开或操作Unity，无Play/截图/Console验证，**不报告Manual/Auto passed或Console Error=0**。待用户/后续环境复跑。当前全部修改未提交、未推送。
+
+人工后续：用户自己打开Level_Whitebox，确认无增益咬10/剑20、普通敌HP100接触10；实际领取攻击卡后咬20/剑30，再领各再+10。T09_Smoke默认Manual可验证100HP敌死亡停攻/隐藏/不堵路；Auto仅验证独立legacy夹具与AI，不代表新矩形/保护规则完成。门检测距离和地刺0.15现有移动锁需另行手感验收。
+
+## 最新：T09 Enemy AI（2026-10-01）
+
+**AI implementation and offline test assets prepared; awaiting Unity Auto rerun and user manual verification.** 未运行Play，未写Manual Passed。原站桩T09 50/0是此前总控的历史结果，不是本轮78项AI版结果。
+
+### 最新基线审计与范围
+
+开始于Soap/HEAD/origin/Soap `27ef56c05a3d3ec4be9921d7383f3272eb6fce17`，工作区干净；首轮fetch的Ming为05c082e。用户中途通知大更新后，保留已经新增/修改的六个AI文件，再次 `git fetch origin Ming Soap`：origin/Ming=`724c08c40e7572df0a4eddbb0351f774fed6d178`（Attack），origin/Soap仍27ef56c。仅git show读取最新AGENTS规范21、WORK_PACKAGES、combat_rules.md、combat_parameters.csv、controller.handoff、C06_MAIN_ACTIONS、WhiteboxPlayer2D和主场景实际接线；没有merge/reset/stash/clean/checkout覆盖/stage/commit/push。本地共享源码仍以当前Soap为准，契约8未改。
+
+审计确认最新Ming没有修改原EnemyBasic生产源码，三态/首次LOS/追击保持/Return不回血可保留；补齐新规则的AI参数初始快照及实体前方Cast，避免持续推挤玩家。最新主图已有4只原EnemyBasic站桩实例，不能由本模块资产改动自动启用未验证AI。因此**原EnemyBasic.prefab保持逐字不变**，另交 `Assets/Prefabs/EnemyBasic/EnemyBasicAI.prefab`。主图、C06、玩家Facing/运动/攻击、Core/Runtime/Input/卡牌/Loadout/奖励、Wwise/Packages/ProjectSettings均未改；不做Elite/T10/T11/T21/统一伤害保护。
+
+### AI规则、参数和显式接线
+
+- `EnemyBasicAI`仅Patrol/Chase/Return；EnemyBasic仍唯一HP/IsAlive/AttackDamage及T17注册持有者。AI不写HP、不复制死亡状态、不回血、不复活，也不修改注册生命周期。
+- 首次有效启用记录出生位置和AI配置快照，组件/对象启停不重置出生点、HP或AI参数。活动边界默认出生X±6；也可显式同时绑定leftBoundary/rightBoundary，使用世界X。只绑一端、非有限值、left>=right、不包含出生点或容不下实体宽度均明确拒绝。地图接入者必须按每只怪的合法平台配边界，±6不自动证明主图安全。
+- Patrol默认1.5 unit/s，实体边缘接近边界反向。第一次Chase须实际玩家存活、owner.CanAct/Playing、玩家X在活动边界内、距离<=5、LOS清楚。Chase不再复查半径/LOS来取消仇恨；玩家出边界或死亡/运行不再允许行动时释放追击。暂停/Choosing清水平速度并清Chase为Return，恢复不补算位移。
+- Return以1.5 unit/s回原出生X，抵达容差0.05后Patrol；期间满足首次索敌条件可重获Chase。Return完全不调用HP写口。
+- LOS为Physics2D Raycast +配置obstacleLayers（默认Default层1）；忽略Trigger、己方与显式目标玩家层级的Collider。实心地形/关闭门阻挡首次Aggro。身体运动Cast使用显式solidCollider，排除攻击Trigger作为运动体，不把攻击触发器大小当身体大小。
+- AI Prefab有一个动态Rigidbody2D；未完成配置/停用时保留预制的FreezeAll，有效AI接管后只FreezeRotationZ。FixedUpdate仅写水平linearVelocity，保留Y/重力；先按完整实体边缘限制下一步范围，再Cast停止于墙/玩家实体前，不能Translate或写transform.position穿墙。停用清水平速度、恢复原约束；死亡订阅owner.Died同步清速度并停止本敌人刚体simulation，原owner负责关闭实体/攻击Collider及隐藏视觉。死亡对象不销毁、启停不恢复行动。
+- `EnemyBasicConfig`增加chaseSpeedFactor=1、aggroRadius=5、activityLeftOffset/rightOffset=6、patrolSpeed/returnSpeed=1.5、obstacleLayers。对应最新combat_parameters普通怪AI参数；同类可以配另一asset给未来精英，本轮未交Elite战斗。现Config的39HP/7伤害/0.6秒保留，**不是正式150/10/共享保护的完成证明**。
+
+### 基础速度集成缺口
+
+`IPlayerBaseMoveSpeedProvider.BaseMoveSpeed`是EnemyBasic程序集内的局部只读接点，不是新增Core接口。正式AI显式绑定实现该接口的MonoBehaviour；缺失、非正/非有限速度会报`[T09 AI CONFIG]`错误并停止AI，不从Rigidbody瞬时速度、ActualHorizontalSpeed或硬编码5/7兜底。实际ChaseSpeed=provider.BaseMoveSpeed×快照factor。
+
+最新Ming的PlayerLocomotion和WhiteboxPlayer2D均只有私有moveSpeed；主图Whitebox实际序列化值为7，类字段默认5不能当主图速度。**正式Chase Speed还缺主程序提供基础移动速度只读接点**：由总控发布真实基础速度读口及很薄的adapter，实现本接口并绑定真实运动器。不要把TEST ONLY provider放进主图。
+
+`T09BaseMoveSpeedProvider`只在Regrowth.Tests.T09，显式绑定当前T09实际PlayerLocomotion，反射只读其唯一私有moveSpeed，不复制数值、不写玩家、不读当前velocity。它让独测能运行完整AI，但不冒充正式共享接口。Enemy AI业务程序集仍只依赖Core和Unity，不依赖测试或玩家运动程序集。
+
+### Manual和Auto入口
+
+继续打开 `Assets/Scenes/Tests/T09/T09_Smoke.unity`（场景GUID/文件未改，引用的Manual rig已更新）。默认Manual；真实Input/PlayerState/Bite/运动保持原接线，只调整本测试玩家起点至X=-8、扩成40单位平平台、摄像机视野覆盖测试区域。AI敌出生X=3，默认边界[-3,9]，青色竖条仅作边界视觉、无Collider；屏幕显示敌人State/HP、玩家HP/X、Aggro和Bounds。默认LOS墙关闭；`Toggle LOS Wall`按钮切位于X=0的真实实心墙及视觉。无自动按键/攻击/移动玩家，原0.5秒后真实BodyCore准备沿用。
+
+人工步骤：先站在边界外观察Patrol和反向；走入边界及5单位内观察Chase；通过距离/墙对照已Chase后超出初始半径或隔墙仍保持Chase；走出[-3,9]观察Return、HP不恢复、到X=3附近后Patrol；Return中重新靠近可Chase。打开LOS墙，隔墙首次靠近不应索敌；打开通路/绕到无遮挡侧后可索敌。最后用Enter咬死，确认立即停、消失、不堵路、不伤人；Stop/Play重新开始。人工结果待用户确认。按钮使用鼠标；攻击对照建议用Enter，保留原公共输入资产。
+
+`Run T09 Auto Checks`依然切独立新鲜Auto fixture。原50项HP/接触/死亡/视觉/注册断言逐项原样保留，旧fixture明确不启AI，仍引用原EnemyBasic.prefab。随后独立T09AIChecks在远处临时平平台使用新AI prefab、真实PlayerState/RunController/Physics2D验证28项：Patrol/双边反向、半径/LOS、Chase保持/出界、返回/重获仇恨/不回血、provider倍率及不读瞬时速度、墙/玩家实体、Pause/Choosing/Dead、启停/原出生/HP、显式边界与配置拒绝、死亡刚体停止及原隐藏/碰撞回归。共78项计划检查，本轮未实际执行；不得报告78/0。三项非法边界/缺target/缺provider会有明确预期配置Error，标签含EXPECTED CONFIG ERROR；其余错误需另查，不能把预期错误当作所有Console错误都可忽略。
+
+### 非GUI验证和交付文件
+
+新增生产EnemyBasicAI.cs、IPlayerBaseMoveSpeedProvider.cs；改EnemyBasicConfig.cs/现Config的AI字段；新增独立EnemyBasicAI.prefab。测试新增T09AIChecks/T09BaseMoveSpeedProvider、Tools/ConfigureEnemyAI.py和ValidateEnemyAI.py及配对meta，修改T09SmokeDriver、Manual/Auto两个rig。原Editor T09SceneSetup增加保护：已是AI Manual则拒绝旧PrepareManual覆写，以免将AI人工夹具复制成stationary Auto。
+
+已执行非GUI Roslyn编译：EnemyBasic、Tests.T09、Tests.T09.Editor，均0编译错误。离线检查5份Unity资产YAML语法、GUID/local/external fileID、meta配对、唯一玩家/输入/运动、原玩家组件未改、原50条断言未删、新28项计数通过；git diff --check通过。没有启动/操作Unity，没有GUI/Computer、Play/Stop、截图或Console验收；物理行为和人工手感仍待复跑。没有修改原EnemyBasic.cs、EnemyContactAttack.cs及原EnemyBasic.prefab。
+
+`ConfigureEnemyAI.py`可重复离线保存上述T09资产；`ValidateEnemyAI.py`只读检查引用/范围/旧断言，不等于运行AI。新AI prefab的owner/body/solid已绑定，正式实例仍须总控显式补唯一Run、真实playerSource、真实速度provider和合法平台边界；本轮不自动接主图。
+
+既有T08资产保持原样；其旧离线生成器曾以T09 Manual为模板，后续若重生成T08需由T08维护者先审查新增AI/布局差异。本轮没有运行或修改T08生成器。
+
+旧 ContactInterval 暂保留，仅作为当前 T09 legacy implementation；最终须按 combat_rules 接玩家统一 hurt protection。150/10、0.5秒共享保护、多来源仲裁和新攻击时间轴等后续统一战斗迁移仍未实现。本轮只落实有界AI与死亡运动停止。
+
 ## 最新：玩家朝向底层（2026-10-01）
 
 **Facing foundation implemented; awaiting user manual verification and Auto Checks rerun.** 本节替代下文历史“固定右向”限制；不代表人工验收通过。

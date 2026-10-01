@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e746c1cc4875c24eb4351be3d243e01, type: 3}
   m_Name: EnemyBasicConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicConfig
-  maximumHealth: 39
-  contactDamage: 7
+  maximumHealth: 100
+  contactDamage: 10
   contactInterval: 0.6
   playerLayers:
     serializedVersion: 2
     m_Bits: 1
   includePlayerTriggers: 1
+  chaseSpeedFactor: 0.7142857142857143
+  aggroRadius: 5
+  activityLeftOffset: 6
+  activityRightOffset: 6
+  patrolSpeed: 1.5
+  returnSpeed: 1.5
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 1

@@ -1,0 +1,40 @@
+{
+  "files": 231,
+  "assets": {
+    ".anim": 52,
+    ".renderTexture": 1,
+    ".asset": 7,
+    ".png": 39,
+    ".unity": 1,
+    ".json": 1,
+    ".cs": 6,
+    ".asmdef": 2
+  },
+  "playerStrips": 39,
+  "sourceFrames": 95,
+  "combinations": 13,
+  "metaCount": 122,
+  "repositoryGuidCount": 982,
+  "errors": [],
+  "dadaBase": "4d6b2e18d8386d2c5e2db4bd3a1b32c50edec8fd",
+  "mingBase": "05c082e4cffd67e0ab7a2a3c6e60cea6f38dcc8f",
+  "unity": "6000.2.9f1",
+  "assetChecks": 1140,
+  "playChecks": 890,
+  "playFailures": 0,
+  "sceneReload": true,
+  "validationContext": "Same-content isolated Dada copy; original Dada editor left open untouched",
+  "missing": [
+    "Dog0_FlameTail/Bite (deferred by artist)",
+    "Dog2_NoArmsFlameTail/Bite (deferred by artist)",
+    "Dog2_FlameTail/Fire"
+  ],
+  "controllerCount": 0,
+  "prefabCount": 0,
+  "sharedGameplayChanged": false,
+  "pushed": false,
+  "warnings": [
+    "Unity.Collections package cache logged missing Unsafe.dll during assembly validation; no C# compile error; Play checks completed."
+  ],
+  "manualVisualApproval": "Pending artist review; no global desktop input used"
+}

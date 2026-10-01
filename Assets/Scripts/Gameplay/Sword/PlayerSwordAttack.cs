@@ -21,11 +21,13 @@ namespace Regrowth.Gameplay
         [SerializeField] private SpriteRenderer slashVisual;
         [SerializeField, Min(0.01f), Tooltip("Presentation only; never delays settlement. Test default 0.12s.")]
         private float flashSeconds = 0.12f;
+        [SerializeField] private PlayerActionGate actionGate;
         private IPlayerCombatState combat;
         private double nextAttackTime, hideVisualTime;
         private bool attacking;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
+        public event Action AttackStarted;
         public IPlayerCombatState CombatState => combat;
         public PlayerFacing2D Facing => facingSource;
         public Vector3 HitCenter
@@ -64,10 +66,13 @@ namespace Regrowth.Gameplay
         public bool TryAttack()
         {
             if (!CanAttack || attacking || Time.timeAsDouble < nextAttackTime) return false;
+            if (actionGate != null && !actionGate.TryBegin(this, 0.35f)) { return false; }
             attacking = true; // Synchronous reentrancy guard, not an attack lifecycle.
             try
             {
                 nextAttackTime = Time.timeAsDouble + config.CooldownSeconds;
+                try { AttackStarted?.Invoke(); }
+                catch (Exception ex) { Debug.LogWarning("[Sword] Presentation failed: " + ex.Message, this); }
                 PlaceVisual();
                 hideVisualTime = Time.timeAsDouble + (float.IsNaN(flashSeconds) || float.IsInfinity(flashSeconds)
                     ? 0.12f : Mathf.Max(0.01f, flashSeconds));

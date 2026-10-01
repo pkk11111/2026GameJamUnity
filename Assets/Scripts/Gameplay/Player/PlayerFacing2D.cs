@@ -14,6 +14,7 @@ namespace Regrowth.Gameplay
         private MonoBehaviour inputSource;
         [SerializeField, Range(0f, 1f), Tooltip("Small horizontal input dead zone; default 0.05. Inside it retain facing.")]
         private float deadZone = 0.05f;
+        [SerializeField] private PlayerActionGate actionGate;
         private IPlayerInput input;
         public int FacingSign { get; private set; } = 1;
         public bool IsFacingRight => FacingSign > 0;
@@ -23,18 +24,36 @@ namespace Regrowth.Gameplay
         private void OnEnable()
         {
             input = inputSource as IPlayerInput;
-            if (!IsWired) Debug.LogWarning("[Player Facing] Bind unique input and finite dead zone in [0,1].", this);
+            if (!IsWired)
+            {
+                Debug.LogWarning("[Player Facing] Bind unique input and finite dead zone in [0,1].", this);
+            }
         }
         private void Update()
         {
-            // Reader (-200) samples first. Facing (-150) updates before presentation and the next physics attack.
-            if (!IsWired || !inputSource.isActiveAndEnabled) return;
+            RefreshFromInput();
+        }
+
+        /// <summary>Refresh from the single sampled input before acquiring an action lock; never polls devices.</summary>
+        public int RefreshFromInput()
+        {
+            if (!IsWired || !inputSource.isActiveAndEnabled || (actionGate != null && actionGate.IsBusy))
+            {
+                return FacingSign;
+            }
             float move = input.MoveX;
-            if (float.IsNaN(move) || float.IsInfinity(move)) return;
+            if (float.IsNaN(move) || float.IsInfinity(move))
+            {
+                return FacingSign;
+            }
             int next = move > deadZone ? 1 : move < -deadZone ? -1 : FacingSign;
-            if (next == FacingSign) return;
+            if (next == FacingSign)
+            {
+                return FacingSign;
+            }
             FacingSign = next;
             FacingChanged?.Invoke(next);
+            return FacingSign;
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+    "name": "Regrowth.Tests.Art.Editor",
+    "rootNamespace": "Regrowth.Tests.Art.Editor",
+    "references": [
+        "Regrowth.Tests.Art",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "Unity.2D.Sprite.Editor",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "autoReferenced": true,
+    "includePlatforms": [
+        "Editor"
+    ]
+}

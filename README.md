@@ -1,16 +1,27 @@
 # pawgatory
 
-最新开发依据：[战斗规则与公式](docs/combat_rules.md)、[战斗参数CSV](docs/combat_parameters.csv)（118项）。原文件已原样收录；AGENTS规范21和WORK_PACKAGES§17说明旧规则替代及代码差距。当前Unity资产仍是试合并前的测试数值，尚未按新表迁移。
+> 最新 C09（2026-10-01）：从 Soap/60f9a55 选择性接入敌人AI与100/10配置，保留 Ming/a78185f 的收费、火球和人物实现。主图13只普通怪+1只精英；最底层大红块按用户要求拆为3只独立普通怪。攻击奖励/代价改为固定+10/-10点，最低6，取消共享攻击倍率；生命比例规则按Soap原文保留。C09 Play 59/0，Unity编译与保存重载通过；用户本轮明确授权commit/push Ming。以下C08百分比及旧接线记录仅为历史，不覆盖本节。
 
-> 最新核对（2026-10-01）：用户已提交Ming/2d92989，合并Soap/29e59ef；本次远端Ming查询仍05c082e。另已no-commit试合并Soap/27ef56c方向更新（T08 77/0）；以用户Ming为主，本轮主图已接咬/剑、左右朝向、4站桩敌人与腿/尾联动，C06 39/0、C05 69/0；接线和文档未提交，未自动commit/push。新表迁移/正式动画/Windows战斗包仍未完成。
 
-Unity 6.2（6000.2.9f1）2D，目标Windows。本机仓库`F:/2026GameJamUnity`，Ming已提交基线`2d92989`，规范21、共享源码契约8。Soap原战斗模块已合并，主图接线待提交，新规则数值待迁移；新版T仍未全部验收，美术由其他同学负责，最终由音频同学封装。
+> 历史 C08（2026-10-01）：四扇普通门已接 E → 传送代价三选一 → 物理步支付并传送，每次使用收费；InspectionDoor1/2保持原条件入口。与宝箱共用抽取器和卡片界面，各用独立卡池/缓存。修复火球移动转向边界，确认人物咬剑动画并移除主图青/金测试方块。C08 77/0、C07复跑30/0、三种百分比奖励实测通过；Unity编译无错误，未导出Windows。规范23、源码契约10；Ming/724c08c与Dada MERGE_HEAD/575eff3未变，无自动commit/push。
+
+> 历史 C07（2026-10-01）：Dada 资源已接到 `Level_Whitebox/Test_Player`，角色取代根白方块；咬/剑动画读取真实成功动作，火焰尾卡已投放并实现慢飞持续伤害。新增 C07 30/0、C06 回归39/0，Unity编译无错误；未重建Windows。Ming HEAD仍724c08c，Dada MERGE_HEAD仍575eff3，合并和本轮完善均待用户提交；没有自动commit/push。
+
+> 前轮资源收录（C07接线前）：Ming/724c08c上已无冲突no-commit合入Dada/575eff3。39张主角PNG、52个动画Clip和独立预览场景已到本地，另有3组敌人素材。Unity资源检查1140/0；正式玩家动画尚未接线，本轮未Play或构建。未自动commit/push。操作说明见[动画资源预览](docs/art-test/PLAYER_VISUAL_ART_TEST.md)。
+
+最新开发依据：[战斗规则与公式](docs/combat_rules.md)、[战斗参数CSV](docs/combat_parameters.csv)（122项）。原118项基础上按用户“持续扣、飞慢点”更新火焰空间语义并增加4项参数；AGENTS规范24记录实际实现。攻击已迁移固定点数，近战时间轴等尚未全量迁移。
+
+> 历史C06核对（之后已提交724c08c）：用户已提交Ming/2d92989，合并Soap/29e59ef；本次远端Ming查询仍05c082e。另已no-commit试合并Soap/27ef56c方向更新（T08 77/0）；以用户Ming为主，本轮主图已接咬/剑、左右朝向、4站桩敌人与腿/尾联动，C06 39/0、C05 69/0；接线和文档未提交，未自动commit/push。新表迁移/正式动画/Windows战斗包仍未完成。
+
+Unity 6.2（6000.2.9f1）2D，目标Windows。本机仓库`F:/2026GameJamUnity`，Ming已提交基线`724c08c`，规范23、共享源码契约10（本轮新增尚未提交）。Dada资源合并与C07人物/火焰接线待用户提交，收费与共享倍率已接，其余新战斗规则待迁移；新版T仍未全部验收，美术由其他同学负责，最终由音频同学封装。
 
 先读 [AGENTS.md](AGENTS.md)、[总控交接](docs/handoffs/controller.handoff)、[WORK_PACKAGES](docs/WORK_PACKAGES.md)。新版 [pawgatory_gameplay_design_v5(1).md](<docs/pawgatory_gameplay_design_v5(1).md>) 已取代旧GAME_DESIGN，只提供玩法/内容；Codex并行、代码、交接与音频要求以本地AGENTS为准。
 
+主场景当前操作：无手Enter/左键咬，有手剑击；获得火焰尾后Q/右键释放慢飞持续伤害。人物按原图保留白纸底。完整说明见[C07主图试用](docs/C07_PLAYER_CHARACTER.md)。
+
 ## C05复验与Windows测试包
 
-新地图Play后可从Tools/pawgatory/C05/Run New Map Checks (Play)复跑，要求全新空构筑/未领箱状态；检查会临时移动/领取并最后Dead，退出Play还原，勿保存测试驱动。本轮Editor与独立Windows检查各69/0。
+新地图Play后可从Tools/pawgatory/C05/Run New Map Checks (Play)复跑，要求全新空构筑/未领箱状态；检查会临时移动/领取并最后Dead，退出Play还原，勿保存测试驱动。原C05轮次Editor与独立Windows检查各69/0，本轮未重建Windows。
 
 非Play菜单Build Windows Trial生成普通试走包，Build Windows Automated Checks生成自动运行并退出的专用包；均显式选Level_Whitebox，不沿用全局SampleScene列表。说明及最终音频封装交接见[C05测试构建说明](docs/C05_TEST_BUILD.md)。
 
@@ -20,9 +31,9 @@ Unity 6.2（6000.2.9f1）2D，目标Windows。本机仓库`F:/2026GameJamUnity`�
 
 打开 `Assets/WhiteBox/Scenes/Level_Whitebox.unity`，Play后可测试9个宝箱、三选一领取、重复拥有过滤、即时增益、三槽HUD和替换事务。01 World/Chests下为Chest_01–09；第一个箱中心(32.5,-11.5)，从左侧约(30,-12.2)可按E。
 
-A/D或方向键移动、Space基础跳、Enter/左键攻击（无手青色咬击、有手金色剑击）、E交互；有腿后可二段跳，有普通尾后Shift冲刺。卡片可鼠标选择或键盘导航/Enter确认，Esc或Cancel取消。R只回出生点，Esc在正常游玩时测试暂停。
+A/D或方向键移动、Space基础跳、Enter/左键攻击（无手人物撕咬动画、有手人物剑击动画）、E交互；有腿后可二段跳，有普通尾后Shift冲刺。卡片可鼠标选择或键盘导航/Enter确认，Esc或Cancel取消。R只回出生点，Esc在正常游玩时测试暂停。
 
-地图目前跳过头部教学，以满血躯干测试状态开始。免费传送、反复按钮开门、地刺仅击退仍是试走；咬/剑及4个站桩敌人已接；身体美术、完整教学、新combat全量迁移、正式收费、完整支线结算、整局胜负/重开未完成。两条支线地图来自地图同学，不另外制作主图。
+地图目前跳过头部教学，以满血躯干测试状态开始。普通门E打开收费三选一；反复按钮开门、地刺仅击退仍是试走；咬/剑及4个站桩敌人已接；完整教学、新combat其余迁移、完整支线结算、整局胜负/重开未完成。两条支线地图来自地图同学，不另外制作主图。
 
 保留新Level作者的灰地、普通门2×6／6×2、地刺实际尺度和传送锚点，速度7/跳高4.5保持。两扇浅紫InspectionDoor按作者1×5接实体，独立于深蓝按钮门。运动仍只有WhiteboxPlayer2D；其useLoadoutAbilities=true读取真实状态，关闭后才恢复旧Inspector试走技能开关。
 
@@ -117,3 +128,7 @@ C05检查源文件为Assets/Scripts/Tests/C05/NewMapPlayChecks.cs，复跑方式
 
 用户在前轮之后提交merge 2d92989（父05c082e、29e59ef）。本轮核查远端尚未看到该Ming提交；未执行push。总控复用Soap咬/剑/敌人组件完成主图串行接线，接入Soap统一PlayerFacing2D及Editor集成检查；原移动仅新增显式朝向读口；没有将队友原模块记作原创。保留用户出生位置与未提交文档/两份数值来源、原输入/移动/地图碰撞，Wwise/Packages/ProjectSettings无变化。C06 39/0、C05 69/0，咬/剑占位截图已检查；未重新构建Windows、未做完整人工通关或新战斗规则验收。
 最终追加：本轮末Soap新增27ef56c，已按授权no-commit试合并，未以其分支覆盖Ming主场景。统一朝向替代临时适配后，T08 77/0、T09 50/0、最终主图C06 39/0（新增同源左冲刺检查）；C05统一朝向前69/0，用户要求收尾后未继续独测。HEAD仍2d92989，MERGE_HEAD27ef56c；远端Ming仍05c082e。以用户Ming及本地改动为准，无自动commit/push。
+
+### 传送收费规则文档更新（2026-10-01）
+
+combat规则1.2合入附件1.1的卡池明细、概率和候选补位，保留已确认的慢飞火焰团；用户补充仅InspectionDoor1/2免随机传送代价，其余传送门每次使用均三选一付费，终点若为传送门同样适用。传送与宝箱共用抽卡系统，分别配置代价池与奖励池。此次仅文档，源码契约、场景与收费实现未改；用户确认另一对话结束后，补丁已核对最新工作区并串行合入，尚未提交，集成记录见[portal-rules.handoff](docs/handoffs/portal-rules.handoff)。

@@ -30,6 +30,23 @@ namespace Regrowth.Gameplay
         public bool IsAlive => IsInitialized && currentHealth > 0;
         public IRunContext RunContext => run;
         public EnemyBasicConfig Config => config;
+        internal bool CanWriteEnhancement => IsAlive && !notifying;
+
+        // C08唯一全图服务预验全部目标后无回调提交；先全部写完再通知，避免部分强化。
+        internal void CommitEnhancement(int maximum, int current, int attack)
+        {
+            maximumHealth = maximum;
+            currentHealth = current;
+            attackDamage = attack;
+        }
+
+        internal void NotifyEnhancement()
+        {
+            notifying = true;
+            try { HealthChanged?.Invoke(); }
+            catch (Exception exception) { Debug.LogException(exception, this); }
+            finally { notifying = false; }
+        }
         public bool CanAct => isActiveAndEnabled && IsAlive && runContextSource != null
             && run != null && run.IsGameplayActive && run.Phase == RunPhase.Playing;
         // Unity主线程提交后同步通知；订阅者禁重入写命令，退出生命周期须退订。

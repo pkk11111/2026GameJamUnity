@@ -1,12 +1,12 @@
-﻿parameter_id,category,value,type,unit,source,description
+parameter_id,category,value,type,unit,source,description
 player.initial_max_hp,player,100,int,HP,user_confirmed,首次取得躯干初始化最大生命与满当前生命
 player.loadout_capacity,body,3,int,slot,existing_contract,腿与手剑及一种尾共享三槽
 player.default_facing,attack,right,enum,direction,design_default,开局向右;静止沿用最后移动方向
 player.facing_input_threshold,attack,0.1,float,input,design_default,水平输入绝对值超过该值更新朝向
-player.attack_base_percent,attack,100,int,percent_point,user_confirmed,共享攻击倍率初始百分点
-player.attack_gain_per_card,attack,10,int,percent_point,user_confirmed,每张攻击增益线性增加百分点
-player.attack_loss_per_card,attack,10,int,percent_point,user_confirmed,每张攻击减益线性减少百分点
-player.attack_min_percent,attack,60,int,percent_point,user_confirmed,支付减攻后不得低于该值
+player.attack_initial_bonus,attack,0,int,HP_per_hit,user_confirmed,攻击初始额外加值为0;伤害只做固定加减
+player.attack_gain_per_card,attack,10,int,HP_per_hit,user_confirmed,每张攻击增益固定增加10点伤害
+player.attack_loss_per_card,attack,10,int,HP_per_hit,user_confirmed,每张攻击减益固定减少10点伤害
+player.attack_min_damage,attack,6,int,HP_per_hit,user_confirmed,减攻后伤害不得低于6点;不是百分比下限
 player.basic_attack_interval,attack,0.5,float,second,user_confirmed,咬击与剑击共享启动间隔;从动作启动计
 player.basic_attack_hold_repeat,attack,0,bool,enabled,design_default,按一次启动一次;不做按住自动连发
 player.attack_requests_buffered_when_busy,attack,0,bool,enabled,design_default,忙碌或冷却请求丢弃;不补发
@@ -31,14 +31,14 @@ player.sword_recovery,sword,0.1,float,second,design_default,后摇内不启动�
 player.sword_wall_occlusion,sword,1,bool,enabled,design_default,实心地形与关闭门遮挡
 player.melee_hits_per_target_per_action,attack,1,int,hit,user_confirmed,同实体多Collider不能重复扣血
 player.melee_enemy_knockback,attack,0,float,unity_unit_per_second,design_default,咬击与剑击不给敌人击退
-player.fire_tick_base_damage,fire,8,int,HP_per_tick,user_confirmed,每跳向上取整后结算
+player.fire_tick_base_damage,fire,8,int,HP_per_tick,user_confirmed,每跳按基础伤害加减固定攻击点后结算
 player.fire_tick_interval,fire,0.2,float,second,user_confirmed,从释放立即首跳;随后固定时间点
 player.fire_duration,fire,2,float,second,user_confirmed,有效区间为起点包含结束点不包含
 player.fire_cooldown,fire,8,float,second,user_confirmed,从释放时刻计时;喷完剩6秒
 player.fire_windup,fire,0,float,second,design_default,接受释放立即进入首跳
 player.fire_recovery,fire,0,float,second,design_default,结束后无额外后摇
-player.fire_length,fire,3,float,unity_unit,user_confirmed,根碰撞体前缘向外长度
-player.fire_height,fire,1.2,float,unity_unit,user_confirmed,水平矩形伤害范围
+player.fire_length,fire,3,float,unity_unit,design_default,2026-10-01慢飞火焰团默认2秒飞行3单位;旧前向矩形长度规则被替代
+player.fire_height,fire,1.2,float,unity_unit,design_default,2026-10-01慢飞火焰团直径1.2;不再使用玩家前方整段矩形
 player.fire_resource_cost,fire,0,int,resource,design_default,首版无资源条;只受冷却限制
 player.fire_solid_collider,fire,0,bool,enabled,user_confirmed,火焰不阻挡实体身体
 player.fire_wall_occlusion,fire,1,bool,enabled,user_confirmed,实心墙与关闭门截断火焰伤害
@@ -48,7 +48,7 @@ player.fire_default_keyboard,fire,Q,enum,key,design_default,由唯一Input Actio
 player.fire_default_mouse,fire,right_button,enum,key,design_default,鼠标右键喷火
 player.fire_default_gamepad,fire,right_shoulder,enum,key,design_default,手柄右肩键喷火
 player.fire_cooldown_reset_on_acquire,fire,0,bool,enabled,design_default,失去再获得不刷新冷却;首次获得立即可用
-enemy.normal_base_max_hp,enemy,150,int,HP,user_confirmed,所有层普通小怪共用基础生命
+enemy.normal_base_max_hp,enemy,100,int,HP,user_confirmed,所有层普通小怪共用基础生命
 enemy.elite_base_max_hp,enemy,250,int,HP,user_confirmed,出口精英基础生命
 enemy.normal_base_contact_damage,enemy,10,int,HP_per_hit,user_confirmed,接触立即尝试伤害
 enemy.elite_base_contact_damage,enemy,20,int,HP_per_hit,user_confirmed,精英接触伤害
@@ -57,7 +57,7 @@ enemy.damage_add_per_cost,enemy_modifier,5,int,HP_per_hit,user_confirmed,全局�
 enemy.keep_hp_ratio_on_increase,enemy_modifier,1,bool,enabled,user_confirmed,当前生命按新旧上限比例向上取整
 enemy.future_spawn_inherit_modifiers,enemy_modifier,1,bool,enabled,existing_contract,未来生成怪物继承全局累计负面
 enemy.revive_on_hp_increase,enemy_modifier,0,bool,enabled,existing_contract,增血不复活死亡怪物
-enemy.chase_speed_factor,enemy_ai,1,float,ratio,user_confirmed,读取玩家基础水平速度;不读冲刺击退速度
+enemy.chase_speed_factor,enemy_ai,0.7142857142857143,float,ratio,user_confirmed,普通敌人目标5 unit/s;当前玩家基础速度7乘5/7;不读冲刺击退速度
 enemy.normal_aggro_radius,enemy_ai,5,float,unity_unit,design_default,普通敌人初次索敌半径
 enemy.elite_aggro_radius,enemy_ai,7,float,unity_unit,design_default,精英初次索敌半径
 enemy.normal_activity_left_offset,enemy_ai,6,float,unity_unit,design_default,默认出生点左边界;地图可按实际平台覆盖
@@ -115,5 +115,9 @@ ui.choice_escape_cancels_only,ui,1,bool,enabled,existing_contract,选择界面Es
 run.death_priority_over_win,run,1,bool,enabled,existing_contract,死亡优先于同帧支线完成或出口胜利
 run.elite_death_direct_win,run,0,bool,enabled,existing_contract,精英死亡仅解锁出口
 run.exit_cost,run,0,int,HP,existing_contract,存活进入已解锁出口免费胜利
-numeric.health_damage_rounding,numeric,ceil,enum,rounding,user_confirmed,生命与伤害一律向上取整;各结算一次
-numeric.percentage_storage,numeric,integer_percentage_points,enum,storage,user_confirmed,100表示100%;用整数避免浮点误差
+numeric.health_damage_rounding,numeric,ceil,enum,rounding,user_confirmed,生命比例结算向上取整一次;攻击整数加减无需取整
+numeric.attack_damage_storage,numeric,integer_damage_points,enum,storage,user_confirmed,攻击使用整数伤害点且仅加减;生命百分比规则另按原参数
+player.fire_shape,fire,travelling_orb,enum,shape,user_confirmed,2026-10-01用户确认持续扣并飞慢点;命中期间按全局跳时刻结算
+player.fire_speed,fire,1.5,float,unity_unit_per_second,design_default,初始方向水平慢飞;不跟随玩家位移;Inspector可调
+player.fire_radius,fire,0.6,float,unity_unit,design_default,每跳重查圆范围;目标离开停止扣血;实体多Collider去重
+player.main_action_gate_duration,attack,0.35,float,second,design_default,C07旧即时咬剑的表现互斥时间;不替代未来0.1前摇有效后摇时间轴

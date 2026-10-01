@@ -4,6 +4,7 @@
     "references": [
         "Regrowth.Core",
         "Regrowth.Gameplay.Player",
+        "Regrowth.Gameplay.EnemyBasic",
         "Regrowth.Runtime",
         "Regrowth.Audio.Core",
         "Regrowth.Gameplay.SwitchDoor",

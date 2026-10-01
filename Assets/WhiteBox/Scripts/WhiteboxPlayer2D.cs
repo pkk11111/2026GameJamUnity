@@ -12,9 +12,9 @@ using UnityEngine;
 namespace Regrowth.Gameplay.WhiteBox
 {
     /// <summary>保留原运动参数与测试技能；业务不得直接写本刚体。暂停清请求，保留已发生的物理状态。</summary>
-    [DisallowMultipleComponent]
+    [DisallowMultipleComponent, DefaultExecutionOrder(-180)]
     [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
-    public sealed class WhiteboxPlayer2D : MonoBehaviour
+    public sealed class WhiteboxPlayer2D : MonoBehaviour, Regrowth.Gameplay.IPlayerBaseMoveSpeedProvider
     {
         [Header("总控接线")]
         [SerializeField, Tooltip("必填；唯一输入适配器，含白板可选 Reset 动作。")]
@@ -27,6 +27,7 @@ namespace Regrowth.Gameplay.WhiteBox
         private PlayerState playerState;
         [SerializeField, Tooltip("主图显式绑定唯一朝向；旧独测未绑定时才保留原输入朝向。")]
         private Regrowth.Gameplay.PlayerFacing2D facingSource;
+        [SerializeField] private Regrowth.Gameplay.PlayerActionGate actionGate;
         private bool DoubleJumpEnabled => useLoadoutAbilities
             ? playerState != null && playerState.Contains(LoadoutItemId.Legs) : enableDoubleJump;
         private bool DashEnabled => useLoadoutAbilities
@@ -104,6 +105,11 @@ namespace Regrowth.Gameplay.WhiteBox
         private bool relocationPending;
         private Vector2 relocationPosition;
         private bool relocationIsReset;
+        private Func<Func<bool>, bool> paidRelocation;
+        private Action<bool> paidFinished;
+        [SerializeField, Range(0.001f, 0.1f), Tooltip("落点实体检测收缩量，避免贴地接触被误判嵌入；单位。")]
+        private float landingSkin = 0.02f;
+        private readonly List<Collider2D> landingHits = new List<Collider2D>();
         private bool knockbackPending;
         private Vector2 knockbackVelocity;
 
@@ -111,6 +117,8 @@ namespace Regrowth.Gameplay.WhiteBox
             && inputReader.IsInitialized && runController != null && runController.IsGameplayActive;
         public bool IsGrounded { get; private set; }
         public bool IsDashing => dashing;
+        /// <summary>AI读取唯一基础速度；不包含冲刺/击退，不复制配置。</summary>
+        public float BaseMoveSpeed => moveSpeed;
         /// <summary>实际R回位/传送完成后主线程通知；入口许可订阅者OnEnable注册、OnDisable退订，不重复执行迁移。</summary>
         public event Action Relocated;
 
@@ -150,6 +158,35 @@ namespace Regrowth.Gameplay.WhiteBox
         {
             if (!IsGameplayActive)
             {
+                return;
+            }
+            if (paidRelocation != null)
+            {
+                var commit = paidRelocation;
+                var completed = paidFinished;
+                paidRelocation = null;
+                paidFinished = null;
+                Vector2 target = relocationPosition;
+                bool moved = false;
+                bool success = CanLandAt(target) && commit(() =>
+                {
+                    ClearMotionRequests();
+                    body.linearVelocity = Vector2.zero;
+                    body.angularVelocity = 0f;
+                    body.position = target;
+                    body.gravityScale = gravityScale;
+                    body.WakeUp();
+                    moved = true;
+                    return true;
+                });
+                relocationPending = false;
+                if (success && moved)
+                {
+                    try { Relocated?.Invoke(); }
+                    catch (Exception exception) { Debug.LogException(exception, this); }
+                    GameAudio.Play(AudioCue.Teleported, gameObject);
+                }
+                completed?.Invoke(success && moved);
                 return;
             }
             if (inputReader.TryConsumePrototypeReset())
@@ -246,7 +283,8 @@ namespace Regrowth.Gameplay.WhiteBox
                 }
                 body.linearVelocity = velocity;
                 if (requestDash && DashEnabled && cooldownRemaining <= 0f
-                    && (IsGrounded || (allowAirDash && !airDashUsed)))
+                    && (IsGrounded || (allowAirDash && !airDashUsed))
+                    && (actionGate == null || actionGate.TryBegin(this, Mathf.Max(0.02f, dashDuration))))
                 {
                     dashing = true;
                     airDashUsed = true;
@@ -271,6 +309,7 @@ namespace Regrowth.Gameplay.WhiteBox
         public bool TrySpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
         {
             if (!IsGameplayActive || relocationPending || spikeProtectionRemaining > 0f
+                || (playerState != null && playerState.HasDamageProtection)
                 || !Finite(velocity.x) || !Finite(velocity.y) || !Finite(controlLock) || !Finite(protectionTime)
                 || controlLock < 0f || protectionTime < 0f)
             {
@@ -290,6 +329,63 @@ namespace Regrowth.Gameplay.WhiteBox
         public bool TryTeleportTo(Vector2 destination)
         {
             return QueueRelocation(destination, false);
+        }
+
+        /// <summary>无写入安全落点检查；排除自身与Trigger，使用当前玩家稳定实体形状及地形层。</summary>
+        public bool CanLandAt(Vector2 destination)
+        {
+            if (!isActiveAndEnabled || body == null || playerCollider == null || !playerCollider.enabled
+                || !body.simulated || !Finite(destination.x) || !Finite(destination.y))
+            {
+                return false;
+            }
+            Physics2D.SyncTransforms();
+            Bounds bounds = playerCollider.bounds;
+            Vector2 center = destination + (Vector2)bounds.center - body.position;
+            Vector2 size = new Vector2(Mathf.Max(0.001f, bounds.size.x - landingSkin * 2f), Mathf.Max(0.001f, bounds.size.y - landingSkin * 2f));
+            var filter = new ContactFilter2D();
+            filter.SetLayerMask(groundLayers);
+            filter.useTriggers = false;
+            landingHits.Clear();
+            Physics2D.OverlapBox(center, size, 0f, filter, landingHits);
+            foreach (var hit in landingHits)
+            {
+                if (hit != null && hit.attachedRigidbody != body && !hit.transform.IsChildOf(transform))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>Choosing确认仅排队。菜单关闭后下一物理步复验并原子支付/移动；失败无费用。</summary>
+        public bool TryQueuePaidTeleport(Vector2 destination, Func<Func<bool>, bool> commit, Action<bool> completed)
+        {
+            if (runController == null || runController.Phase != RunPhase.Choosing || relocationPending
+                || playerState == null || !playerState.IsAlive || !playerState.HasBodyCore
+                || commit == null || !CanLandAt(destination))
+            {
+                return false;
+            }
+            relocationPosition = destination;
+            relocationPending = true;
+            paidRelocation = commit;
+            paidFinished = completed;
+            inputReader.DiscardGameplayInput();
+            return true;
+        }
+
+        public void CancelPaidTeleport()
+        {
+            if (paidRelocation == null)
+            {
+                return;
+            }
+            var callback = paidFinished;
+            paidRelocation = null;
+            paidFinished = null;
+            relocationPending = false;
+            callback?.Invoke(false);
         }
 
         /// <summary>仅白板回到首次出生点；不复活、不重置门、HP 或构筑，不是正式 Restart。</summary>
@@ -359,6 +455,7 @@ namespace Regrowth.Gameplay.WhiteBox
         {
             if (phase != RunPhase.Playing)
             {
+                CancelPaidTeleport();
                 jumpBuffer = 0f;
                 relocationPending = false;
                 knockbackPending = false;
@@ -370,6 +467,7 @@ namespace Regrowth.Gameplay.WhiteBox
             // 输入适配器清设备缓冲；本地落地等待/迁移也不能跨失焦残留。
             if (!focused)
             {
+                CancelPaidTeleport();
                 jumpBuffer = 0f;
                 relocationPending = false;
             }
@@ -385,6 +483,7 @@ namespace Regrowth.Gameplay.WhiteBox
 
         private void OnDisable()
         {
+            CancelPaidTeleport();
             if (runController != null)
             {
                 runController.PhaseChanged -= OnPhaseChanged;
