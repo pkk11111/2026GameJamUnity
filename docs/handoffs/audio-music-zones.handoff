@@ -1,0 +1,57 @@
+# audio-music-zones — 三层交互音乐接入
+
+日期：2026-10-01。来源：AudioPipeline / d88b34e；用户授权按地图手绘线接入音乐分区、操作 Unity 编译。保留原场景已有改动；没有提交或推送。
+
+## 交付
+
+- `Assets/WhiteBox/Scenes/Level_Whitebox.unity` 已保存三个音乐 Trigger 和控制器。
+- `Assets/Scripts/Audio/Music/ExplorationMusicZones.cs`：显式玩家引用、分区判定、Bank 加载、State Event 去重、单个音乐实例生命周期。
+- `Assets/Scripts/Audio/Music/Editor/`：安装菜单和真实 Wwise State 验证菜单，仅 Editor 编译，不进入游戏包。
+- 配套 `.meta` 由 Unity 生成。未更改 Wwise 工程、Bank、玩家运动、公共 AudioCue、物理 Layer 设置。
+
+## Hierarchy / Inspector
+
+对象：`00 Runtime/Audio_MusicZones`，组件 `ExplorationMusicZones`、`AkGameObj`。
+
+必填 Player = `02 Actors/Test_Player`；Zones 三项从低到高，已绑定子物体 BoxCollider2D 与对应 State Event。Bank Name = `SB_Main`；Exploration Event = `Set_State_Exploration`；Play Event = `Play_Music_State`。
+
+| 子物体 | 世界 Y 范围 | Transform Y / Box Size Y | Event | 可听轨道 |
+|---|---|---|---|---|
+| MusicZone_Level1 | -21..14 | -3.5 / 35 | Set_State_Level1 | 环境床 |
+| MusicZone_Level2 | 14..58 | 36 / 44 | Set_State_Level2 | Keyboard、Bass |
+| MusicZone_Level3 | 58..139 | 98.5 / 81 | Set_State_Level3 | Keyboard、Bass、Synth、Backing Vocals |
+
+三个盒子 X 中心为25，Size X=180，范围-65..115，Is Trigger=true，不阻挡玩家。
+地图实际占用范围 X=-60..110、Y=-16..134，高150米。两条线按用户图二近似取底部以上30米、74米（世界Y=14、58），不是50/100米三等分。上下左右各留5米余量。
+
+调边界：在非Play模式修改相邻两个子物体的 Transform Position Y 和 BoxCollider2D Size Y，使盒子相接；不要只移动一个盒子造成空隙。选中控制器可看到三层线框。保存场景后进入Play。边界配置运行时实时读取；调整正式基线需退出Play后保存。
+
+Settle Seconds 默认0.15秒，实时读取；跨入新层持续满足该时间才切层，避免边界快速抖动。Wwise 负责已有1.5秒混音过渡。Initialization Timeout 默认15秒，重新启用生效。Log Transitions 默认关闭，可打开观察Console。
+
+## 接入逻辑
+
+1. WwiseGlobal/AkInitializer 初始化引擎和Init。
+2. 控制器加载SB_Main；失败报带对象上下文的错误并禁用音乐，不阻塞玩法。
+3. 设置Music_Group=Exploration，按玩家出生位置立即发Level事件，再播放Play_Music_State一次。
+4. LateUpdate对显式玩家根节点调用区域OverlapPoint；只在确认跨层后发一次Set_State_Level事件，不重复Play。判定不依赖OnTriggerEnter，所以直接出生/传送/下落均有效，也不依赖碰撞矩阵或玩家碰撞体数量。
+5. 同一点落在两个区域时列表靠后的层优先。离开所有区域保留上一层；出生不在任何区域则报错，不能靠默认None掩盖接线问题。
+6. 禁用/销毁只停止本控制器记录的playing ID，并卸载由它首次成功加载的Bank。重新启用重新定位并播放。
+
+目前音乐控制器是场景唯一音乐启动者，不要再挂AkEvent自动播放同一音乐，也不要单独启动环境床。音乐随场景存在，不做DontDestroyOnLoad。State是Wwise全局状态，同场景只保留一个控制器。
+
+Music_Group的Elite仍由后续战斗模块控制；第三层不是Elite战斗。楼层变化只发Exploration_Level事件，不覆盖战斗状态；返回探索可使用已有Set_State_Exploration事件。本轮没有新增精英接线或暂停/恢复规则。
+
+未来GameAudio正式音效后端与音乐共用SB_Main时，应统一Bank生命周期/所有权。当前默认NullAudioBackend，音乐组件没有覆盖它；不要让多个独立系统各自卸载同一个正在使用的SB_Main。
+
+## 验证
+
+Unity 6000.2.9f1编译成功；通过Unity场景API创建并保存，未手工拼接YAML。
+真实Wwise引擎Play验证10个检查点：Y=-4.4、30、85、30、-4.4、85、-4.4、13.8、14.2、58.2。
+查询`AkUnitySoundEngine.GetState("Exploration_Level")`分别得到Level1/2/3正确哈希；所有点music playing ID保持同一实例。
+覆盖：出生、上行、下行、1↔3直接传送、边界两侧。测试只在Play临时停用白板运动并移动玩家，退出Play恢复，不保存测试位置。
+
+复测：Unity菜单 `Tools > Audio > Verify Whitebox Music In Play Mode`。执行会进入Play并短暂移动玩家，结束自动退出Play；Console应出现10条PASS和ALL PASS。该固定地图测试使用本次边界坐标，日后调整分区需同步测试点。
+批处理复测需`-wwiseEnableWithNoGraphics`，否则Integration默认跳过声音引擎。这是测试运行参数，不需要修改项目设置。
+本机日志：`Logs/MusicZones-Setup.log`、`Logs/MusicZones-Verify-Audio.log`、`Logs/MusicZones-Editor.log`（Logs不提交）。
+
+尚未验收：人耳试听混音/循环接缝、整曲循环、长时间性能、Windows/Mac独立构建及队友电脑。自动状态验证不能代替听感验收。

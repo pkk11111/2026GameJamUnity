@@ -450,6 +450,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Trap_Attack" ID="{7C121583-B597-4C89-ACAC-5255EC3CF751}">
+					<ChildrenList>
+						<Action Name="" ID="{DE664E23-56D5-4ED1-AC48-F53BE43241C0}" ShortID="714677286">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Trap_Attack" ID="{D8E03AAD-A43D-4512-BBFD-81DBDFD697A6}" WorkUnitID="{54883B12-B7A9-4DC8-A819-7B3BA9B7B67A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

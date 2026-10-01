@@ -1,9 +1,9 @@
-# GROWL AGAIN 音频接口与 Unity 接入交接
+# pawgatory 音频接口与 Unity 接入交接
 
 更新日期：2026-10-01。交接对象：程序、关卡、动画/UI、技术音频。
 核对分支：AudioPipeline。本文件替代此前同名报告，以当前已保存的 Wwise 工程及生成元数据为依据。
 
-**交付状态：Wwise 资产与接口已配置；Unity 业务接线与运行验收待完成。** 当前 Assets 下未发现 Wwise 以外的游戏 C# 脚本。本文中的区域检测、统一音频控制器及成功事实通知是接入要求，不代表已有实现。旧 AGENTS.md 仅作历史资料。
+**交付状态：三层交互音乐已接入 Level_Whitebox，Unity 编译及真实 Wwise State 测试通过；其余音效业务接线仍需逐项验收。** 当前工程已有游戏脚本和 GameAudio/IAudioBackend。音乐实现及调参入口见 `docs/handoffs/audio-music-zones.handoff`，项目规范以当前根 AGENTS.md 为准。
 
 ## 1. 最新约定与接入重点
 
@@ -53,7 +53,7 @@ Authoring 安装路径保存了本机 E 盘位置，需要生成 Bank 的队友�
 6. 后续换层只发楼层 Event；进入/退出 Elite 战斗只切 Music_Group。
 7. 退出本局停止音乐和世界声音，清理订阅、playing ID 和楼层缓存；确认无声音使用后卸载业务 Bank。重开重新确定状态。
 
-当前 SampleScene 有 WwiseGlobal/AkInitializer、相机 AkAudioListener/AkGameObj，但未发现完整游戏接线或场景 AkBank 加载配置。启动工作由一个控制器负责，不让每个模块自行初始化。
+当前 Level_Whitebox 的 WwiseGlobal/AkInitializer 负责初始化；Audio_MusicZones 上的 ExplorationMusicZones 加载 SB_Main、确定出生层、播放音乐。其必填玩家引用已绑定 Test_Player，场景已有 AkAudioListener。该控制器管理自己的音乐 playing ID，禁用时停止；仅在它成功首次加载 Bank 时负责卸载。未来共用 SB_Main 的完整音效后端接入时，应统一 Bank 生命周期，不能在音效仍播放时单独禁用并卸载音乐控制器持有的 Bank。
 
 ## 3. 三层探索音乐（已核对保存配置）
 
@@ -84,12 +84,12 @@ Hope Segment 基础音量 -6 dB，环境床轨基础音量 -8 dB；State 的 0 �
 当前 Exploration 播放列表引用 Hope，保存了无限循环设置（LoopCount=0）；环境床片段已延展到约 183.833 秒，与 Hope Exit Cue 对齐。仍需试听短素材重复与整段循环接缝。不要再单独启动旧环境床。
 Elite 播放列表未见同样的显式无限循环设置，需播放超过曲长验证，不能承诺已无限循环。
 
-### Unity 楼层检测要求
+### Unity 楼层检测（已实现）
 
-- 每层创建音乐区域，使用 BoxCollider2D，启用 Is Trigger；配置楼层 ID 1/2/3。
-- 玩家具备 Collider2D/Rigidbody2D，Physics2D Layer Collision Matrix 允许区域检测；只识别玩家根对象，多个碰撞体去重。
-- 区域通知统一音频控制器，仅在楼层真正改变时发对应 Event。
-- 区域尽量不重叠；必须重叠时设唯一优先级，边界跳跃不可反复切层。
+- Audio_MusicZones 下有三个 BoxCollider2D Trigger，按用户画线近似划分：Level1 为 Y=-21..14，Level2 为 Y=14..58，Level3 为 Y=58..139，均覆盖 X=-65..115（包含地图边缘余量）。
+- ExplorationMusicZones 使用显式玩家根节点的位置和 Collider2D.OverlapPoint 判层；不依赖物理 Enter 回调或 Layer Collision Matrix，不会因玩家多碰撞体重复触发。
+- 进入新层连续停留 0.15 秒才发 State Event；出生立即初始化。只改变 State，不重发 Play_Music_State。
+- 区域保持相接；重叠/恰好位于公共边界时 Zones 列表后面的层优先。离开所有区域时保持上一层。
 - 不在任意 OnTriggerExit2D 中重置 Level1，因为离开第二层可能进入第三层。
 - 出生、传送成功、重开时主动查询当前区域，不只依靠走入触发器。返回下层也切回对应状态。
 - Elite 战斗期间仍记录当前楼层；结束战斗切回 Exploration 时恢复当前区域层次。
@@ -98,7 +98,7 @@ Elite 播放列表未见同样的显式无限循环设置，需播放超过曲�
 
 ### 4.1 统一音频入口
 
-Gameplay 只通知真实成功事实；Bank 加载、Wwise 类型与 Event 映射集中在音频适配层。旧文档中的 GameAudio/IAudioBackend 在当前分支未发现实现；团队如果已有封装，应扩展已有映射，不新建第二套同名接口。
+Gameplay 只通知真实成功事实；Bank 加载、Wwise 类型与 Event 映射集中在音频适配层。已有 GameAudio/IAudioBackend 位于 Assets/Scripts/Audio/Core，目前默认 NullAudioBackend。继续扩展已有映射，不新建第二套同名接口。三层音乐由独立音频模块 ExplorationMusicZones 管理，不向 gameplay 散写 Wwise 字符串，也没有替换其他音效的后端。
 
 可在 Inspector 绑定 AK.Wwise.Event，然后在音频层通过 eventReference.Post(emitter) 调用。启动/Bank 就绪、空引用、返回值与去重由控制器处理。楼层统一使用 Event，业务不再同时直接 SetState。
 当前没有业务 RTPC 和怪物类型 Switch，不要求填写 Speed、Hope、EnemyType 等不存在的参数。
@@ -283,9 +283,9 @@ Elite 目前没有专用脚步 Event；建议先复用 `Play_NPC_Footsteps` 作�
 ## 9. 本次核查与待验证
 
 已静态核对：39 个 Event 名称/楼层 Action 目标、五轨 State 音量、1.5 秒过渡、Exploration→Hope 循环及环境床延展、Windows SB_Main 的 39 个 Event/51 个媒体、51 个素材引用无缺失、Integration 版本/路径、Git/LFS。
-本轮未执行 Wwise GUI 试听、Unity 编译/Play、Windows/Mac 构建或其他电脑测试。静态配置正确不等于运行已验收。
+本轮已执行 Unity 6000.2.9f1 编译、保存音乐分区并进入 Play，通过 10 个位置检查点查询实际 Wwise Exploration_Level，覆盖上行/下行/直接传送/边界两侧，音乐 playing ID 保持不变。未执行 Windows/Mac 独立构建、其他电脑测试或主观混音试听。
 待音频确认：石门 Event 仍为 2.58 秒；Elite 曲末循环；环境床与五轨整段接缝；35 m 衰减的实际听感。
-生成 TXT 的尾随空白属于生成文件格式，不手工重写。本文只更新 Markdown，未修改音频/工程配置。
+生成 TXT 的尾随空白属于生成文件格式，不手工重写。本轮新增音乐运行组件、编辑器安装/验证工具及场景接线；未改 Wwise 工程和 Bank。
 
 证据入口：Wwise Events/Containers/States/SoundBanks/Attenuations 工作单元、GeneratedSoundBanks/Windows/SB_Main.json 和 Event/*.json、Assets/WwiseSettings.xml、Assets/Wwise/Version.txt、ProjectSettings/ProjectVersion.txt。
 

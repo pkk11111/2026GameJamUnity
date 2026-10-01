@@ -20,6 +20,20 @@
 						<State Name="Level3" ID="{C3C61976-E71D-4886-85E4-3F8A24F95123}"/>
 						<State Name="Level1" ID="{A3A6FC8E-015D-4176-8463-4AE21ED0575E}"/>
 					</ChildrenList>
+					<TransitionList>
+						<Transition>
+							<StartState Name="Level1" ID="{A3A6FC8E-015D-4176-8463-4AE21ED0575E}"/>
+							<EndState Name="Level2" ID="{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"/>
+							<Time>3.5</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+						<Transition>
+							<StartState Name="Level2" ID="{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"/>
+							<EndState Name="Level3" ID="{C3C61976-E71D-4886-85E4-3F8A24F95123}"/>
+							<Time>2.5</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+					</TransitionList>
 				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>

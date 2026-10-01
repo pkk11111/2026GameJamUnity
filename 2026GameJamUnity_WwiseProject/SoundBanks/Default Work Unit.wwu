@@ -32,6 +32,7 @@
 						<ObjectRef Name="Play_Card_Selected" ID="{486D09EE-B61D-4B18-8BEA-21552B9FC9BA}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Set_State_Level2" ID="{0E94E6B9-5EE8-4C0F-83E7-E129DFE8D418}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Set_State_Level3" ID="{3AB35E9E-098A-4C7E-AFCC-84AF2E8CD212}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Trap_Attack" ID="{7C121583-B597-4C89-ACAC-5255EC3CF751}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_NPC_Footsteps" ID="{BD098E9D-41DE-4CB6-B6B3-24EA315518E3}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Door_Open" ID="{705C6C18-5111-4D14-83F8-77FBEDC7C89E}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Elite_Hurt" ID="{D2BDD306-C6B7-4D66-97F4-731C8C1BE2A8}" WorkUnitID="{14D9FF13-31B9-49B9-85D3-1002F3E99A2D}" Origin="Manual" Filter="7"/>

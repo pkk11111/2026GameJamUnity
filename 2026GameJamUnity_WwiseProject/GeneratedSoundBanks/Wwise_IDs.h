@@ -44,6 +44,7 @@ namespace AK
         static const AkUniqueID PLAY_PORTAL_IN = 2903031062U;
         static const AkUniqueID PLAY_PORTAL_OUT = 1976609849U;
         static const AkUniqueID PLAY_SWITCHACTIVATE = 4080561429U;
+        static const AkUniqueID PLAY_TRAP_ATTACK = 1570554494U;
         static const AkUniqueID PLAY_UI_CLICK = 1749424733U;
         static const AkUniqueID PLAY_UI_HOVER = 1339559671U;
         static const AkUniqueID SET_STATE_ELITE = 1394990189U;

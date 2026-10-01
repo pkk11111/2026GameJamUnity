@@ -10,6 +10,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1339559671	Play_UI_Hover			\Default Work Unit\Play_UI_Hover	
 	1394990189	Set_State_Elite			\Default Work Unit\Set_State_Elite	
 	1506249488	Play_Card_Selected			\Default Work Unit\Play_Card_Selected	
+	1570554494	Play_Trap_Attack			\Default Work Unit\Play_Trap_Attack	
 	1602358412	Play_Footstep			\Default Work Unit\Play_Footstep	
 	1648198107	Play_PlayerSwordHit_Elite			\Default Work Unit\Play_PlayerSwordHit_Elite	
 	1660008929	Play_Door_Open			\Default Work Unit\Play_Door_Open	
@@ -55,6 +56,7 @@ State	ID	Name	State Group			Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	83336308	KS_Sword Hit_1	.cache\52\{52743F71-27F3-3487-425F-44632983E91B}.wem		\Containers\Default Work Unit\Player\Combat\SwordHit\PlayerSwordHit_Elite\KS_Sword Hit_1		90684
 	97432376	Elite_Hurt	.cache\F0\{F072BCC6-0D5F-D337-CFA2-1E4C07CFCEA1}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Hurt		553268
+	107672874	Trap_Attack	.cache\75\{759063CE-25EA-9083-076B-6579D3738C90}.wem		\Containers\Default Work Unit\World\Trap_Attack		107504
 	114950063	KS_Cartoon Swish_1	.cache\7D\{7D47E5AF-F2A3-45CD-C3DC-BF6B0BE08A17}.wem		\Containers\Default Work Unit\Player\Combat\Player_Bite\KS_Cartoon Swish_1		65572
 	120958241	Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 3	.cache\CF\{CF788E06-ED74-ACDB-624A-388244109A9E}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 3		24926
 	139475878	KS_Sword Hit_2	.cache\0B\{0B9EB26E-CFA0-3571-B6E3-3C703DE3F41E}.wem		\Containers\Default Work Unit\Player\Combat\SwordHit\PlayerSwordHit_Elite\KS_Sword Hit_2		96316
@@ -87,6 +89,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	631194837	Portal_Out	.cache\D0\{D0355274-3D27-8EF9-BB4F-D0642843A1E9}.wem		\Containers\Default Work Unit\World\Portal_Out		106892
 	644225956	KS_Sword Hit_3	.cache\A6\{A607EAD2-3F4D-1BBF-7C3C-63D60D6D5B68}.wem		\Containers\Default Work Unit\Player\Combat\Player_SwordSwing\KS_Sword Hit_3		46076
 	660898117	6 Bass	.cache\41\{4183EC6F-B7CC-0D71-C15E-425211126216}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\6 Bass		35335840
+	671298666	Bird_N_Insects	.cache\46\{466DB658-AA70-114F-2D7F-D0C3FABF6C8C}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\Bird_N_Insects		11430504
 	698684403	Elite_Death	.cache\3D\{3D08CC4C-9088-162B-538B-15A67B1D348F}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Death		109924
 	728004166	Wings, Creature, Birdlike, Small, Constant, Normal SND53551	.cache\D7\{D7A4BE59-A648-34F5-E45A-40C4E6043752}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Fly\Wings, Creature, Birdlike, Small, Constant, Normal SND53551		15376
 	788933838	User Interface, Alert, Pops, Digital, Cute, Pops SND115539	.cache\97\{971B04A9-264F-AB20-B817-2CBC1167261C}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Footsteps\User Interface, Alert, Pops, Digital, Cute, Pops SND115539		2928
@@ -96,6 +99,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	823427073	SwitchActivate	.cache\A5\{A526A5E1-60AA-7340-DAD6-67E66B1E5ABA}.wem		\Containers\Default Work Unit\World\SwitchActivate		69408
 	823472855	Ambience, Designed, Ambient Horror, Loop SND63040 2	.cache\4D\{4D455B35-E4A4-45AC-EEAF-0DE8F46A3D72}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\Ambience, Designed, Ambient Horror, Loop SND63040 2		5625696
 	849930350	Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 4	.cache\05\{056DE210-AD5C-D828-2ABA-51808A1F5E28}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Attack\Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 4		65418
+	869814178	Bird_N_Insects	.cache\A5\{A52303AC-E344-7015-C5D5-F1AF42D3CEB2}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\Bird_N_Insects		12812256
 	885164677	UI_Click	.cache\AB\{AB6ED311-B3FC-F66F-0F94-3C667A27BC18}.wem		\Containers\Default Work Unit\UI\UI_Click		59224
 	891503437	Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 2	.cache\0A\{0A6944D0-B315-F012-55A9-0E5721AC51C9}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Attack\Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 2		54228
 	932105403	Player_AbilityGain	.cache\36\{36E01450-7F4C-50C6-1094-CED3CB7FB697}.wem		\Containers\Default Work Unit\Loadout\Ability\Player_AbilityGain		242352

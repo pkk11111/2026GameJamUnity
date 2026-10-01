@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{32404148-0A7B-40A4-8F98-5173BD22075A}",
     "Language": "SFX",
-    "Hash": "{59087C72-631C-5DF3-0069-8D4C52E55E63}",
+    "Hash": "{8E8A0554-326A-C271-1E24-00B480C8E23F}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\SB_Main",
     "ShortName": "SB_Main",
     "Path": "SB_Main.bnk",
@@ -30,6 +30,14 @@
       "Location": "Memory",
       "ShortName": "KS_Domestic Cat_1.wav",
       "CachePath": "F0/{F072BCC6-0D5F-D337-CFA2-1E4C07CFCEA1}.wem"
+     },
+     {
+      "Id": "107672874",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Gorey Stab_1.wav",
+      "CachePath": "75/{759063CE-25EA-9083-076B-6579D3738C90}.wem"
      },
      {
       "Id": "114950063",
@@ -288,6 +296,14 @@
       "CachePath": "41/{4183EC6F-B7CC-0D71-C15E-425211126216}.wem"
      },
      {
+      "Id": "671298666",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Wetland_2.wav",
+      "CachePath": "46/{466DB658-AA70-114F-2D7F-D0C3FABF6C8C}.wem"
+     },
+     {
       "Id": "698684403",
       "Language": "SFX",
       "Streaming": "false",
@@ -358,6 +374,14 @@
       "Location": "Memory",
       "ShortName": "Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 4.wav",
       "CachePath": "05/{056DE210-AD5C-D828-2ABA-51808A1F5E28}.wem"
+     },
+     {
+      "Id": "869814178",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Wetland_3.wav",
+      "CachePath": "A5/{A52303AC-E344-7015-C5D5-F1AF42D3CEB2}.wem"
      },
      {
       "Id": "885164677",
@@ -653,10 +677,16 @@
           "Id": "660898117"
          },
          {
+          "Id": "671298666"
+         },
+         {
           "Id": "810945889"
          },
          {
           "Id": "823472855"
+         },
+         {
+          "Id": "869814178"
          },
          {
           "Id": "939894750"
@@ -691,10 +721,16 @@
           "Id": "660898117"
          },
          {
+          "Id": "671298666"
+         },
+         {
           "Id": "810945889"
          },
          {
           "Id": "823472855"
+         },
+         {
+          "Id": "869814178"
          },
          {
           "Id": "939894750"
@@ -982,6 +1018,20 @@
       ]
      },
      {
+      "Id": "1570554494",
+      "Name": "Play_Trap_Attack",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Trap_Attack",
+      "GUID": "{7C121583-B597-4C89-ACAC-5255EC3CF751}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.55917",
+      "DurationMax": "0.55917",
+      "MediaRefs": [
+       {
+        "Id": "107672874"
+       }
+      ]
+     },
+     {
       "Id": "1749424733",
       "Name": "Play_UI_Click",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_UI_Click",
@@ -1177,6 +1227,6 @@
     ]
    }
   ],
-  "FileHash": "{AB263E90-7CEB-3027-7F20-79B16D17E5E3}"
+  "FileHash": "{515482AD-3ABF-ACB4-7C79-FA717C032104}"
  }
 }
