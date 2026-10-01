@@ -1,0 +1,12 @@
+{
+    "name": "Regrowth.WhiteBox",
+    "rootNamespace": "Regrowth.Gameplay.WhiteBox",
+    "references": [
+        "Regrowth.Core",
+        "Regrowth.Runtime",
+        "Regrowth.Audio.Core",
+        "Regrowth.Gameplay.SwitchDoor",
+        "Unity.TextMeshPro"
+    ],
+    "autoReferenced": true
+}

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844502820ac42f64290f15cdc3bc3dcb, type: 3}
+  m_Name: V5_RegrowthRewards
+  m_EditorClassIdentifier: Regrowth.Gameplay.Chest::Regrowth.Gameplay.ChestRewardConfig
+  rewards:
+  - id: legs
+    title: Grow Your Legs
+    description: Double jump. Legs occupy one slot.
+    kind: 0
+    item: 201
+    healAmount: 25
+    effectAmount: 15
+    bonusHeal: 0
+    regrowthTitle: Regrow Your Legs
+  - id: arms
+    title: Grow Your Arms
+    description: Arms and sword share one slot. Basic attack becomes sword.
+    kind: 0
+    item: 202
+    healAmount: 25
+    effectAmount: 15
+    bonusHeal: 0
+    regrowthTitle: Regrow Your Arms
+  - id: tail
+    title: Grow Your Tail
+    description: Dash. Tail occupies one slot.
+    kind: 0
+    item: 203
+    healAmount: 25
+    effectAmount: 15
+    bonusHeal: 0
+    regrowthTitle: Regrow Your Tail
+  - id: heal
+    title: Restore Health
+    description: Restore 25 HP. Can be chosen at full health.
+    kind: 1
+    item: 0
+    healAmount: 25
+    effectAmount: 15
+    bonusHeal: 0
+    regrowthTitle: 
+  - id: max-health
+    title: Bigger Heart
+    description: Maximum HP +15. Current HP stays unchanged.
+    kind: 2
+    item: 0
+    healAmount: 25
+    effectAmount: 15
+    bonusHeal: 0
+    regrowthTitle: 
+  - id: attack
+    title: Stronger Attacks
+    description: Bite and sword damage +3. No slot required.
+    kind: 3
+    item: 0
+    healAmount: 25
+    effectAmount: 3
+    bonusHeal: 0
+    regrowthTitle: 
+  bodyTutorial: 0
+  favorRegrowth: 1
+  choiceTitle: Choose one reward / Regrowth
+  replacementTitle: Choose an old item to replace
+  replacementDescription: Replace this held item.

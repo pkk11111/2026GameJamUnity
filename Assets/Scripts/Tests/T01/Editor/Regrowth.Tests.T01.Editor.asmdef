@@ -1,0 +1,7 @@
+{
+    "name": "Regrowth.Tests.T01.Editor",
+    "rootNamespace": "Regrowth.Tests.T01.Editor",
+    "references": ["Regrowth.Tests.T01", "Regrowth.UI.Choice"],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": true
+}

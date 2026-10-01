@@ -1,0 +1,4 @@
+{
+    "name": "Regrowth.Gameplay.SwitchDoor",
+    "references": ["Regrowth.Core", "Regrowth.Audio.Core"]
+}

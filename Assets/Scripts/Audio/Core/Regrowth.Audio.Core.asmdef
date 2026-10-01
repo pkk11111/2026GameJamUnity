@@ -1,0 +1,7 @@
+{
+    "name": "Regrowth.Audio.Core",
+    "rootNamespace": "Regrowth.Audio",
+    "references": [],
+    "autoReferenced": true
+}
+
