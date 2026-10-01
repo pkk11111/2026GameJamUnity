@@ -156,6 +156,7 @@ namespace Regrowth.Tests.T09
                 && System.Array.TrueForAll(enemy.GetComponentsInChildren<MonoBehaviour>(true), c => c != null),
                 "M one HP owner / no missing scripts");
             var visual = enemy.GetComponent<SpriteRenderer>();
+            Check(visual.enabled, "presentation live enemy SpriteRenderer enabled");
             var solid = enemy.GetComponent<BoxCollider2D>();
             var attackTrigger = contact.GetComponent<BoxCollider2D>();
             Check(solid.enabled && attackTrigger.enabled, "collision A live solid/attack colliders enabled");
@@ -175,7 +176,8 @@ namespace Regrowth.Tests.T09
             Check(enemy.CurrentHealth == 0 && !enemy.IsAlive && deaths == 1 && healthEvents == 3,
                 "C three real bites kill with HealthChanged three / Died once");
             Check(!solid.enabled && !attackTrigger.enabled, "collision B lethal real Bite disables solid/attack colliders");
-            Check(enemy.gameObject.activeSelf && visual.enabled, "collision visual retained without destroying/deactivating enemy");
+            Check(enemy.gameObject.activeSelf, "collision enemy object retained without destroying/deactivating root");
+            Check(!visual.enabled && deaths == 1, "presentation lethal Bite immediately hides visual, Died once");
             Check(!registration.Contains(enemy) && registration.Unregistered == 1, "N death unregisters once");
             Check(!enemy.TryTakeDamage(new DamageRequest(1, DamageKind.Enemy)) && deaths == 1,
                 "D dead direct damage rejected");
@@ -184,14 +186,20 @@ namespace Regrowth.Tests.T09
             Check(enemy.CurrentHealth == 0 && deaths == 1 && healthEvents == 3, "D real dead-target Bite cannot damage/repeat death");
             enemy.enabled = false;
             solid.enabled = true; attackTrigger.enabled = true; // 模拟启停过程中配置被恢复。
+            visual.enabled = true;
             enemy.enabled = true;
             Check(!solid.enabled && !attackTrigger.enabled && deaths == 1,
                 "collision D component re-enable restores dead collision-off, Died still once");
+            Check(!visual.enabled && !enemy.IsAlive && deaths == 1,
+                "presentation dead component re-enable keeps visual hidden and death once");
             enemy.gameObject.SetActive(false);
             solid.enabled = true; attackTrigger.enabled = true;
+            visual.enabled = true;
             enemy.gameObject.SetActive(true);
             Check(!solid.enabled && !attackTrigger.enabled && deaths == 1,
                 "collision D/E object re-enable cannot restore corpse blockage or repeat death");
+            Check(!visual.enabled && !enemy.IsAlive && deaths == 1,
+                "presentation dead object re-enable keeps visual hidden and death once");
             Check(!enemy.IsAlive && enemy.CurrentHealth == 0 && deaths == 1 && !registration.Contains(enemy),
                 "E disable/enable never revives/re-registers corpse");
             contact.enabled = true;

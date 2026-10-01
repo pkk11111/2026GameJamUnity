@@ -2,6 +2,26 @@
 
 ## T09 最新摘要
 
+### T09 death presentation（2026-10-01）
+
+**Implemented; awaiting user manual verification.** 本节为当前行为，下方“尸体视觉可保留/仍可见”为前一轮历史，此轮明确改为死亡立即隐藏。
+
+- death disables solid/contact colliders
+- death hides enemy presentation immediately
+- runtime enemy object/state remains alive as an object but IsAlive=false
+- no death animation/fade in this version
+- awaiting user manual verification
+
+本轮fetch后origin/Ming仍为b2498d6b75cd079d4964594804f2255517b8681f，已只读重核规范16/WORK_PACKAGES/controller及本交接和实际T09。实际本地分支Soap，起始HEAD为f325af73273164249ee0534580f1a7e6e6f03e06，起始工作树干净（前轮T09已进入本地提交）；以现有本地实现为准。没有merge/reset/stash/clean/commit/push/stage，不改公共文档。
+
+EnemyBasic新增显式SpriteRenderer[] renderersToHideOnDeath，正式Prefab绑定根唯一SpriteRenderer（fileID205179182264572143）。首次死亡在同一个deathPublished标记之后、注销/生命/死亡通知之前立即enabled=false；死体OnEnable/OnDisable也按同一状态隐藏，且不受失效Run/Config接线阻挡。不新增死亡状态，不Destroy或SetActive(false)整个敌人；只访问显式自身层级引用，不搜索/误关其他物体。原collidersToDisableOnDeath和T17注册语义未改，HP=0/IsAlive=false/死亡一次及接触门禁保留。
+
+修改EnemyBasic.cs、EnemyBasic.prefab、T09SmokeDriver.cs、Editor/T09SceneSetup.cs及本人Soap.handoff。Editor创建工具同步保存视觉引用但本轮不执行。Manual/Auto rig嵌套继承正式敌人Prefab，没有覆盖新字段，场景与测试Prefab无须重写；默认Manual autoRun=0/Auto按钮保持。Player/Core/Runtime/Input/Wwise/Packages/ProjectSettings/主地图/Pause/Esc均不改，不开始T08。
+
+此前46个检查保留，原“对象+可见Sprite保留”断言改为“敌人根对象保留”，另加新的隐藏断言以符合本轮需求。新增4项：活体视觉启用；致死Bite后隐藏且死亡一次；组件启停中显式恢复Renderer后仍被关回；对象启停中显式恢复Renderer后仍被关回。原活体/致死/重启碰撞关闭、接触伤害停止与死亡一次覆盖保留，套件计划50项。**自动测试待后续复跑**：现有套件为Unity Play驱动，无独立CLI入口；本轮没有打开/操作Unity、Play/Stop、截图或Computer/GUI，也不声称50/0、编译或人工验收通过。静态引用/继承/Manual模式、差异范围和git diff --check核对；Wwise相对最新Ming无diff。
+
+用户人工验收：打开T09_Smoke默认Manual，确认活敌可见；按Enter/左键咬至HP0，敌人应立即消失；左右走过原位置，既不堵路也不扣玩家HP；Stop/Play可重复。如主动运行Auto Checks，按实际50项结果反馈，不能沿用旧41/0作本轮结果。
+
 ### Death collision 人工反馈修复（2026-10-01）
 
 **T09 death-collision fix implemented; awaiting user manual verification.** 用户人工发现：**Enemy death initially left solid collision and blocked passage.** 此修复未写成人工验收通过。

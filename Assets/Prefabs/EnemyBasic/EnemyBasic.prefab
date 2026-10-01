@@ -147,6 +147,8 @@ MonoBehaviour:
   collidersToDisableOnDeath:
   - {fileID: 5116861915683848288}
   - {fileID: 5474585990382849456}
+  renderersToHideOnDeath:
+  - {fileID: 205179182264572143}
 --- !u!61 &5116861915683848288
 BoxCollider2D:
   m_ObjectHideFlags: 0

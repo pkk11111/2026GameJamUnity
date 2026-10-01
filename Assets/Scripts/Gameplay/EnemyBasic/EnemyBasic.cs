@@ -17,6 +17,8 @@ namespace Regrowth.Gameplay
         private MonoBehaviour registrationSource;
         [SerializeField, Tooltip("本敌人明确绑定的实体/攻击Collider；死亡立即关闭，死后启停不恢复。不影响视觉。")]
         private Collider2D[] collidersToDisableOnDeath = new Collider2D[0];
+        [SerializeField, Tooltip("明确绑定的本敌人SpriteRenderer；死亡立即隐藏，死体启停也不显示，不销毁对象。")]
+        private SpriteRenderer[] renderersToHideOnDeath = new SpriteRenderer[0];
         private IRunContext run;
         private IEnemyRegistrationAdapter registration;
         private int currentHealth, maximumHealth, attackDamage;
@@ -40,6 +42,7 @@ namespace Regrowth.Gameplay
             if (deathPublished)
             {
                 DisableDeathColliders();
+                HideDeathPresentation();
             }
             run = runContextSource as IRunContext;
             registration = registrationSource as IEnemyRegistrationAdapter;
@@ -77,6 +80,7 @@ namespace Regrowth.Gameplay
             {
                 deathPublished = true; // 提交在事件之前，重入/启停不能第二次死亡。
                 DisableDeathColliders(); // 所有死亡订阅者观察到的尸体已无阻挡/攻击碰撞。
+                HideDeathPresentation(); // 使用同一死亡状态；立即隐藏，不做动画/淡出或删除敌人。
             }
             notifying = true;
             try
@@ -160,8 +164,24 @@ namespace Regrowth.Gameplay
             if (deathPublished)
             {
                 DisableDeathColliders();
+                HideDeathPresentation();
             }
             Unregister(); run = null; registration = null;
+        }
+        private void HideDeathPresentation()
+        {
+            if (renderersToHideOnDeath == null)
+            {
+                return;
+            }
+            foreach (SpriteRenderer renderer in renderersToHideOnDeath)
+            {
+                // 仅显式绑定的自身视觉，错绑其他物体不会隐藏它们。
+                if (renderer != null && renderer.transform.IsChildOf(transform))
+                {
+                    renderer.enabled = false;
+                }
+            }
         }
     }
 }

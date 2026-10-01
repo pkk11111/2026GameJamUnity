@@ -71,6 +71,9 @@ namespace Regrowth.Tests.T09.Editor
             deathColliders.arraySize = 2;
             deathColliders.GetArrayElementAtIndex(0).objectReferenceValue = enemyRoot.GetComponent<BoxCollider2D>();
             deathColliders.GetArrayElementAtIndex(1).objectReferenceValue = trigger;
+            var deathRenderers = enemyFields.FindProperty("renderersToHideOnDeath");
+            deathRenderers.arraySize = 1;
+            deathRenderers.GetArrayElementAtIndex(0).objectReferenceValue = sprite;
             enemyFields.ApplyModifiedPropertiesWithoutUndo();
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(enemyRoot, "Assets/Prefabs/EnemyBasic/EnemyBasic.prefab");
             Object.DestroyImmediate(enemyRoot);
