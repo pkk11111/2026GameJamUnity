@@ -1,0 +1,6 @@
+FlameTail acquired via E / actual card click from Chest_01
+Actual Fire AttackStarted=1; IsFiring=true; no state-write fixture used.
+Enemy_06 contact position fixture at (-39.29, 13.52, 0.00); HP 100 -> 90; HealthChanged=1
+Pixel proof: same formal prefab/content/position, root rotations 0/0/0: RGB bytes identical. Restored +4/0/-4; child RectTransforms remain identical.
+PASS remaining targeted checks. MainMenu/E/navigation/receipt coverage retained from the earlier run; not repeated.
+Assertions=22; runtime errors=0; exit=0

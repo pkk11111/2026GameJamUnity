@@ -1,0 +1,49 @@
+# C13 撕咬排查（2026-10-01）
+
+> 最新 C13（2026-10-01）撕咬排查：基线Ming/d881f65，未修改玩法源码/数值/场景。真实主图Play将玩家放到Enemy_05正面近身（仅位置/冻结夹具），PlayerBiteAttack.TryAttack返回true，IsWired/CanBite均true，HP100→90，碰撞/接收端正常。随后一次虚拟Enter未观察到第二次扣血（仍90），原因未定位，不能声称完整输入链通过或排除偶发漏判。按用户要求停止追加测试，移除虚拟设备/恢复输入设置并退出Play。当前普通HP100、咬10且敌人表现无受伤闪烁/血条；只说明反馈缺失，不把它认定为唯一原因。
+
+验证限制：直接TryAttack绕过输入，仅证明近身伤害路径；虚拟Enter未命中不单独证明正式输入故障。未改伤害、范围、冷却或增加表现。没有全套测试、commit/push。后续若继续定位，优先观察一次真实Attack是否被Reader/Router消费及起手HitCenter，不重复已有伤害单测。
+
+---
+# 最新 C12 / 敌人动画已接入（2026-10-01）
+
+分支/基线：Ming/794b6b3 + 已有C11未提交改动。用户本轮已明确顶层精英用精英动画、其他自由选普通动画，替代此前等待Dada主图映射的阻塞。
+
+- 主图Elite_Exit（最高85.53）使用Satan_Move，Enemy_01–13使用Imp_Run；原Dada Sprite三帧顺序与8FPS，保留GUID、贴图和纸白。蝙蝠资源保留未挂地面AI。
+- 新增Assets/Scripts/Presentation/EnemySpritePresentation.cs及meta，仅依赖既有Core/Unity；序列化healthSource/runSource/body/visual/frames/framesPerSecond/spriteFacesRight，14只全部显式绑定。无新的Core接口或业务状态。
+- 每只新增EnemyArt纯视觉子节点，局部scale0.2对应5单位Sprite→1单位原Collider；继承原根比例后普通1或1.5、精英3单位。原占位Renderer关闭，Sprite排序12，使用内置Sprites-Default材质。原根Transform/Collider/Rigidbody/AI配置保持，EnemyBasic死亡Renderer列表增加新视图。
+- 动画只读IHealth/IRunContext与Rigidbody2D速度，不写运动/伤害。Playing播放，暂停/选择冻结，方向仅flipX；Imp原图朝左、Satan朝右。死亡立即隐藏，OnDisable退订。
+- Unity6000.2.9f1编译通过，短Play实查14只图已显示并前进到Frame03、顶层精英截图已查看；真实精英致死伤害后新图隐藏且Collider关闭，Console错误0。没有重复AI/全图回归或Windows导出。Stop后所有测试伤害/相机位置恢复，场景已在Edit保存。
+- 初次脚本刷新尚未编入程序集导致安装代码编译拒绝，无场景部分写入；强制资源刷新后编译并安装成功。
+- 备份Logs/C12/Level_Whitebox.before.unity；对应清单Logs/C12/install.txt；截图Logs/UIRealIntegration/C12_Elite.png，均忽略产物。未commit/push。
+
+---
+以下为此前记录：
+
+## 最新敌人同步核对（2026-10-01）
+
+用户要求按Dada已放置的敌人贴图对应接本地。已fetch并用ls-remote确认最新origin/Dada为f3fa49f（main and UI）。相对416de1c只有主菜单/头部HUD及相关检查更新，没有主图或敌人Prefab/资源新改动。三套敌人PNG GUID在该分支全部unity/prefab中只被EnemyVisual_ArtTest.unity引用，主图最新提交仍416de1c。Dada handoff仍明确主图敌人表现映射未指定。当前无法从远端取得对应放置，未自行猜映射、未修改本地敌人或导入无关入口/HUD变化；没有跑Play或冗余测试。需要Dada保存并推送包含主图敌人绑定的提交，或提供确切来源分支/场景。
+
+# Dada UI 集成 / C11
+
+成员/任务别名：controller / dada-ui-integration
+任务 ID / 分支 / 基线：C11 / Ming / 794b6b3；来源 Dada/416de1c；规范24、源码契约11不变。
+状态：本轮授权UI集成完成；敌人按用户后续指示暂不处理。
+
+实际修改及职责：
+- 选择性接入Dada交付的UI资源/脚本/三个Choice与Hud Prefab、Frontend/MainMenu、独立预览与原作者handoff/报告；不整份覆盖Dada主图。
+- 当前主图BodyHudArt.stateSource绑定唯一PlayerState，InteractionHintView.interactionSource绑定唯一PlayerInteractor，Choice Canvas排序30。HUD/卡牌读取真实状态和原业务ID，不写玩法。
+- WhiteboxOverlay.label对象停用，Overlay组件保持启用，保留Esc暂停/取消防重入。未删除底部中央正式E交互提示。
+- 开始时Unity场景有未保存改动，先原生保存并备份Logs/C11/Level_Whitebox.before.unity；用户Approach Zone x=-0.78、视觉x=-8.53及其他保存变化保留。主图未移植Dada旧地形。
+- UIRealIntegrationChecks.Finish修正：批处理才退出Unity进程；交互式编辑器只退出Play。其余Dada生产代码沿用。
+
+接口/接线：新增Regrowth.UI.Art表现程序集；Choice引用Art，Core/Runtime/Gameplay/输入/Wwise/Packages/ProjectSettings无改动。CardPresentationCatalog按稳定ID映射图标，动态数值由原事务提供；未知文案保留原文。Dada主菜单资产已带入，Build Settings仍是既有设置，未宣称完成正式前端构建入口。
+
+实际验证：
+- 所有Dada差异路径存在，PNG均实际内容而非LFS指针；HUD图片引用完整，新增读源有效、HUD缺脚本0，调试文字隐藏且Overlay启用。
+- Unity6000.2.9f1真实主图Play，位置夹具将当前玩家置Chest_03旁：当前交互器识别whitebox-chest-03并显示E提示；TryInteractCurrent打开真实3张图标卡，Choosing隐藏提示；取消后提示恢复、Loadout仍0。真实伤害入口100→90，HUD文字90、Fill0.9。只读截图查看卡牌三列和HUD；Console错误0。
+- 初次复用Dada旧路线自动检查未找到目标，0断言/运行错误0，并因工具原EditorApplication.Exit退出编辑器；已修复交互式退出行为并恢复编辑器。一次恢复进程遭既存bee编译进程冲突/原生崩溃；用户重新打开的编辑器继续使用，停止本轮多余等待实例。没有把初次失败称为通过。
+- 后续只进行上述当前宝箱直接短检查；未重复全套、多分辨率、AI、整局或Windows导出。测试中的位置/冻结/伤害仅Play，已退出Play还原。
+- 截图：Logs/UIRealIntegration/C11_CurrentCards.png、C11_CurrentHUD.png（忽略产物）。
+
+下一步及限制：敌人主图绑定按用户“先不用管”暂缓；Dada三套素材/独立预览已在本地，不据此声称主图敌人动画完成。未commit/push；需提交时连同新增Assets与meta交付。

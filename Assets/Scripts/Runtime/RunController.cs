@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Regrowth.Runtime
 {
     /// <summary>
-    /// 主线程命令入口。当前支持 Playing/Paused/Choosing/Dead；Won/重开与同帧胜负等待 C04。
+    /// 主线程阶段命令；C14终点在LateUpdate确认存活后进入Won，死亡重开由Bootstrap清理并重载场景。
     /// UI 不设置时间倍率；奖励/满槽替换与传送统一经 C03 ChoiceCoordinator 暂停。
     /// </summary>
     public sealed class RunController : MonoBehaviour, IRunContext
@@ -68,6 +68,18 @@ namespace Regrowth.Runtime
 
             ChangePhase(RunPhase.Playing);
             return true;
+        }
+
+        /// <summary>C14终点接触确认；仅存活Playing接受一次，停止游戏并通知表现，不执行传送或费用。</summary>
+        public bool TryWin(IHealth playerHealth)
+        {
+            if (!CanChange() || phase != RunPhase.Playing || deathRequested
+                || playerHealth == null || !playerHealth.IsAlive || playerHealth.CurrentHealth <= 0)
+            {
+                return false;
+            }
+            ChangePhase(RunPhase.Won);
+            return phase == RunPhase.Won;
         }
 
         /// <summary>

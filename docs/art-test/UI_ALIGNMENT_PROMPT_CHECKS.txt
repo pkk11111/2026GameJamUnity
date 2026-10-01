@@ -1,0 +1,3 @@
+Actual target=whitebox-chest-03; visible prompt=[E]  Open chest
+PASS targeted text alignment / approach E / choosing hidden / cancel restored / leave hidden. No reward/combat rerun.
+Assertions=10; runtime errors=0; exit=0

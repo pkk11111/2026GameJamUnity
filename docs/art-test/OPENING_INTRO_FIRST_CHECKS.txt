@@ -1,0 +1,11 @@
+Soap 68a96cd; current Dada plus Ming 794b6b3; native Setup and two Play sessions.
+Cycle 1: sceneLoaded RGB all black; text alpha 0; no map/HUD/edge pixels.
+Page1 fully visible at 1.245s
+Page2 fully visible at 12.909s
+Default full intro duration=16.887 seconds (native frame scheduling/captures included).
+FAIL System.Exception: Walking reaches real chest
+  at Regrowth.Tests.UIArt.Editor.UIOpeningIntroChecks.Assert (System.Boolean ok, System.String message) [0x00016] in C:\Users\95799\.codex\.chatgpt-projects\g-p-6abccd0fadb48191896d5057c2ce61d0\art_validation_project\Assets\Scripts\Tests\UIArt\Editor\UIOpeningIntroChecks.cs:209 
+  at Regrowth.Tests.UIArt.Editor.UIOpeningIntroChecks+<Check>d__16.MoveNext () [0x007c1] in C:\Users\95799\.codex\.chatgpt-projects\g-p-6abccd0fadb48191896d5057c2ce61d0\art_validation_project\Assets\Scripts\Tests\UIArt\Editor\UIOpeningIntroChecks.cs:160 
+  at Regrowth.Tests.UIArt.Editor.UIOpeningIntroChecks.Step () [0x00036] in C:\Users\95799\.codex\.chatgpt-projects\g-p-6abccd0fadb48191896d5057c2ce61d0\art_validation_project\Assets\Scripts\Tests\UIArt\Editor\UIOpeningIntroChecks.cs:181 
+Cycle assertions=14; errors=0; Intro warnings=0
+FAILED INTRO INTEGRATION

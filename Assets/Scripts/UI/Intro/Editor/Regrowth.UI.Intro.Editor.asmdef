@@ -1,0 +1,7 @@
+{
+    "name": "Regrowth.UI.Intro.Editor",
+    "rootNamespace": "Regrowth.UI.Intro.Editor",
+    "references": ["Regrowth.UI.Intro", "Regrowth.Runtime"],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": true
+}

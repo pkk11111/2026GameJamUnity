@@ -1,0 +1,39 @@
+Rendered Login_1366x768
+Rendered HUD_1366x768
+Rendered Cards_1366x768
+Rendered Login_1600x900
+Rendered HUD_1600x900
+Rendered Cards_1600x900
+Rendered Login_1920x1080
+Rendered HUD_1920x1080
+Rendered Cards_1920x1080
+Rendered Login_2560x1440
+Rendered HUD_2560x1440
+Rendered Cards_2560x1440
+Rendered Login_3840x2160
+Rendered HUD_3840x2160
+Rendered Cards_3840x2160
+Rendered Login_1440x1080
+Rendered HUD_1440x1080
+Rendered Cards_1440x1080
+Rendered Login_2560x1080
+Rendered HUD_2560x1080
+Rendered Cards_2560x1080
+Rendered LongCopy
+Rendered DisabledCards
+Rendered Controls
+ArtTest: fixed 24pt titles, 22pt body, no tooltip, long-copy positions stable, walk animated, 7 resolutions.
+Chest input target: whitebox-chest-01 at (32.50, -11.50, 0.00)
+Input diagnostic: pressed=False; focus=False; run=Choosing; target=; pos=(32.50, -11.58)
+Rendered RealChoice_1366x768
+Rendered RealChoice_1600x900
+Rendered RealChoice_1920x1080
+Rendered RealChoice_2560x1440
+Rendered RealChoice_3840x2160
+Rendered RealChoice_1440x1080
+Rendered RealChoice_2560x1080
+Rendered RealHUD_FullBody
+Rendered RealPrefab_SingleCard
+Real Level: E->Chest->Choice; keyboard and gamepad navigation; Escape/Cancel; click reward; seven chest chains; no transaction source edits.
+PASS: current UI visual revision and real functional integration. Flame source inspected via existing test write interface; not added to reward pool.
+Assertions: 916; runtime errors: 0; exit: 0

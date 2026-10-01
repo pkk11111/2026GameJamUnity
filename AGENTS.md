@@ -1,10 +1,27 @@
+> C16（2026-10-01）：按用户要求，玩家实际死亡（HP归零）后自动重载当前关卡，整局恢复场景初始状态。GameBootstrap在死亡通知结束后的LateUpdate清理菜单、输入、状态订阅和运行时间，再单次异步重载自身场景；不返回主菜单，现有开场介绍随场景重播。头部尚未启用生命时HP=0不算死亡。源码契约仍12，无新增公共写口；restartOnDeath默认为true，独立死亡状态测试可在Inspector关闭。当前地图仍沿用躯干原型开局，没有新增教学。此记录覆盖历史“重开未实现”描述；普通传送生命安全规则不变。 验证：目标Unity6000.2.9f1编译通过，仅一次主图短Play：通过真实奖励写口取得Arms，再真实伤害使HP100→0/Dead，自动加载同一关卡的新玩家实例；HP100/100、槽及历史清空、菜单关闭、唯一Bootstrap，开场结束后Playing/timeScale=1且可咬击，Console Error 0。未跑全套回归、Windows导出或音频试听；未commit/push。
+
 # pawgatory 统一开发规范与游戏契约
+
+> 交付合并（2026-10-01）：Audio_Test先保存音频286ae3a，再合入origin/Ming/f99bafc的新地图、美术、菜单/结局与UI。保留41个音频事件；仅做必要编译、场景完整性和音频72项回归，全部通过。正常Play从MainMenu启动；详情见 [交付合并交接](docs/handoffs/audio-delivery-merge.handoff)。下方未提交记录为本次合并前历史。
 
 > 全量现有事件接线（2026-10-01）：按用户确认接入SB_Main 41/43事件，排除Play_NPC_Footsteps、Play_NPC_Fly。AudioCue保留1–22并追加23–36；攻击HitAccepted、敌人DamageApplied仅通知成功结算；最高Elite_Exit为唯一精英。死亡停音乐保留Bank，火焰每目标每施放一次命中声，门与传送只在实际成功时响。接口/调参/验证见 [audio-full-events.handoff](docs/handoffs/audio-full-events.handoff)。本轮保存未commit/push，保留此前移动音频和Ming合并。
 
 > 玩家移动音频（2026-10-01）：AudioCue 21=PlayerMoveNoFeet、22=PlayerFootstep；主图按实际Move显示帧和真实落地位移发声，无Legs→Play_Move_NoFoots，有Legs→Play_Footstep。取代下文“尚无脚步身份”的历史描述。接线、帧配置和验证见 [audio-player-movement.handoff](docs/handoffs/audio-player-movement.handoff)。
 
 > Audio_Test 合并记录（2026-10-01）：保留 ce17b4e 音频交付，合入 Ming/3c0bae7。主图出生点采用 Ming；音频配置以本次 Audio_Test 实际资产为准。合并、测试适配和本机验收范围见 [audio-ming-merge.handoff](docs/handoffs/audio-ming-merge.handoff)。下方 Ming 历史记录的未接音频说明不覆盖此交付。
+> C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。
+
+
+> 最新 C14（2026-10-01）：按用户最新通关规则，存活玩家碰到最顶部绿色大门IMG_5500_0即进入Won，无需E/代价选择，不额外检查精英死亡；覆盖旧终点收费及精英死亡前置。立即完整白屏0.4秒，再用unscaled时间2秒淡入用户提供的原结局图并保持，HUD被全屏覆盖。唯一RunController新增TryWin(IHealth)，仍由它设置timeScale；物理接触延迟到LateUpdate复验，保留死亡优先。主图原生绑定、目标Unity编译及一次短Play通过，重复胜利/恢复被拒绝，Console错误0；未全图/构建/音频试听。源码契约12（新增胜利写口），其余既有契约不变；未commit/push，见docs/handoffs/victory-ending.handoff。
+
+> 最新 C13（2026-10-01）撕咬排查：基线Ming/d881f65，未修改玩法源码/数值/场景。真实主图Play将玩家放到Enemy_05正面近身（仅位置/冻结夹具），PlayerBiteAttack.TryAttack返回true，IsWired/CanBite均true，HP100→90，碰撞/接收端正常。随后一次虚拟Enter未观察到第二次扣血（仍90），原因未定位，不能声称完整输入链通过或排除偶发漏判。按用户要求停止追加测试，移除虚拟设备/恢复输入设置并退出Play。当前普通HP100、咬10且敌人表现无受伤闪烁/血条；只说明反馈缺失，不把它认定为唯一原因。
+
+> 最新 C12（2026-10-01）：用户随后明确授权顶层精英使用精英动画、其他自行选普通怪动画。已在当前主图接14只：Elite_Exit→Dada Satan_Move，Enemy_01–13→Imp_Run；均原3帧/8FPS，保留原Sprite GUID及纸白素材。新增只读EnemySpritePresentation，纯视觉EnemyArt子节点按原碰撞尺寸缩放，按实际横向速度翻面，非Playing冻结、死亡隐藏；不改AI/生命/攻击/巡逻边界/根位置/物理。Unity编译和短Play显示/死亡隐藏检查通过、Console错误0，已Stop还原。未全套测试/导出/commit/push；C11敌人暂缓记录已由本轮完成替代。
+
+> 最新 C11（2026-10-01）：按用户授权从 Dada/416de1c 选择性接入 HUD/血条/身体图、卡牌框/20图标/字体、常驻边框及 InteractionHintView；在当前 Ming/794b6b3 主图原生接线，玩法/收费/数值/地图以本地为准。隐藏 WhiteboxOverlay 的左下调试文字，保留组件的 Esc 暂停。敌人映射按用户最新回复暂不处理；Dada 仅有独立预览，未自定主图动画。Unity 编译及必要短检查完成：当前宝箱交互→三卡→取消/提示恢复、HP100→90及fill0.9正确，Console错误0；未跑全套/导出。未commit/push。详情见 docs/handoffs/dada-ui-integration.handoff。
+
+> 最新 C10（2026-10-01）：按用户授权合入 Level/d1f9830 的美术、9处靠近提示及场景增量；当前 Ming/3c0bae7 的敌人/收费/火焰/数值保留，未提交合并。主场景冲突在Unity内按共同基线逐对象接入18棵新增对象树、既有视觉/位置及31处Tile变化；保留Ming敌人出生标记和用户人物碰撞尺寸1.6666667、表现worldScale=0.7。宝箱9实例与共享Prefab绑定关闭IMG_5506_0、打开IMG_5505_0；Chest.IsOpen记录本局首次成功交互；E交互被接受即吐舌头，此后取消或领取均保持打开，取消仍不消费奖励。已移除主图81格黄色Tile_Chest占位，9箱贴图排序12以显示在前景之上。Hint_enemy的F改为当前Q/右键；Level单门条带动画接线清除冲突的closedView绑定。目标Unity编译/Play宝箱聚焦检查23通过0失败，Console错误0，保存重载9箱绑定及提示引用检查通过；未跑全套回归/整局/Windows。详见 docs/handoffs/level-review.handoff。
+
 
 > 最新 C09（2026-10-01）：从 Soap/60f9a55 选择性接入敌人AI与100/10配置，保留 Ming/a78185f 的收费、火球和人物实现。主图13只普通怪+1只精英；最底层大红块按用户要求拆为3只独立普通怪。攻击奖励/代价改为固定+10/-10点，最低6，取消共享攻击倍率；生命比例规则按Soap原文保留。C09 Play 59/0，Unity编译与保存重载通过；用户本轮明确授权commit/push Ming。以下C08百分比及旧接线记录仅为历史，不覆盖本节。
 
@@ -130,7 +147,7 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 - 两条支线 **无腿解谜 / 无手跑酷均为首版必做、玩家可选**。地图布局由地图迭代同学负责，程序提供共同挑战机制，总控接线；不扩大为独立场景或复杂机关系统。
 - 主路、必要返程、支线必经动作及精英战均能以躯干后的基础移动、一段跳和可用基础攻击完成，不依赖可舍弃能力。无手时咬击是正式基础攻击。
 - 本轮已授权并实现火焰尾慢飞持续伤害，正式来源仅火焰尾；旧独立技能身份只为兼容保留，不投奖励池。盾/长枪仍预留。
-- 精英死亡只解锁第三层出口，存活玩家进入出口才胜利；死亡优先，无同归于尽结局，不要求集齐身体。
+- C14：存活玩家碰到最顶部绿色大门即胜利，不额外要求精英死亡，不要求集齐身体；死亡优先。完整白屏后淡入结局图。
 
 ## 3 V5 规则与旧决定的替代关系
 
@@ -155,7 +172,7 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 | V15 | 封闭地图，不设落坑扣血/回传或局部复位；支线进度规则见§0 | FallFailZone、落坑安全点回传、退出重置机关 |
 | V16 | 支线完成后解除缺失限制，可再生并步行退出；本局往返保持完成/领奖 | 领取部件后再次锁出口或反复刷奖 |
 | V17 | 现有单门/多门按钮分别切换各门状态；关门不得嵌入玩家 | 正式开关只能用一次、多个门强制同态 |
-| V18 | 精英败后存活进出口胜利；死亡/失败与完成同帧时优先失败 | 精英死即胜利、胜负顺序待定；旧免费终点传送门例外已由本轮收费规则替代 |
+| V18 | C14：存活碰到最顶部绿色大门即胜利；不检查精英死亡、不收费、不按E；死亡优先；全白0.4秒后结局图淡入2秒 | 旧精英死亡前置及终点随机收费由本轮明确指令替代；普通四传送门仍收费 |
 | V19 | 取消耐久设定：身体部件、武器和技能不设耐久值，不因使用磨损、耐久耗尽而损坏或失效；不提供耐久维修/恢复奖励、耐久代价或耐久条。生命、冷却、主动舍弃、满槽替换及已确认的代价规则保持不变。 | 任何耐久、磨损、耗尽损坏及维修设计 |
 
 ### 3.1 头部、身体、能力和再生
@@ -180,7 +197,7 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 
 ### 3.3 代价安全与传送
 
-用户补充（2026-10-01）：除InspectionDoor1、InspectionDoor2外，所有传送门每次使用均须从combat_rules§11.3传送代价池随机三选一支付，涵盖首次、返程、同层和重复使用；支线位置、已开启连接或既往支付不构成豁免。两扇InspectionDoor沿用指定部件单卡确认，不额外收随机传送代价。成功消费本次卡组，下次重抽并再次收费；取消/无效落点不扣费。终点若为传送门也收费；精英解锁、存活进入与死亡优先不变。此为规则更新，当前白盒免费传送仍是待迁移实现，不是正式豁免。
+用户补充（2026-10-01）：除InspectionDoor1、InspectionDoor2外，所有传送门每次使用均须从combat_rules§11.3传送代价池随机三选一支付，涵盖首次、返程、同层和重复使用；支线位置、已开启连接或既往支付不构成豁免。两扇InspectionDoor沿用指定部件单卡确认，不额外收随机传送代价。成功消费本次卡组，下次重抽并再次收费；取消/无效落点不扣费。C14终点绿色大门为胜利触发器，碰触直接胜利，不属于随机收费传送门；普通四门收费保持。此为规则更新，当前白盒免费传送仍是待迁移实现，不是正式豁免。
 
 抽卡系统共用（用户确认）：传送与宝箱使用同一套抽卡系统，通过不同卡池配置区分奖励池与传送代价池，复用等概率无放回三选一、卡片展示、取消保留候选与失效位置补位逻辑。每个宝箱/传送入口各自保存候选，不共用同一副卡组；奖励确认执行领取，传送确认执行支付与迁移。已有差异作为各自池的校验与结算规则保留：宝箱领取后消耗，传送成功后下次重抽；代价卡仍执行灰卡/全灰修复与生命安全校验，不将这些限制套到满血回血奖励。复用系统不合并两种池、不新建第二套UI或随机抽取实现，不改变InspectionDoor单卡确认。
 
@@ -338,7 +355,7 @@ C07主图真实输入/卡牌/伤害/暂停/失去部件/缺图降级30/0，C06�
 
 | 类型 | 实际签名/字段 | 已实现语义或边界 |
 |---|---|---|
-| RunPhase / IRunContext | Playing=0、Choosing=1、Paused=2、Dead=3、Won=4；Phase、IsGameplayActive、PhaseChanged | C01阶段；Won/正式重开/同帧胜负仲裁仍待接 |
+| RunPhase / IRunContext | Playing=0、Choosing=1、Paused=2、Dead=3、Won=4；Phase、IsGameplayActive、PhaseChanged | C14胜利；C16实际死亡后由GameBootstrap清理并重载当前场景，RunController仍唯一管理时间 |
 | IPlayerInput | MoveX、JumpHeld、TryConsumeJump/Attack/Interact/Dash、DiscardGameplayInput、PauseRequested | 单一输入缓冲；UI使用原Input Actions的UI map，不改公共输入资产 |
 | IHealth / IDamageable | CurrentHealth、MaximumHealth、IsAlive、HealthChanged/Died；TryTakeDamage(DamageRequest) | PlayerState；头部安全阶段未启HP但IsAlive=true且拒绝伤害；躯干后按HP判活 |
 | DamageKind / DamageRequest | Enemy=0、Terrain=1；Amount、Kind、Source | 正数实际伤害；代价不得走此接口 |
@@ -710,7 +727,7 @@ V5 迁移每项独测后再集成，不继承旧四槽/致死支付/站立保留
 8. 两支线各自合法入场、指定单卡舍弃/已缺明确确认后免费进入；未经入口直达终点不完成，补回限制部件使未完成尝试失效但可退出。
 9. 地刺按新规则扣5与共享保护/击退；封闭图无落坑扣血或安全点回传；死亡优先于同帧完成。
 10. 支线成功机关不复位；完成/普通随机领奖各一次且往返保持，恢复部件后可步行退出；两条都用基础移动/一段跳可达。
-11. 敌人强化含精英/未来生成、保持 HP 比例且不复活；精英死只解锁出口，存活进入才赢，死亡优先。
+11. 敌人强化含精英/未来生成、保持 HP 比例且不复活；C14存活碰顶部绿色大门即赢，不检查精英死亡，死亡优先。
 12. 新局清身体/历史/世界/候选/负面/挑战/锁，从头部教学重来；无音频后端可玩，有后端和 Windows 导出在队友电脑验收。
 
 ## 14 历史C06前验证与待迁移目标（最新实现见§6.4）
@@ -737,3 +754,10 @@ V5 迁移每项独测后再集成，不继承旧四槽/致死支付/站立保留
 仅资源接收，不将Regrowth.Tests.Art中的预览Toggle/Harness视为正式状态或挂主玩家；正式动画需另接唯一PlayerState、现运动与攻击通知，不新增伤害回调。两种无手火尾Bite和有手有腿火尾Fire缺图；不以喷火姿势代用咬击。Idle为Move首帧临时复用。火球及受击/死亡/冲刺等正式方案仍未交付，不因有角色图就开启技能。
 
 本机Unity6000.2.9f1 ValidateAssets实测1140/0；42张PNG均真实文件，主角39张清单哈希一致、meta配对完整、全Assets GUID无重复。未运行Dada完整Play/美术验收、未接主图或导出Windows；Dada本人890项Play记录不能冒充本机本轮结果。用户当前明确分支合并授权优先于Dada交接中仅cherry-pick的个人工作流。玩法/共享源码契约不升级。
+### C14 新增运行/结局接点（源码契约12）
+
+| 接点 | 当前实现 |
+|---|---|
+| RunController.TryWin(IHealth playerHealth) | 仅已初始化Playing且玩家存活/HP>0接受；Won停止时间并同步PhaseChanged；重复/Paused/Choosing/Dead/Won拒绝，返回真实是否进入Won |
+| Runtime.VictoryPortal2D | 显式run/player/playerCollider，根BoxCollider2D为Trigger；只记录玩家接触，LateUpdate调用TryWin，成功一次RunWon |
+| UI.VictoryEndingView | IRunContext只读监听，screenRoot全白，endingImage原图；whiteHoldSeconds=0.4、fadeSeconds=2，unscaledDeltaTime；不设置时间倍率 |

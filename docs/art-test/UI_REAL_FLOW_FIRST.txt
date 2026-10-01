@@ -1,0 +1,142 @@
+Enemy Enemy_10 at (30.36, 42.77, 0.00)
+Enemy Enemy_08 at (-51.64, 33.52, 0.00)
+Enemy Enemy_03 at (43.36, -12.23, 0.00)
+Enemy Enemy_06 at (-39.64, 13.52, 0.00)
+Enemy Enemy_01 at (39.36, -12.23, 0.00)
+Enemy Enemy_05 at (-50.95, 1.52, 0.00)
+Enemy Enemy_09 at (-44.14, 37.52, 0.00)
+Enemy Enemy_04 at (41.36, 2.77, 0.00)
+Enemy Elite_Exit at (34.86, 85.52, 0.00)
+Enemy Enemy_11 at (-42.36, 49.52, 0.00)
+Enemy Enemy_13 at (-13.64, 77.77, 0.00)
+Enemy Enemy_07 at (91.36, 32.77, 0.00)
+Enemy Enemy_02 at (41.36, -12.23, 0.00)
+Enemy Enemy_12 at (61.36, 68.77, 0.00)
+Spawn (-12.14, 7.77, 0.00); Start entered real Level.
+Walking target=whitebox-chest-03 pos=(-15.22, 7.77, 0.00)
+Edge Choosing t=2.530 frame=2 timescale=0
+Edge Choosing t=2.882 frame=2 timescale=0
+Edge Choosing t=3.233 frame=2 timescale=0
+Edge Choosing t=3.585 frame=2 timescale=0
+Edge Choosing t=3.936 frame=0 timescale=0
+Edge Choosing t=4.287 frame=0 timescale=0
+Edge Choosing t=4.639 frame=0 timescale=0
+Edge Choosing t=4.990 frame=1 timescale=0
+Edge Choosing t=5.341 frame=1 timescale=0
+Edge Choosing t=5.692 frame=1 timescale=0
+Edge Choosing t=6.045 frame=2 timescale=0
+Edge Choosing t=6.397 frame=2 timescale=0
+Edge PlayingAfterCancel t=7.883 frame=0 timescale=1
+Edge PlayingAfterCancel t=8.235 frame=0 timescale=1
+Edge PlayingAfterCancel t=8.586 frame=1 timescale=1
+Edge PlayingAfterCancel t=8.938 frame=1 timescale=1
+Edge PlayingAfterCancel t=9.289 frame=1 timescale=1
+Edge PlayingAfterCancel t=9.640 frame=2 timescale=1
+Automated actual gameplay: MainMenu Start; walk A; E Chest03; keyboard/gamepad navigation; Esc. Human input remains for user acceptance.
+Chest receipt Chest_03: tail -> Tail
+Chest receipt Chest_01: legs -> Tail,Legs
+Chest receipt Chest_02: arms -> Tail,Legs,Arms
+Real replacement stage Chest_04: swap-tail
+Chest receipt Chest_04: flame-tail -> FlameTail,Legs,Arms
+Chest receipt Chest_05: heal -> FlameTail,Legs,Arms
+Chest receipt Chest_06: heal -> FlameTail,Legs,Arms
+Chest receipt Chest_07: heal -> FlameTail,Legs,Arms
+Chest receipt Chest_08: heal -> FlameTail,Legs,Arms
+Chest receipt Chest_09: heal -> FlameTail,Legs,Arms
+Real chest acquired coverage=Tail,Legs,Arms,FlameTail; attack events Bite=3 Sword=7 Fire=0
+FAIL: System.Exception: Real flame-tail receipt enables Q Fire
+  at Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks.Assert (System.Boolean ok, System.String message) [0x00016] in C:\Users\95799\.codex\.chatgpt-projects\g-p-6abccd0fadb48191896d5057c2ce61d0\art_validation_project\Assets\Scripts\Tests\UIArt\Editor\UIRealIntegrationChecks.cs:82 
+  at Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks+<Check>d__23.MoveNext () [0x00f38] in C:\Users\95799\.codex\.chatgpt-projects\g-p-6abccd0fadb48191896d5057c2ce61d0\art_validation_project\Assets\Scripts\Tests\UIArt\Editor\UIRealIntegrationChecks.cs:198 
+  at Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks.Step () [0x00036] in C:\Users\95799\.codex\.chatgpt-projects\g-p-6abccd0fadb48191896d5057c2ce61d0\art_validation_project\Assets\Scripts\Tests\UIArt\Editor\UIRealIntegrationChecks.cs:64 
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:111)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:128)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:144)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:184)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Releasing render texture that is set as Camera.targetTexture!
+UnityEngine.Object:DestroyImmediate (UnityEngine.Object)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Capture (string,bool) (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:327)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks/<Check>d__23:MoveNext () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:194)
+Regrowth.Tests.UIArt.Editor.UIRealIntegrationChecks:Step () (at Assets/Scripts/Tests/UIArt/Editor/UIRealIntegrationChecks.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Assertions=202; runtime errors=13; exit=1
