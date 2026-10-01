@@ -1,5 +1,9 @@
 # audio-music-zones — 三层交互音乐接入
 
+## Audio_Test 合并复验（2026-10-01）
+
+通过 GitHub Desktop 将 origin/Ming 合入 Audio_Test，合并提交 f4e0fc3。冲突场景采用 Ming 版本，再通过 Unity 的 Install Whitebox Music Zones 菜单补回音乐。保留 Ming 的9箱、两扇条件门和出生位置(-31.54,-5.7)；忽略序列化空白后，场景相对 Ming 仅新增321行音乐对象/引用，无删除。Wwise 工程、Bank和音乐脚本保持原音频提交版本。菜单运行真实 Wwise 验证10个检查点全部通过，playing ID不变；分界仍为Y=14、58。日志：Logs/Audio-Test-Merge-Verify.log。未重新验收整局玩法或独立构建，未推送远端。
+
 日期：2026-10-01。来源：AudioPipeline / d88b34e；用户授权按地图手绘线接入音乐分区、操作 Unity 编译。保留原场景已有改动；没有提交或推送。
 
 ## 交付
