@@ -1,0 +1,59 @@
+# C08传送收费、朝向和攻击表现交接
+
+> 最新 C08（2026-10-01）：四扇普通门已接 E → 传送代价三选一 → 物理步支付并传送，每次使用收费；InspectionDoor1/2保持原条件入口。与宝箱共用抽取器和卡片界面，各用独立卡池/缓存。修复火球移动转向边界，确认人物咬剑动画并移除主图青/金测试方块。C08 77/0、C07复跑30/0、三种百分比奖励实测通过；Unity编译无错误，未导出Windows。规范23、源码契约10；Ming/724c08c与Dada MERGE_HEAD/575eff3未变，无自动commit/push。
+
+## C08（2026-10-01）普通门收费、朝向与攻击表现
+
+用户确认另一对话已结束后串行实施，保留既有未提交的Dada合并、地图和资源。本次收费授权覆盖此前“收费暂缓”；完整教学、近战矩形/时间轴、AI、地刺扣血、支线结算及整局重开仍不在本次范围。
+
+主场景四门Portal_A/B/C/D显式绑定同一PlayerState、RunController、ChoiceCoordinator、EnemyEnhancementService和MainPortalCosts配置。每次E打开三张代价；取消保持卡位且不扣费，已失去部件只局部补位，低生命/倍率下限卡禁用，全灰只换一张有效非生命代价。选择后恢复运行，在下个FixedUpdate再次校验落点和全部费用，整笔提交费用、迁移、全图强化并给予0.5秒抵达保护；失败无扣费、无移动，成功清本门缓存，下次重新抽且再次收费。InspectionDoor1/2未改。Portal_B仍使用原地面interactionPoint。
+
+宝箱与门复用FixedChoiceDeck和ChoicePanel，各入口保留独立候选。主图两份宝箱配置启用combat百分比：回血ceil(maxHP×20%)、加上限ceil(maxHP×10%)且当前同额增加、攻击+10个百分点。共享攻击初始100%、代价-10个百分点、最低60%；咬/剑/火读同一倍率向上取整，主图基础剑伤同步20。既有独测固定值配置保留兼容开关，不作为主图池。
+
+EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加；活体增血同比例向上取整、死亡不复活，未来显式注册的敌人继承。禁用但存活的已注册敌人仍受全图效果；溢出拒绝整笔。不等于新增敌人AI或精英。
+
+火球在成功启动动作锁之前从唯一输入刷新Facing，解决上一动作锁在Update与FixedUpdate之间结束时沿用旧方向的问题；锁内仍保持发射方向。人物真实咬/剑动作通知已绑定MainPlayerAnimationSet，删除主图PlayerBiteFlash/Bite Cyan Flash及Sword Gold Flash，清空剑slashVisual；保留真实判定、锚点、音频入口。两种无手火尾组合仍缺Bite资源；既有Dog2_FlameTail缺Fire也未伪造动画。
+
+共享源码契约10新增/扩展（原有参数默认兼容）：
+
+| 接点 | 语义 |
+|---|---|
+| ChoiceOption(..., bool isEnabled=true) / IsEnabled | Panel、Card、Coordinator均拒绝灰卡；文字承载生命和倍率预览 |
+| PlayerReward(..., int attackPercentIncrease=0) / AttackPercentIncrease | 百分点奖励与原子奖励一并预验/结算，旧固定attackIncrease仍兼容 |
+| FixedChoiceDeck.Select<T>(cached,pool,count,id,available,randomIndex,copy) | 保留合法卡位，等概率无放回补缺；不足返回null，不伪造卡 |
+| TeleportCostKind | 1–9：ShedLegs/ShedArms/ShedTail/ShedFlameTail/CurrentHealth/MaximumHealth/Attack/EnemyHealth/EnemyAttack |
+| PlayerState.AttackPercent / HasDamageProtection / CostItem | 唯一倍率、抵达保护与舍弃身份映射；不另建真实状态 |
+| PlayerState.CanPayTeleportCost(kind,amount,minAttack,out reason) | 只读验证；致死生命代价和低于倍率下限均拒绝 |
+| PlayerState.TryCommitTeleportCost(kind,amount,minAttack,protectionSeconds,Func<bool> tryCommitWorld,Action onCommitted) | 物理步主线程事务；世界回调false必须无副作用，true必须完成无通知世界写入；之后统一通知，拒绝重入 |
+| WhiteboxPlayer2D.CanLandAt / TryQueuePaidTeleport / CancelPaidTeleport | 显式安全落点及物理队列；中断不扣费；旧TryTeleportTo只供既有测试/调试，不是普通门路径 |
+| EnemyEnhancementService.Register/Unregister/CanIncrease/TryCommit/PublishCommitted | 显式注册、整体预验与静默世界结算，玩家提交完成后才发布敌人通知 |
+| PlayerFacing2D.RefreshFromInput() | 同一输入刷新并返回方向，动作锁期间不改变 |
+
+验证：C08首次71/1暴露测试把Portal_B根坐标当交互点，夹具改读原interactionPoint后77/0；包含四门真实模拟E、固定取消/重抽、九费用、灰卡与全灰修复、重复确认、落点迟变、暂停/禁用中断、全图/未来敌人、抵达保护、连续移动Q和旧锁到期边界。C07首次28/2为60ms采样的咬/剑联合断言，补充诊断后全新Play复跑30/0（咬1000→990、剑990→970，Bite/Attack动画均正确）；没有为让测试通过更改攻击逻辑，也不将首轮失败隐去。额外真实Chest→Panel确认实测：60/100→70/110（上限）、→92/110（回血）、100%→110%（伤害11/22/9）。GameView抽卡截图已查看，三卡完整显示。
+
+保存状态：非Play，主图无missing script、四门全部接线；出生点(-12.14,8.6)及原运动/根碰撞保持。C07/C08测试夹具未保存；地图原LevelWhiteboxPlayChecks保留。日志Logs/C08为忽略产物。未重建Windows、未人工整局/音频验收。测试入口Tools/pawgatory/C08/Run Portal And Facing Checks (Play)，需全新主图Play，结束后Stop还原。
+
+## 前轮文档差异记录（历史范围）
+
+# 传送收费规则文档交接
+
+成员/任务别名：portal-rules。
+任务：2026-10-01文档更新；来源Ming/724c08c40e7572df0a4eddbb0351f774fed6d178及当时未提交文档；规范22、源码契约9保持。
+状态：文档已串行合入活动仓库，未提交。前轮为避免并行冲突交付独立文稿；用户确认另一对话已结束后，重新核对最新工作区并按补丁合入，保留其余改动。
+授权目标：阅读新combat附件差异、更新规则文档，增加除InspectionDoor1/2外所有传送门每次使用传送代价池的规则。
+实际修改范围：docs/combat_rules.md、AGENTS.md、玩法阅读版、README和本交接。禁止触碰另一会话的代码、场景、输入、配置、Git合并状态和交接。
+
+实际差异：
+- 附件1.1将旧第11节扩为11.1–11.9：教学1项、普通/支线奖励7定义、传送代价9定义、4种按状态选择的支线单卡确认；补充稳定文档ID、组池/首次概率、入口各自缓存、局部失效补位、全灰仅修1位和提交流程。
+- 9种代价是总定义数；按持有项数k组池为5+k（5–8项），等概率无放回展示3项、支付1项，不强制舍弃。
+- 附件将喷火回退为旧前向矩形；保留仓库后续用户确认的慢飞团§5全文，未覆盖combat_parameters.csv。
+- 新增所有传送门每次收费，仅InspectionDoor1/2沿用入场规则，不加随机代价；包括首次、同层、返程和重复使用。取消固定卡组，无效落点不付费，成功下次重抽并再次付费。
+- 用户后续确认传送与宝箱共用抽卡系统、使用不同卡池；复用随机/展示/固定候选机制，各入口独立缓存，奖励领取与代价支付分别校验和结算，保留各自消费/重抽及灰卡规则。
+- 消除现行规则中笼统的免费出口表述：终点若为传送门同样收费，纯胜利触发区不新增传送行为。胜利/死亡条件不变。
+- 阅读版旧“全灰优先舍弃”与附件冲突，同步为只随机修1位有效非生命效果。
+
+对外接口/Unity绑定：无修改。只读核对PrototypePortal2D仍为免费白盒迁移，不声称收费已实现。
+验证：附件差异逐项阅读；补丁在隔离基线验证后，对活动仓库最新文本再次执行git apply --check并成功合入。检查最终文档差异、慢飞火焰段落保留、未涉及文件哈希及diff格式；没有运行Unity、Play或Windows导出。
+下一步：由总控按发布节奏提交本次文档及既有工作区成果；本会话不commit/push、不更改未完成合并。后续收费实现按已授权范围及共享接口推进，规则更新不代表运行功能已完成。旧隔离补丁已经合入，不要重复应用或用旧全文覆盖当前文档。
+
+收尾：全部Assets共1099份meta无重复GUID，本轮21份源码/程序集文件meta齐全，正常仓库配置下git diff --check通过。用户要求缩短冗余测试，停止扩展回归。最后仅补大括号格式，无行为变动；此前Unity编译零错误且Play通过，最后刷新查询遇MCP连接无响应，不将其记为新的编译通过。

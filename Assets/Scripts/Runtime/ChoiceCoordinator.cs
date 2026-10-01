@@ -176,7 +176,7 @@ namespace Regrowth.Runtime
             bool found = false;
             foreach (var option in expected.Request.Options)
             {
-                if (option.Id == id)
+                if (option.Id == id && option.IsEnabled)
                 {
                     found = true;
                     break;

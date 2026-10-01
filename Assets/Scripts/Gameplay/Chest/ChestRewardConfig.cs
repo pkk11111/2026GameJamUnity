@@ -50,6 +50,15 @@ namespace Regrowth.Gameplay
         [SerializeField, Tooltip("首次生成时优先一项合法的曾持有缺失身体；其余等概率。")] private bool favorRegrowth;
         public bool BodyTutorial => bodyTutorial;
         public bool FavorRegrowth => favorRegrowth;
+        [SerializeField, Tooltip("按combat规则使用百分比回血/上限与共享攻击百分点；正式主图启用，旧独测可保留固定值。")]
+        private bool useCombatPercentages;
+        [SerializeField, Range(1, 100)] private int healPercent = 20;
+        [SerializeField, Range(1, 100)] private int maximumHealthPercent = 10;
+        [SerializeField, Min(1)] private int attackPercentIncrease = 10;
+        public bool UseCombatPercentages => useCombatPercentages;
+        public int HealPercent => healPercent;
+        public int MaximumHealthPercent => maximumHealthPercent;
+        public int AttackPercentIncrease => attackPercentIncrease;
         [SerializeField] private string choiceTitle = "Choose one reward";
         [SerializeField] private string replacementTitle = "Choose an old item to replace";
         [SerializeField] private string replacementDescription = "Replace this held item.";
@@ -62,7 +71,9 @@ namespace Regrowth.Gameplay
         {
             get
             {
-                if (rewards == null || (bodyTutorial ? rewards.Length != 1 : rewards.Length < 3))
+                if (rewards == null || (bodyTutorial ? rewards.Length != 1 : rewards.Length < 3)
+                    || (useCombatPercentages && (healPercent < 1 || healPercent > 100
+                    || maximumHealthPercent < 1 || maximumHealthPercent > 100 || attackPercentIncrease < 1)))
                 {
                     return false;
                 }

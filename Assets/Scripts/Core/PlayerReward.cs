@@ -8,15 +8,17 @@ namespace Regrowth.Core
         public int Heal { get; }
         public int MaximumHealthIncrease { get; }
         public int AttackIncrease { get; }
-        public PlayerReward(LoadoutItemId? item = null, int heal = 0, int maximumHealthIncrease = 0, int attackIncrease = 0)
+        public int AttackPercentIncrease { get; }
+        public PlayerReward(LoadoutItemId? item = null, int heal = 0, int maximumHealthIncrease = 0, int attackIncrease = 0, int attackPercentIncrease = 0)
         {
             Item = item;
             Heal = heal;
             MaximumHealthIncrease = maximumHealthIncrease;
             AttackIncrease = attackIncrease;
+            AttackPercentIncrease = attackPercentIncrease;
         }
-        public bool IsValid => Heal >= 0 && MaximumHealthIncrease >= 0 && AttackIncrease >= 0
+        public bool IsValid => Heal >= 0 && MaximumHealthIncrease >= 0 && AttackIncrease >= 0 && AttackPercentIncrease >= 0
             && (!Item.HasValue || LoadoutRules.IsV5Item(Item.Value))
-            && (Item.HasValue || Heal > 0 || MaximumHealthIncrease > 0 || AttackIncrease > 0);
+            && (Item.HasValue || Heal > 0 || MaximumHealthIncrease > 0 || AttackIncrease > 0 || AttackPercentIncrease > 0);
     }
 }

@@ -67,8 +67,22 @@ MonoBehaviour:
     effectAmount: 3
     bonusHeal: 0
     regrowthTitle: 
+  - id: flame-tail
+    title: Flame Tail
+    description: 'Q / RMB: slow flame orb, 8 damage every 0.2s while touching; lasts
+      2s, cooldown 8s. Replaces normal tail / Dash.'
+    kind: 0
+    item: 204
+    healAmount: 25
+    effectAmount: 3
+    bonusHeal: 0
+    regrowthTitle: Regrow Flame Tail
   bodyTutorial: 0
   favorRegrowth: 0
+  useCombatPercentages: 1
+  healPercent: 20
+  maximumHealthPercent: 10
+  attackPercentIncrease: 10
   choiceTitle: Choose one reward
   replacementTitle: Choose an old item to replace
   replacementDescription: Replace this held item.

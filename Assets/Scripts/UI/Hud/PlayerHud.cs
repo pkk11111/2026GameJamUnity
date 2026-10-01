@@ -146,7 +146,7 @@ namespace Regrowth.UI
                 bool occupied = i < loadout.Items.Count;
                 LoadoutItemId item = occupied ? loadout.Items[i] : default;
                 ItemVisual visual = FindVisual(item);
-                bool unavailable = occupied && (item == LoadoutItemId.FlameBreath || item == LoadoutItemId.FlameTail);
+                bool unavailable = occupied && (item == LoadoutItemId.FlameBreath);
                 slots[i].Display(occupied ? (visual != null ? visual.label : item.ToString()) : emptyLabel,
                     visual?.icon, occupied, unavailable, occupied ? (unavailable ? unavailableLabel : occupiedLabel) : string.Empty);
             }

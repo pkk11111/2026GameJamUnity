@@ -67,7 +67,7 @@ namespace Regrowth.Gameplay
             var options = new List<ChoiceOption>();
             foreach (var reward in selected)
             {
-                options.Add(new ChoiceOption(reward.Id, DisplayTitle(reward), reward.Description));
+                options.Add(new ChoiceOption(reward.Id, DisplayTitle(reward), Description(reward)));
             }
             var started = new Session();
             session = started;
@@ -95,65 +95,25 @@ namespace Regrowth.Gameplay
         // 新数组仅在选择入口接受后缓存，失败不得部分改写旧卡组。
         private ChestRewardDefinition[] SelectCurrentOptions()
         {
-            var selected = new ChestRewardDefinition[config.BodyTutorial ? 1 : 3];
-            var retainedIds = new HashSet<string>(StringComparer.Ordinal);
-            var retainedItems = new HashSet<LoadoutItemId>();
-            int missing = selected.Length;
-            if (cached != null)
-            {
-                for (int i = 0; i < selected.Length; i++)
-                {
-                    var reward = cached[i];
-                    if (!IsAvailable(reward))
-                    {
-                        continue;
-                    }
-                    selected[i] = reward;
-                    retainedIds.Add(reward.Id);
-                    if (reward.Kind == ChestRewardKind.Loadout)
-                    {
-                        retainedItems.Add(reward.Item);
-                    }
-                    missing--;
-                }
-            }
-            var legal = new List<ChestRewardDefinition>();
-            foreach (var reward in config.Rewards)
-            {
-                if (!retainedIds.Contains(reward.Id) && IsAvailable(reward)
-                    && (reward.Kind != ChestRewardKind.Loadout || !retainedItems.Contains(reward.Item)))
-                {
-                    legal.Add(reward);
-                }
-            }
-            if (legal.Count < missing)
-            {
-                return null;
-            }
-            // 再生保留位只作用首次生成，不因取消/后来历史变化重刷其他合法卡。
+            IReadOnlyList<ChestRewardDefinition> retained = cached;
+            // Legacy test-only regrowth option; production configs disable it.
             if (cached == null && config.FavorRegrowth && body != null)
             {
-                var candidates = legal.FindAll(value => value.Kind == ChestRewardKind.Loadout
-                    && LoadoutRules.IsBodyItem(value.Item) && body.WasEverOwned(value.Item));
-                if (candidates.Count > 0)
+                var preferred = new List<ChestRewardDefinition>();
+                foreach (var reward in config.Rewards)
                 {
-                    var priority = candidates[UnityEngine.Random.Range(0, candidates.Count)];
-                    selected[0] = priority.Copy();
-                    legal.Remove(priority);
+                    if (IsAvailable(reward) && reward.Kind == ChestRewardKind.Loadout && body.WasEverOwned(reward.Item))
+                    {
+                        preferred.Add(reward);
+                    }
+                }
+                if (preferred.Count > 0)
+                {
+                    retained = new[] { preferred[UnityEngine.Random.Range(0, preferred.Count)] };
                 }
             }
-            // 无放回等概率补空位；不改变保留卡的位置、内容或顺序。
-            for (int i = 0; i < selected.Length; i++)
-            {
-                if (selected[i] != null)
-                {
-                    continue;
-                }
-                int index = UnityEngine.Random.Range(0, legal.Count);
-                selected[i] = legal[index].Copy();
-                legal.RemoveAt(index);
-            }
-            return selected;
+            return FixedChoiceDeck.Select(retained, config.Rewards, config.BodyTutorial ? 1 : 3,
+                value => value.Id, IsAvailable, count => UnityEngine.Random.Range(0, count), value => value.Copy());
         }
         private bool IsAvailable(ChestRewardDefinition reward)
         {
@@ -185,6 +145,25 @@ namespace Regrowth.Gameplay
             return reward.Kind == ChestRewardKind.Loadout && body != null && body.WasEverOwned(reward.Item)
                 && !string.IsNullOrWhiteSpace(reward.RegrowthTitle) ? reward.RegrowthTitle : reward.Title;
         }
+
+        private string Description(ChestRewardDefinition reward)
+        {
+            if (!config.UseCombatPercentages)
+            {
+                return reward.Description;
+            }
+            switch (reward.Kind)
+            {
+                case ChestRewardKind.Heal:
+                    return "Restore " + ((long)health.MaximumHealth * config.HealPercent + 99) / 100 + " HP."
+                        + (health.CurrentHealth == health.MaximumHealth ? " Already at full health." : "");
+                case ChestRewardKind.MaximumHealth:
+                    return "Increase maximum and current HP by " + ((long)health.MaximumHealth * config.MaximumHealthPercent + 99) / 100 + ".";
+                case ChestRewardKind.Attack:
+                    return "All attacks: +" + config.AttackPercentIncrease + " percentage points.";
+                default: return reward.Description;
+            }
+        }
         private bool Apply(Session expected, ChestRewardDefinition reward, LoadoutItemId? removed = null)
         {
             if (rewards != null)
@@ -194,6 +173,20 @@ namespace Regrowth.Gameplay
                     return rewards.TryAcquireBodyCore(() => Complete(expected));
                 }
                 int heal = reward.Kind == ChestRewardKind.Heal ? reward.HealAmount : reward.BonusHeal;
+                if (config.UseCombatPercentages && reward.Kind != ChestRewardKind.Loadout)
+                {
+                    long amount = reward.Kind == ChestRewardKind.Heal
+                        ? ((long)health.MaximumHealth * config.HealPercent + 99) / 100
+                        : ((long)health.MaximumHealth * config.MaximumHealthPercent + 99) / 100;
+                    if (amount > int.MaxValue)
+                    {
+                        return false;
+                    }
+                    PlayerReward percentageReward = reward.Kind == ChestRewardKind.Heal ? new PlayerReward(heal: (int)amount)
+                        : reward.Kind == ChestRewardKind.MaximumHealth ? new PlayerReward(heal: (int)amount, maximumHealthIncrease: (int)amount)
+                        : new PlayerReward(attackPercentIncrease: config.AttackPercentIncrease);
+                    return rewards.TryApplyReward(percentageReward, null, () => Complete(expected));
+                }
                 var grant = new PlayerReward(reward.Kind == ChestRewardKind.Loadout ? (LoadoutItemId?)reward.Item : null,
                     heal, reward.Kind == ChestRewardKind.MaximumHealth ? reward.EffectAmount : 0,
                     reward.Kind == ChestRewardKind.Attack ? reward.EffectAmount : 0);

@@ -10,8 +10,9 @@ namespace Regrowth.Core
         public string Id { get; }
         public string Title { get; }
         public string Description { get; }
+        public bool IsEnabled { get; }
 
-        public ChoiceOption(string id, string title, string description)
+        public ChoiceOption(string id, string title, string description, bool isEnabled = true)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -26,6 +27,7 @@ namespace Regrowth.Core
             Id = id;
             Title = title;
             Description = description ?? string.Empty;
+            IsEnabled = isEnabled;
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Regrowth.Gameplay
 {
-    [DisallowMultipleComponent]
+    [DisallowMultipleComponent, DefaultExecutionOrder(-110)]
     public sealed class PlayerAttackRouter : MonoBehaviour
     {
         [Header("唯一输入与状态（重新启用时绑定）")]

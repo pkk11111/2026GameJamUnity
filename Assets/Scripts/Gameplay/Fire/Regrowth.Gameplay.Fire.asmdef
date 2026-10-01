@@ -1,0 +1,10 @@
+{
+  "name": "Regrowth.Gameplay.Fire",
+  "rootNamespace": "Regrowth.Gameplay",
+  "references": [
+    "Regrowth.Core",
+    "Regrowth.Runtime",
+    "Regrowth.Gameplay.Player"
+  ],
+  "autoReferenced": true
+}
