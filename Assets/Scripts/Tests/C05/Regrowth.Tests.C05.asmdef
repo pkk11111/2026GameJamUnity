@@ -1,0 +1,14 @@
+{
+  "name": "Regrowth.Tests.C05",
+  "rootNamespace": "Regrowth.Tests.C05",
+  "references": [
+    "Regrowth.Core",
+    "Regrowth.Runtime",
+    "Regrowth.Gameplay.Challenge",
+    "Regrowth.WhiteBox",
+    "Regrowth.Gameplay.Chest",
+    "Regrowth.UI.Choice",
+    "UnityEngine.UI"
+  ],
+  "autoReferenced": true
+}

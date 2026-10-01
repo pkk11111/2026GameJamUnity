@@ -2,6 +2,7 @@
 // 模块/维护：controller / Level 适配；依赖：Core、Runtime 集中输入/阶段、Audio Core。
 // 接线：绑定 inputReader/runController；能力开关仅为用户保留的白板测试配置，只在useLoadoutAbilities关闭时覆盖权限。
 // 交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。所有调参实时读取，出生点首次 Awake 记录。
+using System;
 using System.Collections.Generic;
 using Regrowth.Audio;
 using Regrowth.Core;
@@ -108,6 +109,9 @@ namespace Regrowth.Gameplay.WhiteBox
             && inputReader.IsInitialized && runController != null && runController.IsGameplayActive;
         public bool IsGrounded { get; private set; }
         public bool IsDashing => dashing;
+        /// <summary>实际R回位/传送完成后主线程通知；入口许可订阅者OnEnable注册、OnDisable退订，不重复执行迁移。</summary>
+        public event Action Relocated;
+
         public Vector2 Position => body != null ? body.position : (Vector2)transform.position;
         public bool HasPendingRelocation => relocationPending;
 
@@ -315,6 +319,7 @@ namespace Regrowth.Gameplay.WhiteBox
             }
             body.gravityScale = gravityScale;
             body.WakeUp();
+            Relocated?.Invoke();
             if (!reset)
             {
                 GameAudio.Play(AudioCue.Teleported, gameObject);

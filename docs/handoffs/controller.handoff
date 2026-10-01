@@ -1,3 +1,176 @@
+# 总控当前交接：C05复验菜单与Windows程序测试构建
+
+更新：2026-10-01（Australia/Sydney）· 规范19 / 生产源码契约8
+成员/任务：controller / C05；Ming，开始HEAD 0d892a4且干净。用户已提交前轮美术规范。未fetch/merge新版T。
+状态：菜单Editor检查与Windows检查通过，普通/专用测试包已构建；本轮工具、文档待提交。最终封装由音频同学负责，T仍未全部提交，美术由其他成员负责。完整战斗/收费/支线失败结算等继续暂缓。
+
+## 最新规则补充：取消耐久
+
+用户明确取消耐久。已同步AGENTS V19、V5（1）阅读稿、WORK_PACKAGES及README：无耐久值/使用磨损/耗尽损坏，不设维修奖励、耐久代价或耐久UI；生命、冷却及已确认舍弃/替换规则不变。T02/T08/T12/T13验收同步，未改他人的历史交接。自研Assets/Scripts与Assets/WhiteBox/Scripts检索无耐久实现；宝箱候选“修复”是失效候选修复，保持原逻辑。此次规则更新未改生产代码或音频，不恢复暂缓玩法。
+
+## 修改与使用
+
+仅Assets/Scripts/Tests/C05范围：原NewMapPlayChecks加条件编译UNITY_EDITOR或C05_PLAYER_CHECKS；新增NewMapCheckLauncher、C05PlayerCheckBootstrap及Editor/C05EditorTools、C05BuildSceneFilter、Editor asmdef/.meta。程序集边界不改生产接口；测试入口发现组件只用于显式测试。
+- Run New Map Checks (Play)菜单要求单地图全新Playing/躯干/空槽空历史/9未领箱/2未开始门；StartChecks注入原检查，Current保留结果，临时DontSave对象不保存，重复拒绝。检查结束Dead，退出重进才重测。
+- Build Windows Trial与Build Windows Automated Checks菜单：QueueBuild(bool)验证干净单图/非Play/Windows64，返回唯一Builds/C05目录，以delayCall构建并保存C05-build-report.txt；BuildInProgress/LastOutputDirectory可读。显式场景Level_Whitebox，不改全局Build Settings（原值仍SampleScene）、输入、后端或生产脚本。
+- C05BuildSceneFilter只在此构建期间清除临时构建场景中的Regrowth.Tests.*组件，源地图未改。普通包C05运行类型不编译，专用包单次extraScriptingDefines开启自动驱动，90秒超时、日志结果和退出码0/1/2。
+- 详细复跑/包说明/新版T逐项依赖/音频封装交接见docs/C05_TEST_BUILD.md。同步AGENTS、WORK_PACKAGES、README和本交接。没有新T合入、没有美术导入或改音频接口。
+
+## 实际验证与产物
+
+1. Unity目标F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64，开始非Play、地图未脏。现有后端Mono2x且Windows构建支持已安装。Build Settings仍SampleScene，C05显式单图构建绕开错误入口但不改共享设置。
+2. 编译新工具成功，从新增菜单运行原真实地图检查，69 passed / 0 failed。第一次读取结果用FindObjectsByType未找到带DontSave对象（工具查询NullReference，不是检查失败）；Resources查询确认检查完成，随后增加Current显式结果引用和重复保护。Windows检查使用相同入口进一步验证。
+3. 普通包Builds/C05/20261001-081520-trial-1423f2/pawgatory-C05-trial.exe：Succeeded，Errors0、Warnings491，219612828字节，2分39.7秒。初始化清单无C05启动项，反射包中Regrowth.Tests.C05.dll仅Unity生成元数据类型，无运行检查类型。
+4. 专用包Builds/C05/20261001-081829-checks-7ad855/pawgatory-C05-checks.exe：Succeeded，Errors0、Warnings5，219639521字节，34.2秒。以-batchmode -nographics运行，checks-player.log实际C05_PLAYER_RESULT finished=True passed=69 failed=0，进程退出码0；Wwise终止、输入关闭日志正常。自动检查完成钩子仍仅隔离调用，不是地图完整目标/结算。
+5. 普通包隐藏窗口启动，trial-player.log显示Unity/D3D12/Input/Wwise引擎初始化成功，无匹配到的运行Exception/ERROR。没有人工完整输入/画面/路线试玩；隐藏进程MainWindowHandle=0无法CloseMainWindow，确认本轮exe路径后停止该进程，因此不声称普通包正常退出已验。自动包正常退出已验。
+6. 构建警告已区分：首次包含现有Sentis/ConvGeneric着色器变体等大量警告；增量5条为Pipeline缺RuntimePipelineConfig、App UI非持久设置、WwiseEventReference未用字段CS0414、Unity云符号上传403、Wwise暂存目录meta。没有为了消警告改第三方/包/项目设置。构建前Console已有Wwise Voice Starvation；专用无图形进程退出有ComputeBuffer释放与Development内存诊断，未认定为本轮玩法失败，音频/最终包仍需后续验收。
+7. 现有Wwise构建配置copy=true/generate=false，构建从项目已有Windows Init.bnk/SB_Main.bnk复制，未生成/修改Authoring源工程；这不证明游戏Cue映射或声音验收。最终素材和封装仍由音频同学管理。
+8. Unity/Wwise构建自动改写38个跟踪的URP/GlobalSettings/GraphicsSettings/PlayerSettings/UnityConnectSettings/Windows插件meta。开始干净且差异已核实，先备份到Builds/C05/build-side-effects-0d892a4，再仅这些路径恢复HEAD。PerformanceTest Resources由插件自行清理（收尾预期目录已不存在），剩余空SoundBank暂存及meta移入同一备份，未删除素材。刷新后源图、ProjectSettings、Wwise和输入无diff，原场景干净非Play，Build Settings原值保持。
+9. 没重跑C01/C02/C03/旧T独测，没改生产代码/地图/Prefab，没有完整教学/战斗/收费/失败区结算、真实键鼠/手柄Windows整局、声音试听或另一台Windows验收。两种本机产物均忽略不提交，包不是最终交付。
+
+收尾静态检查：git diff --check通过；新增C05资产/meta配对完整，全Assets 871个GUID无重复；本轮文档本地链接有效。AGENTS第9节音频与HEAD逐字一致；Wwise、Packages、ProjectSettings、源地图无diff。取消耐久仅文档更新，未为此重跑已通过的运行检查。
+
+## 下一步与分工
+
+用户确认T仍未全部提交，C05可独立测试已有链路，具体新T等待自己的真实文件/依赖，不能一刀切等待全部T，也不提前实现暂缓玩法。先由用户提交本轮工具与文档，让队友可复跑；音频同学取得确认程序基线与相关素材后完成最终封装/Bank/异机验收，总控继续模块接收与接口/地图集成。已准备可执行说明，不擅自联系他人或发布包。本轮无自动commit/push或子代理。
+
+---
+
+# 以下为美术规范历史交接（已由用户提交0d892a4）
+
+# 总控当前交接：美术自主迭代与队友本机交付
+
+更新：2026-10-01（Australia/Sydney）· 规范18 / 源码契约8
+成员/任务：controller / C00文档；Ming，开始HEAD dae3f3c，工作区干净。前轮C05已由用户提交；本轮未fetch。
+状态：按用户要求放宽美术实施约束，4份文档修订待提交。仅AGENTS、WORK_PACKAGES、README和本交接；未改代码/资产/音频/其他成员文件。
+
+用户指出美术并非由总控电脑上传，应给队友Agent足够空间自行迭代。AGENTS§10.4重写为目标与验收约束：队友以本机实际素材和授权工作副本工作，不照搬总控盘符或等总控收素材；自主选择切片/导入参数、视觉层级/整图或分层/Animator方案、本地稳定ID图标映射、辅助脚本/预览工具，并执行预览→发现问题→修正复验。素材清单边做边补，必要加工无需逐项确认；只在改变已确认玩法/尺度、公共契约、共享写权或超范围时协调。身体/碰撞/真实状态、音频、第11节并行与发布规则保持。
+交付使用仓库相对路径、Prefab/预览入口、必要参数、本人handoff和实际验证；成员独测完成与总控主图集成分开，不以总控未获素材阻塞成员开工。工作包增加§14并同步README；无新增任务派发。
+
+本轮文档diff格式检查通过，第9节音频与第11节并行规则逐字保持；同时澄清第3.1节身体组合显示不限定渲染方案。没有运行Unity/Play或素材验收，不重复继承前轮69/0等结果。下一步按授权接收成员版本并做集成检查，完整暂缓玩法范围不变。不自动commit/push或启动子代理。
+
+---
+
+# 以下为C05历史交接（已由用户提交dae3f3c，文中的尚未提交为当时状态）
+
+# 总控当前交接：C05新地图、9箱、条件门与美术规范
+
+更新：2026-10-01（Australia/Sydney）· 规范17 / 已提交源码契约8（Ming/b2498d6）
+成员/任务别名：controller；任务C00/C05，T20入口部分；分支Ming
+开始HEAD b2498d6，工作区干净；C04已由用户提交。fetch origin Level后确切来源ad3ea42。
+状态：本轮新图适配/9箱/两入口门已实现并验证；文件尚未提交。Core/Runtime契约8不变，新增C05组件端口见下文。完整教学/战斗/收费/地刺伤害/完整支线结算继续暂缓。
+
+## 授权与实际文件
+
+用户批准覆盖新地图、全部箱和两门；其他模块保留试走且标缺口。门未完成时补回对应部件失效、退出/失败重新检测、完成后可自由通过；靠近自动弹确认，取消后离开再靠近，已缺部件也确认开启。
+最新要求：AGENTS不保留“Unity MCP 操作与验证”章节；补美术资源由Codex接入/调度要求。唯一文件仍是AGENTS.md，不建AGENT.md副本。
+
+- 只从Level/ad3ea42取Assets/WhiteBox/Scenes/Level_Whitebox.unity，原场景干净非Play后先卸载，再git restore这一个已授权场景，随后在Unity编辑/保存/重载。没有整分支merge，未取SampleScene，场景.meta保持。
+- 新增Assets/Scripts/Gameplay/Challenge/InspectionDoor2D.cs、Regrowth.Gameplay.Challenge.asmdef及文件/目录meta；引用Core/Runtime/Audio.Core/WhiteBox。
+- WhiteboxPlayer2D仅加Action Relocated事件，在实际ApplyRelocation清速度/迁移后通知；原速度、跳高、输入和技能试走逻辑保持。
+- 新增Assets/Scripts/Tests/C05/NewMapPlayChecks.cs、Regrowth.Tests.C05.asmdef及meta；依赖Core/Runtime/Challenge/WhiteBox/Chest/UI.Choice/UnityEngine.UI。组件不自动运行，不保存进地图，Begin显式注入真实组件。
+- 更新AGENTS、WORK_PACKAGES、V5(1)阅读版、README与本交接。新增美术清单/导入切片/PPU/Pivot/Prefab/身体只读表现/动画触发/尺度碰撞/交付验收规范；未批量导入或生成美术。
+- 未改Core/Runtime/旧T源码和测试、Input Actions、Packages、ProjectSettings、Wwise、音频契约或其他成员交接；不自动commit/push、切分支、reset或启动子代理。
+
+## 场景、层级与Inspector
+
+路径Assets/WhiteBox/Scenes/Level_Whitebox.unity。6根00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal；02 Actors从来源Chests下恢复根，世界坐标保留。唯一玩家/运动/输入/运行/选择链保持，旧Level验证默认关闭。
+
+来源有9簇黄色Tile_Chest，但只有7个Chest实例；补Chest_08中心(-32.5,-10.5)、09中心(-39.5,66.5)，复用原Chest Prefab，唯一ID whitebox-chest-08/09，绑定真实PlayerState/RunController/ChoiceCoordinator/V5_WhiteboxRewards，Box触发3×3、InteractionPoint局部(0,-0.75)。未领取视图3×3、领取视图3×0.75，保留正常视觉/交互点独立。
+9箱对应81个标记Tile设透明，保留身份；实体未领取视图统一黄色场景override，避免隐藏黄标后深色箱体难辨。03/05仍再生优先，其余普通配置；新两箱并非完整支线奖励箱。
+其他箱中心：01(32.5,-11.5)、02(97.5,-9.5)、03(-15.5,8.5)、04(104.5,21.5)、05(-9.5,67.5)、06(36.5,75.5)、07(74.5,78.5)。
+
+入口父级01 World/Inspection Doors：
+- InspectionDoor1 (-22,49.5)：SIDE_ARMLESS_TRAVERSAL、Arms=202、外侧+X。
+- InspectionDoor2 (63.4,63.5)：SIDE_LEGLESS_PUZZLE、Legs=201、外侧-X。
+- 作者浅紫视觉1×5保持，根BoxCollider2D同尺寸isTrigger=false；独立Approach Zone Trigger4×6、向外偏移2.25，crossingMargin=0.1。
+- 必填唯一PlayerState、其根实体Collider、RunController、ChoiceCoordinator、WhiteboxPlayer2D、blocker/approachZone/独立closedView。菜单文案下次开启读取，其余身份/依赖/方向按新局配置。
+- 靠近单卡事务复用既有菜单暂停；持有则主动舍弃本项，无则主动确认开始；取消须出范围重试。菜单期间状态变更更新文案并要求再次确认，迟到回调拒绝。
+- 未完成补回部件、退出、R/传送、死亡撤销许可。人在门内/门体范围保留退路，离开后恢复实体，避免夹人。门开启隐藏子视觉、不停用根脚本。
+
+保留4个免费传送、8个按钮/8个普通门、7个仅击退地刺；12簇红敌人仍标记。新图普通门2×6／6×2不改，两InspectionDoor1×5单独处理。地刺当前实际视觉含4/5格，保留交付尺寸和椭圆Trigger，不按参考表3×1/4×1强改、不加实心承托；灰地与传送安全点保留。
+
+## 新增公开接点与未接部分
+
+InspectionDoor2D公开ChallengeId、HasAdmission、HasEntered、IsCompleted、IsOpen；ResetAdmission()撤销未完成许可，不做伤害/回位/返部件；TryCompleteChallenge()需已许可且跨入、仍缺指定部件、存活Playing才一次成功。未来T20在真实目标/终点验证后调用；当前地图没有调用者，不当挑战完成。
+WhiteboxPlayer2D.Relocated在实际位置迁移后同步通知，入口订阅撤销未完成许可；不是传送请求事件。既有Core/Runtime契约8和音频Cue未增改，入口成功复用DoorOpened。
+完整FallFailZone、安全点、目标/临时机关复位、终点判定、专用奖励及完整重开均未接；完成接点测试只是隔离调用，不声称完整支线可玩。后续新T20应整合当前唯一入口状态，不能再创建第二套许可/完成布尔值。
+
+## 实际验证
+
+1. Unity目标F:/2026GameJamUnity、6000.2.9f1、StandaloneWindows64；代码刷新编译通过。
+2. 首次测试组件asmdef误限Editor，Unity拒绝AddComponent，未运行检查；改为独立Tests运行程序集并完整刷新后可临时挂载。首次执行66项中65通过，1项是夹具错误地要求Choosing时可致死；真实PlayerState按现契约拒绝Choosing伤害。修正夹具为先断言拒绝，再Playing实际致死，补完成钩子检查后最终**69 passed / 0 failed**。
+3. C05覆盖每门实体阻挡和开门实际物理通过、单项舍弃/缺部件确认、取消不重弹/离开再进、迟到提交、菜单期间部件变化重确认、返回/补回/R/死亡资格撤销、占位不夹人；9箱通过实际PlayerInteractor打开3卡/暂停/取消，再领取一次。测试末端Dead，不保存。
+4. 完成钩子隔离检查：未跨入拒绝、符合许可/跨入时一次成功、已完成补回/返回仍通行。未触发实际地图终点或奖励链，没有完整T20验收。
+5. 退出检查后新开正常Play，实际运动接口移动到新增Chest_08附近(-34.3,-11.25)，虚拟键盘真实E打开3张奖励，GameView截图检查文案/卡片/Cancel可见；GameView聚焦后Esc取消，恢复Playing且菜单关闭，无同帧暂停。测试键盘device39已移除，退出Play。截图临时位于Temp/C05Verification/new-chest-menu.png（不提交）。
+6. 黄色箱体override保存重载；最终非Play/未脏，6根、9箱、2门、Missing Script=0、临时C05驱动=0、C04审查Errors为空。地面5808格与非宝箱标记339格内容哈希和导入后来源快照一致：
+   TM_Ground SHA256 Base64 aOCFX3G/FqmT0zD08S4pq3waRaGpJwk3jG+6EwW3WnU=
+   TM_Markers（排除Tile_Chest）Mcvd5/yyrd3mRCovZ+IXcrtOVC2svNV7cV94Na3ryks=
+   哈希串包含每个非空格坐标/Tile名/颜色/TileFlags；不能据此宣称整条路线可达。
+7. 最终Console没有error，保留1条Unity Account API网络/编辑器焦点超时warning，没有清日志。场景保存产生空YAML值后的行尾空格，收尾仅清行尾空白，不改序列化结构。
+8. 本轮没有重跑C01/C02/C03或旧T独测；此前32/69/63/33是历史。没有完整无强化主路、战斗、收费、支线失败/结算、手柄实机、Bank或Windows导出验证。
+9. 收尾git diff --check通过；865个.meta扫描无重复GUID，新增文件/目录meta齐全，16个本地文档链接有效。AGENTS第9节音频与开始逐字一致，Wwise/Packages/ProjectSettings/Input Actions无diff。再次重载地图，非Play/未脏/不编译、9个黄色未领取箱、6根。
+
+### C05复跑方式
+
+打开保存的新图并进入Play，向临时GameObject添加NewMapPlayChecks；仅测试入口允许查找依赖，生产组件全部Inspector绑定。等Finished后读取Passed/Failed/Results，退出Play后销毁夹具，不保存Play状态。以下为本轮实际调用（只有测试使用）：
+
+```csharp
+var player=UnityEngine.Object.FindFirstObjectByType<Regrowth.Runtime.PlayerState>();
+var run=UnityEngine.Object.FindFirstObjectByType<Regrowth.Runtime.RunController>();
+var flow=UnityEngine.Object.FindFirstObjectByType<Regrowth.Runtime.ChoiceCoordinator>();
+var panel=UnityEngine.Object.FindFirstObjectByType<Regrowth.UI.ChoicePanel>();
+var gates=UnityEngine.Object.FindObjectsByType<Regrowth.Gameplay.Challenge.InspectionDoor2D>(UnityEngine.FindObjectsSortMode.None);System.Array.Sort(gates,(a,b)=>string.CompareOrdinal(a.name,b.name));
+var boxes=UnityEngine.Object.FindObjectsByType<Regrowth.Gameplay.Chest>(UnityEngine.FindObjectsSortMode.None);System.Array.Sort(boxes,(a,b)=>string.CompareOrdinal(a.name,b.name));
+var go=new UnityEngine.GameObject("C05 TEMPORARY PLAY CHECKS - NEVER SAVE");
+var test=go.AddComponent<Regrowth.Tests.C05.NewMapPlayChecks>();test.Begin(player,run,flow,panel,gates,boxes);
+```
+
+## 下一步
+
+用户发布本轮改动后，队友才能取得C05组件和新图。新T逐项登记真实来源/基点/配置/Prefab/meta/独测及本人handoff；旧T弃用规则保持。下一轮若恢复完整挑战，先明确并接地图目标/失败区/安全点/机关组/专用奖励，复用入口状态；完整教学/战斗/收费/胜负与重开仍按实际依赖串行发布。美术按AGENTS§10.4先清点实际素材再接线，当前仅规范准备完成。
+
+---
+
+# 以下为C04历史交接（已由用户提交b2498d6，当时未提交状态为历史）
+
+# 总控当前交接：C04配置与新版T接线依据
+
+更新：2026-10-01（Australia/Sydney）· 规范16 / 已提交源码契约8（Ming/4d6b2e1）
+成员/任务别名：controller；任务C00/C04/C05；分支Ming
+本轮开始HEAD/本地origin/Ming：4d6b2e1，工作区干净；用户已提交前轮C系列。未fetch/联网核实远端。
+状态：C04只读审查及配置/接点清单完成、已验证；本轮新增Editor工具与4份总控文档待提交。运行契约8不变，完整教学/战斗/收费/支线暂缓。
+
+## 授权与实际文件
+
+用户继续总控、完善C系列；旧T交付弃用，新提交为新版T。不需要等待全部T更新，不提前实施已暂缓模块。
+
+新增Assets/Scripts/Tests/C04/Editor/C04SceneValidator.cs、Regrowth.Tests.C04.Editor.asmdef及C04/Editor文件夹和文件配对meta。仅Editor程序集，直接引用Core/Runtime/Unity.InputSystem，不引用旧T。同步AGENTS规范16/配置唯一来源/基线、WORK_PACKAGES§12接点/依赖、README完整工作记录及本交接。
+未改Runtime/Core/T代码、场景/Prefab/输入/现有配置/Packages/ProjectSettings/Wwise/其他成员handoff；无切分支/merge/reset/commit/push或子代理，保留所有原GUID。
+
+## 工具与实际接口
+
+非Play选中场景GameBootstrap，菜单Tools/pawgatory/C04/Validate Selected Bootstrap。公开Validate(GameBootstrap,bool requirePlayer=true)返回Report.Errors/Notes，默认正式玩家必填，C01纯输入独测可传false。
+只读选定入口及本场景启用组件，检查显式引用/重复入口/actor/菜单/有限正数/输入路径、不同动作与普通Button/无Hold/Dynamic Update。报告实际初始化HP、攻击、头部教学例外、倍率、缓冲、扫描配置和输入路径。不会创建运行实例、自动修绑定、启停动作、改变时间倍率或保存场景。
+不覆盖跨场景唯一性/模块内部引用/完整资产/Play，字段名由总控随Runtime维护；检查通过不能当新版T完成。少量数值仍由唯一PlayerState Inspector持有，不新增第二套共享状态/配置。
+
+## 实际验证与限制
+
+1. Unity目标F:/2026GameJamUnity，6000.2.9f1，StandaloneWindows64。强制Refresh/编译后Console零error；没有清日志。
+2. Level_Whitebox静态检查零错误；实值HP100、咬击10、剑15、prototypeStartWithBodyCore=true、倍率1、缓冲0.15、扫描半径2/Default/Trigger。白盒教学例外明确输出提示。
+3. 隔离Preview Scene 17/0：合法绑定、空选择、缺Run、禁用Input、重复Run、actor错误、非法倍率、NaN缓冲、无限半径、缺动作、动作重用、Action Hold、Binding Hold、错误菜单、缺正式玩家、显式C01无玩家许可和正式无玩家拒绝。
+4. 夹具finally销毁临时InputActionAsset、关闭Preview Scene，不保存；原ActiveScene/脏状态/Time.timeScale保持，始终非Play。首次动态测试代码因扩展方法未限定命名空间未编译，未执行；改为实际InputActionSetupExtensions静态调用后17项全部执行通过，不是项目源码编译错误。
+5. 本轮不重跑C01/C02/C03/T12 Play，不将前轮32/69/63/33当本轮或新版T验收。Windows/Bank/整局未测。
+6. 实际执行C04菜单成功，恢复原Selection；最终地图非Play/未脏、6根、Missing Script=0、未编译中。13个本地文档链接、GUID唯一性/新增meta配对、git diff --check均通过；AGENTS第9节音频与本轮开始逐字一致，Git范围仅4份文档+C04新Editor目录/meta。
+
+## 下一步
+
+运行契约8现有真实提交4d6b2e1，新版T按此确切提交读取AGENTS§7/WORK_PACKAGES§12；登记本人新提交/Prefab/配置/meta/独测/handoff，按模块依赖逐项审查，不继续开发弃用旧T。灰卡/生命安全代价/敌人强化/挑战/完整胜利重开仍无接口，按用户恢复范围下轮串行发布；新地图及两支线交地图同学，尺度/音频不变。
+
+---
+
+# 以下为历史交接（上一轮C系列后已由用户提交4d6b2e1，当时“未提交”为历史状态）
+
 # 总控当前交接：C系列V5独测迁移与旧T弃用
 
 更新：2026-10-01（Australia/Sydney）· 规范15 / 工作区源码契约8（未提交/未发布）
