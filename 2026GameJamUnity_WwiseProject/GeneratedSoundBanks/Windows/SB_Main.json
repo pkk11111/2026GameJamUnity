@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{32404148-0A7B-40A4-8F98-5173BD22075A}",
     "Language": "SFX",
-    "Hash": "{1C1AB258-7C23-C40B-18DF-22286D267857}",
+    "Hash": "{CA8224FB-44B2-541D-9A72-326E7CCF1F8E}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\SB_Main",
     "ShortName": "SB_Main",
     "Path": "SB_Main.bnk",
@@ -70,6 +70,14 @@
       "Location": "Memory",
       "ShortName": "KS_Sword Hit_2.wav",
       "CachePath": "0B/{0B9EB26E-CFA0-3571-B6E3-3C703DE3F41E}.wem"
+     },
+     {
+      "Id": "145562740",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Basic Cloth 2_1.wav",
+      "CachePath": "67/{67A08FC2-13FC-7996-63D5-597253A6BC0A}.wem"
      },
      {
       "Id": "170405710",
@@ -352,6 +360,14 @@
       "CachePath": "CA/{CA0059D0-0649-F10A-B214-8A0816EF1566}.wem"
      },
      {
+      "Id": "801920370",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Basic Cloth 2_2.wav",
+      "CachePath": "61/{6184337A-B8E0-6EAF-CEC0-9170011F6BE2}.wem"
+     },
+     {
       "Id": "810945889",
       "Language": "SFX",
       "Streaming": "false",
@@ -414,6 +430,14 @@
       "Location": "Memory",
       "ShortName": "Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 2.wav",
       "CachePath": "0A/{0A6944D0-B315-F012-55A9-0E5721AC51C9}.wem"
+     },
+     {
+      "Id": "920313881",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "KS_Basic Cloth 2_3.wav",
+      "CachePath": "12/{12BC7C54-8D28-89C4-5D7D-A7B7693DB60C}.wem"
      },
      {
       "Id": "932105403",
@@ -693,6 +717,26 @@
       "MediaRefs": [
        {
         "Id": "465434361"
+       }
+      ]
+     },
+     {
+      "Id": "435023768",
+      "Name": "Play_Move_NoFoots",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Move_NoFoots",
+      "GUID": "{6C8AFCF4-75AE-4144-B562-D57AB1EDCE10}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.32417",
+      "DurationMax": "0.4773",
+      "MediaRefs": [
+       {
+        "Id": "145562740"
+       },
+       {
+        "Id": "801920370"
+       },
+       {
+        "Id": "920313881"
        }
       ]
      },
@@ -1282,6 +1326,6 @@
     ]
    }
   ],
-  "FileHash": "{5A948C48-18B8-ED11-663A-6168A870B0C1}"
+  "FileHash": "{0615D99B-1B46-4595-1A85-B8D96175B7B7}"
  }
 }

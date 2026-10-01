@@ -2,6 +2,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	64556671	Play_Player_SwordSwing			\Default Work Unit\Play_Player_SwordSwing	
 	173576816	Play_Fire_Hit			\Default Work Unit\Play_Fire_Hit	
 	210209267	Set_State_Exploration			\Default Work Unit\Set_State_Exploration	
+	435023768	Play_Move_NoFoots			\Default Work Unit\Play_Move_NoFoots	
 	472917121	Play_NPC_Fly			\Default Work Unit\Play_NPC_Fly	
 	583717387	Stop_Music_State			\Default Work Unit\Stop_Music_State	
 	595748461	Play_DoubleJump			\Default Work Unit\Play_DoubleJump	
@@ -63,6 +64,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	114950063	KS_Cartoon Swish_1	.cache\7D\{7D47E5AF-F2A3-45CD-C3DC-BF6B0BE08A17}.wem		\Containers\Default Work Unit\Player\Combat\Player_Bite\KS_Cartoon Swish_1		65572
 	120958241	Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 3	.cache\CF\{CF788E06-ED74-ACDB-624A-388244109A9E}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 3		24926
 	139475878	KS_Sword Hit_2	.cache\0B\{0B9EB26E-CFA0-3571-B6E3-3C703DE3F41E}.wem		\Containers\Default Work Unit\Player\Combat\SwordHit\PlayerSwordHit_Elite\KS_Sword Hit_2		96316
+	145562740	KS_Basic Cloth 2_1	.cache\67\{67A08FC2-13FC-7996-63D5-597253A6BC0A}.wem		\Containers\Default Work Unit\Player\Movement\Move_NoFoots\KS_Basic Cloth 2_1		68876
 	170405710	Voices, Efforts, Male 01, Hurt, In Pain, Groan, Variations 01 SND118558 1	.cache\5B\{5BEFA2B6-8EF8-4BC4-0CA8-773DE937A20A}.wem		\Containers\Default Work Unit\Player\PlayerHurt_Vo\Player_Death\Voices, Efforts, Male 01, Hurt, In Pain, Groan, Variations 01 SND118558 1		377120
 	198030593	5 Keyboard	.cache\DC\{DC30DE1E-EBA9-0E3B-0532-A274986F49DA}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\5 Keyboard		35335840
 	210007485	Dash	.cache\4D\{4D880D30-E575-92C5-8CF8-005894739AA0}.wem		\Containers\Default Work Unit\Player\Movement\Dash		61520
@@ -98,6 +100,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	786388339	Player_Fire	.cache\32\{32704B36-E4CF-245D-2792-09574FC1DA89}.wem		\Containers\Default Work Unit\Player\Combat\Player_Fire		424652
 	788933838	User Interface, Alert, Pops, Digital, Cute, Pops SND115539	.cache\97\{971B04A9-264F-AB20-B817-2CBC1167261C}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Footsteps\User Interface, Alert, Pops, Digital, Cute, Pops SND115539		2928
 	789007287	Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 2	.cache\CA\{CA0059D0-0649-F10A-B214-8A0816EF1566}.wem		\Containers\Default Work Unit\Player\Movement\Footstep\Footsteps, Human, Tiles, Barefoot, Bathroom SND4059 2		26200
+	801920370	KS_Basic Cloth 2_2	.cache\61\{6184337A-B8E0-6EAF-CEC0-9170011F6BE2}.wem		\Containers\Default Work Unit\Player\Movement\Move_NoFoots\KS_Basic Cloth 2_2		91736
 	810945889	3 Synth	.cache\2F\{2FED917A-60FC-6334-BD62-F6712002C5B8}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\3 Synth		35335840
 	818584755	Wings, Creature, Birdlike, Small, Constant, Normal SND53551 2	.cache\6F\{6FE1BBF5-A531-05D7-51AD-EBFAEF5AEBCD}.wem		\Containers\Default Work Unit\Enemies\NPC\NPC_Fly\Wings, Creature, Birdlike, Small, Constant, Normal SND53551 2		16984
 	823427073	SwitchActivate	.cache\A5\{A526A5E1-60AA-7340-DAD6-67E66B1E5ABA}.wem		\Containers\Default Work Unit\World\SwitchActivate		69408
@@ -106,6 +109,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	869814178	Bird_N_Insects	.cache\A5\{A52303AC-E344-7015-C5D5-F1AF42D3CEB2}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\Bird_N_Insects		12812256
 	885164677	UI_Click	.cache\AB\{AB6ED311-B3FC-F66F-0F94-3C667A27BC18}.wem		\Containers\Default Work Unit\UI\UI_Click		59224
 	891503437	Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 2	.cache\0A\{0A6944D0-B315-F012-55A9-0E5721AC51C9}.wem		\Containers\Default Work Unit\Enemies\Ellite\Elite_Attack\Animals, Cat Domestic, Cat Desperate Meow 01 SND124061 2		54228
+	920313881	KS_Basic Cloth 2_3	.cache\12\{12BC7C54-8D28-89C4-5D7D-A7B7693DB60C}.wem		\Containers\Default Work Unit\Player\Movement\Move_NoFoots\KS_Basic Cloth 2_3		62336
 	932105403	Player_AbilityGain	.cache\36\{36E01450-7F4C-50C6-1094-CED3CB7FB697}.wem		\Containers\Default Work Unit\Loadout\Ability\Player_AbilityGain		242352
 	939894750	7 Backing_Vocals	.cache\45\{45E0E19D-7771-0C20-2790-0B7882042B79}.wem		\Containers\Default Work Unit\Music_State\Exploration\Hope\7 Backing_Vocals		35335840
 	1007180937	Card_Hover	.cache\56\{562E0F87-ACA3-4F7E-E597-7A45B825E25E}.wem		\Containers\Default Work Unit\Loadout\Card\Card_Hover		36804

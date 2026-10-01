@@ -27,6 +27,7 @@ namespace AK
         static const AkUniqueID PLAY_FOOTSTEP = 1602358412U;
         static const AkUniqueID PLAY_JUMP = 3689126666U;
         static const AkUniqueID PLAY_LAND = 4285282925U;
+        static const AkUniqueID PLAY_MOVE_NOFOOTS = 435023768U;
         static const AkUniqueID PLAY_MUSIC_STATE = 3830880521U;
         static const AkUniqueID PLAY_NPC_DEATH = 3888855080U;
         static const AkUniqueID PLAY_NPC_FLY = 472917121U;
