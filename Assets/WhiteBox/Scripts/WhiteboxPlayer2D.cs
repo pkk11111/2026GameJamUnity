@@ -279,7 +279,7 @@ namespace Regrowth.Gameplay.WhiteBox
                     jumpBuffer = coyoteRemaining = 0f;
                     groundLock = takeoffGroundLock;
                     IsGrounded = false;
-                    GameAudio.Play(AudioCue.PlayerJump, gameObject);
+                    GameAudio.Play(isDoubleJump ? AudioCue.PlayerDoubleJump : AudioCue.PlayerJump, gameObject);
                 }
                 body.linearVelocity = velocity;
                 if (requestDash && DashEnabled && cooldownRemaining <= 0f
@@ -293,6 +293,7 @@ namespace Regrowth.Gameplay.WhiteBox
                     dashDirection = facing;
                     cooldownRemaining = dashRemaining + dashCooldown;
                     coyoteRemaining = 0f;
+                    GameAudio.Play(AudioCue.PlayerDash, gameObject);
                 }
             }
             if (dashing)

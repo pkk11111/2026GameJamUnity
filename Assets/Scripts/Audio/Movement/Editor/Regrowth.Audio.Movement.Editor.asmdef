@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Movement.Editor",
+  "references": ["Regrowth.Audio.Movement", "Regrowth.Audio.Core", "Regrowth.Audio.Wwise", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Regrowth.Presentation"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

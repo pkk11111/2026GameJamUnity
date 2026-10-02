@@ -1,0 +1,21 @@
+# 交付前合并：Audio_Test + Ming/f99bafc
+
+2026-10-01；用户要求12点前交付，仅做必要测试、保留全部现有音频。先将53个音频改动保存为286ae3a，再合入fetch后的origin/Ming/f99bafc；不自动push。
+
+## 冲突处理
+
+- 7个冲突文件：3份公共文档、Chest.cs、ChoiceCardView.cs、Choice程序集、主场景。文档保留双方新增交接；宝箱同时保留成功音频与wasOpened/ApplyView；卡片同时引用Audio和UI.Art。
+- Git有两个共同祖先，虚拟stage1含临时冲突标记，不能用于UnityYAMLMerge。采用实际共同祖先3c0bae7。
+- 双方在同一敌人/门上新增组件复用了fileID，直接合并最新音频场景会让音频与EnemySpritePresentation引用串位。改用81535a9的原音频场景与最新Ming结构合并，UnityYAMLMerge无剩余冲突，再执行现有Reward/Movement/Combat幂等安装工具恢复最新音频组件与映射。新美术、地图、菜单/结局/UI均采用Ming增量。
+- 当前Wwise工程、Bank、Integration未被Ming覆盖；敌人脚步/Fly仍未接。精英仍仅Elite_Exit。
+
+## 必要检查
+
+- Unity6000.2.9f1合并编译通过。
+- 主图missing script=0；14个EnemyAudio与14个EnemySpritePresentation共存。
+- 新增LFS美术已落地，未发现仅有指针的工作区文件。
+- 原音频快速回归72项通过，真实宝箱/UI/能力/移动输入音频，Wwise ID1171。首次旧测试被新增菜单入口拦住而等待超时，使用新版GameplayEntry.SetDirectSceneCheck(true)重跑通过；结束恢复false正常菜单启动。
+- 主图41个Event映射完整，未接仅NPC_Fly与NPC_Footsteps；保存重载无缺失脚本、唯一音乐与玩家移动音频保留。Console原设置恢复，测试夹具没有保存。
+- 不以本轮重新宣称此前全套战斗/传送/脚步验收；按用户赶交付要求，不做整局或Windows重新构建。
+
+合并中间文件位于忽略目录Logs/MergeDelivery；合并前音频完整提交286ae3a可追溯。合并提交后工作区应干净；用户可在GitHub Desktop推送Audio_Test。

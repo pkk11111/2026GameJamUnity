@@ -28,6 +28,7 @@ namespace Regrowth.Gameplay
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
         public event Action AttackStarted;
+        public event Action<IDamageable> HitAccepted;
         public IPlayerCombatState CombatState => combat;
         public PlayerFacing2D Facing => facingSource;
         public Vector3 HitCenter
@@ -93,7 +94,11 @@ namespace Regrowth.Gameplay
                         || combatStateSource.transform.IsChildOf(component.transform)
                         || (component.transform.position.x - combatStateSource.transform.position.x) * facingSource.FacingSign < 0f)) continue;
                     int amount = combat.SwordDamage;
-                    if (amount > 0) target.TryTakeDamage(new DamageRequest(amount, DamageKind.Enemy, combatStateSource.gameObject));
+                    if (amount > 0 && target.TryTakeDamage(new DamageRequest(amount, DamageKind.Enemy, combatStateSource.gameObject)))
+                    {
+                        try { HitAccepted?.Invoke(target); }
+                        catch (Exception ex) { Debug.LogException(ex, this); }
+                    }
                 }
                 return true;
             }

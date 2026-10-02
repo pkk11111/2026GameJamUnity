@@ -52,6 +52,8 @@ namespace Regrowth.Gameplay
         // Unity主线程提交后同步通知；订阅者禁重入写命令，退出生命周期须退订。
         public event Action HealthChanged;
         public event Action Died;
+        /// <summary>Only accepted damage, never buffs or runtime stat edits; health already committed.</summary>
+        public event Action<DamageRequest> DamageApplied;
 
         private void OnEnable()
         {
@@ -106,6 +108,8 @@ namespace Regrowth.Gameplay
                 {
                     Unregister();
                 }
+                try { DamageApplied?.Invoke(request); }
+                catch (Exception exception) { Debug.LogException(exception, this); }
                 HealthChanged?.Invoke();
             }
             finally

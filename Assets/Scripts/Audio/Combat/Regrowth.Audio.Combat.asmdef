@@ -1,0 +1,5 @@
+{
+  "name": "Regrowth.Audio.Combat",
+  "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Regrowth.Gameplay.EnemyBasic", "Regrowth.Gameplay.Bite", "Regrowth.Gameplay.Sword", "Regrowth.Gameplay.Fire", "Regrowth.Audio.Core", "Regrowth.Audio.Music", "AK.Wwise.Unity.MonoBehaviour"],
+  "autoReferenced": true
+}

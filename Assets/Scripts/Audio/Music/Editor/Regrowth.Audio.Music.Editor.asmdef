@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Music.Editor",
+  "references": ["Regrowth.Audio.Music", "AK.Wwise.Unity.API", "AK.Wwise.Unity.MonoBehaviour"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

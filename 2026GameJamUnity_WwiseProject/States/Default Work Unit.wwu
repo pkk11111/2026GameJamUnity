@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{5A661004-F19C-43B8-94E7-F0590EECB329}" SchemaVersion="133">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{5A661004-F19C-43B8-94E7-F0590EECB329}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{5A661004-F19C-43B8-94E7-F0590EECB329}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="Music_Group" ID="{8668DBE2-B613-4E18-BC6D-68C2E51200C1}">
+					<ChildrenList>
+						<State Name="None" ID="{CDBDA90E-0C9D-4D0F-ADC0-01E733DBA200}"/>
+						<State Name="Exploration" ID="{B387292C-4E3C-41A8-902A-F8697A6B67D1}"/>
+						<State Name="Elite" ID="{A037C371-4EEA-4B35-ABC8-5166F81F3E31}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Exploration_Level" ID="{9F9BDC8D-348B-4627-9302-3DCE45EBD7E8}">
+					<PropertyList>
+						<Property Name="DefaultTransitionTime" Type="Real64" Value="1.5"/>
+					</PropertyList>
+					<ChildrenList>
+						<State Name="None" ID="{777E2430-8F4E-4859-AE12-0B4577CE0983}"/>
+						<State Name="Level2" ID="{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"/>
+						<State Name="Level3" ID="{C3C61976-E71D-4886-85E4-3F8A24F95123}"/>
+						<State Name="Level1" ID="{A3A6FC8E-015D-4176-8463-4AE21ED0575E}"/>
+					</ChildrenList>
+					<TransitionList>
+						<Transition>
+							<StartState Name="Level1" ID="{A3A6FC8E-015D-4176-8463-4AE21ED0575E}"/>
+							<EndState Name="Level2" ID="{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"/>
+							<Time>3.5</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+						<Transition>
+							<StartState Name="Level2" ID="{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"/>
+							<EndState Name="Level3" ID="{C3C61976-E71D-4886-85E4-3F8A24F95123}"/>
+							<Time>2.5</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+					</TransitionList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

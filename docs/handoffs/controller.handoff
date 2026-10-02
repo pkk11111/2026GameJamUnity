@@ -1,3 +1,14 @@
+# C16 HP归零自动重开（2026-10-01）
+
+任务：controller；Ming/90ebba2；源码契约12不变。状态：已实现并通过最小主图验证。
+授权：用户要求HP为0后重置游戏，减少冗余测试、尽快完成。
+修改：Runtime/GameBootstrap在唯一玩家Died后记录重开请求，LateUpdate等待通知完成，验证本场景可加载，沿原ShutdownSession取消菜单/清输入/退订/释放时间与单例归属，再LoadSceneAsync Single重载本场景。玩家、构筑/历史、敌人/箱门/候选/局内负面随场景新建；不只回位或启停Bootstrap。头部无生命阶段IsAlive=true，不误判死亡。RunController只更新职责注释，公共签名未变。
+接线：复用主图原有Bootstrap/Run/Player显式引用，无新组件、场景修改或依赖；GameBootstrap.restartOnDeath默认true，独立死亡状态测试可关闭。目标场景须保存并启用在构建列表，主图已满足。现有开场介绍会重播，当前主图仍躯干原型开局。PlayerDied沿原成功入口发一次，无新Wwise映射。
+
+验证：目标Unity6000.2.9f1编译通过，仅一次主图短Play：通过真实奖励写口取得Arms，再真实伤害使HP100→0/Dead，自动加载同一关卡的新玩家实例；HP100/100、槽及历史清空、菜单关闭、唯一Bootstrap，开场结束后Playing/timeScale=1且可咬击，Console Error 0。未跑全套回归、Windows导出或音频试听；未commit/push。 已退出Play并恢复原MainMenu播放入口；临时Arms与HP变动未保存。
+
+下一步：需要时由总控提交；Windows/音频验收仍待最终封装。
+
 # 最新交接：C07主图角色、咬剑与慢飞持续火焰
 
 > C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。

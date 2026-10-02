@@ -1,5 +1,14 @@
+> C16（2026-10-01）：按用户要求，玩家实际死亡（HP归零）后自动重载当前关卡，整局恢复场景初始状态。GameBootstrap在死亡通知结束后的LateUpdate清理菜单、输入、状态订阅和运行时间，再单次异步重载自身场景；不返回主菜单，现有开场介绍随场景重播。头部尚未启用生命时HP=0不算死亡。源码契约仍12，无新增公共写口；restartOnDeath默认为true，独立死亡状态测试可在Inspector关闭。当前地图仍沿用躯干原型开局，没有新增教学。此记录覆盖历史“重开未实现”描述；普通传送生命安全规则不变。 验证：目标Unity6000.2.9f1编译通过，仅一次主图短Play：通过真实奖励写口取得Arms，再真实伤害使HP100→0/Dead，自动加载同一关卡的新玩家实例；HP100/100、槽及历史清空、菜单关闭、唯一Bootstrap，开场结束后Playing/timeScale=1且可咬击，Console Error 0。未跑全套回归、Windows导出或音频试听；未commit/push。
+
 # pawgatory 统一开发规范与游戏契约
 
+> 交付合并（2026-10-01）：Audio_Test先保存音频286ae3a，再合入origin/Ming/f99bafc的新地图、美术、菜单/结局与UI。保留41个音频事件；仅做必要编译、场景完整性和音频72项回归，全部通过。正常Play从MainMenu启动；详情见 [交付合并交接](docs/handoffs/audio-delivery-merge.handoff)。下方未提交记录为本次合并前历史。
+
+> 全量现有事件接线（2026-10-01）：按用户确认接入SB_Main 41/43事件，排除Play_NPC_Footsteps、Play_NPC_Fly。AudioCue保留1–22并追加23–36；攻击HitAccepted、敌人DamageApplied仅通知成功结算；最高Elite_Exit为唯一精英。死亡停音乐保留Bank，火焰每目标每施放一次命中声，门与传送只在实际成功时响。接口/调参/验证见 [audio-full-events.handoff](docs/handoffs/audio-full-events.handoff)。本轮保存未commit/push，保留此前移动音频和Ming合并。
+
+> 玩家移动音频（2026-10-01）：AudioCue 21=PlayerMoveNoFeet、22=PlayerFootstep；主图按实际Move显示帧和真实落地位移发声，无Legs→Play_Move_NoFoots，有Legs→Play_Footstep。取代下文“尚无脚步身份”的历史描述。接线、帧配置和验证见 [audio-player-movement.handoff](docs/handoffs/audio-player-movement.handoff)。
+
+> Audio_Test 合并记录（2026-10-01）：保留 ce17b4e 音频交付，合入 Ming/3c0bae7。主图出生点采用 Ming；音频配置以本次 Audio_Test 实际资产为准。合并、测试适配和本机验收范围见 [audio-ming-merge.handoff](docs/handoffs/audio-ming-merge.handoff)。下方 Ming 历史记录的未接音频说明不覆盖此交付。
 > C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。
 
 
@@ -346,7 +355,7 @@ C07主图真实输入/卡牌/伤害/暂停/失去部件/缺图降级30/0，C06�
 
 | 类型 | 实际签名/字段 | 已实现语义或边界 |
 |---|---|---|
-| RunPhase / IRunContext | Playing=0、Choosing=1、Paused=2、Dead=3、Won=4；Phase、IsGameplayActive、PhaseChanged | C01阶段；Won/正式重开/同帧胜负仲裁仍待接 |
+| RunPhase / IRunContext | Playing=0、Choosing=1、Paused=2、Dead=3、Won=4；Phase、IsGameplayActive、PhaseChanged | C14胜利；C16实际死亡后由GameBootstrap清理并重载当前场景，RunController仍唯一管理时间 |
 | IPlayerInput | MoveX、JumpHeld、TryConsumeJump/Attack/Interact/Dash、DiscardGameplayInput、PauseRequested | 单一输入缓冲；UI使用原Input Actions的UI map，不改公共输入资产 |
 | IHealth / IDamageable | CurrentHealth、MaximumHealth、IsAlive、HealthChanged/Died；TryTakeDamage(DamageRequest) | PlayerState；头部安全阶段未启HP但IsAlive=true且拒绝伤害；躯干后按HP判活 |
 | DamageKind / DamageRequest | Enemy=0、Terrain=1；Amount、Kind、Source | 正数实际伤害；代价不得走此接口 |

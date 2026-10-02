@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using Regrowth.Core;
+using Regrowth.Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,7 +53,7 @@ namespace Regrowth.UI
         {
             if (cancelButton != null)
             {
-                cancelButton.onClick.AddListener(CancelCurrent);
+                cancelButton.onClick.AddListener(CancelFromButton);
             }
         }
 
@@ -60,7 +61,7 @@ namespace Regrowth.UI
         {
             if (cancelButton != null)
             {
-                cancelButton.onClick.RemoveListener(CancelCurrent);
+                cancelButton.onClick.RemoveListener(CancelFromButton);
             }
             CancelCurrent();
         }
@@ -104,6 +105,13 @@ namespace Regrowth.UI
             callback?.Invoke();
         }
 
+        private void CancelFromButton()
+        {
+            if (!IsOpen || submitting) return;
+            GameAudio.Play(AudioCue.UIConfirm);
+            CancelCurrent();
+        }
+
         private bool CanPresent(ChoiceRequest request, Func<string, bool> tryConfirm)
         {
             if (!isActiveAndEnabled || request == null || tryConfirm == null)
@@ -137,6 +145,7 @@ namespace Regrowth.UI
                 cards.Add(card);
             }
             viewRoot.SetActive(true);
+            GameAudio.Play(AudioCue.CardsPresented);
             if (cards.Count > 0)
             {
                 FocusFirstEnabled();
@@ -164,6 +173,10 @@ namespace Regrowth.UI
             try
             {
                 bool accepted = confirm(optionId);
+                if (accepted || (IsOpen && submittedRevision != revision))
+                {
+                    GameAudio.Play(AudioCue.CardSelected);
+                }
                 // 回调可把同事务换为新阶段并返回 false；不要覆盖新阶段的提示。
                 if (accepted && IsOpen)
                 {

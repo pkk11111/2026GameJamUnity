@@ -1,3 +1,16 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	1000427711	Exploration_Level			\Default Work Unit\Exploration_Level	
+	1221856762	Music_Group			\Default Work Unit\Music_Group	
+
+State	ID	Name	State Group			Notes
+	748895195	None	Exploration_Level			
+	2678230380	Level3	Exploration_Level			
+	2678230381	Level2	Exploration_Level			
+	2678230382	Level1	Exploration_Level			
+	748895195	None	Music_Group			
+	1464097230	Elite	Music_Group			
+	2582085496	Exploration	Music_Group			
+
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	2246998526	Main Audio Bus			\Default Work Unit\Main Audio Bus	
 

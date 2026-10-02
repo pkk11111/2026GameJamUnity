@@ -2,7 +2,9 @@
 // 模块/维护：controller / Level 适配；依赖：PolygonCollider2D、WhiteboxPlayer2D 运动请求。
 // 接线：根缩放为 1；shape 参数首次 Awake 读取，击退参数实时读取；物理速度由玩家 FixedUpdate 写。
 // 交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。
+// 音频增量：audio-traps；接受击退后通知音频，见 docs/handoffs/audio-traps.handoff。
 using UnityEngine;
+using System;
 
 namespace Regrowth.Gameplay.WhiteBox
 {
@@ -10,6 +12,8 @@ namespace Regrowth.Gameplay.WhiteBox
     [RequireComponent(typeof(PolygonCollider2D))]
     public sealed class PrototypeSpike2D : MonoBehaviour
     {
+        /// <summary>真实击退请求被玩家接受后同步通知；音频订阅者在禁用时退订，不代表生命伤害。</summary>
+        public event Action KnockbackAccepted;
         [Header("椭圆检测形状（下次 Play 或重建生效）")]
         [SerializeField, Tooltip("椭圆宽高，局部单位，均为正数。")]
         private Vector2 ellipseSize = new Vector2(3f, 1f);
@@ -88,7 +92,8 @@ namespace Regrowth.Gameplay.WhiteBox
                 float horizontal = Mathf.Sqrt(1f - minimumUpwardDirection * minimumUpwardDirection);
                 direction = new Vector2(Mathf.Sign(direction.x) * horizontal, minimumUpwardDirection);
             }
-            player.TrySpikeKnockback(direction * knockbackSpeed, controlLockTime, protectionTime);
+            if (player.TrySpikeKnockback(direction * knockbackSpeed, controlLockTime, protectionTime))
+                KnockbackAccepted?.Invoke();
         }
 
         private void OnDrawGizmosSelected()

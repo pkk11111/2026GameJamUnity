@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Traps",
+  "rootNamespace": "Regrowth.Audio",
+  "references": ["Regrowth.WhiteBox", "Regrowth.Audio.Music", "AK.Wwise.Unity.API", "AK.Wwise.Unity.MonoBehaviour"],
+  "autoReferenced": true
+}

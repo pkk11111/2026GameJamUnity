@@ -1,0 +1,38 @@
+# Audio_Test / Ming 合并交接
+
+日期：2026-10-01；任务别名：audio-ming-merge。
+基线：Audio_Test/ce17b4e；合入 fetch 后的 origin/Ming/3c0bae7。
+用户授权：对比并合并人物移动/敌人交互，保留已有音频。执行本地 merge commit；未推送。
+
+## 合并与配置
+
+- 唯一 Git 冲突文件是 Assets/WhiteBox/Scenes/Level_Whitebox.unity。使用 UnityYAMLMerge 三方结构合并并在 Unity 6000.2.9f1 打开、保存、运行检查。结构合并只剩玩家出生点冲突，采用 Ming 的 (-12.14, 8.6)，保留双方新增对象/组件和 Audio_Test 的 UI 覆盖。
+- 合入人物身体组合/动画、咬击/剑击/火球、付费传送、13只普通敌人与1只精英的巡逻/追击/返回，以及 Ming 的固定攻击点数规则。
+- 保留 Audio_MusicZones、三层区域、Audio_RewardBackend、Wwise初始化/监听器、玩家/箱子/机关发声对象、7个SpikeAudioEmitter、卡片与取消按钮音效。原来的事件映射、UI增益和Bank绑定继续使用。
+- Assets/Scripts/Audio、Assets/Wwise、2026GameJamUnity_WwiseProject、Packages、ProjectSettings 相对 ce17b4e 无改动，包括用户最新SoundBank。未操作 Wwise Authoring 未保存内容。
+- ChoiceCardView/ChoicePanel 的灰卡禁选与原Hover/Selected/PopOut/Cancel发声兼容；WhiteboxPlayer2D保留Jump/DoubleJump/Dash并合入新版运动/动作锁/收费迁移。
+- 编辑器合并前虽显示dirty，保存副本与磁盘场景完全一致。备份 Logs/PreMerge-Unsaved.unity；LFS下载最初失败产生的中间文件仅存 Logs/FailedMergeFiles，本轮未提交缓存。
+
+## 本轮实际验证
+
+Unity编译无C#错误；合并场景加载时missing script为0。
+
+| 检查 | 本轮结果 |
+|---|---|
+| RewardAudioVerification | 72项通过，9箱真实事务/UI/能力得失/跳跃冲刺，Wwise ID=528 |
+| MusicZoneVerification | 10点通过，上下行/跨层/边界状态正确，同一音乐ID=534 |
+| SpikeAudioVerification | 全部7个物理接触、保护期去重、暂停抑制通过 |
+| SwitchAudioVerification | 8机关16次成功切换，远距/暂停/重复拒绝静默通过 |
+| C09 MainEnemyChecks | 全新Play 59/0；故意放敌人在右边界附近的回归同样59/0 |
+| C07 MainCharacterPlayChecks | 修正旧静止靶子夹具后30/0；真实输入、运动、咬剑动画、火球十跳等通过 |
+
+日志：Logs/Audio-Test-Merge-Verify.log（本机忽略文件）。现有 Tools/Audio 和 Tools/pawgatory/C07、C09 菜单可复现；退出Play恢复测试状态。
+
+## 测试适配与失败记录
+
+- 音乐首轮因既有Unity AI插件NoSubscription报错触发Console Error Pause而超时。临时关闭该编辑器选项后重跑10点通过；保留错误日志，完成后恢复选项。
+- C09最初两次55/4，四项均为追击链。立即启动的全新Play59/0。夹具原来固定把玩家放在敌人右侧3米，菜单迟启动时巡逻位置可令玩家越过RightBound；改为在左右两侧选择仍位于活动边界内的一侧。专门靠右边界复测59/0。不改EnemyBasicAI规则。
+- C07首轮29/1，持续火焰十跳伤害断言失败。旧夹具替换敌人实体碰撞为Trigger却未处理C09新增动态刚体/AI，靶子会移动和下落。仅在临时靶子上禁用AI并FreezeAll，复测30/0。退出Play即恢复，生产敌人/火球实现不变。
+- 临时MergeAIProbe日志代码已移除。上述两个测试文件随合并交付。
+
+未验证：人工音乐听感/响度、完整关卡流程、Windows独立构建与队友电脑。已有未接的战斗Cue映射及出口胜负不因本次合并标为完成；音频保留不等于为所有新增技能添加新声音。

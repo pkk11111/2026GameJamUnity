@@ -1,9 +1,10 @@
-// 职责：显式场景组装入口、唯一性校验与退出清理，不创建隐藏单例或实现重开。
-// 模块/维护：controller，C01/C02/C03；直接依赖：运行/输入/玩家状态、可选交互器/选择协调器、GameAudio。
+// 职责：显式场景组装入口、唯一性校验、退出清理及死亡后整场景重开。
+// 模块/维护：controller；直接依赖：运行/输入/玩家状态、可选交互/选择、GameAudio、SceneManager。
 // 交接：docs/handoffs/controller.handoff；规范：根目录 AGENTS.md。
 using Regrowth.Audio;
 using Regrowth.Core;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Regrowth.Runtime
 {
@@ -26,8 +27,12 @@ namespace Regrowth.Runtime
         [SerializeField, Tooltip("可选，退出时停止这些发声对象；全局发声对象也会停止，不停整个音频引擎。")]
         private GameObject[] audioEmitters = new GameObject[0];
 
+        [SerializeField, Tooltip("玩家死亡后自动重载本入口所在场景；默认开启。独立死亡状态测试可关闭。")]
+        private bool restartOnDeath = true;
+
         private static GameBootstrap activeBootstrap;
         private bool ownsSession;
+        private bool restartPending;
 
         public bool IsStarted { get; private set; }
 
@@ -75,6 +80,7 @@ namespace Regrowth.Runtime
                 {
                     // 重新绑定已死亡的同一生命周期，只同步 Dead，不复活或重复播放死亡音频。
                     runController.RequestPlayerDeath(playerState);
+                    restartPending = restartOnDeath;
                 }
             }
             IsStarted = true;
@@ -89,6 +95,7 @@ namespace Regrowth.Runtime
             }
 
             IsStarted = false;
+            restartPending = false;
             try
             {
                 if (playerInteractor != null)
@@ -143,8 +150,32 @@ namespace Regrowth.Runtime
             inputReader.DiscardGameplayInput();
             if (runController.RequestPlayerDeath(playerState))
             {
+                restartPending = restartOnDeath;
                 GameAudio.Play(AudioCue.PlayerDied, playerState.gameObject);
             }
+        }
+
+        // 等生命/死亡通知全部完成后才卸载，避免在伤害回调内销毁订阅者。
+        // LateUpdate 不依赖 timeScale，Dead 暂停时仍可重开；每次死亡仅发起一次。
+        private void LateUpdate()
+        {
+            if (!restartPending || !ownsSession || runController.Phase != RunPhase.Dead)
+            {
+                return;
+            }
+
+            restartPending = false;
+            Scene scene = gameObject.scene;
+            if (!scene.IsValid() || string.IsNullOrEmpty(scene.path)
+                || !Application.CanStreamedLevelBeLoaded(scene.path))
+            {
+                Debug.LogError("GameBootstrap 无法死亡重开：请保存当前场景并加入启用的构建场景。", this);
+                return;
+            }
+
+            string scenePath = scene.path;
+            ShutdownSession();
+            SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Single);
         }
 
         private void OnDisable()

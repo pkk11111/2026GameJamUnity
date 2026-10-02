@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Combat.Editor",
+  "references": ["Regrowth.Audio.Combat", "Regrowth.Audio.Core", "Regrowth.Audio.Wwise", "Regrowth.Audio.Music", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Regrowth.Gameplay.Bite", "Regrowth.Gameplay.Sword", "Regrowth.Gameplay.Fire", "Regrowth.Gameplay.EnemyBasic", "Regrowth.Gameplay.SwitchDoor", "Regrowth.Gameplay.Challenge", "AK.Wwise.Unity.MonoBehaviour"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

@@ -1,0 +1,41 @@
+# 玩家2D移动音频 — audio-player-movement
+
+日期：2026-10-01；分支Audio_Test；基线81535a9。
+用户授权：无腿移动Play_Move_NoFoots，获得腿卡后Play_Footstep，寻找与2D玩家动作对齐的方式。
+状态：主图已接线，Unity编译和Play验证通过；本轮未commit/push。
+
+## 实现与职责
+
+当前PlayerCharacterPresentation手动采样Sprite序列，不由Animator播放Clip，因此不依赖不会被调用的Animation Event。表现组件新增CurrentAnimation/CurrentFrameIndex/CurrentFrameSequence只读快照，不改变原动画选择、速度或伤害。
+
+PlayerMovementAudio在LateUpdate读取本帧已显示的Sprite索引；每个Move Clip独立配置接触帧。只消费新帧序号，循环回到同一Sprite仍可识别；跳过的帧不补播，卡顿后不密集追赶。固定物理步采样Rigidbody2D的实际水平位移，复用WhiteboxPlayer2D.IsGrounded，不新增射线或运动写者。要求真实移动输入、存活Playing、落地、非冲刺、非迁移、实际位移超过阈值且表现为Move。
+
+AudioCue新增稳定值21=PlayerMoveNoFeet、22=PlayerFootstep。通过既有GameAudio→RewardAudioBackend→SB_Main发送，emitter为玩家根。每次发声直接读取PlayerState.Contains(Legs)，不从Sprite名称、手/剑/尾或站立姿势猜测能力。无Legs（包含头部阶段）使用Play_Move_NoFoots，有Legs使用Play_Footstep；失去腿自动切回。
+
+两事件已存在于当前Windows Bank，无需更改Wwise工程、Bank或插件。无腿素材约0.324–0.477秒，脚步约0.259–0.406秒；默认最小间隔分别0.48/0.42游戏秒，避免过密叠加。短动画可能跳过过近的接触帧，仍只在后续实际显示的接触帧播放；没有用固定计时器脱离画面发声。已播放的短OneShot自然结束，不用StopAll误停玩家跳跃/能力等声音。
+
+## Inspector与接线
+
+场景：Assets/WhiteBox/Scenes/Level_Whitebox.unity。
+对象：02 Actors/Test_Player → Player Movement Audio。
+
+- State / Run / Motor / Body / Input / Presentation：全部显式引用原玩家组件，重新启用读取。
+- Contact Timings：13个Move Clip，Frames使用从0开始的显示帧索引。无腿默认每循环第0帧；有腿默认两个交替接触姿势（3/4帧Clip为0、2，5帧Clip为0、3）。这是当前手绘帧的初始对齐点，可结合画面与试听逐Clip调整，不改原贴图或动画帧率。
+- Minimum Move Speed：0.1单位/秒；实际物理水平位移速度阈值，实时读取。
+- No Feet Minimum Interval / Footstep Minimum Interval：0.48 / 0.42游戏秒，实时读取。保留跨停走/换卡/迁移的限频，不积累暂停或腾空期间的声音。
+- 00 Runtime/Audio_RewardBackend → Mappings新增两项，保留原全部映射、UI音量及Bank Owner。
+- Tools/Audio/Install Player Movement Audio：只在非Play主图运行，补缺失接线/Clip/映射；不覆盖已有接触帧和最小间隔。
+
+取得/失去身体项、阶段切换、传送和组件重启都会清实际位移与帧采样缓存。脚步只读身体和运动状态，无音频后端仍可正常游玩。
+
+## 实际验证
+
+Unity6000.2.9f1编译通过。Tools/Audio/Verify Player Movement Audio (Fresh Play)仅在新一轮主图Play显式运行；通过25/0。使用临时Input System键盘、真实运动和状态写口、隔离地板/墙、原Wwise后端，不替换真实运动实现。
+
+覆盖：无腿与有腿移动两事件互斥，手剑组合不覆盖Legs判断，运动中移除腿立即切回；静止/空中/顶墙/暂停/Choosing/冲刺/死亡静默；传送不制造步点；禁用/重启订阅正确。15次真实发声均命中配置显示帧、正确落地与间隔检查，Wwise返回有效playing ID。能力变化使用真实PlayerState写口；本轮不是人工点击卡片测试，既有奖励事务由RewardAudioVerification另行回归。
+
+测试入口、测试生成物均隔离，退出Play恢复原场景与空构筑；不保存测试地板、墙、死亡或位置。日志Logs/Audio-Test-Merge-Verify.log；场景备份Logs/BeforeMovementAudio.unity，均不提交。临时关闭Unity既有AI插件NoSubscription错误触发的Console Error Pause，结束恢复原值。
+
+追加回归：既有RewardAudioVerification 72/0，Wwise ID=801；原宝箱/UI/能力/跳跃冲刺音效继续通过。保存重载确认唯一PlayerMovementAudio、13个Clip接触配置、显式引用完整、全场景missing script=0；结束处于非Play并选中玩家。Wwise工程/Bank/插件、Packages及ProjectSettings无改动。
+
+待人工验收：在实际游戏音量下试听无腿蹭动与脚步的拍点/响度，必要时调Contact Timings和最小间隔。未做Windows独立构建或队友电脑验收。
