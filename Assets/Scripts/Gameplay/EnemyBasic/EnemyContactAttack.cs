@@ -21,6 +21,7 @@ namespace Regrowth.Gameplay
         private IRunContext subscribedRun;
         private double nextDamageTime;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
+        private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
         // 只读成功事件便于诊断真实Kind/Source；订阅者不能再次结算。
         public event Action<DamageRequest> DamageApplied;
 
@@ -76,7 +77,7 @@ namespace Regrowth.Gameplay
             attackTrigger.Overlap(filter, overlaps);
             foreach (Collider2D collider in overlaps)
             {
-                if (collider == null || !ReferenceEquals(Receiver(collider.transform), player))
+                if (collider == null || !ReferenceEquals(DamageableLookup.FindInParents(collider.transform, receiverComponents), player))
                 {
                     continue;
                 }
@@ -88,20 +89,6 @@ namespace Regrowth.Gameplay
                 }
                 break; // 无论成功/保护拒绝，所有玩家Collider共享本次周期。
             }
-        }
-        private static IDamageable Receiver(Transform node)
-        {
-            for (Transform current = node; current != null; current = current.parent)
-            {
-                foreach (MonoBehaviour component in current.GetComponents<MonoBehaviour>())
-                {
-                    if (component is IDamageable damageable)
-                    {
-                        return damageable;
-                    }
-                }
-            }
-            return null;
         }
         private void OnDisable()
         {

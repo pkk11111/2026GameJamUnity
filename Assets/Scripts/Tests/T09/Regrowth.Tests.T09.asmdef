@@ -1,1 +1,3 @@
-{"name":"Regrowth.Tests.T09","rootNamespace":"Regrowth.Tests.T09","references":["Regrowth.Core","Regrowth.Runtime","Regrowth.Gameplay.EnemyBasic","Regrowth.Gameplay.Combat","Regrowth.Gameplay.Bite","Unity.InputSystem","Unity.TextMeshPro","UnityEngine.UI"],"autoReferenced":true}
+{"name":"Regrowth.Tests.T09","rootNamespace":"Regrowth.Tests.T09","references":["Regrowth.Core","Regrowth.Runtime","Regrowth.Gameplay.EnemyBasic","Regrowth.Gameplay.Combat","Regrowth.Gameplay.Bite","Unity.InputSystem","Unity.TextMeshPro","UnityEngine.UI"],"autoReferenced":true,
+  "defineConstraints": ["UNITY_EDITOR"]
+}

@@ -18,7 +18,7 @@ public static class WorldArtworkSetup
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode) return;
         var scene = SceneManager.GetActiveScene();
-        if (scene.name != "Level_Whitebox") return;
+        if (scene.name != "MainLevel") return;
         Directory.CreateDirectory("Temp/WorldArtwork");
         var text = new StringBuilder(Application.dataPath + "\n" + scene.path + " dirty=" + scene.isDirty + "\n");
         foreach (var t in scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Transform>(true)))

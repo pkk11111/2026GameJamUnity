@@ -58,7 +58,7 @@ namespace Regrowth.Tests.T09.Editor
             var enemy = enemyRoot.GetComponent<EnemyBasic>();
             Bind(enemy, "config", config);
             var sprite = enemyRoot.GetComponent<SpriteRenderer>();
-            sprite.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Configs/T06/GrayboxSquare.png");
+            sprite.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Environment/Primitives/PlayerSquare.png");
             sprite.drawMode = SpriteDrawMode.Sliced; sprite.size = Vector2.one; sprite.color = new Color(0.55f, 0.45f, 0.4f);
             enemyRoot.GetComponent<BoxCollider2D>().size = Vector2.one;
             var area = new GameObject("Contact Attack Trigger", typeof(BoxCollider2D), typeof(EnemyContactAttack));

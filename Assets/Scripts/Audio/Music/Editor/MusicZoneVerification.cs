@@ -32,7 +32,7 @@ namespace Regrowth.Audio.Editor
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("请先退出 Play。");
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
-            EditorSceneManager.OpenScene("Assets/WhiteBox/Scenes/Level_Whitebox.unity");
+            EditorSceneManager.OpenScene("Assets/Scenes/Gameplay/MainLevel.unity");
             SessionState.SetBool(Key, true);
             EditorApplication.EnterPlaymode();
         }

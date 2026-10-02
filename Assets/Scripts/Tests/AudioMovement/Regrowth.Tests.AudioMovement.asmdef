@@ -1,5 +1,6 @@
 {
   "name": "Regrowth.Tests.AudioMovement",
   "references": ["Regrowth.Audio.Core", "Regrowth.Audio.Movement", "Regrowth.Audio.Wwise", "Regrowth.Audio.Music", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Regrowth.Presentation", "Unity.InputSystem"],
-  "autoReferenced": true
+  "autoReferenced": true,
+  "defineConstraints": ["UNITY_EDITOR"]
 }

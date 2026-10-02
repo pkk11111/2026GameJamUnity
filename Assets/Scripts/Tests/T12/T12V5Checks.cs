@@ -122,12 +122,11 @@ namespace Regrowth.Tests.T12
                 Set(reward, "bonusHeal", extraHeal);
                 return reward;
             };
-            Func<ChestRewardDefinition[], bool, ChestRewardConfig> config = (pool, favor) =>
+            Func<ChestRewardDefinition[], ChestRewardConfig> config = pool =>
             {
                 var asset = ScriptableObject.CreateInstance<ChestRewardConfig>();
                 cleanup.Add(asset);
                 Set(asset, "rewards", pool);
-                Set(asset, "favorRegrowth", favor);
                 return asset;
             };
             try
@@ -155,7 +154,7 @@ namespace Regrowth.Tests.T12
                     reentryRejected = !state.TryRemoveLoadoutItem(LoadoutItemId.Arms);
                 };
                 check(state.TryApplyReward(new PlayerReward(LoadoutItemId.Arms, 20, 10, 4), null, () => ownerCommitted = true)
-                    && state.MaximumHealth == 110 && state.BiteDamage == 14 && state.SwordDamage == 19, "bundle all effects");
+                    && state.MaximumHealth == 110 && state.BiteDamage == 14 && state.SwordDamage == 24, "bundle all effects");
                 check(observedAtomic && reentryRejected, "notifications see owner/items/stats together and reject reentry");
                 int hp = state.CurrentHealth;
                 check(!state.TryApplyReward(new PlayerReward(heal: 10, maximumHealthIncrease: int.MaxValue))
@@ -173,19 +172,19 @@ namespace Regrowth.Tests.T12
                 var heal = definition("heal", ChestRewardKind.Heal, default, 0);
                 var max = definition("max", ChestRewardKind.MaximumHealth, default, 0);
                 var attack = definition("attack", ChestRewardKind.Attack, default, 0);
-                var pool = config(new[] { legs, arms, tail, heal, max, attack }, false);
+                var pool = config(new[] { legs, arms, tail, heal, max, attack });
                 var transaction = new ChestClaimTransaction(second, second, second, context, menu, pool, "fixed", () => { }, () => true);
                 check(transaction.TryBegin() && menu.Request.Options.Count == 3
                     && menu.Request.Options.Select(x => x.Id).Distinct().Count() == 3, "ordinary three distinct");
                 var oldCards = transaction.Cached.ToArray();
                 menu.Cancel();
-                check(transaction.TryBegin() && oldCards.SequenceEqual(transaction.Cached), "cancel keeps exact cards");
+                check(transaction.TryBegin() && oldCards.Select(x => JsonUtility.ToJson(x)).SequenceEqual(transaction.Cached.Select(x => JsonUtility.ToJson(x))), "cancel keeps exact cards");
                 menu.Cancel();
                 var oldItemCard = oldCards.FirstOrDefault(x => x.Kind == ChestRewardKind.Loadout);
                 if (oldItemCard == null)
                 {
                     // 固定随机种子独立夹具确保有可失效身体项，不修改正式抽样策略。
-                    pool = config(new[] { legs, arms, tail }, false);
+                    pool = config(new[] { legs, arms, tail });
                     transaction = new ChestClaimTransaction(second, second, second, context, menu, pool, "repair", () => { }, () => true);
                     transaction.TryBegin();
                     oldCards = transaction.Cached.ToArray();
@@ -196,7 +195,7 @@ namespace Regrowth.Tests.T12
                 second.TryAddLoadoutItem(oldItemCard.Item);
                 check(transaction.TryBegin() && !transaction.Cached.Any(x => x.Kind == ChestRewardKind.Loadout && second.Contains(x.Item)),
                     "reopen excludes newly owned card");
-                check(oldCards.Where(x => x != oldItemCard).All(x => ReferenceEquals(transaction.Cached[Array.IndexOf(oldCards, x)], x)),
+                check(oldCards.Where(x => x != oldItemCard).All(x => JsonUtility.ToJson(transaction.Cached[Array.IndexOf(oldCards, x)]) == JsonUtility.ToJson(x)),
                     "repair preserves other positions");
                 menu.Cancel();
 
@@ -207,7 +206,7 @@ namespace Regrowth.Tests.T12
                 full.TryAddLoadoutItem(LoadoutItemId.FlameBreath);
                 full.TryTakeDamage(new DamageRequest(30, DamageKind.Terrain));
                 int completed = 0;
-                var replacementPool = config(new[] { legs, heal, max }, false);
+                var replacementPool = config(new[] { legs, heal, max });
                 var replacement = new ChestClaimTransaction(full, full, full, context, menu, replacementPool, "replace", () => completed++, () => true);
                 check(replacement.TryBegin() && !menu.Submit("legs") && menu.Request.Options.Count == 3, "full slot stage has three old items");
                 check(menu.Request.Options.Any(x => x.Id == ((int)LoadoutItemId.FlameBreath).ToString()), "standalone skill replaceable");
@@ -220,23 +219,49 @@ namespace Regrowth.Tests.T12
                     && !full.Contains(LoadoutItemId.Tail) && full.CurrentHealth == 77 && completed == 1, "replacement bundle committed once");
                 check(replacement.Claimed && !replacement.TryBegin() && !menu.Submit("legs"), "claimed cannot repeat");
                 full.TryRemoveLoadoutItem(LoadoutItemId.Legs);
-                var priorityPool = config(new[] { legs, tail, heal, max, attack }, true);
-                var priority = new ChestClaimTransaction(full, full, full, context, menu, priorityPool, "priority", () => { }, () => true);
-                check(priority.TryBegin() && priority.Cached.Any(x => x.Kind == ChestRewardKind.Loadout
-                    && LoadoutRules.IsBodyItem(x.Item) && full.WasEverOwned(x.Item)), "regrowth priority reserves a missing history part");
-                menu.Cancel();
-
+                // 相同当前构筑/随机状态下，历史持有不改变抽样；仍可改变再生展示文案。
+                var plain = makeState(context, true);
+                var historical = makeState(context, true);
+                historical.TryAddLoadoutItem(LoadoutItemId.Legs);
+                historical.TryRemoveLoadoutItem(LoadoutItemId.Legs);
+                var uniformPool = config(new[] { legs, arms, tail, heal, max, attack });
+                var randomState = UnityEngine.Random.state;
+                bool historyIndependent = true;
+                bool canOmitPreviousPart = false;
+                try
+                {
+                    for (int seed = 0; seed < 32; seed++)
+                    {
+                        UnityEngine.Random.InitState(seed);
+                        var first = new ChestClaimTransaction(plain, plain, plain, context, menu, uniformPool, "plain", () => { }, () => true);
+                        bool firstOpened = first.TryBegin();
+                        var firstIds = first.Cached.Select(x => x.Id).ToArray();
+                        menu.Cancel();
+                        UnityEngine.Random.InitState(seed);
+                        var secondDraw = new ChestClaimTransaction(historical, historical, historical, context, menu, uniformPool, "history", () => { }, () => true);
+                        bool secondOpened = secondDraw.TryBegin();
+                        historyIndependent &= firstOpened && secondOpened && firstIds.SequenceEqual(secondDraw.Cached.Select(x => x.Id));
+                        canOmitPreviousPart |= !secondDraw.Cached.Any(x => x.Item == LoadoutItemId.Legs && x.Kind == ChestRewardKind.Loadout);
+                        menu.Cancel();
+                    }
+                }
+                finally
+                {
+                    UnityEngine.Random.state = randomState;
+                }
+                check(historyIndependent, "same random state and current loadout draw identical cards regardless of ownership history");
+                check(canOmitPreviousPart, "previously held missing part is not reserved in every draw");
                 var buffs = makeState(context, true);
                 check(buffs.TryApplyReward(new PlayerReward(heal: 20)) && buffs.CurrentHealth == 100, "full health no-op reward accepted");
                 check(buffs.TryApplyReward(new PlayerReward(maximumHealthIncrease: 10)) && buffs.MaximumHealth == 110
                     && buffs.CurrentHealth == 100, "max increase does not silently heal");
                 check(buffs.TryApplyReward(new PlayerReward(attackIncrease: 5)) && buffs.BiteDamage == 15
-                    && buffs.SwordDamage == 20 && buffs.Items.Count == 0, "attack buff no slot");
-                var onlyBuffs = config(new[] { heal, max, attack }, false);
+                    && buffs.SwordDamage == 25 && buffs.Items.Count == 0, "attack buff no slot");
+                var onlyBuffs = config(new[] { heal, max, attack });
                 var buffChest = new ChestClaimTransaction(buffs, buffs, buffs, context, menu, onlyBuffs, "buff", () => { }, () => true);
                 check(buffChest.TryBegin() && menu.Submit("max") && buffChest.Claimed && buffs.MaximumHealth == 120, "stat reward uses real command");
                 var head = makeState(context, false);
-                var bodyConfig = config(new[] { definition("body", ChestRewardKind.BodyCore, default, 0) }, false);
+                var bodyConfig = config(new[] { definition("body", ChestRewardKind.BodyCore, default, 0) });
                 Set(bodyConfig, "bodyTutorial", true);
                 var tutorial = new ChestClaimTransaction(head, head, head, context, menu, bodyConfig, "body", () => { }, () => true);
                 check(tutorial.TryBegin() && menu.Request.Options.Count == 1, "tutorial fixed single card");

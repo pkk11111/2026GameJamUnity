@@ -47,9 +47,7 @@ namespace Regrowth.Gameplay
         [SerializeField, Tooltip("至少3个当前合法不同条目；保留项不能重复身份，不配置预留项。")]
         private ChestRewardDefinition[] rewards;
         [SerializeField, Tooltip("只用于固定躯干箱；恰好一个BodyCore奖励，不进入普通池。")] private bool bodyTutorial;
-        [SerializeField, Tooltip("首次生成时优先一项合法的曾持有缺失身体；其余等概率。")] private bool favorRegrowth;
         public bool BodyTutorial => bodyTutorial;
-        public bool FavorRegrowth => favorRegrowth;
         [SerializeField, Tooltip("按combat规则使用百分比回血/上限；攻击始终为固定伤害点；正式主图启用，旧独测可保留固定值。")]
         private bool useCombatPercentages;
         [SerializeField, Range(1, 100)] private int healPercent = 20;

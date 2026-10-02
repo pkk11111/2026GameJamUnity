@@ -16,5 +16,6 @@
     "UnityEngine.UI"
   ],
   "autoReferenced": true,
-  "rootNamespace": "Regrowth.Tests.C07"
+  "rootNamespace": "Regrowth.Tests.C07",
+  "defineConstraints": ["UNITY_EDITOR"]
 }

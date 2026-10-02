@@ -19,8 +19,10 @@ namespace Regrowth.Gameplay
 
         [SerializeField, Tooltip("初始打开；本局只初始化一次。白板 Door_2 使用此配置。")]
         private bool startOpen;
-        [SerializeField, Tooltip("仅白板试走允许重新关闭；默认关闭，正式 T03 仍为一次开门。")]
+        [SerializeField, Tooltip("允许按钮反复切换；开启时须绑定closingGuard，门碰撞必须为BoxCollider2D。")]
         private bool allowPrototypeReclose;
+        [SerializeField, Tooltip("允许重新关闭时必填：玩家实体Collider；占用门区域时拒绝关门，离开后可再次按开关。")]
+        private Collider2D closingGuard;
         private bool initialized;
 
         public bool IsOpen { get; private set; }
@@ -28,13 +30,13 @@ namespace Regrowth.Gameplay
         {
             get
             {
-                if (blockingColliders == null || blockingColliders.Length == 0 || closedView == gameObject || openView == gameObject)
+                if (blockingColliders == null || blockingColliders.Length == 0 || closedView == gameObject || openView == gameObject || (allowPrototypeReclose && closingGuard == null))
                 {
                     return false;
                 }
                 foreach (Collider2D collider in blockingColliders)
                 {
-                    if (collider == null || collider.isTrigger)
+                    if (collider == null || collider.isTrigger || (allowPrototypeReclose && !(collider is BoxCollider2D)))
                     {
                         return false;
                     }
@@ -64,11 +66,11 @@ namespace Regrowth.Gameplay
         /// <summary>Unity主线程由开关调用。重复/停用/缺引用false且无音频或事件；成功立即可通行。</summary>
         public bool TryOpen() => TrySetOpen(true);
 
-        /// <summary>白板适配入口；只有 Inspector 明确授权才允许关闭。状态只有本组件持有。</summary>
+        /// <summary>白板适配入口；只有Inspector明确授权且玩家未占门才允许关闭；拒绝不改变状态/碰撞/音频。</summary>
         public bool TrySetOpen(bool value)
         {
             if (!initialized || IsOpen == value || !isActiveAndEnabled || !IsConfigured
-                || (!value && !allowPrototypeReclose))
+                || (!value && (!allowPrototypeReclose || IsClosingAreaOccupied())))
             {
                 return false;
             }
@@ -81,6 +83,37 @@ namespace Regrowth.Gameplay
             }
             return true;
         }
+        private bool IsClosingAreaOccupied()
+        {
+            if (closingGuard == null)
+            {
+                return true;
+            }
+            if (!closingGuard.enabled || !closingGuard.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+            Physics2D.SyncTransforms();
+            foreach (Collider2D collider in blockingColliders)
+            {
+                // 已打开门的Collider.bounds为空，使用保存的Box形状计算保守世界包围盒。
+                var box = collider as BoxCollider2D;
+                if (box == null)
+                {
+                    return true;
+                }
+                Vector3 x = box.transform.TransformVector(new Vector3(box.size.x, 0f, 0f));
+                Vector3 y = box.transform.TransformVector(new Vector3(0f, box.size.y, 0f));
+                var bounds = new Bounds(box.transform.TransformPoint(box.offset),
+                    new Vector3(Mathf.Abs(x.x) + Mathf.Abs(y.x), Mathf.Abs(x.y) + Mathf.Abs(y.y), 1f));
+                if (bounds.Intersects(closingGuard.bounds))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void ApplyView()
         {
             foreach (Collider2D collider in blockingColliders)

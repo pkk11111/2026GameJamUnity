@@ -16,7 +16,7 @@ namespace Regrowth.Audio.Editor
         [MenuItem("Tools/Audio/Install Whitebox Reward Audio")]
         public static void Install()
         {
-            if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity")
+            if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().path != "Assets/Scenes/Gameplay/MainLevel.unity")
                 throw new InvalidOperationException("请在非 Play 模式打开 Level_Whitebox。");
             var owners = UnityEngine.Object.FindObjectsByType<ExplorationMusicZones>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             if (owners.Length != 1) throw new InvalidOperationException("需要唯一 Bank Owner。");

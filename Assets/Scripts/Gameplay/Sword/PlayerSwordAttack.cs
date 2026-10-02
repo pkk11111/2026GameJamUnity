@@ -26,6 +26,7 @@ namespace Regrowth.Gameplay
         private double nextAttackTime, hideVisualTime;
         private bool attacking;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
+        private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
         public event Action AttackStarted;
         public event Action<IDamageable> HitAccepted;
@@ -88,7 +89,7 @@ namespace Regrowth.Gameplay
                 {
                     if (!CanAttack) break;
                     if (collider == null || collider.transform.IsChildOf(combatStateSource.transform)) continue;
-                    IDamageable target = Receiver(collider.transform);
+                    IDamageable target = DamageableLookup.FindInParents(collider.transform, receiverComponents);
                     if (target == null || ReferenceEquals(target, combatStateSource) || !damaged.Add(target)) continue;
                     if (target is Component component && (component.transform.IsChildOf(combatStateSource.transform)
                         || combatStateSource.transform.IsChildOf(component.transform)
@@ -103,13 +104,6 @@ namespace Regrowth.Gameplay
                 return true;
             }
             finally { attacking = false; }
-        }
-        private static IDamageable Receiver(Transform node)
-        {
-            for (Transform current = node; current != null; current = current.parent)
-                foreach (MonoBehaviour behaviour in current.GetComponents<MonoBehaviour>())
-                    if (behaviour is IDamageable receiver) return receiver;
-            return null;
         }
         private void OnDrawGizmosSelected()
         {

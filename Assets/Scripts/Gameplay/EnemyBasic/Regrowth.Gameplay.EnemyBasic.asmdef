@@ -1,1 +1,1 @@
-{"name":"Regrowth.Gameplay.EnemyBasic","rootNamespace":"Regrowth.Gameplay","references":["Regrowth.Core"],"autoReferenced":true}
+{"name":"Regrowth.Gameplay.EnemyBasic","rootNamespace":"Regrowth.Gameplay","references":["Regrowth.Core", "Regrowth.Gameplay.Combat"],"autoReferenced":true}

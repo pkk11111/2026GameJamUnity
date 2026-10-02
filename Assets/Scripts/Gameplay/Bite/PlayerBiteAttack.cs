@@ -27,6 +27,7 @@ namespace Regrowth.Gameplay
         private bool wired;
         private bool attacking;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
+        private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
         public float CooldownRemaining => Mathf.Max(0f, (float)(nextAttackTime - Time.timeAsDouble));
         public bool IsWired => wired;
@@ -91,7 +92,7 @@ namespace Regrowth.Gameplay
                     {
                         continue;
                     }
-                    IDamageable target = Receiver(collider.transform);
+                    IDamageable target = DamageableLookup.FindInParents(collider.transform, receiverComponents);
                     if (target == null || ReferenceEquals(target, combatStateSource) || !damaged.Add(target))
                     {
                         continue;
@@ -124,21 +125,6 @@ namespace Regrowth.Gameplay
             {
                 attacking = false;
             }
-        }
-
-        private static IDamageable Receiver(Transform node)
-        {
-            for (Transform current = node; current != null; current = current.parent)
-            {
-                foreach (MonoBehaviour behaviour in current.GetComponents<MonoBehaviour>())
-                {
-                    if (behaviour is IDamageable receiver)
-                    {
-                        return receiver;
-                    }
-                }
-            }
-            return null;
         }
 
         private void OnDrawGizmosSelected()

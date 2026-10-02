@@ -47,7 +47,7 @@ namespace Regrowth.Tests.C07
         [MenuItem("Tools/pawgatory/C07/Run Main Character Checks (Play)")]
         public static void StartChecks()
         {
-            if (!Application.isPlaying || Current != null || UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity")
+            if (!Application.isPlaying || Current != null || UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != "Assets/Scenes/Gameplay/MainLevel.unity")
             {
                 throw new InvalidOperationException("C07 requires fresh main scene Play.");
             }

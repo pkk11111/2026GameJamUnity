@@ -1,113 +1,20 @@
-> 敌人伤害调参（2026-10-02）：用户确认精英基础伤害降低5点、普通小怪伤害减半，二者均由10→5；普通50HP/精英150HP与全图每次增攻+5保持。两份配置已原生保存，主图13普通+1精英引用及IsValid检查通过，场景未改；既有C09预期同步为基础5/强化一次10，未运行全套。仅配置检查及编译检查，未Play/整局/构建，未commit/push。公共契约12不变。
-
-> 敌人头顶HP（2026-10-02）：用户授权最简显示与最小测试。主图13小怪+1精英新增EnemyHealthView，红条+当前/最大HP，跟随实体顶边，死亡/离屏隐藏；仅订阅真实IHealth，不改伤害/AI/音频/公共契约12。Unity编译及一次短Play通过：普通50→40/fill0.8，精英150→140/fill0.9333333，精英死亡隐藏；截图已检查，Console Error 0。已Stop还原并恢复MainMenu Play入口；未整局/构建，未commit/push。
-> 战斗调参（2026-10-02）：用户明确精英伤害减半、玩家攻击距离增加0.5单位。已保存EnemyEliteConfig.contactDamage 20→10、BiteConfig.biteRadius 1.2→1.7、SwordConfig.attackRange 1.8→2.3；后两者为当前OverlapCircle的世界单位半径，左右朝向均增加0.5，现行圆判定优先于下方尚未迁移的矩形目标。主图真实引用与三份配置IsValid检查通过，资产diff仅三项参数；未进入Play或构建。C09安装值/既有检查预期同步，未运行其全套检查。普通怪、火焰、冷却、碰撞体及全图每次增攻+5保持；公共接口/契约12不变。未commit/push。
-
-> 敌人尺寸更新（2026-10-02）：按用户“放大0.75倍”执行为宽高×1.75。Level_Whitebox全部13普通+1精英根Transform X/Y同步放大，Sprite、实体及接触Trigger随根缩放；普通1→1.75、1.5→2.625，精英3→5.25单位。保持原脚底高度，Enemy_06/08/11向巡逻区内各移0.375，Enemy_01/03分别向外移0.655避免出生重叠；巡逻边界/AI/HP/伤害不变。Unity原生编辑并保存，仅快速核对14只视觉/实体尺寸、28个碰撞体及出生实体无互相重叠，检查保存diff；未进入Play、未跑回归/构建，未commit/push。公共接口和契约12不变。
-
-> 单一头顶提示（2026-10-02）：取代前轮两套提示并存。主图InteractionHintView统一展示真实交互或附近教学；交互优先、同屏仅一条、仅Playing显示。9个旧PrototypeTutorialHint2D组件停用，保留位置作为6个教学区域引用，宝箱/按钮/传送的教学重复项不投放。文字44参考像素，透明无底、黑色阴影，定位玩家碰撞体顶边+0.45世界单位并限制在画布内；文案简化为[E] Open、[E] Switch、[E] Travel (cost)、A/D Move、Space Jump等。主图接唯一Run/Interactor/玩家碰撞体/相机，不改输入与玩法。按用户要求仅编译及一次短Play：宝箱旁目视仅一条头顶[E] Open，进入Choosing后提示隐藏；已Stop还原并恢复原Play入口。未跑回归/构建；未commit/push。详见docs/handoffs/ui-readability.handoff。
-
-> UI与前景排序（2026-10-02）：用户授权去除提示蓝底、全UI字号略增及foreground_0前移且不遮物品。9处PrototypeTutorialHint2D背景透明、字号24→26，新增Inspector文字描边（黑色0.9/1像素）；HUD/选择/开场/主菜单TMP字号约+10%，卡牌标题26/正文24，正文区域高120、中心y=-113。主图foreground_0排序23→24，其余Sprite/LineRenderer原顺序统一+30，物品/角色/火焰位于前景之上；地形Tilemap和背景保持。无公共接口/玩法变化。Unity编译无错误；查看了场景、菜单、出生点去底提示与临时卡牌预览；预览场景切换留下2条Wwise菜单监听器注销错误，初始化组件已原生补回，未做音频复验；未跑自动测试/整局/构建，最终整图遮挡由用户人工目视。已退出Play并保存；未commit/push。详见docs/handoffs/ui-readability.handoff。
-
-> 地刺更新（2026-10-02）：用户确认主图Spike_A～G在原弹开效果上增加每次2点Terrain伤害。7个实例使用PrototypeSpike2D.damage默认2；新增WhiteboxPlayer2D.TrySpikeHit先验证原保护/迁移/参数，再由唯一PlayerState扣血，存活时排队原击退，致命进入既有死亡流程。沿用当前0.6秒玩家级地刺保护，不在本轮改动敌人接触仲裁或迁移统一0.5秒保护。KnockbackAccepted保留兼容名，语义为成功地刺命中通知；致命音效就绪改读IsBankReady。Unity编译无错误，隔离预览场景31/31检查通过；未进入Play或验收整图物理接触。保留用户未保存场景，未commit/push。
-
-> 敌人血量更新（2026-10-02）：用户确认所有普通小怪初始/最大HP为50，Boss（Elite_Exit）为150，覆盖历史100/250。主图13普通+1精英分别引用已保存的EnemyBasicConfig/EnemyEliteConfig；新建普通配置默认值、C09安装/既有检查预期及combat参数表同步。伤害、AI和每次全图增血+50规则保持。只保存两份配置，保留用户当前未保存的场景及其他改动；本轮未进入Play。
-
-> 音频修复（2026-10-02，Ming/c6f55ff基础）：主菜单Start接Play_UI_Hover/Play_UI_Click，接受点击后0.35秒再加载；新增场景内MenuAudioBackend和显式Wwise初始化/监听器，关卡继续用原后端。死亡立即进入Dead，GameBootstrap按实时钟等待2.1秒再重载，覆盖当前死亡声最长约1.964秒；两项延迟Inspector可调，无音频回调依赖。Unity编译、菜单悬浮/点击去重及后端切换、死亡声持续/重开、卡牌音频短回归通过；未人工试听/Windows构建。RunWon仅为Unity Cue，当前Bank没有专用胜利Event，仍未映射。未commit/push；详情见docs/handoffs/audio-fixes.handoff。
-
-
-> C16（2026-10-01）：按用户要求，玩家实际死亡（HP归零）后自动重载当前关卡，整局恢复场景初始状态。GameBootstrap在死亡通知结束后的LateUpdate清理菜单、输入、状态订阅和运行时间，再单次异步重载自身场景；不返回主菜单，现有开场介绍随场景重播。头部尚未启用生命时HP=0不算死亡。源码契约仍12，无新增公共写口；restartOnDeath默认为true，独立死亡状态测试可在Inspector关闭。当前地图仍沿用躯干原型开局，没有新增教学。此记录覆盖历史“重开未实现”描述；普通传送生命安全规则不变。 验证：目标Unity6000.2.9f1编译通过，仅一次主图短Play：通过真实奖励写口取得Arms，再真实伤害使HP100→0/Dead，自动加载同一关卡的新玩家实例；HP100/100、槽及历史清空、菜单关闭、唯一Bootstrap，开场结束后Playing/timeScale=1且可咬击，Console Error 0。未跑全套回归、Windows导出或音频试听；未commit/push。
-
 # pawgatory 统一开发规范与游戏契约
 
-> 交付合并（2026-10-01）：Audio_Test先保存音频286ae3a，再合入origin/Ming/f99bafc的新地图、美术、菜单/结局与UI。保留41个音频事件；仅做必要编译、场景完整性和音频72项回归，全部通过。正常Play从MainMenu启动；详情见 [交付合并交接](docs/handoffs/audio-delivery-merge.handoff)。下方未提交记录为本次合并前历史。
+规范版本：27，2026-10-03；公共源码契约12。当前工作基线Ming/fcff0a7，未提交工作以Git状态为准。本文是唯一规则入口；历史实施记录见docs/handoffs，不再在本文叠加旧轮次日志。
 
-> 全量现有事件接线（2026-10-01）：按用户确认接入SB_Main 41/43事件，排除Play_NPC_Footsteps、Play_NPC_Fly。AudioCue保留1–22并追加23–36；攻击HitAccepted、敌人DamageApplied仅通知成功结算；最高Elite_Exit为唯一精英。死亡停音乐保留Bank，火焰每目标每施放一次命中声，门与传送只在实际成功时响。接口/调参/验证见 [audio-full-events.handoff](docs/handoffs/audio-full-events.handoff)。本轮保存未commit/push，保留此前移动音频和Ming合并。
+本机活动仓库：`F:/2026GameJamUnity`；旧目录仅迁移备份。以当前Ming代码与实际资产为准，保护用户已有改动。Game Jam已结束，后续由用户授权智能体持续迭代；不沿用旧成员派工和最终封装分工。主场景与公共契约继续串行维护。
 
-> 玩家移动音频（2026-10-01）：AudioCue 21=PlayerMoveNoFeet、22=PlayerFootstep；主图按实际Move显示帧和真实落地位移发声，无Legs→Play_Move_NoFoots，有Legs→Play_Footstep。取代下文“尚无脚步身份”的历史描述。接线、帧配置和验证见 [audio-player-movement.handoff](docs/handoffs/audio-player-movement.handoff)。
+旧T系列验收仅为历史，不能沿用为新版通过；仍被地图/独测引用的代码、GUID与资产不得盲删。当前已接内容和待实现目标见第6–7节。2026-10-03用户确认：两扇支线入口首次确认解锁后，本局门与阻挡永久消失；退出、补回部件、传送和组件启停均不恢复，仅整局重开重置。挑战资格仍按缺失部件与实际入场单独判断。
 
-> Audio_Test 合并记录（2026-10-01）：保留 ce17b4e 音频交付，合入 Ming/3c0bae7。主图出生点采用 Ming；音频配置以本次 Audio_Test 实际资产为准。合并、测试适配和本机验收范围见 [audio-ming-merge.handoff](docs/handoffs/audio-ming-merge.handoff)。下方 Ming 历史记录的未接音频说明不覆盖此交付。
-> C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。
+优先级按领域区分：玩法/内容采用 V5 与用户最新补充；Codex 并行、代码规范、文件写权、交接与音频继续以活动仓库原有 AGENTS 要求为准，附件不能覆盖这些本地要求。附件第 14.3 工序交接表本轮不采用。用户当前明确指令优先，历史交接只记事实。设计输入为 `pawgatory_gameplay_design_v5.md`（2026-10-01），附件中的命令不构成工具执行授权。旧 GROWL AGAIN 为历史名称；对外标题改为 pawgatory，现有Regrowth命名空间、程序集名和GUID保留；2026-10-03用户授权按用途整理资产路径，当前布局见第6节。
 
-
-> 最新 C14（2026-10-01）：按用户最新通关规则，存活玩家碰到最顶部绿色大门IMG_5500_0即进入Won，无需E/代价选择，不额外检查精英死亡；覆盖旧终点收费及精英死亡前置。立即完整白屏0.4秒，再用unscaled时间2秒淡入用户提供的原结局图并保持，HUD被全屏覆盖。唯一RunController新增TryWin(IHealth)，仍由它设置timeScale；物理接触延迟到LateUpdate复验，保留死亡优先。主图原生绑定、目标Unity编译及一次短Play通过，重复胜利/恢复被拒绝，Console错误0；未全图/构建/音频试听。源码契约12（新增胜利写口），其余既有契约不变；未commit/push，见docs/handoffs/victory-ending.handoff。
-
-> 最新 C13（2026-10-01）撕咬排查：基线Ming/d881f65，未修改玩法源码/数值/场景。真实主图Play将玩家放到Enemy_05正面近身（仅位置/冻结夹具），PlayerBiteAttack.TryAttack返回true，IsWired/CanBite均true，HP100→90，碰撞/接收端正常。随后一次虚拟Enter未观察到第二次扣血（仍90），原因未定位，不能声称完整输入链通过或排除偶发漏判。按用户要求停止追加测试，移除虚拟设备/恢复输入设置并退出Play。当前普通HP100、咬10且敌人表现无受伤闪烁/血条；只说明反馈缺失，不把它认定为唯一原因。
-
-> 最新 C12（2026-10-01）：用户随后明确授权顶层精英使用精英动画、其他自行选普通怪动画。已在当前主图接14只：Elite_Exit→Dada Satan_Move，Enemy_01–13→Imp_Run；均原3帧/8FPS，保留原Sprite GUID及纸白素材。新增只读EnemySpritePresentation，纯视觉EnemyArt子节点按原碰撞尺寸缩放，按实际横向速度翻面，非Playing冻结、死亡隐藏；不改AI/生命/攻击/巡逻边界/根位置/物理。Unity编译和短Play显示/死亡隐藏检查通过、Console错误0，已Stop还原。未全套测试/导出/commit/push；C11敌人暂缓记录已由本轮完成替代。
-
-> 最新 C11（2026-10-01）：按用户授权从 Dada/416de1c 选择性接入 HUD/血条/身体图、卡牌框/20图标/字体、常驻边框及 InteractionHintView；在当前 Ming/794b6b3 主图原生接线，玩法/收费/数值/地图以本地为准。隐藏 WhiteboxOverlay 的左下调试文字，保留组件的 Esc 暂停。敌人映射按用户最新回复暂不处理；Dada 仅有独立预览，未自定主图动画。Unity 编译及必要短检查完成：当前宝箱交互→三卡→取消/提示恢复、HP100→90及fill0.9正确，Console错误0；未跑全套/导出。未commit/push。详情见 docs/handoffs/dada-ui-integration.handoff。
-
-> 最新 C10（2026-10-01）：按用户授权合入 Level/d1f9830 的美术、9处靠近提示及场景增量；当前 Ming/3c0bae7 的敌人/收费/火焰/数值保留，未提交合并。主场景冲突在Unity内按共同基线逐对象接入18棵新增对象树、既有视觉/位置及31处Tile变化；保留Ming敌人出生标记和用户人物碰撞尺寸1.6666667、表现worldScale=0.7。宝箱9实例与共享Prefab绑定关闭IMG_5506_0、打开IMG_5505_0；Chest.IsOpen记录本局首次成功交互；E交互被接受即吐舌头，此后取消或领取均保持打开，取消仍不消费奖励。已移除主图81格黄色Tile_Chest占位，9箱贴图排序12以显示在前景之上。Hint_enemy的F改为当前Q/右键；Level单门条带动画接线清除冲突的closedView绑定。目标Unity编译/Play宝箱聚焦检查23通过0失败，Console错误0，保存重载9箱绑定及提示引用检查通过；未跑全套回归/整局/Windows。详见 docs/handoffs/level-review.handoff。
-
-
-> 最新 C09（2026-10-01）：从 Soap/60f9a55 选择性接入敌人AI与100/10配置，保留 Ming/a78185f 的收费、火球和人物实现。主图13只普通怪+1只精英；最底层大红块按用户要求拆为3只独立普通怪。攻击奖励/代价改为固定+10/-10点，最低6，取消共享攻击倍率；生命比例规则按Soap原文保留。C09 Play 59/0，Unity编译与保存重载通过；用户本轮明确授权commit/push Ming。以下C08百分比及旧接线记录仅为历史，不覆盖本节。
-
-
-## C09 接线与接口（2026-10-01）
-
-本轮从干净Ming/a78185f开始，已取得Soap/60f9a55；只接敌人AI/config/prefab及原作者handoff，不整份覆盖主场景/PlayerState/战斗文档。用户授权主图AI、底层拆3只、采用Soap数值与完成后push。
-
-- `WhiteboxPlayer2D`实现`IPlayerBaseMoveSpeedProvider`，`BaseMoveSpeed`直接只读唯一moveSpeed；主图7，普通AI5，精英AI7。没有测试反射provider进入主图。
-- `Enemies_C09`含Enemy_01–13与Elite_Exit；Enemy_01–03是底层原大块。普通按平台大小1或1.5单位正方形，精英3单位；实体与可见方块同尺寸。原4个TrialEnemy替换，12组Tile_Enemy替换为无Sprite/无碰撞的Tile_EnemySpawnMarker，保留原格坐标记录；地形、玩家尺寸与运动参数不变。窄/悬空标记落到附近平整平台，绝不把±6直接跨过悬崖。
-- `EnemyRoutes_C09`保存每只怪独立Left/Right世界边界，配置在敌人AI Inspector；不是移动角色的子节点。普通配置100HP/10/5索敌/1.5巡逻返回/5-7速度比；独立EnemyEliteConfig为250/20/7索敌/1速度比。三态不回血，受击无额外无敌，死亡停刚体并关闭视觉/碰撞。暂停/Choosing保留仇恨，巡逻遇墙/同伴反向，避免相互永久顶住。
-- 每只EnemyBasic绑定唯一RunController、玩家和EnemyEnhancementService；全图增血+50/增攻+5含精英，未来注册仍继承。本轮没有出口胜负接线。
-- `PlayerReward`恢复仅`AttackIncrease`固定整数，移除`AttackPercentIncrease`；`PlayerState`移除`AttackPercent`，Bite/Sword/Fire直接返回真实整数。奖励先预验三个数值溢出；减攻模拟全部三种攻击，任何结果<6拒绝，世界回调失败不扣费、不Clamp。`CanPayTeleportCost`/`TryCommitTeleportCost`的第三参数语义改为minimumAttackDamage。
-- `ChestRewardConfig.AttackPointIncrease=10`、`PortalCostConfig.MinimumAttackDamage=6`，主图资产明确保存；旧序列化字段加FormerlySerializedAs，实际资产已迁移。卡片展示实际伤害点；生命20%/10%公式保留。C08检查仅适配新契约，不继承旧77/0为此次通过。
-- `Tools/pawgatory/C09/Install Main Enemies (Edit)`是本次一次性作者工具，已安装时拒绝重建；后续直接Inspector调整。`Check Main Enemies (Play)`为临时DontSave短检查，使用真实状态、物理、宝箱卡片和服务，结束Stop还原；不进入正式运行组件或Windows构建。
-
-验证结果：目标Unity6000.2.9f1编译通过；C09短Play 59/0，覆盖14只AI配置/实际巡逻/边界/平台、追击/暂停/Choosing/返回/不回血/死亡、全图含精英强化、真实宝箱固定+10、减10整笔校验/失败无副作用/溢出拒绝及生命公式。首轮55/4因测试夹具停用motor连带停用真实速度provider，改用冻结测试玩家刚体后59/0；生产逻辑未为此放宽依赖校验。保存重载发现Unity刷新会恢复Tile色，改独立无Sprite出生标记后再次核对。Console有两条既有Wwise Main Camera注销对象错误，未修改音频，未声称Console全零。未做整局、Windows导出或音频验收；近战时间轴/共享受伤保护（当前敌人仍独立0.6秒）不冒充本轮已完成。
-
-> 历史 C08（2026-10-01）：四扇普通门已接 E → 传送代价三选一 → 物理步支付并传送，每次使用收费；InspectionDoor1/2保持原条件入口。与宝箱共用抽取器和卡片界面，各用独立卡池/缓存。修复火球移动转向边界，确认人物咬剑动画并移除主图青/金测试方块。C08 77/0、C07复跑30/0、三种百分比奖励实测通过；Unity编译无错误，未导出Windows。规范23、源码契约10；Ming/724c08c与Dada MERGE_HEAD/575eff3未变，无自动commit/push。
-
-## C08（2026-10-01）普通门收费、朝向与攻击表现
-
-用户确认另一对话已结束后串行实施，保留既有未提交的Dada合并、地图和资源。本次收费授权覆盖此前“收费暂缓”；完整教学、近战矩形/时间轴、AI、地刺扣血、支线结算及整局重开仍不在本次范围。
-
-主场景四门Portal_A/B/C/D显式绑定同一PlayerState、RunController、ChoiceCoordinator、EnemyEnhancementService和MainPortalCosts配置。每次E打开三张代价；取消保持卡位且不扣费，已失去部件只局部补位，低生命/倍率下限卡禁用，全灰只换一张有效非生命代价。选择后恢复运行，在下个FixedUpdate再次校验落点和全部费用，整笔提交费用、迁移、全图强化并给予0.5秒抵达保护；失败无扣费、无移动，成功清本门缓存，下次重新抽且再次收费。InspectionDoor1/2未改。Portal_B仍使用原地面interactionPoint。
-
-宝箱与门复用FixedChoiceDeck和ChoicePanel，各入口保留独立候选。主图两份宝箱配置启用combat百分比：回血ceil(maxHP×20%)、加上限ceil(maxHP×10%)且当前同额增加、攻击+10个百分点。共享攻击初始100%、代价-10个百分点、最低60%；咬/剑/火读同一倍率向上取整，主图基础剑伤同步20。既有独测固定值配置保留兼容开关，不作为主图池。
-
-EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加；活体增血同比例向上取整、死亡不复活，未来显式注册的敌人继承。禁用但存活的已注册敌人仍受全图效果；溢出拒绝整笔。不等于新增敌人AI或精英。
-
-火球在成功启动动作锁之前从唯一输入刷新Facing，解决上一动作锁在Update与FixedUpdate之间结束时沿用旧方向的问题；锁内仍保持发射方向。人物真实咬/剑动作通知已绑定MainPlayerAnimationSet，删除主图PlayerBiteFlash/Bite Cyan Flash及Sword Gold Flash，清空剑slashVisual；保留真实判定、锚点、音频入口。两种无手火尾组合仍缺Bite资源；既有Dog2_FlameTail缺Fire也未伪造动画。
-
-共享源码契约10新增/扩展（原有参数默认兼容）：
-
-| 接点 | 语义 |
-|---|---|
-| ChoiceOption(..., bool isEnabled=true) / IsEnabled | Panel、Card、Coordinator均拒绝灰卡；文字承载生命和倍率预览 |
-| PlayerReward(..., int attackPercentIncrease=0) / AttackPercentIncrease | 百分点奖励与原子奖励一并预验/结算，旧固定attackIncrease仍兼容 |
-| FixedChoiceDeck.Select<T>(cached,pool,count,id,available,randomIndex,copy) | 保留合法卡位，等概率无放回补缺；不足返回null，不伪造卡 |
-| TeleportCostKind | 1–9：ShedLegs/ShedArms/ShedTail/ShedFlameTail/CurrentHealth/MaximumHealth/Attack/EnemyHealth/EnemyAttack |
-| PlayerState.AttackPercent / HasDamageProtection / CostItem | 唯一倍率、抵达保护与舍弃身份映射；不另建真实状态 |
-| PlayerState.CanPayTeleportCost(kind,amount,minAttack,out reason) | 只读验证；致死生命代价和低于倍率下限均拒绝 |
-| PlayerState.TryCommitTeleportCost(kind,amount,minAttack,protectionSeconds,Func<bool> tryCommitWorld,Action onCommitted) | 物理步主线程事务；世界回调false必须无副作用，true必须完成无通知世界写入；之后统一通知，拒绝重入 |
-| WhiteboxPlayer2D.CanLandAt / TryQueuePaidTeleport / CancelPaidTeleport | 显式安全落点及物理队列；中断不扣费；旧TryTeleportTo只供既有测试/调试，不是普通门路径 |
-| EnemyEnhancementService.Register/Unregister/CanIncrease/TryCommit/PublishCommitted | 显式注册、整体预验与静默世界结算，玩家提交完成后才发布敌人通知 |
-| PlayerFacing2D.RefreshFromInput() | 同一输入刷新并返回方向，动作锁期间不改变 |
-
-验证：C08首次71/1暴露测试把Portal_B根坐标当交互点，夹具改读原interactionPoint后77/0；包含四门真实模拟E、固定取消/重抽、九费用、灰卡与全灰修复、重复确认、落点迟变、暂停/禁用中断、全图/未来敌人、抵达保护、连续移动Q和旧锁到期边界。C07首次28/2为60ms采样的咬/剑联合断言，补充诊断后全新Play复跑30/0（咬1000→990、剑990→970，Bite/Attack动画均正确）；没有为让测试通过更改攻击逻辑，也不将首轮失败隐去。额外真实Chest→Panel确认实测：60/100→70/110（上限）、→92/110（回血）、100%→110%（伤害11/22/9）。GameView抽卡截图已查看，三卡完整显示。
-
-保存状态：非Play，主图无missing script、四门全部接线；出生点(-12.14,8.6)及原运动/根碰撞保持。C07/C08测试夹具未保存；地图原LevelWhiteboxPlayChecks保留。日志Logs/C08为忽略产物。未重建Windows、未人工整局/音频验收。测试入口Tools/pawgatory/C08/Run Portal And Facing Checks (Play)，需全新主图Play，结束后Stop还原。
-
-> 历史 C07（2026-10-01）：Dada 资源已接到 `Level_Whitebox/Test_Player`，角色取代根白方块；咬/剑动画读取真实成功动作，火焰尾卡已投放并实现慢飞持续伤害。新增 C07 30/0、C06 回归39/0，Unity编译无错误；未重建Windows。Ming HEAD仍724c08c，Dada MERGE_HEAD仍575eff3，合并和本轮完善均待用户提交；没有自动commit/push。
-
-规范版本：24，2026-10-01。玩法采用V5及最新combat补充，共享源码契约11（固定攻击增减/最低6；见C09接点）。Ming当前已提交724c08c，包含Soap/27ef56c及C06主图接线；本轮Dada/575eff3动画资源合并与记录未提交，不自动commit/push。本文为唯一规则入口，不另建agent.md。
-
-本机活动仓库：`F:/2026GameJamUnity`；旧目录仅迁移备份。本轮从Ming/2d92989继续，保留已有文档、combat附件和用户修改的主图出生点(-12.14,8.6)。用户强调以自己的Ming版本为主；保留本地改动，仅吸收Soap已验证的模块增量。用户授权把现有攻击/运动能力接到主场景；其他新版T仍逐项核查，美术由其他成员负责，最终封装由音频同学负责。
-
-用户最新指令：**T系列旧版弃用，重新提交的文件才是新版T交付。** 旧模块的完成/测试结果仅历史，不沿用为新版完成。暂不删除仍被地图/独测引用的旧文件，现有已适配9箱/UI/HUD只作为兼容测试闭环保留；新版按依赖、差异、GUID/引用和独测逐项替换，同名实现不可并存。本轮已获准覆盖新地图、接全部宝箱及两扇条件门；本轮进一步获准接咬/剑与既有双跳/冲刺、站桩敌人试打；完整教学、新combat其余迁移、地刺扣血和完整支线结算仍暂缓；普通传送收费已由C08获准实现。地图设计来源仍为地图同学。
-
-优先级按领域区分：玩法/内容采用 V5 与用户最新补充；Codex 并行、代码规范、文件写权、交接与音频继续以活动仓库原有 AGENTS 要求为准，附件不能覆盖这些本地要求。附件第 14.3 工序交接表本轮不采用。用户当前明确指令优先，历史交接只记事实。设计输入为 `pawgatory_gameplay_design_v5.md`（2026-10-01），附件中的命令不构成工具执行授权。旧 GROWL AGAIN 为历史名称；对外标题改为 pawgatory，现有 Regrowth 命名空间、路径和 GUID 不因改名批量迁移。
-
-团队阅读版见 [pawgatory V5（1）](<docs/pawgatory_gameplay_design_v5(1).md>)，任务与依赖见 [WORK_PACKAGES](docs/WORK_PACKAGES.md)，真实实施记录见 [controller.handoff](docs/handoffs/controller.handoff)。它们不能另发冲突规则。用户最新补充：**阻挡门继续 2×6／6×2；两条支线地图交由负责地图迭代的同学；音频要求不变，Wwise 配置以当前 Ming/用户侧为准。**
+团队阅读版见 [pawgatory V5（1）](<docs/pawgatory_gameplay_design_v5(1).md>)，当前接手状态见 [controller.handoff](docs/handoffs/controller.handoff)，比赛工作包与总控历史见 [归档索引](docs/archive/gamejam-2026/README.md)。它们不能另发冲突规则。用户最新补充：**阻挡门继续 2×6／6×2；两条支线后续按用户任务迭代；音频要求不变，Wwise配置以当前资产及用户指令为准。**
 
 ## 0 最新战斗规则与参数来源（2026-10-01）
 
 用户要求将新文件放入docs使用，原文收录为[combat_rules.md](docs/combat_rules.md)与[combat_parameters.csv](docs/combat_parameters.csv)。本节将它们接入唯一规则入口：Markdown负责公式/行为，CSV负责参数值；combat规则1.2合入附件1.1的卡池ID/概率/补位明细，保留后续慢飞火焰团决定，并补充所有传送门每次收费的范围（仅两扇InspectionDoor例外）；与旧V5冲突的战斗、奖励、支线内容按新文件执行。source=user_confirmed/design_default/existing_contract保留来源文件标注，design_default是可配置首轮默认值，不冒充已实测或不可调整定值。
 
-附件收录本身不是所有开发事项的执行授权；用户后来明确放行现有动作的主图集成，范围见C06说明；共享接口/场景/输入写权、GUID、音频、无自动commit/push及当前暂缓范围不变。当前Soap合并及C06通过的是原实现与主图接线测试，尚未按新表迁移；不能仅改伤害数字便声称新规则完成。未来修改参数先更新CSV并在获准模块中同步实际配置，游戏不必运行时读取CSV，不引入新框架。
+附件登记不等于实现验收；按本次用户授权处理任务，实际状态见第6–7节。参数变化同步combat_parameters.csv及实际Inspector配置，运行时无需读取CSV。共享写权、GUID、音频与无自动commit/push规则保持。
 
 | 最新目标 | 明确替代/实现差异 |
 |---|---|
@@ -121,20 +28,20 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 | 普通/支线共用7项池：腿、手剑、普通尾、火焰尾、回血、上限、攻击 | 无再生保底箱/固定支线组合包；回血ceil(max×20%)，加上限ceil(max×10%)且同时加当前同额 |
 | 部件舍弃+5效果等概率抽3，不强制舍弃；全灰默认仅换1位置为有效非生命项 | 替代旧“有构筑至少一张舍弃”；生命不得致死/取消固定/成功传送下次重抽保持 |
 | 封闭地图，无FallFailZone、落坑扣血、安全点回传或局部机关复位 | 原V15与旧支线失败任务作废；入口成功本局消失，重入资格及普通奖励见combat_rules§12 |
-| 暂停/结果菜单与新局清理按combat_rules§13设计默认 | 未接正式菜单/重开，不因文档登记自动启用暂缓功能 |
+| 暂停/结果与新局清理 | 已有Esc暂停、终点结局、死亡等待2.1秒后重载；完整暂停菜单与头部教学仍未接 |
 
 动作有后续动画美术资源；占位闪光不是最终交付。新文档已提供首轮前摇/有效/后摇默认，后续在动作时间轴与正式动画间对齐，保留唯一命中提交和失效清理，不再将旧即时实现作为验收目标。
 
 ## 1 接手顺序与状态标记
 
-1. 完整读取本文、相关 handoff 与工作包；核对实际目录、分支、Git 状态。
-2. 检查源码、Prefab 和场景实际实例，区分本节规则目标与第 7 节现有旧契约。
+1. 完整读取本文和docs/handoffs/controller.handoff当前摘要；再按任务读取相关源码/资产/交接，核对实际目录、分支、Git状态。历史归档不作为默认必读。
+2. 检查源码、Prefab 和场景实际实例，区分本节规则目标与第 7 节现行契约。
 3. 确定授权模块和共享文件范围；未决参数只阻塞依赖它的部分，不停下其他可完成工作。
-4. 接手时核对实际Unity项目；保护用户未提交/未保存改动。代码、规则或交付改变时更新自己的 handoff 和对应公共文档；Ming 总控工作同步记入 README 的工作记录，写明实际完成、验证、限制及提交状态，不将他人的实现记作总控原创。
+4. 接手时核对实际Unity项目；保护用户未提交/未保存改动。代码、规则或交付改变时更新自己的 handoff 和对应公共文档；实施详情写入稳定任务handoff，controller仅维护当前摘要、不追加流水账；README保持已实现内容简介，不再加入开发日志，不将他人的实现记作总控原创。
 
 **已确认**是用户采用的目标规则；**技术约定**是实现边界；**待配置/待确认**不能被写成最终数值；**预留**不是功能承诺；**已实现/已验证/已集成**须分别有代码、测试和接线证据。文档升级不会自动升级源码契约。
 
-当前实际：Level_Whitebox 已接 9 个真实宝箱、ChoiceCoordinator/T01/EventSystem、三槽 HUD 和唯一身体/奖励状态；仍用一个 WhiteboxPlayer2D，双跳/冲刺现读腿/尾权限。T12 三槽/领取/替换/跨箱修复/即时增益已验证；躯干单卡只有底层与独测，地图明确跳过教学。两扇入口条件门已有实体阻挡、靠近单卡确认和入场资格重验；支线目标/失败区/结算/专用领奖未接。主图咬剑和4个站桩敌人已接，咬/剑/冲刺读取同一个PlayerFacing2D；身体美术与火焰尾已在C07接主图；生命安全代价及完整胜负仍待实现。咬剑仍是旧即时圆判定/独立0.6秒冷却，未适配新表。Wwise Integration 已安装，项目后端/事件映射/Bank 交付未完成。
+当前实际：主图9箱、4付费传送、8按钮门、7扣血地刺、13普通敌与1精英，已接身体/三槽HUD、咬剑火、人物敌人表现、Wwise、主菜单/开场/结局与死亡重开。唯一状态/输入/运行/运动组件。开局仍跳过躯干教学；完整支线目标/完成调用者/领奖未接；近战时间轴与共享受伤仲裁尚未迁移。
 
 ### 成员自主范围与协作边界
 
@@ -145,7 +52,7 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 | 内部类/方法划分、算法、局部重构、缓存、组件组合 | 自主实施，维持对外契约与玩法语义 |
 | 本模块的新脚本、子目录、Prefab、配置资产、独立测试场景 | 自主创建并配对 meta；无需预先枚举所有文件名 |
 | 未冻结的速度、距离、伤害、冷却、动画/UI 参数 | 可以给 Inspector 中的暂定测试默认值，标注待调参并记录；不当作最终批准数值 |
-| 新表已给出但代码尚未支持的倍率/下限、暂停菜单/重开、动作与伤害协调 | 按发布的真实接口完成可独测部分；缺共享接口先明确接点，不能把已给数值误写成仍待用户裁定 |
+| 已确认但尚未接入的完整暂停菜单、近战时间轴与伤害协调 | 按发布的真实接口完成可独测部分；缺共享接口先明确接点，不能把已给数值误写成仍待用户裁定 |
 | 修改公共接口/枚举值、共享状态写入口、已确认玩法、别人的资产、包或项目设置 | 由总控协调；已有明确授权即继续，无需再次请示 |
 
 规则中的“待实现组件名”是协作职责的参考名；可以在模块内增加辅助类、拆分方法和组件。改变跨模块使用的名字或签名时才需要同步契约。不强制所有模块采用同一种内部设计；优先选现有 Unity/C# 能力和易读实现。
@@ -162,7 +69,7 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 - 同一固定三层地图，收费层间传送与必要回溯，本局世界状态往返保持；无跨启动存档或永久成长。
 - 开局只有头，可基础移动/一段跳，不能攻击；安全区固定教学箱给予躯干，才初始化生命并开启咬击和危险区。头/躯干/基础移动/一段跳/基础攻击能力永久保留、不占槽。
 - 身体部件与独立保留技能共用 **3 个构筑槽（Loadout）**。基础部件为双腿、双手连剑、普通尾巴；姿态仅表现，无独立站立卡、剑卡或手动姿态键。
-- 两条支线 **无腿解谜 / 无手跑酷均为首版必做、玩家可选**。地图布局由地图迭代同学负责，程序提供共同挑战机制，总控接线；不扩大为独立场景或复杂机关系统。
+- 两条支线 **无腿解谜 / 无手跑酷均为首版必做、玩家可选**。后续任务按用户授权同时核对地图与共同挑战机制；不扩大为独立场景或复杂机关系统。
 - 主路、必要返程、支线必经动作及精英战均能以躯干后的基础移动、一段跳和可用基础攻击完成，不依赖可舍弃能力。无手时咬击是正式基础攻击。
 - 本轮已授权并实现火焰尾慢飞持续伤害，正式来源仅火焰尾；旧独立技能身份只为兼容保留，不投奖励池。盾/长枪仍预留。
 - C14：存活玩家碰到最顶部绿色大门即胜利，不额外要求精英死亡，不要求集齐身体；死亡优先。完整白屏后淡入结局图。
@@ -186,7 +93,7 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 | V11 | 当前 HP 扣 ceil(当前×20%)；上限扣 ceil(上限×10%) 后压当前；结算后两者必须大于 0 | 献祭到 0 合法失败；暗中保底到 1 |
 | V12 | 致死代价灰卡禁选；展示和提交两次验证；成功传送消耗卡组，下次重抽 | 合法的致死支付分支；成功后卡组何时重抽仍待定 |
 | V13 | 本局负面叠加；敌人强化覆盖全图存活含精英，未来生成继承；增血保持比例 | 只强化下一层、复活死敌或新增敌人不继承 |
-| V14 | 两条缺部件支线，各自完成/领奖一次；指定舍弃单卡入场 | 另造随机三代价入口或只有一条支线 |
+| V14 | 两条缺部件支线，各自完成/领奖一次；入口首次指定单卡确认后本局永久消失，资格与门状态分离 | 退出/再生/传送后重新出现入口门；另造随机三代价入口 |
 | V15 | 封闭地图，不设落坑扣血/回传或局部复位；支线进度规则见§0 | FallFailZone、落坑安全点回传、退出重置机关 |
 | V16 | 支线完成后解除缺失限制，可再生并步行退出；本局往返保持完成/领奖 | 领取部件后再次锁出口或反复刷奖 |
 | V17 | 现有单门/多门按钮分别切换各门状态；关门不得嵌入玩家 | 正式开关只能用一次、多个门强制同态 |
@@ -211,11 +118,11 @@ EnemyEnhancementService接4个现有EnemyBasic，增血+50/增攻+5线性叠加�
 
 普通/支线统一7项目标池见combat_rules§11；教学固定躯干单卡例外。C07已实现火焰尾并投入主图七项池，不投独立FlameBreath。当前持有同款排除，另一种尾仍可候选并明确单卡确认替换旧尾；满三槽不生成第四槽。即时卡不占槽，满血回血可领取；回复/上限/攻击公式见新表。无再生优先箱、无支线专用强化包。
 
-首次接受展示固定，取消不刷；跨箱获得同款只修失效位置，保留其余卡与顺序。最终统一提交替换/历史/数值/箱消费，取消无部分副作用；当前兼容PlayerReward仍是固定加法，百分比和换尾单卡流程尚待实际迁移验收。
+首次接受展示固定，取消不刷；跨箱获得同款只修失效位置，保留其余卡与顺序。最终统一提交替换/历史/数值/箱消费，取消无部分副作用；PlayerReward是结算用整数包；ChestRewardConfig先把生命百分比换算为整数，上限奖励同时加当前HP；攻击固定+10点，换尾走单卡原子替换。
 
 ### 3.3 代价安全与传送
 
-用户补充（2026-10-01）：除InspectionDoor1、InspectionDoor2外，所有传送门每次使用均须从combat_rules§11.3传送代价池随机三选一支付，涵盖首次、返程、同层和重复使用；支线位置、已开启连接或既往支付不构成豁免。两扇InspectionDoor沿用指定部件单卡确认，不额外收随机传送代价。成功消费本次卡组，下次重抽并再次收费；取消/无效落点不扣费。C14终点绿色大门为胜利触发器，碰触直接胜利，不属于随机收费传送门；普通四门收费保持。此为规则更新，当前白盒免费传送仍是待迁移实现，不是正式豁免。
+用户补充（2026-10-01）：除InspectionDoor1、InspectionDoor2外，所有传送门每次使用均须从combat_rules§11.3传送代价池随机三选一支付，涵盖首次、返程、同层和重复使用；支线位置、已开启连接或既往支付不构成豁免。两扇InspectionDoor沿用指定部件单卡确认，不额外收随机传送代价。成功消费本次卡组，下次重抽并再次收费；取消/无效落点不扣费。C14终点绿色大门为胜利触发器，碰触直接胜利，不属于随机收费传送门；普通四门收费保持。当前四扇普通门已按此规则实现收费。
 
 抽卡系统共用（用户确认）：传送与宝箱使用同一套抽卡系统，通过不同卡池配置区分奖励池与传送代价池，复用等概率无放回三选一、卡片展示、取消保留候选与失效位置补位逻辑。每个宝箱/传送入口各自保存候选，不共用同一副卡组；奖励确认执行领取，传送确认执行支付与迁移。已有差异作为各自池的校验与结算规则保留：宝箱领取后消耗，传送成功后下次重抽；代价卡仍执行灰卡/全灰修复与生命安全校验，不将这些限制套到满血回血奖励。复用系统不合并两种池、不新建第二套UI或随机抽取实现，不改变InspectionDoor单卡确认。
 
@@ -236,17 +143,17 @@ UI 显示模拟后生命/上限和禁用原因；鼠标、键盘、手柄及业�
 
 顺序：验证事务/状态/目的地安全 → 模拟并验证所选代价 → 单次提交代价、清运动残留并迁移 → 给予 0.5 秒抵达保护 → 消耗本次卡组、解锁输入。取消或无效落点无费用。提交前状态变化必须重新验证；失败无部分扣费，无抵达 Cue。V5 不存在合法“代价致死原地失败”分支；旧实现意外算出致死应拒绝/回滚并报错，不能当正常死亡提交。表现回调不参与第二次结算。
 
-敌人强化影响所有存活普通敌人与精英；增最大生命按原生命比例调整，不复活死敌，未来生成继承本局累计负面。具体线性+50HP/+5攻击、玩家倍率及取整按§0新表；统一状态/服务尚待实现，不能模块各猜。
+敌人强化影响所有存活普通敌人与精英；增最大生命按原生命比例调整，不复活死敌，未来生成继承本局累计负面。具体线性+50HP/+5攻击、玩家固定攻击增减和取整按§0；PlayerState与EnemyEnhancementService已实现，不再新增第二份状态。
 
 ### 3.4 两条支线共用规则
 
-稳定 ID：`SIDE_LEGLESS_PUZZLE`、`SIDE_ARMLESS_TRAVERSAL`。每条前方各有入口条件门，由地图同学制作两条旁路及门/区域摆放。玩家从门外靠近检测区后自动弹出确认菜单，无须按E。InspectionDoor1检查双手（连剑），InspectionDoor2检查双腿；持有时询问是否舍弃该项，已缺失时询问是否开启挑战。两种情况均须主动确认才隐藏门并解除实体阻挡；取消只关闭UI，离开检测范围再靠近才重试。无腿门只提出舍弃腿，无手门只提出舍弃手剑，不自动拆除或要求其他身体项。入口门与普通按钮门职责不同，打开不授予永久资格。程序共享进入资格、指定舍弃、ActiveAttempt、失败/完成/领奖服务，不能每条自建玩家状态或收费系统。
+稳定 ID：`SIDE_LEGLESS_PUZZLE`、`SIDE_ARMLESS_TRAVERSAL`。每条前方各有入口条件门，由地图同学制作两条旁路及门/区域摆放。玩家从门外靠近检测区后自动弹出确认菜单，无须按E。InspectionDoor1检查双手（连剑），InspectionDoor2检查双腿；持有时询问是否舍弃该项，已缺失时询问是否开启挑战。两种情况均须首次主动确认才永久隐藏门并解除实体阻挡；取消不解锁，离开检测范围再靠近才重试。解锁后本局不再弹入口确认、不再舍弃；退出、再生、传送或组件启停不恢复门。无腿门只提出舍弃腿，无手门只提出舍弃手剑，不自动拆除或要求其他身体项。入口门与普通按钮门职责不同，打开不授予永久资格。程序共享进入资格、指定舍弃、ActiveAttempt、失败/完成/领奖服务，不能每条自建玩家状态或收费系统。
 
 入场须完成躯干教学且存活、阶段可交互、无其他事务、靠近指定入口，从外侧进入，区域与安全重试点有效。未完成且已缺对应部件须确认“开启挑战”后进入，不扣生命或无关项；仍持有则显示 **单卡指定舍弃确认**（腿支线只拆腿，手支线只拆手）。先验证区域，再确认、复验、原子移除并发本支线当次入口许可；实际合法穿过入口才启动尝试。步行入口重验许可/条件，若采用局部传入先验落点。取消/无效配置不移除。完成未领奖可直接领奖，已领奖重访不强制再拆或再次给奖。
 
 挑战未完成时保持缺失指定部件，其他技能允许使用且不作为必需。外部奖励补回受限部件会使本次尝试无效并允许退出，不强制删掉新部件。完成后解除限制，奖励再生不导致重新锁住出口。
 
-每条配置独立入口、完成目标与步行出口；封闭地图不创建FallFailZone或安全点回传。退出未完成支线结束本次尝试，已成功机关不复位；门成功后本局保持消失。再次从入口进入且缺指定部件恢复尝试，持有受限部件可通行但不授予未完成资格；完成后访问不限制部件。支线完成开放普通随机三选一箱，一局一次，不提供固定再生强化包。当前入口代码与这些目标的差异需后续T20迁移，既有C05通过不等于新规则完成。
+每条配置独立入口、完成目标与步行出口；封闭地图不创建FallFailZone或安全点回传。退出未完成支线结束本次尝试，已成功机关不复位；门成功后本局保持消失。再次从入口进入且缺指定部件恢复尝试，持有受限部件可通行但不授予未完成资格；完成后访问不限制部件。支线完成开放普通随机三选一箱，一局一次，不提供固定再生强化包。入口永久解锁已实现；缺失部件玩家从外侧重入恢复尝试，持有者仅通行不获未完成资格。完整目标/完成/领奖仍待T20接线，不能用入口通过冒称完整挑战完成。
 
 无腿支线：基础跳能到按钮，不要求攻击；短开关谜题（可用两门、一至两按钮，按每门原态分别切换），目标状态满足并实际到终点才完成。无手支线：基础跑跳能完成的短缺口/高低平台/地刺路，无剑门/喷火门/强制战斗，无计时排行/攀爬/移动平台扩展；咬击仍可用。若不能用布局阻止主路直接跳到终点，可加一个本次经过标记，不新增重生检查点。两条均保留可步行退出路线。
 
@@ -258,13 +165,13 @@ UI 显示模拟后生命/上限和禁用原因；鼠标、键盘、手柄及业�
 
 一对一/一对多按钮目标数组保留，分别翻转各门原状态（原开变关，原关变开），关闭不得嵌入玩家；支线临时门与主路状态分组隔离。传送位置/交互锚点/安全落点分别配置，Portal_B 已校正的站立交互高度保留。
 
-目前 Level_Whitebox 保留免费传送、R 回出生点、无正式扣血地刺及跳过躯干教学的试走设置。运动组件 useLoadoutAbilities=true，双跳/冲刺由唯一状态的腿/尾授予；原 enableDoubleJump=false、enableDash=true 值保留，仅关闭 useLoadoutAbilities 后用于旧试走。这些测试例外不代表正式收费/教学/伤害/重开已完成。反复按钮开关已被 V5 采纳，迁移只补正式状态和安全性。不能直接叠加 T06 和 WhiteboxPlayer2D 两个运动写者，也不能把 T12 旧四槽测试池直接当正式池。
+Level_Whitebox现已收费传送、地刺2伤、死亡重载，仍跳过躯干教学。唯一WhiteboxPlayer2D读取腿/尾权限；主图prototypeResetActionPath为空，R不再免费回出生点。旧独测可保留回位与技能开关；不能叠加第二个运动写者。
 
 ## 4 仍需配置或发布的内容
 
 combat_rules/CSV已提供初始HP、奖励/负面幅度与下限、攻击时序、地刺保护/击退、喷火载体/默认键位、暂停与重开方案，不再将这些列为无数值可用。design_default在实际试玩中可调整，当前地图基础运动参数不被本表覆盖。
 
-待工作是按授权实现并验证：共享攻击时间轴/冷却与动作互斥；唯一玩家百分比数值和代价模拟/提交；统一接触伤害仲裁/保护；新奖励池/换尾单卡；敌人AI/全局强化；支线保进度；完整新局清理。共享接口由总控串行发布，不能假定CSV的ID就是已存在的API。原暂缓范围保持，文档更新不自动执行这些任务。
+待实现目标：近战时间轴/共用冷却/墙体遮挡、玩家统一接触伤害保护与同物理步仲裁、完整头部教学、支线目标与结算。奖励生命百分比、固定攻击点数、代价模拟/提交、敌人AI/强化、死亡重开已经有实现；后续只记录本轮实际验证，不能重新创建第二套。
 
 ## 5 技术栈与禁止新增依赖
 
@@ -278,98 +185,46 @@ combat_rules/CSV已提供初始HP、奖励/负面幅度与下限、攻击时序�
 | UI | 新项目 uGUI 2.0.0、TMP | Canvas、EventSystem、InputSystemUIInputModule，不并行加 UI Toolkit |
 | 关卡 | 独立地图场景交付，由总控接入运行组件；继续采用单游戏场景 | 制图时由地图作者维护，交付接线时由总控维护，同一场景不并行写入；程序模块独立测试 |
 | 配置 | Inspector 为调参与接线入口；局部用 SerializeField，共享/成组用 ScriptableObject | 具体要求见 10.1；不为少量参数引入复杂框架 |
-| 音频 | GameAudio → IAudioBackend → 已有 Wwise Integration 2025.1.10.4304 | 基于 SDK 2025.1.10 Build 9233；项目适配器/映射/Bank 加载待实现，不擅自升级 |
+| 音频 | GameAudio → IAudioBackend → 已有 Wwise Integration 2025.1.10.4304 | 基于SDK 2025.1.10 Build 9233；现有适配器/映射/Bank已接，不擅自升级 |
 | Git | 当前仓库、文本序列化、Visible Meta Files | 保留资产 GUID 和 .meta；不提交缓存 |
 
 迁移后 Packages/manifest.json 与 packages-lock.json 为实际依赖依据；迁移前恢复的包版本仅用于旧工程，不自动覆盖新项目。模块不得自行升级或引入网络、DOTS/ECS、DI 容器、第三方 FSM、Addressables、复杂事件总线、程序地图和存档；需要时总控单独批准引入。
 
 ### 更换编辑器时的必要文件
 
-必需迁入：Assets/Scripts 及各文件/目录 .meta、根目录 AGENTS.md、docs/pawgatory_gameplay_design_v5(1).md、docs/handoffs、.editorconfig；README 为使用入口。保留目标现有 .gitignore 和 .gitattributes，缺失时才另建必要忽略规则。源码不包含主场景、输入资产、URP 资源或运行组件，新项目由 6000.2.9f1 创建。以新项目生成的 Packages/ProjectSettings 为准，不复制旧版本文件。迁移后确认实际项目版本与所有新源码可编译，刷新必要文件包时保持本文为最新版本。
+必需迁入：Assets/Scripts 及各文件/目录 .meta、根目录 AGENTS.md、docs/pawgatory_gameplay_design_v5(1).md、docs/handoffs、.editorconfig；README 为使用入口。保留目标现有 .gitignore 和 .gitattributes，缺失时才另建必要忽略规则。此段仅记录最初源码迁移；当前工程已有主场景、输入资产和运行组件，团队接手应克隆完整活动仓库。以新项目生成的 Packages/ProjectSettings 为准，不复制旧版本文件。迁移后确认实际项目版本与所有新源码可编译，刷新必要文件包时保持本文为最新版本。
 
 不迁入缓存/生成文件：Library、Temp、Logs、UserSettings、Obj、生成的 csproj/sln/slnx。旧 Assets/Welcome、Assets/Settings、Packages、ProjectSettings 不进入“仅源码迁移包”；是否在当前仓库删除这些旧工程文件取决于用户确认迁移方式。当前主场景内 Tests 不在源码包中，若需要保留场景应另外迁移并验证。
 
-C01 输入资产为 Assets/InputSystem_Actions.inputactions：Player/Move（取 x）、Jump、Attack、Interact（已移除 Hold，普通 Button）、新增 Dash；新增 System/Pause，保留原 UI map。键盘 A/D 或方向键移动、Space 跳跃、Enter/鼠标左键攻击、E 交互、Left Shift 请求冲刺、Escape 发布暂停请求；Gamepad 对应左摇杆、South/West/North/East、Start。按键是资产配置与测试基线，不新增姿态键，不授予冲刺能力。火焰团Q/鼠标右键/手柄右肩已接主图Whitebox_Input；旧独测资产保持不变；开盾仍预留。PlayerInputReader 在 Update 采样并限时缓冲；物理动作在 FixedUpdate 单次消费。各模块不改公共输入资产、不轮询设备。PauseRequested 只发请求；正式暂停菜单策略未接入，C01 测试驱动可演示暂停。
+共享UI与旧C01独测输入资产为 Assets/Input/Shared.inputactions：Player/Move（取 x）、Jump、Attack、Interact（已移除 Hold，普通 Button）、新增 Dash；新增 System/Pause，保留原 UI map。键盘 A/D 或方向键移动、Space 跳跃、Enter/鼠标左键攻击、E 交互、Left Shift 请求冲刺、Escape 发布暂停请求；Gamepad 对应左摇杆、South/West/North/East、Start。按键是资产配置与测试基线，不新增姿态键，不授予冲刺能力。火焰团Q/鼠标右键/手柄右肩已接主图Assets/Input/Gameplay.inputactions；旧独测资产保持不变；开盾仍预留。PlayerInputReader 在 Update 采样并限时缓冲；物理动作在 FixedUpdate 单次消费。各模块不改公共输入资产、不轮询设备。PauseRequested 只发请求；主图PauseInputHandler已独立接Escape暂停，完整暂停菜单仍未接入。
 
 ## 6 目录、命名空间和程序集
 
-| 目录 | 实际职责与状态 |
+| 目录 | 当前职责 |
 |---|---|
-| Assets/Scripts/Core/ | Regrowth.Core，Ming/4d6b2e1已提交契约8身体/奖励端口及IChoiceFlow数量语义 |
-| Assets/Scripts/Audio/Core/ | Regrowth.Audio.Core，独立空后端与统一音频入口 |
-| Assets/Scripts/Runtime/ | C01 运行/输入/启动、C02 玩家状态、C03 交互/选择协调 |
-| Assets/Scripts/Gameplay/ | 旧SwitchDoor/Locomotion/Chest仍被引用；新Combat/Bite/Sword/EnemyBasic已接主图试测；Soap/27ef56c方向增量处于未提交merge |
-| Assets/Scripts/UI/Choice/ 与 UI/Hud/ | 旧T01/T02与总控适配仍供兼容测试；正式交付等待新版T，结果UI待实现 |
-| Assets/Scripts/Presentation/ | 身体组合/反馈职责，按任务创建 |
-| Assets/Scripts/Audio/Wwise/ | 项目后端职责，尚待接入；不改插件源码 |
-| Assets/WhiteBox/ | Level_Whitebox 地图、试走脚本、输入与资源 |
-| Assets/Scenes/Tests/、Assets/Scripts/Tests/ | C01–C05、各T独测；新T07/T08/T09原实现已复跑；旧Integration/Level仅历史，不放入正式运行入口 |
-| docs/handoffs/ | 每个成员的实施交接，别人的文件只读 |
+| Assets/Scripts/Core/ | 身份、不可变数据、只读/命令端口；不依赖Gameplay、UI、输入或Wwise |
+| Assets/Scripts/Runtime/ | 唯一RunController、PlayerState、InputReader、PauseInputHandler、Interactor、ChoiceCoordinator、Bootstrap与终点触发 |
+| Assets/Scripts/Gameplay/ | 宝箱、战斗/火焰、敌人AI/强化、普通门与支线入口；Combat含共用DamageableLookup |
+| Assets/Scripts/Gameplay/Level/ | 原WhiteBox运行脚本；运动/迁移/门/地刺适配，保留Regrowth.WhiteBox程序集与类型身份 |
+| Assets/Scenes/、Input/、Art/Environment/ | 正式场景Frontend/MainMenu、Gameplay/MainLevel；输入按Gameplay/Shared区分，环境贴图/图块/调色板独立归类 |
+| Assets/Scenes/Archive/、Configs/Tests/、Input/Tests/ | 恢复快照与测试专用配置/引用；不作为正式入口，不因名字旧就删除仍被依赖的资产 |
+| Assets/Scripts/UI/、Presentation/ | 选择/三槽HUD/头顶提示/敌人血量、主菜单/开场/结局、真实状态驱动的角色敌人表现 |
+| Assets/Scripts/Audio/ | Core空后端、Wwise适配、Music/Combat/Movement/Traps接线；业务不依赖AK类型 |
+| Assets/Scripts/Tests/、Assets/Scenes/Tests/ | 独立验收入口；21个运行测试程序集以UNITY_EDITOR条件保留编辑器Play挂载，C05仅UNITY_EDITOR或专用C05_PLAYER_CHECKS定义编译，正式主图无测试驱动 |
+| Assets/Configs/Chest/LegacyRewardPool.asset | 旧Chest Prefab仍引用的兼容默认池；保留GUID，主图实例用V5两份七项池，不当作无用测试配置删除 |
+| docs/handoffs/ | 个人/任务实施记录；历史通过不等于当前通过 |
 
-既有 Regrowth.Core/Runtime/Gameplay/UI/Presentation/Audio 命名空间保留。Core 和 Audio Core 不依赖 Gameplay、UI、Input System 或 Wwise；业务程序集按需引用，输入适配器显式引用 Unity.InputSystem。不能因标题改名批量移动资产或重建 GUID。
+现有Regrowth命名空间和资产GUID保持。Core与Audio.Core独立；Gameplay.Combat只依赖Core，咬/剑/火/敌接触共用FindInParents且各自复用组件列表。不要复制同名接口、GameManager、真实HP/构筑/阶段，不能分别设置Time.timeScale。每个敌人持有自身唯一生命；表现只读。
 
-禁止复制同名接口、各模块创建 GameManager、重复真实 HP/构筑/挑战状态或分别设置 Time.timeScale。玩家与运行状态由总控唯一组件持有，每个敌人仅一份自身生命；表现只读。局部服务/类名可自由组织，跨模块身份/签名须登记。
+主图根为WwiseGlobal、00 Runtime、01 World、02 Actors、03 UI。静态图归01 World/Artwork，Enemy Routes为世界路线、不挂移动敌人，Enemies归Actors；Player、Game Runtime、ExitGate按职责命名，ExitGate保留胜利触发器。分组必须保留世界位置/缩放/排序与所有引用。Scene/Prefab编辑使用Unity原生工具。
 
-### 6.1 当前卡槽与攻击结构
+当前运动WhiteboxPlayer2D；普通Attack由PlayerAttackRouter消费，咬/剑读取唯一PlayerState与Facing；Fire独立输入，四动作通过PlayerActionGate互斥。近战仍即时圆判定与独立冷却，0.35秒动作锁不等于完整攻击时间轴。敌人与地刺现有独立0.6秒间隔/保护，统一0.5秒与最大伤害仲裁为待迁移目标；本轮结构整理不改变这些战斗规则。
 
-| 职责 | 已存在脚本 | 谁读/谁写 |
-|---|---|---|
-| 身体与三槽/HP/数值 | Runtime/PlayerState、LoadoutCollection | 唯一状态写入；Core公开只读视图和既有命令，正式开局为空槽 |
-| 宝箱候选与领取 | Gameplay/Chest下Chest、ChestClaimTransaction、ChestRewardConfig | 提供Arms候选，确认后调用TryApplyReward；取消不提交；不另持真实构筑 |
-| 卡片/槽显示 | UI/Choice与UI/Hud | 卡片只传选项ID，HUD按PlayerState快照/事件显示；显示图标不授予能力 |
-| 输入/动作分发 | Runtime/PlayerInputReader、Gameplay/Combat/PlayerAttackRouter | Reader唯一采样，Router唯一消费普通Attack；根据CanBite/CanUseSword选动作 |
-| 咬与剑 | Gameplay/Bite/PlayerBiteAttack、Gameplay/Sword/PlayerSwordAttack | 读取同一PlayerState权限/伤害，提交IDamageable；当前瞬时圆判定/各自冷却，待新表迁移 |
-| 移动 | 主图WhiteboxPlayer2D；模块夹具PlayerLocomotion | 每个玩家只一个运动写者；不把测试Rig整套复制主图 |
-| 敌人 | Gameplay/EnemyBasic/EnemyBasic、EnemyContactAttack | 敌人自有唯一HP；当前接触冷却待改统一玩家保护，AI未实现 |
-| 表现与声音 | PlayerBiteFlash、剑内slashVisual；GameAudio | 当前闪光占位；后续正式动画由真实动作状态/通知驱动，不能另发伤害 |
+身体表现使用MainPlayerAnimationSet与Dada原始Sprite/Clip，保留白纸底；缺图组合只能降级，不假称补齐。火焰2秒10跳、0.2秒间隔、每跳初始8，速度/半径/冷却读Inspector；暂停冻结、失去火尾/死亡/停用取消。生命与攻击当前值只在PlayerState，动画不提交第二次伤害。
 
-领取链：交互→Chest事务→选择UI确认→PlayerState写Arms→事件通知HUD；攻击链：InputReader→Router→Bite/Sword→敌人伤害。两条链现已在主图接通，C06真实箱卡确认→Arms槽→剑击通过；开箱/取消不授予，失去Arms恢复咬击。C06中的腿/尾通过真实状态命令准备夹具，不冒充两张卡的人工领取验收。
+## 7 实际接口、接线与生命周期
 
-### 6.2 新表迁移的共享归属（目标，非已发布API）
-
-普通攻击0.5秒冷却必须由同一玩家的普通攻击协调职责持有，不能继续各自存于Bite/Sword而通过换手绕过。朝向从现有输入/运动接点取得；起手锁方向和动作阶段由唯一协调职责传给判定/表现，实际类名可在模块内设计。喷火/普攻/冲刺互斥、同物理步攻击与伤害顺序涉及多个模块，先串行约定，不让各个FixedUpdate依赖随机顺序。
-
-攻击倍率与玩家受伤保护属于唯一玩家状态/协调入口，敌人全局强化属于唯一局内服务；T07/T08、T09/T14不能各造一份。现IPlayerAttackAction仅CombatState/TryAttack，IPlayerCombatState没有动作阶段/方向/冷却/伤害变化事件；凡新增跨模块接点先发布真实签名与测试。本文不虚构已经存在的接口，不要求一份大GameManager或新依赖框架。
-
-卡槽与状态基础已存在；后续按C系列共享接点→T07/T08动作迁移→T09/伤害→T12数值池/卡槽回归→正式动画→C06主图接线回归的依赖推进。美术/模块内无依赖准备可同时由各自授权副本完成，不自动启动多代理。
-
-
-### 6.3 C06主图动作试测接线（已由724c08c提交；以下为当轮记录）
-
-以用户当前Ming版本为主，保留其出生点/地图/WhiteboxPlayer2D手感与现有规则。Test_Player新增PlayerAttackRouter、PlayerBiteAttack、PlayerBiteFlash、PlayerSwordAttack及Soap的PlayerFacing2D；全部读同一PlayerState/Input/Run。临时主图专用朝向适配已删除，不能重新添加另一套。WhiteBox程序集新增对Regrowth.Gameplay.Player引用；WhiteboxPlayer2D只新增显式facingSource，主图冲刺方向读取同一源，旧未接该源的独测才回退原输入方向。没有替换运动器或改速度/跳高/碰撞。
-
-PlayerFacing2D在Reader后Update只读MoveX、不消费按键；主图deadZone=0.1，默认右/释放保留。公开FacingSign、IsFacingRight、Direction、FacingChanged/IsWired，属于Gameplay模块接点，Core契约8不变。两攻击显式绑定同一facingSource，用右向参考Origin计算HitCenter并排除反侧目标；攻击视觉独立于Origin，不能再镜像参考锚点以免二次翻转。根实体不翻转；后续完整身体美术可用PlayerFacingPresentation绑定纯视觉子树，本轮白方块未强改。
-
-开局三个空槽、仍跳过躯干教学；无手Enter/左键咬击，有手剑击，腿卡后二段跳、普通尾后Shift冲刺。青咬/金剑0.18秒占位；动画不得二次结算。当前依旧咬10剑15、圆半径1.2/1.8、独立0.6秒；仅原实现集成，不替代§0共享0.5/矩形窗口等目标。
-
-02 Actors下4个站桩EnemyBasic：(-51,1.5)、(-44,9.5)、(-54,31.5)、(-45,37.5)，39HP/接触7/每敌人0.6秒，显式绑定Run与玩家。原标记Tile/地形保留，其他大敌/精英标记仍非业务敌人。AI、窗口/遮挡/共享冷却/保护、攻击冲刺互斥、新倍率/奖励公式待迁移。
-
-复跑见[主图动作试测](docs/C06_MAIN_ACTIONS.md)。C06仅UNITY_EDITOR编译、显式菜单创建DontSave驱动；39/0，包括咬/剑/冲刺同源、左右冲刺。Auto含死亡终态，Stop再Play恢复手动。末次保存重载核对空槽/100HP/4活敌/无测试驱动，Windows未重建。
-
-### 6.4 C07 主场景人物与慢飞火焰（本轮已实现）
-
-用户授权真实玩家直接使用Dada资源；最新回复“持续扣，飞慢点”更新喷火空间规则。正式身体组合来自唯一PlayerState；开局依旧躯干原型+三个空槽，未恢复完整头部教学。宝箱实际确认Arms后显示手剑并可剑击；FlameTail后可按Q/右键/右肩释放。普通尾与火焰尾互斥，沿用单卡明确换尾事务；9箱引用的两份配置现同为7项等概率池、favorRegrowth=false。即时奖励暂留旧固定加法，未冒充新百分比倍率。
-
-| 实际接点 | 职责与参数 |
-|---|---|
-| Core.IPlayerFireInput.TryConsumeFire() | 可选独立Fire缓冲端口；PlayerInputReader实现。fireActionPath默认空兼容旧独测，主图Player/Fire。旧IPlayerInput不改签名 |
-| Runtime.PlayerState.FireDamage / CanUseFire | 唯一火焰伤害和权限；初始每跳8，仅存活Playing且有躯干+FlameTail可用。旧attackIncrease与咬剑火一起原子加，溢出整笔拒绝 |
-| Gameplay.PlayerActionGate | TryBegin(MonoBehaviour,float)、Release(MonoBehaviour)、IsBusy；主图咬/剑0.35秒、火2秒、冲刺按原持续时间互斥，允许基础移动/跳跃。Facing忙碌时保持起手方向；不存能力/真实HP |
-| Gameplay.PlayerFireAttack | TryAttack、Cancel、IsFiring、Position、TickCount、CooldownRemaining、AttackStarted；唯一Fire消费者，FixedUpdate(-120)先于普通Router(-110)，再到原运动器 |
-| Presentation.PlayerAnimationSet | 正式13组合/52动作引用，复用Dada Sprite/Clip GUID；不依赖Regrowth.Tests.Art，Editor转换后持久保存 |
-| Presentation.PlayerCharacterPresentation | 只读身体/运动/受伤与三个成功动作事件；Sprite帧按原Clip FPS播放，Idle复用首帧呼吸。无动画扣血；重定位清表现与在途火焰 |
-
-火焰参数：每0.2秒8伤、2秒10次、起手8秒冷却，默认速度1.5/半径0.6，持续重查、实体每跳去重、扫掠碰墙消失并逐目标遮挡。离开不补扣；暂停/Choosing冻结，失去火尾/死亡/停用立即取消，重新获得不重置冷却。火焰团无实体碰撞、不击退。完整接触10跳才为80，经过一次不保证全额命中。输入、读口和Inspector绑定见C07说明。
-
-主图根SpriteRenderer关闭，新增Character子Renderer和纯火焰表现，保留原根scale(1,1.5,1)、碰撞、出生点(-12.14,8.6)与运动参数；表现逆缩放保持画面比例。用户明确要求保留原图白纸底，已撤回去白材质；直接使用原始Sprite和普通Sprite材质，不裁切或去底。Dada两种火尾Bite/全部件Fire仍缺图，保留当前正确身体+已有咬反馈/火焰团，不能冒称缺图已补齐。受伤红闪、死亡灰显、冲刺青色只是暂代反馈；火焰为代码材质临时特效。
-
-普通攻击仍旧咬10/剑15、瞬时圆判定、各自0.6秒冷却；0.35秒互斥不代表新0.1/0.1/0.1时间轴或共用0.5秒已经迁移。现有GameAudio/Cue1–14与Wwise保持，咬剑沿原成功Cue；火焰未接新音频映射，不冒用咬/剑Cue。最终美术/音频和Windows封装仍由对应同学完成。
-
-C07主图真实输入/卡牌/伤害/暂停/失去部件/缺图降级30/0，C06动作移动回归39/0；详见docs/C07_PLAYER_CHARACTER.md。测试创建临时DontSave对象，结束死亡后Stop/Play还原；不挂正式场景，不继承旧T验收。
-
-## 7 实际存在的接口与迁移缺口
-
-**当前已提交基线Ming/724c08c，工作区Dada合并、C07与C08契约10未提交。灰卡、生命预览、共享倍率与安全传送代价已接主图，签名见C08表。** 近战时间轴、常规伤害统一仲裁、完整挑战结算与重开仍待实现。 新增身份使用 201–204，旧 ID 1/2/5/101 等保留数值但不再被正式 PlayerState 奖励写口接受。当前地图为空构筑开局，没有序列化旧库存需要静默转换；新 V5 奖励资产独立创建，旧测试配置保留供追溯，不当正式池。
+公共源码契约12；模块接点按实际文件登记。没有AttackPercent或AttackPercentIncrease，攻击采用固定整数。
 
 | 类型 | 实际签名/字段 | 已实现语义或边界 |
 |---|---|---|
@@ -383,55 +238,43 @@ C07主图真实输入/卡牌/伤害/暂停/失去部件/缺图降级30/0，C06�
 | PlayerForm / IFormState | Quadruped=0、Upright=1；CurrentForm、FormChanged | 兼容表现读口，由Arms推导；不是独立站立项或手动切换命令 |
 | IPlayerBodyState | HasBodyCore、EverOwnedItems、WasEverOwned(item)、BodyChanged | 唯一躯干与本局成功持有历史；历史只成功领取/替换增加 |
 | IPlayerStateCommands | TryHeal、TryAddLoadoutItem、TryRemoveLoadoutItem、TryReplaceLoadoutItem | 现执行V5身份/互斥/容量；移除Arms连剑一起撤下，不保留旧Sword项 |
-| PlayerReward | 构造(item=null, heal=0, maximumHealthIncrease=0, attackIncrease=0, attackPercentIncrease=0)；Item、Heal、MaximumHealthIncrease、AttackIncrease、AttackPercentIncrease、IsValid | 不可变正面奖励包；default/负数无效，未含费用或负面 |
+| PlayerReward | 构造(item=null, heal=0, maximumHealthIncrease=0, attackIncrease=0)；Item、Heal、MaximumHealthIncrease、AttackIncrease、IsValid | 不可变正面奖励包；default/负数无效，未含费用或负面 |
 | IPlayerRewardCommands | TryApplyReward(PlayerReward, LoadoutItemId? removedItem=null, Action onCommitted=null)；TryAcquireBodyCore(Action onCommitted=null) | 全量预验后同时写槽/历史/数值；false无部分变动，满血回血包可成功；回调在状态通知前标记箱子消费，不得再写状态 |
-| IPlayerCombatState | BiteDamage、SwordDamage、CanBite、CanUseSword | 有躯干无手可咬、有手可剑，腿不影响；这里只给数值/权限；T07/T08原动作已独测并接入主地图，C06 39/0；新表迁移待做 |
+| IPlayerCombatState | BiteDamage、SwordDamage、CanBite、CanUseSword | 有躯干无手可咬、有手可剑，腿不影响；这里只给数值/权限；原动作已接主图；近战时间轴与共享冷却迁移待做 |
 | IInteractionState / IInteractable | HasTarget、InteractionId、Prompt、TargetChanged；Kind、CanInteract/TryInteract(actor) | 真正交互桥接为InteractionTarget；类别→距离→稳定Ordinal ID，跳过不可用对象，一次请求不二次转发 |
 | InteractionKind | Portal=0、Switch=1、Chest=2 | 既有顺序；支线条件门采用靠近自动确认，不加入E交互类别排序 |
 | ChoiceOption / ChoiceRequest | Id、Title、Description、IsEnabled（默认true）；请求复制1–4个不同候选 | C08支持灰卡拒绝和描述中的生命预览，正式门仍恰好三项 |
-| IChoiceFlow / ChoiceCoordinator | IsOpen、RequestId、TryBegin/TryReplace/Cancel；具体协调器新增LastClosedFrame | 已提交契约8：TryBegin/TryReplace只接受1或3；2/4拒绝且不改当前阶段/回调；满槽3旧项，单卡显式确认，协调Choosing/锁 |
-| IChoicePresenter / T01 | TryShow、TryReplaceCurrent、CancelCurrent | 既有生命周期；本轮补默认卡焦点/卡片Escape取消；WhiteboxOverlay防同次取消再暂停 |
-| IAudioBackend / GameAudio | 原Play/StopAll/InstallBackend/UninstallBackend | 数值、方法与生命周期不变，空后端可运行；项目Wwise适配尚未交付 |
+| IChoiceFlow / ChoiceCoordinator | IsOpen、RequestId、TryBegin/TryReplace/Cancel；具体协调器新增LastClosedFrame | 当前TryBegin/TryReplace只接受1或3；2/4拒绝且不改当前阶段/回调；满槽3旧项，单卡显式确认，协调Choosing/锁 |
+| IChoicePresenter / T01 | TryShow、TryReplaceCurrent、CancelCurrent | 既有生命周期；本轮补默认卡焦点/卡片Escape取消；PauseInputHandler防同次取消再暂停 |
+| IAudioBackend / GameAudio | 原Play/StopAll/InstallBackend/UninstallBackend | 数值、方法与生命周期不变，空后端可运行；关卡RewardAudioBackend与菜单MenuAudioBackend已接入 |
 
-### 新T07/T08/T09模块接点（2d92989已合并，非Core契约升级）
+### 当前模块接点与主图参数
 
-| 类型 | 实际接点 | 边界 |
-|---|---|---|
-| Gameplay.IPlayerAttackAction | IPlayerCombatState CombatState；bool TryAttack() | Router唯一消费Attack；动作与Router绑定同一真实状态，拒绝不排队 |
-| PlayerBiteAttack / PlayerSwordAttack | 实现IPlayerAttackAction；IsWired、CooldownRemaining；Bite/Sword均有event Action AttackStarted（Sword为C07补充） | 当前即时OverlapCircle/实体去重；读取实时权限/伤害。主图已移除咬剑测试闪光，使用人物动作；无独立Sword构筑或耐久 |
-| EnemyBasic | IHealth、IDamageable；TrySetRuntimeStats(int newMaximumHealth, int newCurrentHealth, int newAttackDamage) | 敌人唯一生命；运行快照写口不等于已实现全图强化；死亡保留对象、关碰撞/视觉 |
-| Gameplay.IEnemyRegistrationAdapter | Register(EnemyBasic enemy) / Unregister(EnemyBasic enemy) | C08 EnemyEnhancementService已实现，四敌显式接线；不是另发Core全局注册契约 |
-
-### C系列当前验收与新版T接线边界
-
-- C01输入/运行独测前轮复验32/0；PlayerInputReader与RunController的签名和配置未改。
-- C02_Smoke已按V5迁移，实际Play69/0。覆盖三槽、Arms合手剑、无腿剑击、旧身份拒绝、生命/死亡顺序、只读活视图、重入/启停，以及隔离头部状态、一次躯干、历史保留和正面原子奖励。原测试按钮的序列化引用保留，运行标签/行为改为手剑和腿；不代表教学/攻击地图已做。
-- C03_Smoke已按V5迁移，实际Play63/0。覆盖单卡开/取消/确认、三卡与三旧项替换、三卡进入单卡确认、拒绝2/4卡、迟到回调、业务重入、取消、启停及真实输入/交互排序。保留泛用ChoiceRequest/IChoicePresenter的1–4展示数据兼容，但总控业务事务只允许1/3，不能借泛用展示绕过契约。
-- 现有T12V5Checks作为兼容回归前轮33/0；前轮地图7箱真实Chest→Flow→Panel三卡开/取消均正常、全箱未领取。它不把弃用的旧T12交付标为新版完成。
-- 新T01/T02/T03/T06/T10/T11/T12按本文真实接口接线；普通奖励和替换用3项，教学/指定确认用1项，不再提交4项。T07/T08读取HasBodyCore与CanBite/CanUseSword，不从独立站立卡/旧Sword推导。
-- 灰卡/生命预览、安全代价模拟/原子提交、完整挑战结算与重开仍无已发布接口；C05入口门接点见下文，本轮未实现正式收费/教学/战斗/完整支线。需该接点的新版T只能完成独立无依赖部分，不能自建第二份玩家状态或自控Time.timeScale。
-- 旧T交付及其Smoke/Integration/Level断言弃用，保留资产依赖和历史，不执行或继续迁移队友旧T测试。新T文件/配置/测试随本人新版handoff提交；总控先审查再替换引用，不因旧提交已合入而拒绝新版。
-
-### 实际场景接线、配置与剩余迁移
-
-C01 RunController / PlayerInputReader / GameBootstrap 仍为唯一阶段/输入/启动；PlayerState 是唯一玩家生命/构筑/身体状态。PlayerInteractor 与 **InteractionTarget** 只读筛选目标，CanInteract不结算；同类别按距离再稳定ID排序。ChoiceCoordinator显式绑定ChoicePanel和Bootstrap，UI不写状态或Time.timeScale。
-
-Level_Whitebox 保留6根：00 Runtime、01 World、02 Actors、03 UI、90 Validation、WwiseGlobal。新图01 World/Chests有9个Chest Prefab实例，对应9簇黄色宝箱标记；新增Chest_08/09补齐来源场景缺失实体，保留ChoiceMenu/EventSystem/ChoiceCoordinator。对应81格宝箱标记设透明，Tile身份和其他标记保留；实体未领取视图用黄色。02 Actors从Chests下恢复为根，世界坐标不变。三槽HUD读取Test_Player；原第四槽视图在地图实例停用，来源Prefab保留兼容旧独测。
-
-- `Assets/Configs/Chest/V5_WhiteboxRewards.asset`：腿/手剑/普通尾/回血/增加上限/攻击六个不同条目，普通等概率池。暂定回血25、上限+15（不附带回血）、咬击与剑击伤害各+3；不是冻结平衡数值。
-- `V5_RegrowthRewards.asset`：相同池，favorRegrowth=true；地图Chest_03/05使用，优先一个本局曾持有的缺失身体。
-- PlayerState的prototypeStartWithBodyCore=true是当前白板/旧独测跳过教学例外，正式T19地图必须关闭并接安全起点/出口；头部、单卡躯干与满血初始化已有独测，不代表安全教学场景完成。
-- WhiteboxPlayer2D绑定唯一PlayerState，useLoadoutAbilities=true；其余速度/跳高/射线/碰撞参数不变。取得腿能双跳、普通尾能冲刺；关闭此模式可恢复原Inspector试走开关。
-- 已有T12固定候选/跨箱单位置修复迁移为三槽；普通即时效果、再生优先、组合原子奖励、明确换尾确认已支持。这些兼容能力不全是新目标：favorRegrowth需撤出正式配置；支线改用普通随机池，固定强化包已取消。新百分比奖励及实际支线领奖尚未接。
-- 菜单通过现有Input Actions UI map及持久UI ActionReferences接线；并未复制输入资产。Esc取消本帧由协调器标记，白板不再次处理为Pause。
-
-| 仍待完成 | 后续职责 |
+| 接点 | 语义与接线 |
 |---|---|
-| 完整头部安全教学、部件外观、按新表的攻击和主图接线 | T19/表现/T07/T08；独测动作已存在，地图仍躯干+空槽、未接攻击 |
-| 生命安全代价预览/禁用、负面、正式付费传送 | C02/C03后续写口和T13/T17；没有合法致死支付分支 |
-| 正式按钮安全切换、地刺伤害、支线目标/完成/普通随机领奖 | T03/T14/T20；L01/L02由地图同学负责；旧落坑失败/回传/机关复位已取消 |
-| 精英、出口、死亡优先、整局重开 | T09/T15/T16/C01；R仍仅回位 |
-| 独测版本与旧T弃用 | C02/C03已迁移69/63；旧T/Integration/Level用例弃用待新版交付，现有T12适配仅兼容回归 |
+| PauseInputHandler | 绑定唯一Reader/Run/Choices，启用订阅PauseRequested、停用退订；菜单打开或关闭同帧拒绝切换；不依赖调试UI，不直接写时间 |
+| PlayerState.CanPayTeleportCost(kind,amount,minimumAttackDamage,out reason) | 无副作用模拟生命/构筑/攻击代价；敌人代价由EnemyEnhancementService另验 |
+| PlayerState.TryCommitTeleportCost(kind,amount,minimumAttackDamage,protectionSeconds,Func<bool> tryCommitWorld,Action onCommitted) | 复验后原子世界/费用提交，成功才抵达保护和通知；回调失败须无世界副作用 |
+| PlayerState.FireDamage / CanUseFire / HasDamageProtection | 只读火焰权限/伤害与抵达保护；普通受击尚未统一保护 |
+| IPlayerFireInput.TryConsumeFire() | 唯一Reader缓冲，由PlayerFireAttack单次消费；Q/右键/右肩 |
+| PlayerActionGate.TryBegin(MonoBehaviour,float) / Release / IsBusy | 普攻、火焰、冲刺互斥/朝向锁，不持有HP或构筑 |
+| PlayerBiteAttack / PlayerSwordAttack | IPlayerAttackAction；CombatState/TryAttack、IsWired、CooldownRemaining；AttackStarted、HitAccepted只通知 |
+| EnemyBasic / EnemyEnhancementService | 敌人唯一HP，显式注册与全图/未来强化；死亡不复活，增血保持比例 |
+| DamageableLookup.FindInParents(Transform,List<MonoBehaviour>) | 主线程同步从节点向父级找首个IDamageable；scratch由调用者独占复用，无状态写入 |
+| WorldDoor.TrySetOpen(bool) | 反复关闭须allowPrototypeReclose、Box门碰撞与closingGuard玩家实体；玩家占门返回false、保持原态；离开后可再次按按钮 |
+| InspectionDoor2D.IsUnlocked / HasAdmission / HasEntered / IsCompleted / IsOpen | 解锁为本局永久状态，与可撤销的挑战资格分开；缺部件从外侧重入恢复资格，不重复弹卡/收费 |
+| InspectionDoor2D.ResetAdmission() / TryCompleteChallenge() | 前者仅撤尝试不恢复门；后者要求合法跨入/仍缺部件/存活Playing，现无正式终点调用者 |
+| WhiteboxPlayer2D.Relocated / TryQueuePaidTeleport / CanLandAt | 唯一运动写入与下一物理步安全迁移；主图禁R绑定，TryResetToStart仅保留独测调用 |
+| RunController.TryWin(IHealth) / VictoryPortal2D | 存活Playing碰顶部绿门进入Won；LateUpdate确认，死亡优先，不检查精英死亡 |
+| GameBootstrap | 唯一组装/清理；死亡2.1真实秒后重载本场景，初始门/箱/敌/状态全部恢复 |
+
+- 构建入口：Assets/Scenes/Frontend/MainMenu.unity → Assets/Scenes/Gameplay/MainLevel.unity；无引用SampleScene已删除，模板默认场景为MainMenu。
+- 玩家：初始100HP、咬10/剑20/火每跳8，三空槽，prototypeStartWithBodyCore=true。完整头部教学仍未接。
+- 近战当前配置圆半径1.7/2.3，普通怪50HP/5伤、精英150HP/5伤；怪物根缩放按已保存场景，不回写旧测试尺寸。
+- 两份主图奖励配置均7项，已移除favorRegrowth字段及优先抽样分支；回血ceil(maxHP×20%)，上限ceil(maxHP×10%)并当前同额增加，攻击+10点。
+- 传送当前生命-20%、上限-10%，新生命/上限必须>0；攻击-10且三个攻击均不得低于6；敌人+50HP/+5攻击；抵达保护0.5秒。每门独立固定卡组，成功后重抽。
+- 8普通门绑定玩家closingGuard；2支线门首次确认后永久隐藏，7地刺保留2伤及既有击退/0.6秒保护。
+- 主图无Regrowth.Tests驱动；Editor独测从显式菜单创建临时DontSave对象。C05专用构建以extraScriptingDefines加入C05_PLAYER_CHECKS，不作为最终包。历史C05入口/新检查与验证范围见handoff。
 
 ### 选择端口生命周期（现有保证继续保留）
 
@@ -439,74 +282,15 @@ TryShow 已有菜单时返回 false 且无回调。UI 回传选项 Id，由发�
 
 TryReplaceCurrent 仅允许菜单已开、request.Id 与事务相同；替换不触发旧取消、不释放输入锁。奖励进入替换阶段后返回 false 保持事务，完成时才提交全部效果。CancelCurrent 打开时恰好通知当前阶段一次，关闭时无操作；取消替换取消整个领取。场景卸载总控取消、退订并释放锁，UI 不设置 Time.timeScale。
 
-V5 数量规则：普通奖励/付费传送三项，满槽替换三旧项；固定躯干教学、支线指定舍弃为单卡，尾互换需明确确认。底层能显示四项不许可正式四槽。后续不可选/预览字段仍需作为统一公开数据发布，并保留现有生命周期；灰卡 UI 和服务双重拒绝。所有事件主线程同步，原子状态完成后才通知；OnEnable 订阅并读快照、OnDisable 退订。
-
-### C04配置与接线审查（Editor工具，运行契约8不变）
-
-文件：Assets/Scripts/Tests/C04/Editor/C04SceneValidator.cs；程序集Regrowth.Tests.C04.Editor仅Editor，直接引用Core、Runtime和Unity.InputSystem，不引用旧T程序集。非Play时选中场景GameBootstrap所在物体，运行Tools/pawgatory/C04/Validate Selected Bootstrap。Validate(GameBootstrap,bool requirePlayer=true)返回Errors/Notes；正式场景默认要求PlayerState，C01纯输入独测可显式false。
-
-工具只读取显式入口和本场景已启用实例，报告缺失/跨场景/禁用引用、重复运行/输入/玩家/交互/选择入口、actor与唯一玩家不一致、菜单接口/绑定不一致、非法数值/输入路径/重复动作/Hold及非Dynamic Update。它不写绑定、不启停Input Actions、不创建运行单例、不控制时间，也不替代Play、资产完整性、跨场景唯一性或模块内绑定验收。字段名随Runtime变更时由总控同步维护。
-
-| 配置唯一来源 | 当前地图实值 / 单位 | 读取与使用边界 |
-|---|---|---|
-| PlayerState.initialMaximumHealth | 100 HP | 生命周期初次初始化/首次躯干获取使用；改Inspector不等于修改当前真实HP |
-| PlayerState.initialBiteDamage / initialSwordDamage | 10 / 15 伤害点 | 初始化基础值；T07/T08读IPlayerCombatState当前伤害/权限，不复制基础值 |
-| PlayerState.prototypeStartWithBodyCore | true | 当前白盒跳过教学；正式T19必须false并接安全教学，不代表教学已实现 |
-| RunController.gameplayTimeScale | 1 倍率 | 唯一运行控制器使用；其他组件不写Time.timeScale |
-| PlayerInputReader.buttonBufferSeconds | 0.15 真实秒 | 动作缓冲实时读取；输入资产/路径重新初始化生效 |
-| PlayerInputReader.inputActions | Assets/WhiteBox/Whitebox_Input.inputactions | 仅唯一输入适配器；UI使用其显式UI引用，业务不轮询键盘 |
-| PlayerInteractor.interactionRadius / layers / includeTriggers | 2 Unity单位 / 1（Default） / true | 圆区域扫描实时读取；对象自身交互半径/贴图尺寸独立，不能用此值覆盖传送门配置 |
-| V5_WhiteboxRewards / V5_RegrowthRewards | 回血25、上限+15、攻击+3 | 现有兼容宝箱配置；上限奖励不附带回血，攻击加到咬击/剑击；新版T12交付须自行核对 |
-| WhiteboxPlayer2D速度 / 跳高 / 冲刺距离 | 7单位/秒 / 4.5单位 / 3单位 | 当前试走控制器；唯一Rigidbody2D写者，实际可达性用真控制器实测 |
-
-以上是当前实例/兼容配置与使用边界，不是新冻结的平衡数值。少量初始化数据保留唯一PlayerState Inspector，不为它另建第二份共享数值资产或真实状态；模块自己的参数在授权配置内维护。现有IPlayerCombatState没有伤害变化事件，不能假定已发布；HUD/表现不得从图标反推状态或把缓存当真实值。新增事件需由总控串行发布。
-
-C04历史轮目标Unity6000.2.9f1编译无错误，当前Level_Whitebox静态接线零错误；隔离Preview Scene 17/0，原场景/脏状态/Time.timeScale保持，未进入Play。菜单仅静态检查，不代表旧T已重新交付；完整教程/收费/挑战结算/重开端口仍按第7节缺口暂缓。
-
-### C05新地图与入口门接点（已提交dae3f3c）
-
-来源Level/ad3ea42，9箱、4个免费传送门、8个按钮/8个普通门、7个仅击退地刺继续试走；红色敌人仍为标记。新增两箱为普通试走奖励，不作为支线完成或专属奖励。完整挑战没有真实目标/终点调用者，不能凭入口开门标为完成；最新规则不再需要失败区。
-
-| 类型 | 已有公开接点 | 边界 |
-|---|---|---|
-| Regrowth.Gameplay.Challenge.InspectionDoor2D | ChallengeId、HasAdmission、HasEntered、IsCompleted、IsOpen；void ResetAdmission()；bool TryCompleteChallenge() | 单门唯一入口状态；ResetAdmission撤销未完成许可、不返部件/扣血/移动。TryCompleteChallenge仅在已许可且跨入、仍缺指定部件、存活Playing时一次成功；未来T20须先验证真实目标/终点再调用，地图当前没有该调用者 |
-| WhiteboxPlayer2D | event Action Relocated | 实际R/传送位置迁移及速度清理后通知；不在排队请求时发。入口门订阅以撤销未完成许可；不提供第二个运动写者 |
-| Regrowth.Tests.C05.NewMapPlayChecks | Begin(PlayerState, RunController, ChoiceCoordinator, ChoicePanel, InspectionDoor2D[], Chest[])；Passed、Failed、Finished、Results | 显式注入真实地图组件的Play检查；只在测试中临时添加，绝不保存进主场景 |
-
-InspectionDoor2D程序集引用Core/Runtime/Audio.Core/WhiteBox；所有跨物体依赖由Inspector绑定。门根实体1×5，外侧Approach Zone为4×6，偏移2.25单位；门1外侧+X、门2外侧-X，crossingMargin=0.1。配置以新局读取为主，菜单文案下次打开读取。补回部件/离开/R/死亡撤销未完成许可；人在门内或门体范围时保留退路，离开后恢复实体，避免夹人。菜单打开期间部件状态变化会更新文案并要求再次确认，不暗中把免费进入改为舍弃。
-
-实际C05 Play为69 passed / 0 failed：9箱真实交互器三卡开/取消、领奖一次，两门实体阻挡/放行、取消后离开再检测、单项移除、补回失效、返回/回位/死亡撤销、防夹人、迟到回调和状态变化后重新确认。完成接点仅隔离调用验证；没有完整支线目标/失败/结算验收。新增箱还经过真实E打开与Esc取消；C01/C02/C03/T12旧独测本轮未重跑。
-
-### C05复验菜单与Windows测试构建（已提交05c082e）
-
-菜单位于Tools/pawgatory/C05：Run New Map Checks (Play)、Build Windows Trial、Build Windows Automated Checks。具体操作/边界及音频封装交接见[测试构建说明](docs/C05_TEST_BUILD.md)。
-
-- NewMapCheckLauncher.StartChecks()显式检查当前Level_Whitebox、唯一依赖和全新状态后注入原NewMapPlayChecks；Current保留本次结果。仅测试入口允许发现组件，不变更生产Bootstrap接线。临时驱动DontSave，检查会消耗本次Play且结束Dead，退出重进才复跑。
-- Editor/C05EditorTools.QueueBuild(bool automatedChecks)要求保存且非Play的单个目标地图与已安装Windows64；返回唯一Builds/C05目录并排队构建，BuildInProgress/LastOutputDirectory供观察。显式构建Level_Whitebox，不修改全局Build Settings（当前仍为SampleScene）、后端或输入；每次独立目录不覆盖旧包。
-- 两种均为Development测试包。普通试走包不编译C05运行检查类型；专用检查包仅本次extraScriptingDefines加入C05_PLAYER_CHECKS，启动执行原检查，90秒超时，汇总日志并退出。不得作为正式交付包。
-- Editor/C05BuildSceneFilter只在上述构建期间移除临时场景副本中的Regrowth.Tests.*组件，磁盘场景不变。新Editor程序集仅引用Regrowth.Tests.C05；没有新的生产公共契约或场景实例。
-- 本轮Editor菜单69/0；Windows普通/专用包都Succeeded、构建错误0，警告491/5（详细来源见交接）。独立检查进程69/0、退出码0；普通包仅启动检查，未做完整画面/输入/整局试听验收。旧C系列/旧T独测本轮未重跑。
+V5 数量规则：普通奖励/付费传送三项，满槽替换三旧项；固定躯干教学、支线指定舍弃为单卡，尾互换需明确确认。底层能显示四项不许可正式四槽。不可选由ChoiceOption.IsEnabled发布，描述包含生命预览；灰卡UI和服务双重拒绝。所有事件主线程同步，原子状态完成后才通知；OnEnable 订阅并读快照、OnDisable 退订。
 
 ## 8 状态、事务与维护职责
 
-| 职责 | 唯一归属与交付边界 |
-|---|---|
-| 玩家状态 | 总控 C02-V5 已在工作区实现躯干、三槽、历史、攻击读视图与正面奖励命令；费用/负面写口待发布；无第二份部件列表 |
-| 运行/输入 | C01已有阶段/输入/初始化；完整结算顺序/胜利/重开与动作协调仍待发布，不从Sprite反推身体 |
-| 选择/交互 | C03已有单卡/三卡/三旧项替换；灰卡预览待发布，支线接法由总控统一 |
-| 奖励与代价 | 在统一状态写口上分别做候选/复验/原子业务；禁止用 IDamageable 扣代价 |
-| 挑战 | 两条共用挑战服务，持久进度与当前尝试分离；不让关卡脚本各自改 HP 或复活 |
-| 地图 | 地图迭代同学制作两支线和白盒摆放；总控接线时协调场景写权，程序独测不复制长期主图 |
-| UI/表现 | 只读实际状态、禁用提示/输入提交；不能根据动画是否结束决定支付/领奖成败 |
-| 音频 | 既有 GameAudio/IAudioBackend 与 Cue 保持；Wwise 当前 Ming 配置为准 |
+PlayerState唯一持有生命、三槽、身体历史与攻击；RunController唯一阶段/时间，Reader唯一采样，ChoiceCoordinator管理菜单事务。奖励和代价在统一写口先预验、整笔提交后通知；代价禁止走IDamageable。表现/音频通知不能决定成功或重复支付。
 
-头部安全阶段、奖励组合提交、代价模拟/提交、入场指定舍弃许可、支线尝试/完成/领奖、全局新局复位需分别验证原子性。新局从头部教学重新开始，清构筑/历史/生命数值/负面、候选、箱门敌人、挑战、输入锁、订阅与旧对象引用；不能把 R 仅回位或 Bootstrap 重启当作正式重开。
+支线门拥有本局解锁与当前尝试；解锁不等于完成。完整目标/完成/领奖尚待接线；补回受限部件撤销未完成资格，但允许通行。死亡自动重载整个关卡，清身体/历史/费用/候选/门箱敌人/解锁/尝试/输入锁/订阅；当前实际仍躯干原型开局，不能把它称作头部教学已完成。
 
-### 本轮音频配置裁定（接口不变）
-
-用户明确本地/当前 Ming 配置优先。Soap 提交中的 WwiseSettings.xml / wproj 与交接“未纳入提交”不一致，不能据交接覆盖当前配置；本轮核对这两份文件从 649451f 到 0abac92 无差异，无需回滚或导入 Soap 的 SoundBank 路径。Authoring 仍由音频维护者管理。
-
-下节原有音频接口、Cue 数值、资源/后端生命周期要求保留。表中旧“站立持剑”“致死原地失败”是旧触发文案，不能据此恢复独立站立玩法或允许生命代价致死：V5 由真实攻击权限触发已有咬击/剑击 Cue，不可选代价无成功/死亡 Cue。附件提出的成长/支线专用 Cue 不视为本轮新增音频需求，若后续需要扩展另行串行发布，不能冒用旧 Cue。
+后续智能体按用户授权维护地图与程序，共享资产保持单写者。音频以用户当前配置为准；程序整理不自动授权改Authoring，不据历史handoff覆盖配置。正文已清理的旧轮次事实仍在对应handoff和Git历史中，不作为当前指令或验收。
 
 ## 9 音频契约、资产与 Wwise 交付
 
@@ -517,19 +301,21 @@ null emitter 指专用全局发声对象；StopAll(null) 只停止该对象，�
 | AudioCue（稳定数值） | 发出时机 |
 |---|---|
 | PlayerJump=1 | 实际一次跳跃成功 |
-| PlayerBite=2 | 四足咬击动作实际开始；站立不能发出咬击 |
+| PlayerBite=2 | 无Arms且有躯干的咬击动作实际开始 |
 | PlayerHurt=3 | 敌人/地形造成实际扣血；献祭不默认复用 |
 | PlayerDied=4 | 首次进入死亡 |
-| ChestOpened=5 | 奖励确认成功、箱子标记领取 |
+| ChestOpened=5 | 每次成功打开箱子选择事务；奖励消费由领取另记，取消不关回首次打开的视觉 |
 | AbilityGained=6 / AbilityLost=7 | 实际能力状态由无变有/有变无 |
 | SwitchActivated=8 / DoorOpened=9 | 状态首次改变成功 |
-| Teleported=10 | 扣代价后存活且位置迁移成功；致死原地失败不播放 |
+| Teleported=10 | 代价验证通过并提交且位置迁移成功；无效落点或生命不安全时拒绝，不播放 |
 | UIConfirm=11 | 确认被接受；不与业务层重复播同事件 |
 | BossStarted=12 | Boss 战首次开始 |
-| RunWon=13 | Boss 已败且玩家进入出口才播放 |
-| PlayerWeaponAttack=14 | 站立持有效武器时，武器攻击动作实际开始；不复用咬击 |
+| RunWon=13 | 存活玩家碰顶部绿色终点门并进入Won；不要求精英死亡 |
+| PlayerWeaponAttack=14 | 持Arms的剑击动作实际开始；不复用咬击 |
 
-实际 Event 名和 2D/空间混音由音频同学映射，当前未映射。音乐、循环、RTPC/State 需求确认后再发布端口。
+Cue 15–36已发布：PlayerDash=15、PlayerDoubleJump=16、CardsPresented=17、CardHovered=18、CardSelected=19、UIHovered=20、PlayerMoveNoFeet=21、PlayerFootstep=22、PlayerLand=23、PlayerFire=24、FireHit=25、BiteHitNPC=26、BiteHitElite=27、SwordHitNPC=28、SwordHitElite=29、NPCHurt=30、NPCDeath=31、EliteHurt=32、EliteDeath=33、EliteAttack=34、PortalIn=35、PortalOut=36；以AudioCue.cs为精确签名，不重排。
+
+现有SB_Main已接41/43事件，排除敌人脚步和Fly；专用胜利Event尚未提供，RunWon保持未映射。音乐/地刺由既有音频模块接线；关卡Bank唯一加载者ExplorationMusicZones，菜单MenuAudioBackend独立生命周期。Wwise安装与映射不等于异机最终声音验收，Voice Starvation记录仍需复现定位；不盲调插件或Authoring。
 
 共享 Unity 仓库必须提交：Audio Core、后端与映射、实际 Integration 与目标平台插件、配置/音频 Prefab、必要 .bnk/.wem 和 Integration 配套元数据、对应 .meta。包方式需要锁文件与可访问依赖；不全局忽略 DLL。
 
@@ -591,7 +377,7 @@ Authoring 的 .wproj/.wwu/Originals 由音频同学独立版本管理和备份�
 - 已确认的 20% 当前生命代价、10% 上限代价、0.5 秒抵达保护等也应有统一 Inspector 参数，默认值保持确认值。用户可在测试中调整；未经玩法更新，不把偏离确认值的资产作为正式基线交付。不得用 Awake 重写或静默 Clamp 回确认值，使 Inspector 看起来可调却实际无效。
 - 构筑容量 3、普通奖励/代价三选一、教学/指定舍弃单卡、身体权限映射和不可重复属于已确认结构规则，本轮不要求任意改变其结构。可集中为命名常量并在 Inspector 提示，但不可复制魔法数字到各模块或提供无效的数量滑条。后续用户改变规则时同步接口/UI/验收。
 - 稳定枚举 ID、数学公式结构、算法中的 0/1、集合索引等可以留在代码；不要为“全部可调”把所有局部变量序列化。
-- 普通/支线统一池等概率无放回，无再生优先保留位；代价不强制舍弃类别。当前favorRegrowth仅为待迁移旧实现，不是规则例外。普通奖励/代价三项、指定单卡分别验收，未实现项不入池。
+- 普通/支线统一池等概率无放回，无再生优先保留位；代价不强制舍弃类别。不提供再生优先开关，历史持有只影响再生显示文案，不改变抽样概率。普通奖励/代价三项、指定单卡分别验收，未实现项不入池。
 
 ### 玩家射线地面检测与脚步节奏（保留既有 G33–G34 技术要求）
 
@@ -599,7 +385,7 @@ T06 运动组件持有唯一地面检测结果；使用 Physics2D.Raycast（2D�
 
 落地/跳跃与脚步复用运动组件的真实地面结果，不由脚步另造一套grounded。脚步播放要求存活、Playing、已落地且实际水平位移/速度超过可调阈值；按住键却顶墙不播放，空中/静止/Paused/Choosing/Dead不播放。0.02秒是检测频率，不是发音频率；用独立可调的脚步播放最小间隔及步距/节奏去重，移动或恢复时不补播积攒的脚步，依据实际素材试听确认不会重叠成为机枪。节奏参数暂定测试值，不冻结所有素材的统一间隔。
 
-当前没有脚步材质Switch Group，不要求材质分类、Switch或按地面Tag选Wwise事件。程序通过GameAudio统一Cue入口；现有AudioCue尚无脚步身份，T06/T18接音频前由总控串行发布稳定Cue及映射需求，不在gameplay写AK类型/Event字符串、不冒用PlayerJump。当前 T06 已有射线运动独测，地图仍用 WhiteboxPlayer2D；没有脚步 Cue 或实际声音验收，不因本轮文档更新宣称已接通。
+当前不要求材质分类/Switch Group；PlayerMovementAudio复用唯一运动器地面/实际位移与表现帧，AudioCue21/22已接无腿移动/脚步。不得另造grounded或每帧触发声音；试听与Windows验收范围见音频handoff。
 
 ### 10.2 配置存放、引用与校验
 
@@ -658,80 +444,41 @@ Unity 6.2 官方依据：[SerializeField](https://docs.unity3d.com/6000.2/Docume
 
 交付保持精简且足够接手：本人handoff记录实际资源相对路径/用途、Prefab或预览入口、必要导入/调参信息、依赖与未接部分，以及真实验证结果；只记录该任务涉及的参数，不要求逐项填满所有可能字段。按改动验证相关的身体组合/动作、碰撞边界、排序、UI可读性和保存重载引用；能运行则在成员电脑完成预览/Play并自行修复，缺运行环境就明确未验证部分。成员独测可完成后交付，不要求总控电脑先收到素材才算本人完成；总控取得提交后另记主场景集成验收。截图只证明所展示的效果，不把美术完成等同于未实现玩法完成。
 
-## 11 总控和 Codex 并行规则
+## 11 赛后智能体迭代与共享写入
 
-- 总控发布基线（当前来源 Ming）、本文、公共接口/枚举、共享状态入口、主场景/共享玩家 Prefab、Input Actions、Layers/Tags、Packages、ProjectSettings 由总控协调串行修改；总控可明确委托某任务，不要求所有代码由总控亲写。模块自有 Prefab、测试场景与局部配置可自主编辑。
-- 每个任务从总控指定的已发布提交创建独立分支（建议 codex/ 前缀），明确文件范围和验收。记录来源分支与提交；个人旧分支或 main 不自动等于最新可用基线。
-- 同工作目录默认一个写入会话。确需多会话写入，用独立 clone/worktree 与分支，Unity 打开对应项目副本。Library 不共享、不提交。
-- 文件隔离不解决接口冲突；冻结公共契约再并行。不同任务不得同时改同一 .unity/.prefab/.asset，不同时切分支/merge/reset。
-- 模块交独立 Prefab/测试场景，总控在已交付地图场景接入运行组件。不盲拼 Unity YAML、不用 ours/theirs 丢掉一方。冲突由资产负责人在 Unity 重做并验证。
-- Assets 新增/移动/删除配对 .meta、保留 GUID；移动优先 Unity。Hierarchy 对象在非 Play 模式保存后检查 diff，没保存不会 push。
-- 不自动 commit/push、不强推、不覆盖用户已有改动。不自动启动子代理；用户要求时也需明确文件边界。
-- 不把 38 小时当作免测或扩范围理由。先编译/短闭环/首次导出，再整局，再表现，最后预留打包缓冲。功能冻结后只修阻塞/严重错误；删已确认核心需询问用户。
+Game Jam已结束，WORK_PACKAGES退役，不继续C/T/L派工登记、人数分工或阶段倒计时。用户给出目标，智能体在已授权范围内自主完成实现、接线、必要验证和状态更新；历史任务编号只用于追溯。
 
-### 11.1 按最小可测试功能派发
+- 默认当前工作目录一个写入会话；并行须用户明确要求并明确文件边界，使用独立clone/worktree，不共享Library，不同时修改同一Unity资产或切分支/merge/reset。
+- AGENTS、公共接口/共享状态、主场景/共享Prefab、Input Actions、Layers/Tags、Packages/ProjectSettings串行维护。授权已包含的集成改动直接完成，不重复索取许可。
+- 保留用户已有改动。新分支使用codex/前缀；是否创建依任务而定，不自动切走当前有改动分支。不自动commit/push，不强推，不自动启动子代理。
+- Unity场景、Prefab及配置通过原生工具修改并保存；保留.meta/GUID/引用。不盲拼YAML，不用ours/theirs丢弃一方。
+- 本轮已授权的目录迁移使用Unity原生MoveAsset并同步代码/构建路径；后续不无故重复搬迁。测试代码与正式场景/构建隔离；替身不能冒称真实集成。
+- 地图与程序任务都检查主路/返程的基础操作可达性、实体尺寸、传送落点和交互；沿用单游戏场景，不另造长期重复主图。
+- 先完成本次必要编译与短闭环，发布相关修改再验证Windows构建；构建成功、启动成功、完整通关、声音试听、异机验收分别记录。不再默认等待某位比赛成员封装。
 
-- 总控负责共享接口/状态/输入/运行阶段的逐项发布、任务登记、场景集成和 Windows 验收；可明确委托实现工作，但保持共享入口的唯一维护者。
-- 除总控外，不按固定人数划分整块“玩家系统/敌人系统/UI 系统”。任务以一个能实际演示的结果为单位，例如一个开关开一扇门、一个菜单完成确认取消、一次咬击命中靶子。不得只交无接线的孤立脚本。
-- 默认每位成员同时一个开发中任务；完成后可领取不同功能。总控登记任务 ID、成员/别名、分支与基线、依赖、目录范围、验收和状态。共享文件发生交集时串行；任务编号不同不自动表示可以并行。
-- 状态区分未领取、开发中、待验收、独测通过、已集成；阻塞记录具体缺口。只有使用真实依赖并进入主场景验证才标已集成。成员更新自己的 handoff，总控更新任务登记，避免多人编辑同一个任务清单。
-- 已有接口可使用任务内的测试替身、靶子或驱动实现独测；测试代码限定该任务范围、与正式入口隔离、测试场景不进正式构建，不复制公共接口或把替身挂入主场景。交接列明替身和替换方式。
-- 在真实输入/写事务接口尚未发布时，可以先做不依赖它的任务；不让成员各自设计第二套正式状态或结算系统。待发布的 API 在任务中标依赖，发布后以 AGENTS 与实际源码为准。
-- 每项交付包含源码注释、Inspector 参数/引用、所需 Prefab/配置/meta、独立测试场景、可复现操作及个人 handoff。接口/玩法不变时内部实现继续自主决定。
-- 首次分发前总控应发布包含所需文件的 Git 提交并提供提交号。未提交的新文件不会因队友 pull 而出现；本会话仍不自动提交或推送。
+## 12 当前状态与任务记录
 
-分阶段验收：第一阶段先完成每人领取的小功能验收，再由总控在短灰盒验证跑跳、咬击靶子、开门、真实状态 HUD、菜单独测及可启动 Windows 导出。菜单测试回调不能冒充正式奖励/扣费结算。完整地图与完整音频不作为第一阶段开工前提，最终交付仍须验证。
+固定接手顺序：本文件 → docs/handoffs/controller.handoff → 相关代码、资产与任务记录。README只保留已实现项目简介。
 
-每个成员按所领取的任务卡逐项验收，交付可复现操作与个人 handoff；只有编译或脚本不足以标独测通过。总控维护单项验收/集成记录，全部第一阶段门槛通过才标阶段通过。第二阶段核心玩法与后续整局任务先保留候选，迁移阶段门槛通过后依据实际代码、人数与规则拆分和派发，不提前固定成员。具体门槛与登记表见 docs/WORK_PACKAGES.md。
+- controller.handoff保留为简短当前状态：入口、关键接点、已实现/未实现差异、最近实际验证及下一步。原千行历史已归档，不继续向当前摘要叠加每轮日志。
+- docs/WORK_PACKAGES.md已移到docs/archive/gamejam-2026/，不再维护或要求读取。归档及其他成员旧handoff只记历史，不作为当前授权、规则或文件锁。
+- 有代码/资产/配置变更时，更新稳定任务别名对应的docs/handoffs/<task>.handoff；同一持续任务复用原文件，不按每次对话创建。只读检查若没有新结论，不强制写日志。
+- 任务结束同步controller摘要中受影响的当前事实；只有规则/接口/目录职责变化时才更新AGENTS对应条目，不把验证流水复制进规则正文。
+- 记录分支与基点、授权范围、实际改动、Inspector入口/必填引用、验证方式与结果、未验证/未完成及下一步。源码/资产/Git优先于过期记录；发现不一致主动纠正当前摘要，保留历史事实。
+- 保留原作者归属；不把接入他人素材/代码写成原创，不改写其他成员历史交接。归档后的旧指令不阻止用户已授权的赛后工作。
 
-### 11.2 独立地图场景交付
-
-地图正在制作，用户已确认以独立地图场景交付；V5 两条支线均由负责地图制作迭代的同学制作。程序负责公共挑战逻辑/模块独测，总控负责接口与接线验收，不再另派一人制作重复地图。沿用地图作者的场景，不要求改成地图 Prefab；无需因此引入多场景加载框架。总控以交付场景接入运行组件，具体路径由地图 handoff 登记。
-
-制作期间地图作者维护地形、碰撞和摆放；程序只在独立测试场景验证。交付后由总控接线；之后还需改图时协调交还编辑权，同一个 .unity 文件不能两人同时改。需要提前试走时可使用测试副本，但不将副本变成第二份长期主地图。
-
-地图交付按SIDE_LEGLESS_PUZZLE/SIDE_ARMLESS_TRAVERSAL标出入口、目标/终点、步行出口、持久机关和普通奖励位置；不建FallFailZone、安全回传点或局部复位组。普通门2×6/6×2、当前InspectionDoor1×5保持；交接列出生点/地形/传送安全落点/按钮目标/敌箱陷阱/精英出口/相机边界。程序显式引用，地图不另写HP/奖励/扣费；Layers与物理设置总控统一。
-
-先用短区段验证角色尺寸与基础跳跃可达性，避免地图完成后才发现必须持有可舍弃技能才能通行。已开始制图不自动确认旧提案中的箱数、门关系和收费连接；按实际交付与用户规则核对。
-
-### 11.3 程序测试构建与最终封装分工
-
-用户明确新版T仍未全部提交；C05可以先验证已有组件、补复验入口和Windows测试构建，不等待无关T。后续模块只等待自己的真实接口/资产/独测交付，仍按新版本逐项验收，不把旧T完成记录沿用。
-
-最终交付由音频同学负责封装，美术由其他成员负责。总控提供程序提交、场景与构建入口、已验证范围和缺口；音频同学在素材齐备的电脑完成Bank/映射/平台资源接入与最终包验收。本机Development测试包不替代最终封装、音频试听或另一台Windows验收。原第9节音频接口/资源要求不变，不能以对方有素材为由省略可复现的运行依赖交付。
-
-## 12 handoff 与任务授权模板
-
-每位成员使用 `docs/handoffs/<username>.handoff`，UTF-8 Markdown；同用户名并行用 `<username>.<task-id>.handoff`。别人的交接只读；用户名未知用任务别名，不拿系统账户当人员身份。handoff 不能批准规则或当文件锁，代码/Git 与记录不一致时报告给总控。
-
-这是强制交付，每位成员在 docs 文件夹下保有自己的交接文件，统一使用现有 docs/handoffs 子目录，不另建 doc 目录。开始任务先读取自己的交接与相关依赖，再创建/更新自己的文件；名字未知先用稳定任务别名，不因尚无全员名单停止工作。
-
-总控每轮完成代码或 Unity 编辑/验证工作后，必须同步更新根 AGENTS.md 的实际接口/接线状态、docs/WORK_PACKAGES.md 的依赖/验收与任务状态、docs/handoffs/controller.handoff 的实施事实和下一步，随对应源码/资产交付；未实现、未发布、未验证分别标明。成员更新自己的 handoff，公共两份文档的变更由总控串行汇总，避免多人冲突。
-
-每次有实际代码、资产、配置或验证进展的任务结束前更新 handoff；规则未定或工作未完成也记录当前状态，不能只在整个模块完成后补写。文件顶部保留最新可接手摘要，必要时在下方留简短历史；同一成员持续更新，不按每轮对话创建新文件。
-
-交接至少让下一位 Agent 回答：完成了什么、入口在哪里、依赖哪些真实接口、Unity 怎么绑定与调参、验证了什么、哪些未完成、下一步做什么。写明分支/基点/日期、规范版本与源码契约版本；缺绑定或失败不可标完成。handoff 按正常 Git 流程随对应代码交付。
+任务记录格式可精简为：
 
 ```text
-成员/任务别名：
-任务 ID / 分支 / 基线来源分支与提交 / 规范版本 / 源码契约版本：
-状态：进行中 / 待验证 / 待集成 / 完成
-授权目标及允许文件：
-禁止文件：
-实际修改及职责：
-对外接口与调用例：
-Unity 测试场景、Prefab、Inspector 绑定：
-参数入口（对象/资产路径、字段、单位/默认值、必填引用、生效时机）：
-实际执行的验证与结果：
-未验证/缺绑定/规则缺口：
-下一步及总控需集成的内容：
+任务/日期/分支/基点/规范与契约版本：
+授权范围与实际改动：
+接口、入口、Inspector绑定与生效时机：
+实际验证及结果：
+未完成/未验证/下一步：
 ```
+## 13 验收与交付
 
-总控分发任务时附：模块目标、已确认规则、授权目录/共享禁改范围、实际公共接口、接线要求、成功触发的 AudioCue、验收步骤。允许成员自主新增完成模块所需的局部文件；接手 Codex 先读本文与依赖交接，不跨模块改写真实状态。
-
-## 13 历史验收与整局发布要求
-
-当前已提交基线Ming/0d892a4（契约8，含C04/C05和美术规范）。本轮新增菜单Editor检查69/0、独立Windows检查69/0、两种Windows测试包构建成功；完整画面/输入/声音/整局和异机验收未做。以下为此前地图与独测历史结果。新图C05 Play 69/0、真实E开新增箱及Esc取消通过；静态接线与几何保存重载核对见交接。C04的17/0、C01/C02/C03的32/69/63及T12适配33为前轮结果，本轮未重跑，不当新版T验收。旧T/白盒/HUD历史数字保留在controller.handoff。完整路线可达性、战斗、挑战结算、Bank和Windows导出尚未验收。
+本次修改与实际测试范围记入对应任务handoff，当前状态同步controller摘要；不继承旧C/T数字作为本轮通过。主图/正式构建无测试驱动，世界变换、GUID与引用须保持。原生编辑后检查保存和diff，编译不等于Play/整局/Windows验收。
 
 V5 迁移每项独测后再集成，不继承旧四槽/致死支付/站立保留剑的断言。必须包括：
 
@@ -742,40 +489,8 @@ V5 迁移每项独测后再集成，不继承旧四槽/致死支付/站立保留
 5. HP=1 / MaxHP=1 灰卡全输入及服务拒绝，2→1 可支付；低当前高上限按正确公式；没有代价死亡事件或免费层间兜底。
 6. 构筑舍弃项+五效果随机三项，不强制舍弃，全灰默认修一位；HP/攻击下限双重拒绝，取消不刷、成功后重抽；无效落点/重复提交无扣费。
 7. 无强化能力完成必要主路/返程/基础战斗；门每个独立翻转且不夹人，普通门2×6／6×2、条件门和地刺按已交实例、地面与怪物碰撞约束不变。
-8. 两支线各自合法入场、指定单卡舍弃/已缺明确确认后免费进入；未经入口直达终点不完成，补回限制部件使未完成尝试失效但可退出。
+8. 两支线首次解锁后本局门/阻挡不再出现，退出、补回、传送与启停保持，仅整局重开重置；各自合法入场、指定单卡舍弃/已缺明确确认后免费进入；未经入口直达终点不完成，补回限制部件使未完成尝试失效但可退出。
 9. 地刺按新规则扣2与共享保护/击退；封闭图无落坑扣血或安全点回传；死亡优先于同帧完成。
 10. 支线成功机关不复位；完成/普通随机领奖各一次且往返保持，恢复部件后可步行退出；两条都用基础移动/一段跳可达。
 11. 敌人强化含精英/未来生成、保持 HP 比例且不复活；C14存活碰顶部绿色大门即赢，不检查精英死亡，死亡优先。
 12. 新局清身体/历史/世界/候选/负面/挑战/锁，从头部教学重来；无音频后端可玩，有后端和 Windows 导出在队友电脑验收。
-
-## 14 历史C06前验证与待迁移目标（最新实现见§6.4）
-
-当前Ming/05c082e + 未提交Soap/29e59ef试合并；Unity6000.2.9f1，目标Windows64。下列结果在收到新战斗表前已执行，本轮只核对源码和更新文档，没有重新跑Play或构建。
-
-| 范围 | 最近结果 | 结论边界 |
-|---|---|---|
-| T07独立场景 | 42/0（首轮失焦32/10，聚焦全新Play复跑） | 真实输入/咬击/权限/去重/配置/生命周期；模拟按键，不是人工试玩 |
-| T08独立场景 | 52/0 | 真实Arms命令与咬剑分发、实时伤害、敌死；驱动自动加手用于测剑，没有通过宝箱领取 |
-| T09独立场景 | 50/0 | 站桩敌HP/接触/死亡碰撞视觉/注册；未验证新AI、共享保护 |
-| C05当前地图 | 69/0 | 现有9箱/三槽/2入口旧业务兼容；尚无地图攻击组件，不覆盖新门永久消失目标 |
-| 辅助检查 | 9程序集独立编译、15份新资产静态引用检查 | 不替代Unity Play或新参数验收 |
-
-详细场景、按钮、操作及失败记录见WORK_PACKAGES§16和controller.handoff。旧C05 Windows69/0属于05c082e工具验证，Soap战斗未重新导出。正式动画/Bank出声/人工手感/整局均未验收。
-
-当前要复用卡牌、状态与HUD，先发布共享数值/动作接点，迁移T07/T08时间轴与共用冷却，再补敌人/伤害与新奖励。获准接图时验“新局空槽→教学躯干仍空槽→宝箱确认Arms→槽位/剑击→移除恢复咬击”，不能复制T08自动授予夹具。首个随机箱不保证有手剑；固定候选只用于隔离验收，不改正式池。
-
-本轮没有修改生产源码、配置、场景、输入或Wwise；规范仍20、共享契约仍8。历史地图/Windows构建详情保留在WORK_PACKAGES历史§10–15及controller交接；当前正文不继续要求再生保底、支线固定强化包或落坑回传/局部复位。
-### Dada资源合入当轮记录（后续已由C07接主图，见§6.4）
-
-实际来源Dada/575eff3（包含478c354与575eff3两个新增提交），新增252路径，未覆盖既有主场景/共享源码/输入/Wwise。主角39张PNG、95帧、52个Clip（39动作+13临时Idle），库与独立场景位于Assets/Art/Characters/Player/Controllers/PlayerVisualLibrary.asset及Assets/Scenes/Tests/Art/PlayerVisual_ArtTest.unity。另实际带入3张敌人PNG与3个Clip；Dada文字称未交敌人与实际Git不符，以资产为准并记录，未挂真实敌人。
-
-仅资源接收，不将Regrowth.Tests.Art中的预览Toggle/Harness视为正式状态或挂主玩家；正式动画需另接唯一PlayerState、现运动与攻击通知，不新增伤害回调。两种无手火尾Bite和有手有腿火尾Fire缺图；不以喷火姿势代用咬击。Idle为Move首帧临时复用。火球及受击/死亡/冲刺等正式方案仍未交付，不因有角色图就开启技能。
-
-本机Unity6000.2.9f1 ValidateAssets实测1140/0；42张PNG均真实文件，主角39张清单哈希一致、meta配对完整、全Assets GUID无重复。未运行Dada完整Play/美术验收、未接主图或导出Windows；Dada本人890项Play记录不能冒充本机本轮结果。用户当前明确分支合并授权优先于Dada交接中仅cherry-pick的个人工作流。玩法/共享源码契约不升级。
-### C14 新增运行/结局接点（源码契约12）
-
-| 接点 | 当前实现 |
-|---|---|
-| RunController.TryWin(IHealth playerHealth) | 仅已初始化Playing且玩家存活/HP>0接受；Won停止时间并同步PhaseChanged；重复/Paused/Choosing/Dead/Won拒绝，返回真实是否进入Won |
-| Runtime.VictoryPortal2D | 显式run/player/playerCollider，根BoxCollider2D为Trigger；只记录玩家接触，LateUpdate调用TryWin，成功一次RunWon |
-| UI.VictoryEndingView | IRunContext只读监听，screenRoot全白，endingImage原图；whiteHoldSeconds=0.4、fadeSeconds=2，unscaledDeltaTime；不设置时间倍率 |

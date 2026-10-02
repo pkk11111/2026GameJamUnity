@@ -32,10 +32,12 @@ namespace Regrowth.Tests.T06.Editor
             }
             Directory.CreateDirectory("Assets/Scenes/Tests/T06");
             Directory.CreateDirectory("Assets/Prefabs/Tests/T06");
-            Directory.CreateDirectory("Assets/Configs/T06");
+            Directory.CreateDirectory("Assets/Input/Tests");
+            Directory.CreateDirectory("Assets/Art/Environment/Primitives");
+            Directory.CreateDirectory("Assets/Configs/Physics");
             AssetDatabase.Refresh();
             Sprite sprite = MakeSprite();
-            var actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
+            var actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/Shared.inputactions");
             var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset");
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var runtime = new GameObject("T06 Runtime");
@@ -53,7 +55,7 @@ namespace Regrowth.Tests.T06.Editor
             var collider = player.AddComponent<BoxCollider2D>();
             collider.size = Vector2.one;
             var material = new PhysicsMaterial2D("T06 Zero Friction") { friction = 0f, bounciness = 0f };
-            AssetDatabase.CreateAsset(material, "Assets/Configs/T06/ZeroFriction.physicsMaterial2D");
+            AssetDatabase.CreateAsset(material, "Assets/Configs/Physics/ZeroFriction.physicsMaterial2D");
             collider.sharedMaterial = material;
             var state = player.AddComponent<PlayerState>();
             var feet = new GameObject("Ground Ray Origin");
@@ -150,7 +152,7 @@ namespace Regrowth.Tests.T06.Editor
         {
             if (Safe())
             {
-                ConfigureSprite((TextureImporter)AssetImporter.GetAtPath("Assets/Configs/T06/GrayboxSquare.png"));
+                ConfigureSprite((TextureImporter)AssetImporter.GetAtPath("Assets/Art/Environment/Primitives/PlayerSquare.png"));
                 EditorSceneManager.OpenScene(ScenePath);
                 Debug.Log("[T06] Reloaded smoke scene from disk.");
             }
@@ -167,7 +169,7 @@ namespace Regrowth.Tests.T06.Editor
 
         private static Sprite MakeSprite()
         {
-            const string path = "Assets/Configs/T06/GrayboxSquare.png";
+            const string path = "Assets/Art/Environment/Primitives/PlayerSquare.png";
             var texture = new Texture2D(4, 4);
             var pixels = new Color[16];
             for (int i = 0; i < pixels.Length; i++)
@@ -241,7 +243,7 @@ namespace Regrowth.Tests.T06.Editor
 
         private static InputActionReference Reference(InputActionAsset actions, string name)
         {
-            const string path = "Assets/Configs/T06/T06UIReferences.asset";
+            const string path = "Assets/Input/Tests/MovementUIReferences.asset";
             var reference = InputActionReference.Create(actions.FindAction("UI/" + name, true));
             if (!File.Exists(path))
             {

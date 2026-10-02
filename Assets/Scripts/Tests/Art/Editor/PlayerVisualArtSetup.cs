@@ -227,7 +227,7 @@ namespace Regrowth.Tests.Art.Editor
         {
             var eventSystem = new GameObject("Art Test EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
             var module = eventSystem.GetComponent<InputSystemUIInputModule>();
-            InputActionAsset actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
+            InputActionAsset actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/Shared.inputactions");
             module.actionsAsset = actions;
             InputActionReference Reference(string actionName)
             {

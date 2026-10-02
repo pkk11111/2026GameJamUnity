@@ -12,7 +12,7 @@ namespace Regrowth.UI.Intro.Editor
 {
     public static class OpeningStoryIntroSetup
     {
-        private const string ScenePath = "Assets/WhiteBox/Scenes/Level_Whitebox.unity";
+        private const string ScenePath = "Assets/Scenes/Gameplay/MainLevel.unity";
         private const string PrefabPath = "Assets/Prefabs/UI/OpeningStoryIntro.prefab";
 
         /// <summary>Edit-mode manual repair/install. Rejects dirty scenes/duplicate dependencies; saves only Level_Whitebox.</summary>

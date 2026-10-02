@@ -31,22 +31,23 @@ namespace Regrowth.Tests.T12.Editor
                 return;
             }
             Directory.CreateDirectory("Assets/Configs/Chest");
+            Directory.CreateDirectory("Assets/Configs/Tests/Chest");
             Directory.CreateDirectory("Assets/Prefabs/Chest");
             Directory.CreateDirectory("Assets/Prefabs/Tests/T12");
             Directory.CreateDirectory("Assets/Scenes/Tests/T12");
             AssetDatabase.Refresh();
-            var config = Config("Assets/Configs/Chest/T12_RewardPool.asset", true, false);
-            var healConfig = Config("Assets/Configs/Chest/T12_HealPool.asset", false, true);
-            var replacement = Config("Assets/Configs/Chest/T12_ReplacementFixture.asset", false, false, false, true);
-            var wide = Config("Assets/Configs/Chest/T12_WidePool.asset", false, false, true);
-            var limited = Config("Assets/Configs/Chest/T12_LimitedPool.asset", false, false);
+            var config = Config("Assets/Configs/Chest/LegacyRewardPool.asset", true, false);
+            var healConfig = Config("Assets/Configs/Tests/Chest/T12_HealPool.asset", false, true);
+            var replacement = Config("Assets/Configs/Tests/Chest/T12_ReplacementFixture.asset", false, false, false, true);
+            var wide = Config("Assets/Configs/Tests/Chest/T12_WidePool.asset", false, false, true);
+            var limited = Config("Assets/Configs/Tests/Chest/T12_LimitedPool.asset", false, false);
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             // NewScene会卸载尚无场景引用的资产；切场景后重新取得持久资产，不能保存已卸载实例。
-            config = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_RewardPool.asset");
-            healConfig = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_HealPool.asset");
-            replacement = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_ReplacementFixture.asset");
-            wide = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_WidePool.asset");
-            limited = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_LimitedPool.asset");
+            config = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/LegacyRewardPool.asset");
+            healConfig = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Tests/Chest/T12_HealPool.asset");
+            replacement = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Tests/Chest/T12_ReplacementFixture.asset");
+            wide = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Tests/Chest/T12_WidePool.asset");
+            limited = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Tests/Chest/T12_LimitedPool.asset");
             var rig = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Tests/T03/T03SmokeRig.prefab"));
             PrefabUtility.UnpackPrefabInstance(rig, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             rig.name = "T12 Smoke Rig";
@@ -93,7 +94,7 @@ namespace Regrowth.Tests.T12.Editor
             var hudObject = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Hud/PlayerHud.prefab"), rig.transform);
             var hud = hudObject.GetComponent<PlayerHud>();
             Bind(hud, "stateSource", state);
-            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Configs/T03/GrayboxSquare.png");
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Environment/Primitives/SwitchSquare.png");
             var chestObject = new GameObject("Chest");
             chestObject.transform.SetParent(rig.transform, false);
             chestObject.transform.position = state.transform.position + Vector3.right;
@@ -184,8 +185,8 @@ namespace Regrowth.Tests.T12.Editor
                 for (int i = 0; i < chestArray.arraySize; i++)
                 {
                     var chest = (Chest)chestArray.GetArrayElementAtIndex(i).objectReferenceValue;
-                    string file = i == 1 || i == 2 ? "T12_HealPool" : i == 3 ? "T12_WidePool" : i == 5 ? "T12_LimitedPool" : "T12_RewardPool";
-                    var config = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/" + file + ".asset");
+                    string file = i == 1 || i == 2 ? "T12_HealPool" : i == 3 ? "T12_WidePool" : i == 5 ? "T12_LimitedPool" : "LegacyRewardPool";
+                    var config = AssetDatabase.LoadAssetAtPath<ChestRewardConfig>((file == "LegacyRewardPool" ? "Assets/Configs/Chest/" : "Assets/Configs/Tests/Chest/") + file + ".asset");
                     if (config == null || !config.IsValid)
                     {
                         Debug.LogWarning("[T12] Invalid persisted config: " + file, chest);
@@ -193,13 +194,13 @@ namespace Regrowth.Tests.T12.Editor
                     }
                     Bind(chest, "rewardConfig", config);
                 }
-                Bind(driver, "replacementConfig", AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_ReplacementFixture.asset"));
+                Bind(driver, "replacementConfig", AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Tests/Chest/T12_ReplacementFixture.asset"));
                 PrefabUtility.ApplyPrefabInstance(root, InteractionMode.AutomatedAction);
             }
             var contents = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Chest/Chest.prefab");
             try
             {
-                Bind(contents.GetComponent<Chest>(), "rewardConfig", AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/T12_RewardPool.asset"));
+                Bind(contents.GetComponent<Chest>(), "rewardConfig", AssetDatabase.LoadAssetAtPath<ChestRewardConfig>("Assets/Configs/Chest/LegacyRewardPool.asset"));
                 PrefabUtility.SaveAsPrefabAsset(contents, "Assets/Prefabs/Chest/Chest.prefab");
             }
             finally
@@ -233,8 +234,8 @@ namespace Regrowth.Tests.T12.Editor
         private static void BindUiActions(GameObject rig)
         {
             // 复用已有持久引用，仍指唯一InputSystem_Actions；不创建第二份输入资产。
-            var asset = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
-            var references = AssetDatabase.LoadAllAssetsAtPath("Assets/Configs/T03/T03UIReferences.asset");
+            var asset = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/Shared.inputactions");
+            var references = AssetDatabase.LoadAllAssetsAtPath("Assets/Input/UIActionReferences.asset");
             var module = rig.GetComponentInChildren<InputSystemUIInputModule>(true);
             var serialized = new SerializedObject(module);
             serialized.FindProperty("m_ActionsAsset").objectReferenceValue = asset;

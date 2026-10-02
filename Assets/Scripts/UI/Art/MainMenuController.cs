@@ -12,7 +12,7 @@ namespace Regrowth.UI.Art
     public sealed class MainMenuController : MonoBehaviour
     {
         [SerializeField] private Button startButton;
-        [SerializeField] private string gameplayScenePath = "Assets/WhiteBox/Scenes/Level_Whitebox.unity";
+        [SerializeField] private string gameplayScenePath = "Assets/Scenes/Gameplay/MainLevel.unity";
         [SerializeField, Min(0f), Tooltip("点击确认后切场景的真实秒数；默认0.35覆盖当前0.308秒UI音。不等待音频回调，缺音频也能开始。")]
         private float startTransitionSeconds = 0.35f;
         private bool loading;

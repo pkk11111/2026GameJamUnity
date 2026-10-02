@@ -27,6 +27,7 @@ namespace Regrowth.Gameplay
         [SerializeField, Min(0.01f)] private float radius = 0.6f;
         [SerializeField] private LayerMask hitLayers = ~0;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
+        private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
         private readonly List<RaycastHit2D> walls = new List<RaycastHit2D>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
         private double nextStart, started, nextTick;
@@ -187,7 +188,7 @@ namespace Regrowth.Gameplay
                 {
                     continue;
                 }
-                IDamageable target = Receiver(hit.transform);
+                IDamageable target = DamageableLookup.FindInParents(hit.transform, receiverComponents);
                 if (target == null || ReferenceEquals(target, state) || damaged.Contains(target))
                 {
                     continue;
@@ -240,21 +241,7 @@ namespace Regrowth.Gameplay
             return false;
         }
         private bool IsWall(Collider2D hit) => hit != null && !hit.isTrigger
-        && !hit.transform.IsChildOf(state.transform) && Receiver(hit.transform) == null;
-        private static IDamageable Receiver(Transform node)
-        {
-            for (Transform p = node; p != null; p = p.parent)
-            {
-                foreach (MonoBehaviour component in p.GetComponents<MonoBehaviour>())
-                {
-                    if (component is IDamageable receiver)
-                    {
-                        return receiver;
-                    }
-                }
-            }
-            return null;
-        }
+        && !hit.transform.IsChildOf(state.transform) && DamageableLookup.FindInParents(hit.transform, receiverComponents) == null;
         private void Update()
         {
             if (!IsFiring || fireVisual == null)

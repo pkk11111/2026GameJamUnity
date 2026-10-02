@@ -1,4 +1,4 @@
-// 职责：两条支线共用入口门，靠近后单卡确认、显式舍弃、实体阻挡与本次入场许可。
+// 职责：两条支线共用入口门；首次单卡确认后本局永久消失，挑战入场许可独立复验。
 // 维护：controller / C05、T20入口适配；依赖Core/Runtime/Audio、白盒唯一运动器的迁移通知。
 // 跨物体引用全部Inspector绑定。这里只拥有入口许可，不实现落坑扣血、终点目标或专属领奖。
 // 交接：docs/handoffs/controller.handoff；规范：根AGENTS.md。
@@ -59,11 +59,14 @@ namespace Regrowth.Gameplay.Challenge
         private bool entered;
         private bool leavingInvalidAttempt;
         private bool completed;
+        private bool unlocked;
         private Vector2 outside;
         public string ChallengeId => challengeId;
         public bool HasAdmission { get; private set; }
         public bool HasEntered => entered;
         public bool IsCompleted => completed;
+        /// <summary>首次确认后本局保持解锁；退出、再生、迁移和启停不重新关门。</summary>
+        public bool IsUnlocked => unlocked;
         public bool IsOpen => blocker != null && !blocker.enabled;
 
         private void OnEnable()
@@ -79,6 +82,7 @@ namespace Regrowth.Gameplay.Challenge
             player.Died += ResetAdmission;
             movement.Relocated += OnRelocated;
             RecheckPart();
+            SetOpen(unlocked || completed || OccupiesDoor());
         }
 
         private bool ValidConfiguration()
@@ -126,13 +130,22 @@ namespace Regrowth.Gameplay.Challenge
             {
                 ResetAdmission();
             }
-            // 补回部件时撤资格，但玩家仍在门内侧时留出退路；回到外侧且不占门后才恢复实体。
+            // 清理旧的临时退路标记；永久解锁状态独立保持，不因回到外侧而关门。
             if (!HasAdmission && leavingInvalidAttempt && side > extent && !OccupiesDoor())
             {
                 leavingInvalidAttempt = false;
             }
-            SetOpen(HasAdmission || leavingInvalidAttempt || OccupiesDoor());
-            if (!HasAdmission && !leavingInvalidAttempt && !waitingForExit && !pending && near
+            // 门的永久解锁与一次挑战资格分开：补回部件会撤资格，但不会恢复门。
+            // 已解锁后，从外侧合法重入且仍缺部件即可重新尝试，不再弹卡或再次收费。
+            if (unlocked && !HasAdmission && near && side > extent && run.IsGameplayActive
+                && player.IsAlive && player.HasBodyCore && player.isActiveAndEnabled
+                && playerCollider.enabled && !player.Contains(requiredMissingPart))
+            {
+                HasAdmission = true;
+                entered = false;
+            }
+            SetOpen(unlocked || HasAdmission || leavingInvalidAttempt || OccupiesDoor());
+            if (!unlocked && !HasAdmission && !leavingInvalidAttempt && !waitingForExit && !pending && near
                 && side > 0f && run.IsGameplayActive && player.IsAlive && player.HasBodyCore
                 && player.isActiveAndEnabled && playerCollider.enabled && !choices.IsOpen)
             {
@@ -156,7 +169,7 @@ namespace Regrowth.Gameplay.Challenge
 
         private bool Confirm(string id)
         {
-            if (!ready || !isActiveAndEnabled || !pending || id != "enter" || !player.IsAlive
+            if (!ready || !isActiveAndEnabled || unlocked || !pending || id != "enter" || !player.IsAlive
                 || !player.HasBodyCore || !player.isActiveAndEnabled || !playerCollider.enabled
                 || run.Phase != RunPhase.Choosing || !approachZone.bounds.Intersects(playerCollider.bounds)
                 || SignedSide() <= 0f || choices.RequestId != challengeId)
@@ -179,6 +192,7 @@ namespace Regrowth.Gameplay.Challenge
             waitingForExit = true;
             entered = false;
             HasAdmission = true;
+            unlocked = true;
             leavingInvalidAttempt = false;
             SetOpen(true);
             return true;
@@ -214,7 +228,7 @@ namespace Regrowth.Gameplay.Challenge
             leavingInvalidAttempt = false;
         }
 
-        /// <summary>主线程；退出/死亡/白盒R或传送及未来失败服务调用。只撤入口许可，不扣血/移动/返部件。</summary>
+        /// <summary>主线程；退出/死亡/白盒R或传送及未来失败服务调用。只撤入口许可，保留本局已解锁门；不扣血/移动/返部件。</summary>
         public void ResetAdmission()
         {
             CancelOwnedChoice();

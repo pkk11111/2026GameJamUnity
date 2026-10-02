@@ -95,24 +95,7 @@ namespace Regrowth.Gameplay
         // 新数组仅在选择入口接受后缓存，失败不得部分改写旧卡组。
         private ChestRewardDefinition[] SelectCurrentOptions()
         {
-            IReadOnlyList<ChestRewardDefinition> retained = cached;
-            // Legacy test-only regrowth option; production configs disable it.
-            if (cached == null && config.FavorRegrowth && body != null)
-            {
-                var preferred = new List<ChestRewardDefinition>();
-                foreach (var reward in config.Rewards)
-                {
-                    if (IsAvailable(reward) && reward.Kind == ChestRewardKind.Loadout && body.WasEverOwned(reward.Item))
-                    {
-                        preferred.Add(reward);
-                    }
-                }
-                if (preferred.Count > 0)
-                {
-                    retained = new[] { preferred[UnityEngine.Random.Range(0, preferred.Count)] };
-                }
-            }
-            return FixedChoiceDeck.Select(retained, config.Rewards, config.BodyTutorial ? 1 : 3,
+            return FixedChoiceDeck.Select(cached, config.Rewards, config.BodyTutorial ? 1 : 3,
                 value => value.Id, IsAvailable, count => UnityEngine.Random.Range(0, count), value => value.Copy());
         }
         private bool IsAvailable(ChestRewardDefinition reward)

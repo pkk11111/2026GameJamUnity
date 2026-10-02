@@ -33,11 +33,13 @@ namespace Regrowth.Tests.T03.Editor
             Directory.CreateDirectory("Assets/Scenes/Tests/T03");
             Directory.CreateDirectory("Assets/Prefabs/SwitchDoor");
             Directory.CreateDirectory("Assets/Prefabs/Tests/T03");
-            Directory.CreateDirectory("Assets/Configs/T03");
+            Directory.CreateDirectory("Assets/Input/Tests");
+            Directory.CreateDirectory("Assets/Art/Environment/Primitives");
+            Directory.CreateDirectory("Assets/Configs/Physics");
             AssetDatabase.Refresh();
             Sprite sprite = MakeSprite();
             var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset");
-            var actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
+            var actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/Shared.inputactions");
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var rig = new GameObject("T03 Smoke Rig");
             var runtime = Child(rig.transform, "Runtime");
@@ -213,7 +215,7 @@ namespace Regrowth.Tests.T03.Editor
         }
         private static Sprite MakeSprite()
         {
-            const string path = "Assets/Configs/T03/GrayboxSquare.png";
+            const string path = "Assets/Art/Environment/Primitives/SwitchSquare.png";
             var texture = new Texture2D(4, 4);
             var pixels = new Color[16];
             for (int i = 0; i < pixels.Length; i++)
@@ -280,7 +282,7 @@ namespace Regrowth.Tests.T03.Editor
         }
         private static InputActionReference Reference(InputActionAsset actions, string name)
         {
-            const string path = "Assets/Configs/T03/T03UIReferences.asset";
+            const string path = "Assets/Input/UIActionReferences.asset";
             var reference = InputActionReference.Create(actions.FindAction("UI/" + name, true));
             if (!File.Exists(path))
             {

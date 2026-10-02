@@ -10,7 +10,7 @@ namespace Regrowth.Audio.Editor
 {
     public static class MusicZoneSetup
     {
-        private const string ScenePath = "Assets/WhiteBox/Scenes/Level_Whitebox.unity";
+        private const string ScenePath = "Assets/Scenes/Gameplay/MainLevel.unity";
 
         [MenuItem("Tools/Audio/Install Whitebox Music Zones")]
         public static void Install()
@@ -23,7 +23,7 @@ namespace Regrowth.Audio.Editor
             }
             if (UnityEngine.Object.FindFirstObjectByType<ExplorationMusicZones>() != null)
             { Debug.Log("[MusicZones] 已安装；保留现有 Inspector 配置。"); return; }
-            var player = GameObject.Find("Test_Player");
+            var player = GameObject.Find("Player");
             var groundObject = GameObject.Find("TM_Ground");
             var ground = groundObject == null ? null : groundObject.GetComponent<Tilemap>();
             if (player == null || ground == null) throw new InvalidOperationException("缺少白板玩家/地面。");

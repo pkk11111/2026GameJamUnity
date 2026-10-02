@@ -16,7 +16,7 @@ namespace Regrowth.Tests.C05
     {
         public static NewMapPlayChecks Current { get; private set; }
 
-        public const string ScenePath = "Assets/WhiteBox/Scenes/Level_Whitebox.unity";
+        public const string ScenePath = "Assets/Scenes/Gameplay/MainLevel.unity";
 
         /// <summary>仅显式测试调用；非目标地图、重复检查或非全新状态抛出异常，校验通过才建临时驱动。</summary>
         public static NewMapPlayChecks StartChecks()
@@ -39,7 +39,7 @@ namespace Regrowth.Tests.C05
                 || player.Items.Count != 0 || player.EverOwnedItems.Count != 0
                 || gates.Length != 2 || boxes.Length != 9
                 || Array.Exists(boxes, box => box.IsClaimed)
-                || Array.Exists(gates, gate => gate.HasAdmission || gate.HasEntered || gate.IsCompleted))
+                || Array.Exists(gates, gate => gate.IsUnlocked || gate.HasAdmission || gate.HasEntered || gate.IsCompleted))
             {
                 throw new InvalidOperationException("C05要求全新地图：Playing、已有躯干、空构筑/历史、9未领箱、2未开始入口。");
             }

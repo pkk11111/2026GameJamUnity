@@ -39,7 +39,7 @@ namespace Regrowth.Tests.C06
         [MenuItem("Tools/pawgatory/C06/Run Main Action Checks (Play)")]
         public static void StartChecks()
         {
-            if (!Application.isPlaying || SceneManager.GetActiveScene().path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity"
+            if (!Application.isPlaying || SceneManager.GetActiveScene().path != "Assets/Scenes/Gameplay/MainLevel.unity"
                 || Current != null)
             {
                 throw new InvalidOperationException("C06需要主图全新Play；检查结束后重新Play才能手动试玩。");

@@ -2,5 +2,6 @@
     "name": "Regrowth.Tests.C08",
     "references": ["Regrowth.Audio.Core", "Regrowth.Audio.Wwise", "AK.Wwise.Unity.MonoBehaviour", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.Gameplay.Player", "Regrowth.Gameplay.Bite", "Regrowth.Gameplay.Sword", "Regrowth.Gameplay.Fire", "Regrowth.Gameplay.EnemyBasic", "Regrowth.Gameplay.Chest", "Regrowth.UI.Choice", "Regrowth.WhiteBox", "Regrowth.Presentation", "Unity.InputSystem", "UnityEngine.UI"],
     "autoReferenced": true,
-    "rootNamespace": "Regrowth.Tests.C08"
+    "rootNamespace": "Regrowth.Tests.C08",
+  "defineConstraints": ["UNITY_EDITOR"]
 }

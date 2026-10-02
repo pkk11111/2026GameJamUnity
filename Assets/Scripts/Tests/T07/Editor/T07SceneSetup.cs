@@ -67,7 +67,7 @@ namespace Regrowth.Tests.T07.Editor
             var router = player.AddComponent<PlayerAttackRouter>();
             Bind(router, "inputSource", input); Bind(router, "combatStateSource", state);
             Bind(router, "biteActionSource", attack);
-            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Configs/T06/GrayboxSquare.png");
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Environment/Primitives/PlayerSquare.png");
             var floor = new GameObject("T07 Floor", typeof(SpriteRenderer), typeof(BoxCollider2D));
             floor.transform.SetParent(rig.transform, false);
             floor.transform.position = new Vector3(0f, -1f, 0f);
@@ -98,8 +98,8 @@ namespace Regrowth.Tests.T07.Editor
             camera.name = "T07 Camera";
             camera.transform.position = new Vector3(0f, 2f, -10f); camera.orthographicSize = 5f;
             var module = rig.GetComponentInChildren<InputSystemUIInputModule>();
-            module.actionsAsset = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
-            var references = AssetDatabase.LoadAllAssetsAtPath("Assets/Configs/T03/T03UIReferences.asset").OfType<InputActionReference>().ToArray();
+            module.actionsAsset = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/Shared.inputactions");
+            var references = AssetDatabase.LoadAllAssetsAtPath("Assets/Input/UIActionReferences.asset").OfType<InputActionReference>().ToArray();
             string[] fields = { "m_PointAction", "m_LeftClickAction", "m_RightClickAction", "m_MiddleClickAction", "m_ScrollWheelAction", "m_MoveAction", "m_SubmitAction", "m_CancelAction", "m_TrackedDevicePositionAction", "m_TrackedDeviceOrientationAction" };
             string[] actions = { "Point", "Click", "RightClick", "MiddleClick", "ScrollWheel", "Navigate", "Submit", "Cancel", "TrackedDevicePosition", "TrackedDeviceOrientation" };
             for (int i = 0; i < fields.Length; i++)

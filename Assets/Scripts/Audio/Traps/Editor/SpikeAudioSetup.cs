@@ -14,7 +14,7 @@ namespace Regrowth.Audio.Editor
         public static void Install()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("请先退出 Play。");
-            if (EditorSceneManager.GetActiveScene().path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity")
+            if (EditorSceneManager.GetActiveScene().path != "Assets/Scenes/Gameplay/MainLevel.unity")
                 throw new InvalidOperationException("请先打开 Level_Whitebox。");
             var owners = UnityEngine.Object.FindObjectsByType<ExplorationMusicZones>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             if (owners.Length != 1) throw new InvalidOperationException("场景须有唯一 SB_Main 加载控制器。");

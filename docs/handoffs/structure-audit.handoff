@@ -1,0 +1,62 @@
+# 结构与安全修复（2026-10-03）
+
+成员/任务别名：controller / structure-audit。
+任务/分支/基线/契约：structure-audit-fix / Ming / fcff0a7 / 公共契约12；规范版本25。
+状态：本轮修复完成；未整局通关或导出完整Windows包。
+授权：用户同意实施审查修复，并明确两扇支线门解锁后不再出现；活动仓库F:/2026GameJamUnity。保留已有README简介重写与readme-summary.handoff，不commit/push。
+
+实际修改：
+- InspectionDoor2D新增只读IsUnlocked，本局解锁与当次HasAdmission/HasEntered分开；首次确认移除指定部位后门/碰撞持续隐藏。退出、补回、传送、启停不关回；缺部位从外侧重入恢复尝试，持有者可通行但无未完成资格。新场景实例重置；完整支线目标/领奖未接，不冒称完成。
+- WorldDoor重新关闭须显式绑定玩家closingGuard，允许重关的碰撞体须为BoxCollider2D。使用禁用Collider的序列化形状重建世界包围盒，占位时拒绝关门，离开后可再次按按钮；主图8门已绑定。
+- 主图移除90 Validation测试驱动，关闭PlayerInputReader的R回位动作路径。21个运行测试asmdef以UNITY_EDITOR约束，C05用UNITY_EDITOR或C05_PLAYER_CHECKS；既有Editor工具保留Editor平台。不要将运行测试改为Editor平台，否则其MonoBehaviour不能正常挂载。C05专用Player测试仍需显式定义，不属于正式包。
+- 原生整理场景根节点27→5：WwiseGlobal、00 Runtime、01 World、02 Actors、03 UI；装饰归Artwork、路线归World、敌人归Actors、开场/结局归UI，胜利门仍保留业务。已有对象世界Transform比较无变化，引用保留；没有手改Unity YAML。保存包含少量TMP默认值重序列化。
+- WhiteboxOverlay隐藏文字不再每帧拼接，可见时按内容变化刷新，保留Escape订阅。DamageableLookup统一咬/剑/火/敌接触向父节点查询，调用者复用组件列表；新增文件配套meta，新增EnemyBasic/Fire的Combat程序集引用，无循环。
+- AGENTS移除当前入口里的历史流水与失效接口，现行表对齐源码；更新设计阅读版、README已实现描述和本记录。历史handoff不删、不重新发布为规则。
+
+实际验证：
+- 目标Unity6000.2.9f1编辑器编译成功。Windows64 CompilePlayerScripts实际返回74程序集，Regrowth.Tests为0；不是完整游戏构建。工具连接在编译期间超时，事后从会话返回值与输出DLL确认成功。
+- 主图新C05检查66通过/0失败：两门首次确认/取消/状态变化重确认、穿过、退出/再生后持续开放、启停、合法重入、重复UI、9箱交互、暂停、迁移、死亡清理。首次运行使用过期测试靠近坐标34/32，按实际Collider/玩家尺寸修正测试位置后重跑通过，未移动地图来迎合测试。
+- 实际8普通门逐个执行占位拒绝关闭、离开后关闭、再次打开，24项通过；共用查询与旧逐父组件算法比较75个场景Collider，结果一致。
+- 两门音频检查8通过/0失败：取消不发DoorOpened，实际打开只发一次，解锁后更新/离开不重复。首次Editor平台隔离导致测试组件挂载失败，已改UNITY_EDITOR条件并重新运行通过。
+- 显式重载Level后两门为新实例、未解锁且关闭。此项为重载检查，不等于再次验证完整自动死亡等待流程。
+- 最终主图Missing Script 0、Tests依赖0、8门IsConfigured=true，场景clean；已退出Play，恢复MainMenu Play入口。测试冻结运动器期间的AI失效提示来自临时夹具；最终编译后Console仅MCP连接断开提示，无源码错误。
+
+最终静态核对：1287份meta无重复GUID，新工具源码/meta成对；未残留字体动态缓存改动。git diff --check仅报告Unity原生序列化的空prototypeResetActionPath行尾空格；保留原生输出，不手改场景YAML。忽略该原生空值行尾格式后差异检查通过。
+
+限制/下一步：近战时间轴、统一受伤保护、完整支线目标/结算属于既有玩法迁移，未夹入本轮结构修复。历史Wwise Voice Starvation未做性能归因或人工试听，不声称已修复。未运行全部旧T系列或完整Windows导出。用户原有改动保留。
+
+---
+以下为此前审查/工作事实，描述当时状态，不覆盖上方本轮结果。
+# 全仓结构与安全优化审查
+
+- 任务别名：structure-audit；日期：2026-10-03（Australia/Sydney）。
+- 分支/基线：Ming / fcff0a7；活动仓库 F:/2026GameJamUnity；公共契约12未变。
+- 授权：检查所有内容中的安全优化机会、结构、层级和冗余。本轮仅审查和记录，不改玩法、源码、资产、包或他人文档；保留既有 README.md 与 readme-summary.handoff 改动。
+- 范围：完整读取现行 AGENTS.md；核对工作包/相关交接摘要、构建场景、包配置、程序集、自研代码扫描与核心路径细读；Unity 原生只读检查当前主图层级、组件、引用、构建依赖和 Console。不是逐行审计第三方插件或全部历史交接。
+
+## 实际检查
+
+- Unity 6000.2.9f1 / Windows64，Level_Whitebox 编辑模式、检查前后 clean，没有进入 Play、修改或保存场景。
+- 主图383个对象、27个根节点，最深6层；GameBootstrap、RunController、PlayerInputReader、PlayerState、ChoiceCoordinator、WhiteboxPlayer2D各一份；9箱、4普通传送、8普通门、7地刺、14敌人。
+- 全主图无 Missing Script；自研 MonoBehaviour 序列化引用未发现非零ID的失效引用。此检查不把所有空可选字段判为错误，不证明所有业务绑定正确。
+- Assets扫描1286份meta：GUID无重复、无孤立meta；普通自研文件未发现缺meta。扫描显示9个无单独meta文件都在Wwise Mac原生.bundle内部，不作为缺失资产报告。
+- 自研Scripts/WhiteBox目录177份C#，合计23000行，含测试/Editor工具；最大运行文件WhiteboxPlayer2D 545行，其次PlayerState 435行。
+- 正式构建入口MainMenu、Level_Whitebox；主图依赖包含Regrowth.Tests.Level.LevelWhiteboxPlayChecks，实例启用但autoVerify=false。Unity Player编译程序集列表包含22个Regrowth.Tests程序集；部分源码内部有编译条件，未测最终裁剪体积。
+- 当前Console有Account API超时和Wwise Voice Starvation记录；未定位发生时机/根因，未人工试听，不据此断言此次审查造成或每次运行复现。
+- git diff --check通过，仅README换行提示；未编译、未跑Play/自动测试/构建，也不继承以前通过记录。
+
+## 优先建议（均未实施）
+
+1. 发布入口隔离：从正式场景移出LevelWhiteboxPlayChecks；现C05BuildSceneFilter只在C05EditorTools.BuildInProgress期间过滤，普通构建不能依赖它。测试程序集按现有条件编译/独测需求逐个处理，不一刀切删除。
+2. R回位：主图PlayerInputReader.prototypeResetActionPath仍为Whitebox/Reset，输入绑定R；WhiteboxPlayer2D第192行免费回出生点，不付费且不验证安全落点。正式发布前关闭这条试走绑定，独测保留。
+3. 普通门防夹：8门均允许reclose；WorldDoor.TrySetOpen直接启用Collider，无占用校验。建议关闭前检查玩家占用并安全拒绝或延迟，需要针对性物理验证。
+4. 文档去漂移：AGENTS 781行、WORK_PACKAGES 406行、controller.handoff 1027行。AGENTS仍把4站桩敌/免费门/无音频后端称为当前状态，接口表还列已删除AttackPercentIncrease。现行契约表应与源码对齐，历史事实留handoff，保留未实现目标。
+5. 隐藏调试UI：WhiteboxOverlay启用、Instructions对象停用，但Update仍每帧拼接并赋值文本。可跳过不可见文本更新或按变化刷新；不能直接停用整个组件，它还订阅Escape暂停。
+6. 层级：将散落IMG_*美术与Texture按用途整理，Enemies_C09/EnemyRoutes_C09归入清晰角色/路线容器；保留世界Transform、GUID与绑定，路线不得放移动敌人下面；胜利门IMG_5500_0有真实业务，不能当装饰删除。深度6本身不构成问题。
+7. 渐进结构整理：WhiteBox承载正式运动/传送/门适配，多模块真实依赖它。先区分生产职责和测试职责，不批量改名/搬动。咬/剑/接触的Receiver向父级查找有重复，可提取局部公共工具；不必统一成大型战斗框架。
+8. 伤害保护属于玩法迁移：PlayerState普通伤害只读抵达保护，敌人各存nextDamageTime，地刺另存spikeProtectionRemaining；多源伤害不共享保护。与近战冷却/遮挡/时间轴一起单独验证，不夹在无行为变化清理里。
+9. 音频现有Voice Starvation需另做最小复现/性能定位，不能仅凭日志推断Bank/插件损坏或盲改缓存数值。
+
+- 状态：审查完成；上述为建议，未实施优化或修复。没有公共接口/规则变更，因此不更新公共接口表，也不覆盖其他交接。
+- 下一步：优先做测试入口隔离、隐藏文字刷新、规范现行表去漂移；门防夹与正式R绑定作为独立行为修复验证；场景分组原生操作后核对世界Transform/引用。
+- 未commit/push。

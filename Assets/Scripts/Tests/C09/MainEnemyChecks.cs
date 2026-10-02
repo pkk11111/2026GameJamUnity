@@ -46,9 +46,9 @@ namespace Regrowth.Tests.C09
         public static string Install()
         {
             var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-            if (Application.isPlaying || scene.path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity")
+            if (Application.isPlaying || scene.path != "Assets/Scenes/Gameplay/MainLevel.unity")
                 throw new InvalidOperationException("Non-Play main map required.");
-            if (GameObject.Find("Enemies_C09") != null) throw new InvalidOperationException("Already installed; edit existing objects.");
+            if (GameObject.Find("Enemies") != null) throw new InvalidOperationException("Already installed; edit existing objects.");
             var maps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
             var ground = maps.Single(t => t.name == "TM_Ground");
             var markers = maps.Single(t => t.name == "TM_Markers");
@@ -124,8 +124,8 @@ namespace Regrowth.Tests.C09
             if (old.Length != 4 || old.Any(e => !e.name.StartsWith("TrialEnemy_")))
                 throw new InvalidOperationException("Unexpected existing enemies; no automatic replacement.");
             foreach (var enemy in old) Undo.DestroyObjectImmediate(enemy.gameObject);
-            var parent = new GameObject("Enemies_C09");
-            var routes = new GameObject("EnemyRoutes_C09");
+            var parent = new GameObject("Enemies");
+            var routes = new GameObject("Enemy Routes");
             var spawned = new List<EnemyBasic>(); int number = 0;
             foreach (var plan in plans)
             {
@@ -153,7 +153,7 @@ namespace Regrowth.Tests.C09
             for (int i = 0; i < spawned.Count; i++) list.GetArrayElementAtIndex(i).objectReferenceValue = spawned[i];
             registration.ApplyModifiedPropertiesWithoutUndo();
             // Tile.SetColor can be overwritten by Tile refresh after reload. A sprite-less marker persists.
-            const string markerPath = "Assets/WhiteBox/Tiles/Tile_EnemySpawnMarker.asset";
+            const string markerPath = "Assets/Art/Environment/Tiles/Tile_EnemySpawnMarker.asset";
             var hiddenMarker = AssetDatabase.LoadAssetAtPath<Tile>(markerPath);
             if (hiddenMarker == null)
             {

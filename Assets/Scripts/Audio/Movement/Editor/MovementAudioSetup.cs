@@ -17,7 +17,7 @@ namespace Regrowth.Audio.Editor
         public static void Install()
         {
             var scene = EditorSceneManager.GetActiveScene();
-            if (EditorApplication.isPlaying || scene.path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity")
+            if (EditorApplication.isPlaying || scene.path != "Assets/Scenes/Gameplay/MainLevel.unity")
                 throw new InvalidOperationException("Open Level_Whitebox outside Play mode.");
             var players = UnityEngine.Object.FindObjectsByType<WhiteboxPlayer2D>(FindObjectsSortMode.None);
             var backends = UnityEngine.Object.FindObjectsByType<RewardAudioBackend>(FindObjectsSortMode.None);

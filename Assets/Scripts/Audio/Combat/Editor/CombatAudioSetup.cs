@@ -17,7 +17,7 @@ namespace Regrowth.Audio.Editor
         public static void Install()
         {
             var scene = EditorSceneManager.GetActiveScene();
-            if (Application.isPlaying || scene.path != "Assets/WhiteBox/Scenes/Level_Whitebox.unity") throw new InvalidOperationException("Open main scene outside Play.");
+            if (Application.isPlaying || scene.path != "Assets/Scenes/Gameplay/MainLevel.unity") throw new InvalidOperationException("Open main scene outside Play.");
             var player = UnityEngine.Object.FindObjectsByType<WhiteboxPlayer2D>(FindObjectsSortMode.None).Single();
             var backend = UnityEngine.Object.FindObjectsByType<RewardAudioBackend>(FindObjectsSortMode.None).Single();
             var music = UnityEngine.Object.FindObjectsByType<ExplorationMusicZones>(FindObjectsSortMode.None).Single();

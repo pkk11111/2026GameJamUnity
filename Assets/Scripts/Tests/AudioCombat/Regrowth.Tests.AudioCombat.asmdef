@@ -1,5 +1,6 @@
 {
   "name": "Regrowth.Tests.AudioCombat",
   "references": ["Regrowth.Gameplay.Challenge", "Regrowth.UI.Choice", "UnityEngine.UI", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "Regrowth.Gameplay.EnemyBasic", "Regrowth.Gameplay.Bite", "Regrowth.Gameplay.Sword", "Regrowth.Gameplay.Fire", "Regrowth.Gameplay.SwitchDoor", "Regrowth.Audio.Core", "Regrowth.Audio.Combat", "Regrowth.Audio.Wwise", "Regrowth.Audio.Music", "Unity.InputSystem"],
-  "autoReferenced": true
+  "autoReferenced": true,
+  "defineConstraints": ["UNITY_EDITOR"]
 }

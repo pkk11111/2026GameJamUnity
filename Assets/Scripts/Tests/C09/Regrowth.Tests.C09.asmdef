@@ -8,5 +8,6 @@
         "Regrowth.Gameplay.Chest",
         "Regrowth.UI.Choice"
     ],
-    "autoReferenced": true
+    "autoReferenced": true,
+  "defineConstraints": ["UNITY_EDITOR"]
 }

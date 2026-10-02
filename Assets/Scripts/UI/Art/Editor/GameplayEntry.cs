@@ -13,7 +13,7 @@ namespace Regrowth.UI.Art.Editor
     public static class GameplayEntry
     {
         public const string MainMenu = "Assets/Scenes/Frontend/MainMenu.unity";
-        public const string Level = "Assets/WhiteBox/Scenes/Level_Whitebox.unity";
+        public const string Level = "Assets/Scenes/Gameplay/MainLevel.unity";
         private const string DirectCheck = "PAWGATORY.UI.DirectSceneCheck";
 
         static GameplayEntry()
@@ -37,7 +37,7 @@ namespace Regrowth.UI.Art.Editor
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode || SessionState.GetBool(DirectCheck, false)) { return; }
             string active = SceneManager.GetActiveScene().path;
-            bool gameplay = active == MainMenu || active == Level || active == "Assets/Scenes/SampleScene.unity";
+            bool gameplay = active == MainMenu || active == Level;
             if (gameplay)
             {
                 EditorSceneManager.playModeStartScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(MainMenu);

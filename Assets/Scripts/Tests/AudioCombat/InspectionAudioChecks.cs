@@ -45,7 +45,10 @@ namespace Regrowth.Tests.AudioCombat
                 foreach (var gate in FindObjectsByType<InspectionDoor2D>(FindObjectsSortMode.None))
                 {
                     var direction = Read<Vector2>(gate, "outsideDirection").normalized;
-                    Vector2 near = (Vector2)gate.transform.position + direction * 2.2f + Vector2.down * 1.75f;
+                    var blocker = Read<BoxCollider2D>(gate, "blocker");
+                    float gap = blocker.size.x * Mathf.Abs(blocker.transform.lossyScale.x) * .5f
+                        + state.GetComponent<Collider2D>().bounds.extents.x + .02f;
+                    Vector2 near = (Vector2)blocker.transform.TransformPoint(blocker.offset) + direction * gap + Vector2.down * 1.75f;
                     Vector2 far = near + direction * 6;
                     Move(body, far); yield return new WaitForSecondsRealtime(.1f);
                     int count = backend.Count(AudioCue.DoorOpened);
@@ -60,7 +63,7 @@ namespace Regrowth.Tests.AudioCombat
                     button.onClick.Invoke(); button.onClick.Invoke(); yield return new WaitForSecondsRealtime(.3f);
                     Check(gate.IsOpen && backend.Count(AudioCue.DoorOpened) == count + 1, gate.name + " actual open sounds once across repeated UI and updates");
                     Move(body, far); yield return new WaitForSecondsRealtime(.1f);
-                    Check(!gate.IsOpen && backend.Count(AudioCue.DoorOpened) == count + 1, gate.name + " close silent");
+                    Check(gate.IsUnlocked && gate.IsOpen && backend.Count(AudioCue.DoorOpened) == count + 1, gate.name + " stays unlocked without repeated sound");
                 }
             }
             finally

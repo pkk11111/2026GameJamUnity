@@ -33,10 +33,12 @@ namespace Regrowth.Tests.T02.Editor
             Directory.CreateDirectory("Assets/Scenes/Tests/T02");
             Directory.CreateDirectory("Assets/Prefabs/Hud");
             Directory.CreateDirectory("Assets/Prefabs/Tests/T02");
-            Directory.CreateDirectory("Assets/Configs/T02");
+            Directory.CreateDirectory("Assets/Input/Tests");
+            Directory.CreateDirectory("Assets/Art/Environment/Primitives");
+            Directory.CreateDirectory("Assets/Configs/Physics");
             AssetDatabase.Refresh();
             var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset");
-            var actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
+            var actions = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/Shared.inputactions");
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var rig = new GameObject("T02 Smoke Rig");
             var runtime = Child(rig.transform, "Runtime");
@@ -220,7 +222,7 @@ namespace Regrowth.Tests.T02.Editor
         }
         private static InputActionReference Reference(InputActionAsset actions, string name)
         {
-            const string path = "Assets/Configs/T02/T02UIReferences.asset";
+            const string path = "Assets/Input/Tests/HudUIReferences.asset";
             var reference = InputActionReference.Create(actions.FindAction("UI/" + name, true));
             if (!File.Exists(path))
             {

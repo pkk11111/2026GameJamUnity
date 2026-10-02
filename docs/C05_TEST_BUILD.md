@@ -12,7 +12,7 @@
 
 ## 队友复跑C05
 
-1. 使用Unity6000.2.9f1打开自己的项目副本，加载Assets/WhiteBox/Scenes/Level_Whitebox.unity，保存自己的必要改动。
+1. 使用Unity6000.2.9f1打开自己的项目副本，加载Assets/Scenes/Gameplay/MainLevel.unity，保存自己的必要改动。
 2. 进入全新Play，先不要领取宝箱或进入挑战，执行Tools/pawgatory/C05/Run New Map Checks (Play)。
 3. Console查看C05 NewMapPlayChecks汇总。驱动会临时给予部件、移动玩家、操作实际菜单/箱门并最终进入Dead，属于破坏本次测试状态的检查，不是正常玩法或完整通关。
 4. 查看临时对象上的驱动或NewMapCheckLauncher.Current.Results；退出Play还原，重新Play才可复跑。临时对象带DontSave，不保存进地图。重复入口或非全新状态拒绝。
@@ -57,4 +57,4 @@ Unity/插件构建回调可能自动更新本机URP资源、PlayerSettings、Wwi
 
 ## 本轮实际结果
 
-2026-10-01，Ming/0d892a4加本轮未提交C05工具：Editor菜单69/0，独立Windows专用包69/0、退出0。普通包构建Errors0/Warnings491，专用包Errors0/Warnings5；前者目录20261001-081520-trial-1423f2，后者20261001-081829-checks-7ad855。普通包仅启动检查，未验正常退出或完整画面/输入/路线；声音试听/异机/整局未验。警告及自动配置恢复详情见controller.handoff，不把构建成功等同于完整游戏、音频或跨机验收。
+2026-10-01，Ming/0d892a4加本轮未提交C05工具：Editor菜单69/0，独立Windows专用包69/0、退出0。普通包构建Errors0/Warnings491，专用包Errors0/Warnings5；前者目录20261001-081520-trial-1423f2，后者20261001-081829-checks-7ad855。普通包仅启动检查，未验正常退出或完整画面/输入/路线；声音试听/异机/整局未验。该次历史警告及自动配置恢复详情见[比赛总控归档](archive/gamejam-2026/controller.handoff)，不把构建成功等同于完整游戏、音频或跨机验收。

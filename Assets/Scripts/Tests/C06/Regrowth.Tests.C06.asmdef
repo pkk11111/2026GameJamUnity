@@ -1,1 +1,3 @@
-{"name":"Regrowth.Tests.C06","rootNamespace":"Regrowth.Tests.C06","references":["Regrowth.Core","Regrowth.Runtime","Regrowth.WhiteBox","Regrowth.Gameplay.Player","Regrowth.Gameplay.Combat","Regrowth.Gameplay.Bite","Regrowth.Gameplay.Sword","Regrowth.Gameplay.EnemyBasic","Regrowth.Gameplay.Chest","Regrowth.UI.Choice","Regrowth.UI.Hud","Unity.InputSystem","UnityEngine.UI","Unity.TextMeshPro"],"includePlatforms":[],"autoReferenced":true}
+{"name":"Regrowth.Tests.C06","rootNamespace":"Regrowth.Tests.C06","references":["Regrowth.Core","Regrowth.Runtime","Regrowth.WhiteBox","Regrowth.Gameplay.Player","Regrowth.Gameplay.Combat","Regrowth.Gameplay.Bite","Regrowth.Gameplay.Sword","Regrowth.Gameplay.EnemyBasic","Regrowth.Gameplay.Chest","Regrowth.UI.Choice","Regrowth.UI.Hud","Unity.InputSystem","UnityEngine.UI","Unity.TextMeshPro"],"autoReferenced":true,
+  "defineConstraints": ["UNITY_EDITOR"]
+}

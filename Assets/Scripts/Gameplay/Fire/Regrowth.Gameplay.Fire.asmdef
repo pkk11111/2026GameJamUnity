@@ -2,7 +2,7 @@
   "name": "Regrowth.Gameplay.Fire",
   "rootNamespace": "Regrowth.Gameplay",
   "references": [
-    "Regrowth.Core",
+    "Regrowth.Core", "Regrowth.Gameplay.Combat",
     "Regrowth.Runtime",
     "Regrowth.Gameplay.Player"
   ],

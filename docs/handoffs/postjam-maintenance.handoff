@@ -1,0 +1,54 @@
+# 资产目录整理（2026-10-03）
+
+本轮基点Ming/fcff0a7；规范27/Core契约12。用户授权删除无用SampleScene，并执行按用途整理目录与命名。保留前轮全部未提交改动；未commit/push。
+
+实际布局：
+- 正式关卡Assets/Scenes/Gameplay/MainLevel.unity；主菜单仍Scenes/Frontend/MainMenu.unity。原场景GUID 2406e85dde978f041ba46e3d395f43b9保留，主菜单序列化目标、14处源码路径、编辑器入口和构建列表同步。
+- 原WhiteBox/Scripts → Scripts/Gameplay/Level；Regrowth.WhiteBox程序集/命名空间/组件类型保持，避免破坏已发布接口。运动组件职责未改。
+- 正式输入Input/Gameplay.inputactions；旧输入同时供正式UI与旧独测使用，因此放Input/Shared.inputactions。UIActionReferences供正式UI；测试专用引用放Input/Tests。
+- 原WhiteBox贴图/方块/图块/调色板 → Art/Environment/Textures、Primitives、Tiles、Palettes；调色板名LevelPalette。现有Sprite子资源与GUID保留，不改切片/压缩/尺寸。
+- T02/T03/T06配置按真实用途归Input、Input/Tests、Configs/Physics与Art/Environment/Primitives，原比赛编号目录清空删除。四份仅独测奖励配置归Configs/Tests/Chest。
+- T12_RewardPool仍被Chest Prefab默认值依赖，保留为Configs/Chest/LegacyRewardPool.asset，未强行删或替换其数值；主图实例继续使用两份V5七项池。
+- 原_Recovery/0.unity → Scenes/Archive/Recovery.unity，并加README说明其历史用途。SampleScene及meta已原生删除，无资产使用者；构建残留删除，模板默认场景改为MainMenu。URP场景模板和插件资产保持。
+- 层级按WwiseGlobal、00 Runtime、01 World、02 Actors、03 UI排序。对象命名Player、Game Runtime、ExitGate、Enemies、Enemy Routes、Debug Overlay、Tutorial Hints；空Trial Enemies节点无业务引用，仅父子/自身Transform引用，已移除。世界矩阵未改变，业务组件保留。
+- 同步相关编辑器工具的路径/对象名，包括动态拼接的奖励配置路径和建目录位置，避免工具重新生成旧目录。AGENTS/controller与可执行测试说明同步；他人/归档历史不改写。
+
+执行与验证：
+- 初次21路径一次迁移被自动审批拒绝（硬编码路径尚未同步）。未执行该批量操作，改为先同步源码/菜单引用，再分组原生迁移、逐项核GUID的方案完成。
+- manage_asset主场景move工具曾返回失败；只读核实文件已移动且GUID保持后，没有重复移动。后续原生操作均检查AssetDatabase返回值和目标GUID。
+- 迁移前追踪1016个非目录资产；迁移后全部原GUID仍可解析，缺失0。SampleScene删除发生在追踪前，另已验证无资产引用。
+- Unity编译Error0；MainLevel无Missing Script、无Tests路径依赖；引用Gameplay和Shared两份实际输入。主菜单真实Start进入新MainLevel后8项短检查通过：场景、唯一玩家空槽/存活、输入初始化、9箱、入口未解锁、普通门接线、暂停、恢复。
+- 迁移后Windows64非Development构建成功：Builds/PostJam/20261003-asset-layout/pawgatory.exe，27.54秒，521.12MB，0错误/489警告；Managed中Regrowth.Tests程序集为0。警告数量与前轮相同。此新包未另做独立启动、完整通关/试听/异机验证。
+- Scripts/Input/Scenes/Configs/Art/Environment文件与目录meta配对完整，Assets无重复GUID；正式源码/编辑器/项目设置无旧目录或SampleScene引用。已退出Play，MainLevel无未保存改动，Play入口MainMenu。未新增游戏规则或重跑全部历史模块测试。
+
+以下为前轮暂停/配置/文档维护记录，其旧路径按上方映射理解。
+
+---
+# 赛后维护
+
+任务：postjam-maintenance；2026-10-03；Ming/fcff0a7；规范26/Core契约12。状态：完成（下述验证范围内）。
+
+授权：实施前三项整理（暂停解耦、旧配置收口、文档归档）及构建验证。用户明确Game Jam结束，WORK_PACKAGES不再需要，后续由智能体迭代。保留已有工作区改动，不自动commit/push。
+
+修改与接点：
+- 新Runtime/PauseInputHandler独立持有暂停请求订阅，显式Reader/Run/Choices接线；RunController仍唯一管理时间。主图原生添加在Whitebox Runtime，未新增输入采样器。WhiteboxOverlay删除输入/菜单依赖，仅负责调试文字。
+- 删除ChestRewardConfig.favorRegrowth/FavorRegrowth与ChestClaimTransaction旧优先分支；两份V5奖励资产原生重存移除字段，保留路径/GUID和其他配置。不影响历史持有/再生文案、三张等概率无放回、取消固定与失效位补齐。
+- T12既有检查移除旧优先用例，加入32种固定随机状态下历史有无不影响候选的比较；当前剑基础20对应期望同步。旧候选检查改为快照内容/位置相等（共用FixedChoiceDeck复制对象，不承诺引用身份）。
+- WORK_PACKAGES从活动docs目录退役，完整归档docs/archive/gamejam-2026；controller原1033行逐字节备份至同归档，摘要保留原路径供现有源码接手链接使用。两份归档复制时SHA256相等；历史正文相对路径按原位置解释。
+- AGENTS接手/协作/记录规则改为赛后智能体流程，移除旧人数/派工/封装职责，公共Core接口和玩法参数不变。设计阅读稿入口同步；其他成员历史handoff不改写。
+
+验证过程：
+- Unity编译通过，原生保存主图、唯一PauseInputHandler接线。
+- 主图10项暂停检查通过：停用整个调试UI仍能暂停/恢复、停用退订、重新启用无重复订阅、Choosing不能绕过、取消同帧不暂停、下一帧可暂停、Won不能恢复。测试经真实Reader事件转发，非OS键盘自动化。
+- T12首轮32通过/2失败，失败为旧引用身份断言；已按真实快照语义修正，复跑34通过/0失败；包含32种随机状态的历史独立性比较。
+- 本轮未迁移近战时间轴/统一受伤仲裁/完整支线结算，未拆分WhiteboxPlayer2D。
+
+最终构建与核对：
+- Unity原生BuildPipeline构建MainMenu + Level_Whitebox，Windows64、非Development；42.07秒，Succeeded，Errors0/Warnings489，521.12MB。输出Builds/PostJam/20261003-cleanup/pawgatory.exe（忽略目录，不提交）。发布Managed目录无Regrowth.Tests DLL。
+- 489条警告中460条ConvGeneric，其余含Sentis着色器、Pipeline Runtime配置缺失、App UI非持久配置、Unity服务符号上传失败、Wwise构建临时空Windows目录/meta提示；未修改包或盲改音频以消除警告。构建钩子临时修改的GraphicsSettings及Wwise插件meta已自行恢复，无最终diff。
+- 以-batchmode -nographics静默启动输出包，进程正常存活、完成程序集与输入/引擎初始化，日志无Exception/Crash/Fatal；有App UI默认配置提示。之后只终止本次启动的PID，不能将此检查称为图形通关、音频试听或正常退出验收。日志在输出目录boot-smoke.log。
+- 已退出Play、保留MainMenu启动入口，主图唯一暂停组件、Missing Script0、Tests依赖0，场景原生保存clean。移除本轮Play生成的字体缓存及五份旧测试资产重序列化噪音；两份正式奖励资产只删旧字段及原生折行。
+- 当前controller摘要约48行；AGENTS规范26，Core契约12。归档原文不再编辑；活动入口链接已检查。git diff --check仅Unity原生空字段行尾空格，忽略该格式后通过。
+
+未验证：完整图形通关、人工音频试听、异机Windows运行；未复跑全部历史C/T检查。Assets/_Recovery旧恢复快照不作为当前运行基线，未迁移其暂停接线。没改Packages/ProjectSettings/Authoring，无commit/push。
+下一步：按用户指定独立推进统一伤害保护/支线结算/依赖复核，不恢复比赛工作包。当前结果与入口见controller摘要。

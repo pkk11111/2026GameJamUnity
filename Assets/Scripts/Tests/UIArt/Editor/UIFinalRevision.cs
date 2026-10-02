@@ -17,7 +17,7 @@ namespace Regrowth.Tests.UIArt.Editor
 {
     public static class UIFinalRevision
     {
-        public const string Level = "Assets/WhiteBox/Scenes/Level_Whitebox.unity";
+        public const string Level = "Assets/Scenes/Gameplay/MainLevel.unity";
         public const string ArtScene = "Assets/Scenes/Tests/Art/UI_ArtTest.unity";
         public const string StylePath = "Assets/Art/UI/Cards/CardVisualStyle.asset";
         private const string Root = "Assets/Art/UI/";

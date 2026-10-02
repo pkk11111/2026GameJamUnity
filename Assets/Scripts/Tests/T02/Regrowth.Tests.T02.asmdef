@@ -1,4 +1,5 @@
 {
     "name": "Regrowth.Tests.T02",
-    "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.UI.Hud", "UnityEngine.UI", "Unity.TextMeshPro"]
+    "references": ["Regrowth.Core", "Regrowth.Runtime", "Regrowth.UI.Hud", "UnityEngine.UI", "Unity.TextMeshPro"],
+  "defineConstraints": ["UNITY_EDITOR"]
 }

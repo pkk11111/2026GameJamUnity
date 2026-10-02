@@ -5,5 +5,6 @@
         "UnityEngine.UI",
         "Unity.TextMeshPro"
     ],
-    "autoReferenced": true
+    "autoReferenced": true,
+  "defineConstraints": ["UNITY_EDITOR"]
 }

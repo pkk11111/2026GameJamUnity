@@ -10,5 +10,6 @@
     "Regrowth.UI.Choice",
     "UnityEngine.UI"
   ],
-  "autoReferenced": true
+  "autoReferenced": true,
+  "defineConstraints": ["UNITY_EDITOR || C05_PLAYER_CHECKS"]
 }

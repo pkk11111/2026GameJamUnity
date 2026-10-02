@@ -4,7 +4,7 @@
 
 ## 手动试玩
 
-1. 打开`Assets/WhiteBox/Scenes/Level_Whitebox.unity`，点击Play，再点Game视图聚焦。若之前跑了Auto，先Stop再Play。
+1. 打开`Assets/Scenes/Gameplay/MainLevel.unity`，点击Play，再点Game视图聚焦。若之前跑了Auto，先Stop再Play。
 2. 出生点保留用户的(-12.14,8.6)，三槽EMPTY。地图暂时跳过躯干教学，所以此处已经有基础咬击；正式头部开局教学仍未接。
 3. A/D或方向键移动，Space一段跳；Enter或鼠标左键攻击。无手时青色短咬击，有手时金色斜剑光；方向跟随最后左右输入。HUD同时显示BITE / No arms或SWORD / Arms。
 4. 附近Chest_03位于(-15.5,8.5)，靠近按E。随机三选一不保证出手剑；只有确认Arms + Sword卡后才占一个槽并切换剑击。打开或取消不授予；失去/替换Arms后回到咬击。没有独立剑卡或站立卡，无腿也能剑击。
