@@ -1,3 +1,7 @@
+> 地刺更新（2026-10-02）：用户确认主图Spike_A～G在原弹开效果上增加每次2点Terrain伤害。7个实例使用PrototypeSpike2D.damage默认2；新增WhiteboxPlayer2D.TrySpikeHit先验证原保护/迁移/参数，再由唯一PlayerState扣血，存活时排队原击退，致命进入既有死亡流程。沿用当前0.6秒玩家级地刺保护，不在本轮改动敌人接触仲裁或迁移统一0.5秒保护。KnockbackAccepted保留兼容名，语义为成功地刺命中通知；致命音效就绪改读IsBankReady。Unity编译无错误，隔离预览场景31/31检查通过；未进入Play或验收整图物理接触。保留用户未保存场景，未commit/push。
+
+> 敌人血量更新（2026-10-02）：用户确认所有普通小怪初始/最大HP为50，Boss（Elite_Exit）为150，覆盖历史100/250。主图13普通+1精英分别引用已保存的EnemyBasicConfig/EnemyEliteConfig；新建普通配置默认值、C09安装/既有检查预期及combat参数表同步。伤害、AI和每次全图增血+50规则保持。只保存两份配置，保留用户当前未保存的场景及其他改动；本轮未进入Play。
+
 > 音频修复（2026-10-02，Ming/c6f55ff基础）：主菜单Start接Play_UI_Hover/Play_UI_Click，接受点击后0.35秒再加载；新增场景内MenuAudioBackend和显式Wwise初始化/监听器，关卡继续用原后端。死亡立即进入Dead，GameBootstrap按实时钟等待2.1秒再重载，覆盖当前死亡声最长约1.964秒；两项延迟Inspector可调，无音频回调依赖。Unity编译、菜单悬浮/点击去重及后端切换、死亡声持续/重开、卡牌音频短回归通过；未人工试听/Windows构建。RunWon仅为Unity Cue，当前Bank没有专用胜利Event，仍未映射。未commit/push；详情见docs/handoffs/audio-fixes.handoff。
 
 

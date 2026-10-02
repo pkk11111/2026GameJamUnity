@@ -1,3 +1,28 @@
+# 地刺2点伤害（2026-10-02）
+
+任务controller/spike-damage；Ming/01531e2加既有未提交血量调参；公共Core契约12不变，新增白板模块接点。
+授权：用户要求7个地刺原有弹开同时扣2点血量；不改形状、位置、力度或现有保护时间。
+
+实际实现：PrototypeSpike2D新增Inspector damage=2（实时读取）；Hit改调用WhiteboxPlayer2D.TrySpikeHit(Vector2 velocity, float controlLock, float protectionTime, int damage, GameObject source)。
+返回true仅实际Terrain扣血成功；先验证活动阶段、迁移队列、原玩家地刺保护与抵达保护、参数，再调用PlayerState.TryTakeDamage；存活排队原击退，下一FixedUpdate写速度，死亡不再排队击退。旧TrySpikeKnockback保留纯击退兼容入口，与新入口共用私有验证/排队逻辑。
+沿用主图原0.6秒spikeProtectionRemaining，跨地刺共享于唯一motor；不新增第二份HP或全图碰撞扫描。敌人/地刺统一0.5秒仲裁属于其他未迁移目标，本轮未冒称完成。
+KnockbackAccepted保持兼容名字，现为成功地刺伤害通知（致命同样一次）；SpikeAudioEmitter改用IsBankReady判断，避免死亡停音乐但Bank仍在时错误吞掉地刺音。PlayerHurt/PlayerDied仍由原玩家状态与Bootstrap发出。
+
+验证：Unity6000.2.9f1刷新编译无错误。未进入Play，使用临时Editor PreviewScene与真实RunController/PlayerState/InputReader/WhiteboxPlayer2D，复制7个现有地刺序列化参数；显式调用真实Hit与FixedUpdate。31/31覆盖7个各扣2/重复回调去重/击退速度应用，以及Paused、Choosing、模拟抵达保护、Trigger忽略、保护后恢复与1HP致命只死亡一次。
+首轮隔离检查错误引用测试方法EndChoosing而中止；修正为实际TryEndChoosing后31/31，未为此修改生产逻辑。临时输入副本/对象已清理，时间状态恢复；不把直接调用检查等同实际Play物理接触、全局同帧最大伤害仲裁或音频试听。
+
+场景：当前Level_Whitebox有用户尚未保存的手动修改；本轮不保存/切换场景。新增字段默认值在全部7实例读取为2，旧已保存场景缺字段也初始化为2，下次用户正常保存场景时会序列化此字段。其余参数不动。未commit/push。
+下一步：用户正常保存自己的场景后可直接Play试走；完整物理接触/整局和Windows仍未本轮验证。
+
+
+# 敌人血量调参（2026-10-02）
+
+任务controller/enemy-health；Ming/c6f55ff与原有未提交改动基础；公共契约12不变。
+授权：用户明确所有普通小怪50HP，Boss150HP。保留用户手动修复与当前未保存场景。
+修改：EnemyBasicConfig.asset 100→50，EnemyEliteConfig.asset 250→150；首次初始化当前HP=最大HP。普通配置C#默认改50，C09安装精英默认150，原有基础/强化后HP断言同步50/150及100/200；未新增测试或改伤害/AI/增血幅度。combat参数CSV、规则阅读版、根规范与入口记录同步。
+验证：Unity刷新编译完成，Console Error 0；实际主图13个Enemy_01–13读取50、Elite_Exit读取150，不符项0；仅保存两份配置，不保存/切换场景。已清除Unity保存配置顺带产生的速度浮点文本格式变化，资产diff仅血量。未进入Play，未运行C09全套或Windows构建，不继承历史测试通过结论。未commit/push。
+Inspector：Assets/Configs/EnemyBasic/EnemyBasicConfig.asset与EnemyEliteConfig.asset的Maximum Health；对下一次新敌人/新局初始化生效，启停已有敌人不重置其生命。
+
 # 音频修复（2026-10-02）
 
 > 音频修复（2026-10-02，Ming/c6f55ff基础）：主菜单Start接Play_UI_Hover/Play_UI_Click，接受点击后0.35秒再加载；新增场景内MenuAudioBackend和显式Wwise初始化/监听器，关卡继续用原后端。死亡立即进入Dead，GameBootstrap按实时钟等待2.1秒再重载，覆盖当前死亡声最长约1.964秒；两项延迟Inspector可调，无音频回调依赖。Unity编译、菜单悬浮/点击去重及后端切换、死亡声持续/重开、卡牌音频短回归通过；未人工试听/Windows构建。RunWon仅为Unity Cue，当前Bank没有专用胜利Event，仍未映射。未commit/push；详情见docs/handoffs/audio-fixes.handoff。

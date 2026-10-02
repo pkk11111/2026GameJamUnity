@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e746c1cc4875c24eb4351be3d243e01, type: 3}
   m_Name: EnemyEliteConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicConfig
-  maximumHealth: 250
+  maximumHealth: 150
   contactDamage: 20
   contactInterval: 0.6
   playerLayers:

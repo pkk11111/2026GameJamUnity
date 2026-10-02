@@ -48,8 +48,8 @@ player.fire_default_keyboard,fire,Q,enum,key,design_default,由唯一Input Actio
 player.fire_default_mouse,fire,right_button,enum,key,design_default,鼠标右键喷火
 player.fire_default_gamepad,fire,right_shoulder,enum,key,design_default,手柄右肩键喷火
 player.fire_cooldown_reset_on_acquire,fire,0,bool,enabled,design_default,失去再获得不刷新冷却;首次获得立即可用
-enemy.normal_base_max_hp,enemy,100,int,HP,user_confirmed,所有层普通小怪共用基础生命
-enemy.elite_base_max_hp,enemy,250,int,HP,user_confirmed,出口精英基础生命
+enemy.normal_base_max_hp,enemy,50,int,HP,user_confirmed,所有层普通小怪共用基础生命
+enemy.elite_base_max_hp,enemy,150,int,HP,user_confirmed,出口精英基础生命
 enemy.normal_base_contact_damage,enemy,10,int,HP_per_hit,user_confirmed,接触立即尝试伤害
 enemy.elite_base_contact_damage,enemy,20,int,HP_per_hit,user_confirmed,精英接触伤害
 enemy.hp_add_per_cost,enemy_modifier,50,int,HP,user_confirmed,全局每张增血代价加50;基于各自基础生命
@@ -76,7 +76,7 @@ player.hurt_invulnerability,protection,0.5,float,second,user_confirmed,敌人与
 player.teleport_invulnerability,protection,0.5,float,second,user_confirmed,抵达后敌人与地刺伤害及击退均拒绝
 player.max_damage_commits_per_physics_step,protection,1,int,hit,design_default,同物理步接触来源统一仲裁
 player.contact_damage_selection,protection,highest_damage_then_stable_id,enum,order,design_default,多源选最大合法伤害;同伤害按稳定ID
-hazard.spike_damage,spike,5,int,HP_per_hit,user_confirmed,成功Terrain伤害才触发击退
+hazard.spike_damage,spike,2,int,HP_per_hit,user_confirmed,成功Terrain伤害才触发击退
 hazard.spike_horizontal_knockback,spike,4,float,unity_unit_per_second,design_default,一次设置水平速度;远离地刺中心
 hazard.spike_vertical_knockback,spike,4,float,unity_unit_per_second,design_default,向上一次设置速度;重力继续
 hazard.spike_control_lock,spike,0.15,float,second,design_default,限制移动与新动作;在途攻击不中断

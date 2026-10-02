@@ -1136,7 +1136,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1259,7 +1259,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1318,6 +1318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -2418,6 +2419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -3234,7 +3236,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7920,7 +7922,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -9118,7 +9120,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -10360,6 +10362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.25, y: 1.8}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -10890,6 +10893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.84, y: 2.22}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -12662,7 +12666,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -14332,6 +14336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 4.41, y: 1.59}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -77598,6 +77603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.07, y: 2.13}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -78320,6 +78326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSpike2D
   ellipseSize: {x: 5.59, y: 3.01}
   ellipseOffset: {x: 0, y: 0}
+  damage: 2
   knockbackSpeed: 10
   controlLockTime: 0.25
   protectionTime: 0.6
@@ -84377,7 +84384,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85658,7 +85665,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 1}
+  m_Color: {r: 0.76415086, g: 0.9245205, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

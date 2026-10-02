@@ -306,16 +306,48 @@ namespace Regrowth.Gameplay.WhiteBox
             jumpBuffer = Mathf.Max(0f, jumpBuffer - dt);
         }
 
-        /// <summary>白板击退请求；主线程 Playing 调用。保护期/迁移中拒绝；物理写入在下一 FixedUpdate。</summary>
-        public bool TrySpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
+        /// <summary>
+        /// 地刺伤害与击退入口。先验证原有保护/迁移/参数，再通过唯一PlayerState扣Terrain伤害。
+        /// true表示实际扣血；存活者排队原击退，致命命中交给既有死亡流程。拒绝无扣血/击退。
+        /// </summary>
+        public bool TrySpikeHit(Vector2 velocity, float controlLock, float protectionTime, int damage, GameObject source)
         {
-            if (!IsGameplayActive || relocationPending || spikeProtectionRemaining > 0f
-                || (playerState != null && playerState.HasDamageProtection)
-                || !Finite(velocity.x) || !Finite(velocity.y) || !Finite(controlLock) || !Finite(protectionTime)
-                || controlLock < 0f || protectionTime < 0f)
+            if (playerState == null || damage <= 0 || !CanAcceptSpikeKnockback(velocity, controlLock, protectionTime))
             {
                 return false;
             }
+            if (!playerState.TryTakeDamage(new DamageRequest(damage, DamageKind.Terrain, source)))
+            {
+                return false;
+            }
+            if (playerState.IsAlive)
+            {
+                QueueSpikeKnockback(velocity, controlLock, protectionTime);
+            }
+            return true;
+        }
+
+        /// <summary>兼容旧白板的纯击退入口；正式地刺调用TrySpikeHit，物理写入仍在下一FixedUpdate。</summary>
+        public bool TrySpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
+        {
+            if (!CanAcceptSpikeKnockback(velocity, controlLock, protectionTime))
+            {
+                return false;
+            }
+            QueueSpikeKnockback(velocity, controlLock, protectionTime);
+            return true;
+        }
+
+        private bool CanAcceptSpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
+        {
+            return IsGameplayActive && !relocationPending && spikeProtectionRemaining <= 0f
+                && (playerState == null || !playerState.HasDamageProtection)
+                && Finite(velocity.x) && Finite(velocity.y) && Finite(controlLock) && Finite(protectionTime)
+                && controlLock >= 0f && protectionTime >= 0f;
+        }
+
+        private void QueueSpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
+        {
             dashing = false;
             dashRemaining = jumpBuffer = coyoteRemaining = 0f;
             groundLock = Mathf.Max(takeoffGroundLock, controlLock);
@@ -323,8 +355,8 @@ namespace Regrowth.Gameplay.WhiteBox
             spikeProtectionRemaining = Mathf.Max(knockbackRemaining, protectionTime);
             knockbackVelocity = velocity;
             knockbackPending = true;
-            return true;
         }
+
 
         /// <summary>仅白板免费迁移；true 表示排队接受，下一物理帧移动。无扣费/安全落点/抵达免疫承诺。</summary>
         public bool TryTeleportTo(Vector2 destination)

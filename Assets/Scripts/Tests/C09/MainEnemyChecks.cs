@@ -84,7 +84,7 @@ namespace Regrowth.Tests.C09
             var elite = AssetDatabase.LoadAssetAtPath<EnemyBasicConfig>(elitePath);
             if (elite == null) { elite = Instantiate(normal); AssetDatabase.CreateAsset(elite, elitePath); }
             var settings = new SerializedObject(elite);
-            settings.FindProperty("maximumHealth").intValue = 250;
+            settings.FindProperty("maximumHealth").intValue = 150;
             settings.FindProperty("contactDamage").intValue = 20;
             settings.FindProperty("chaseSpeedFactor").floatValue = 1;
             settings.FindProperty("aggroRadius").floatValue = 7;
@@ -214,7 +214,7 @@ namespace Regrowth.Tests.C09
             foreach (var ai in all)
             {
                 var hp = ai.GetComponent<EnemyBasic>(); bool elite = ai.name == "Elite_Exit";
-                Check(hp.MaximumHealth == (elite ? 250 : 100) && hp.AttackDamage == (elite ? 20 : 10), ai.name + " health/contact values");
+                Check(hp.MaximumHealth == (elite ? 150 : 50) && hp.AttackDamage == (elite ? 20 : 10), ai.name + " health/contact values");
                 Check(Mathf.Abs(ai.ChaseSpeed - (elite ? motor.BaseMoveSpeed : motor.BaseMoveSpeed * 5 / 7)) < .001f, ai.name + " real base speed");
             }
             var saved = all.ToDictionary(e => e, e => e.transform.position);
@@ -250,7 +250,7 @@ namespace Regrowth.Tests.C09
             Check(target.State == EnemyAIState.Patrol && health.CurrentHealth == remaining, "return to original spawn then patrol");
             var buffs = FindFirstObjectByType<EnemyEnhancementService>();
             bool strengthened = buffs.TryCommit(TeleportCostKind.EnemyHealth, 50, () => true); buffs.PublishCommitted();
-            Check(strengthened && all.All(e => e.GetComponent<EnemyBasic>().MaximumHealth == (e.name == "Elite_Exit" ? 300 : 150)), "global HP cost includes all normal and elite");
+            Check(strengthened && all.All(e => e.GetComponent<EnemyBasic>().MaximumHealth == (e.name == "Elite_Exit" ? 200 : 100)), "global HP cost includes all normal and elite");
             bool stronger = buffs.TryCommit(TeleportCostKind.EnemyAttack, 5, () => true); buffs.PublishCommitted();
             Check(stronger && all.All(e => e.GetComponent<EnemyBasic>().AttackDamage == (e.name == "Elite_Exit" ? 25 : 15)), "global attack cost includes all normal and elite");
             health.TryTakeDamage(new DamageRequest(health.CurrentHealth, DamageKind.Enemy));

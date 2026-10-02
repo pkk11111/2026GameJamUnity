@@ -1,4 +1,4 @@
-// Soap/T09：EnemyBasic初始配置。正式初始值100HP/10伤；0.6独立接触间隔仍待共享保护迁移。
+// Soap/T09：EnemyBasic初始配置。正式初始值50HP/10伤（2026-10-02总控调参）；0.6独立接触间隔仍待共享保护迁移。
 // AI参数来自combat_parameters；每个新敌人首次启用保存AI快照，不写回SO。
 // Inspector接线与验证见docs/handoffs/Soap.handoff；规范入口AGENTS.md。
 using UnityEngine;
@@ -10,7 +10,7 @@ namespace Regrowth.Gameplay
     {
         [Header("正式初始生命与伤害 / legacy接触周期")]
         [SerializeField, Min(1), Tooltip("首次启用初始化最大/当前HP；重新启用不重置生命。")]
-        private int maximumHealth = 100;
+        private int maximumHealth = 50;
         [SerializeField, Min(1), Tooltip("首次初始化的接触伤害；之后读取EnemyBasic运行攻击值。")]
         private int contactDamage = 10;
         [SerializeField, Min(0.01f), Tooltip("接触周期，游戏秒；每次扫描读取，恢复阶段等待一个新周期。")]

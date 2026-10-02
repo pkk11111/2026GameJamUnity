@@ -1,4 +1,4 @@
-// 职责：将地刺接受击退的事实映射到 Wwise，不处理伤害或另造接触冷却。
+// 职责：将地刺命中通知映射到 Wwise，不处理伤害或另造接触冷却。
 // 维护：audio-traps；依赖：本地 PrototypeSpike2D、场景唯一 SB_Main 加载者。
 // 交接：docs/handoffs/audio-traps.handoff；规范：根 AGENTS.md。
 using Regrowth.Gameplay.WhiteBox;
@@ -45,7 +45,7 @@ namespace Regrowth.Audio
         private void PlayAcceptedHit()
         {
             // Bank 未就绪不排队补播旧碰撞，避免恢复/加载后突然发声。
-            if (bankOwner == null || bankOwner.MusicPlayingId == 0 || !AkUnitySoundEngine.IsInitialized())
+            if (bankOwner == null || !bankOwner.IsBankReady || !AkUnitySoundEngine.IsInitialized())
             {
                 if (!warned) Debug.LogWarning("[SpikeAudio] SB_Main 尚未就绪，跳过本次地刺声音。", this);
                 warned = true;

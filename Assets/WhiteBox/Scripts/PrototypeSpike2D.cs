@@ -1,4 +1,4 @@
-// 职责：保留 Level 椭圆尖刺击退；只有击退，没有生命伤害，不能标为正式 T14。
+// 职责：Level椭圆地刺命中扣2点Terrain伤害，存活玩家沿原方向击退；复用现有保护间隔。
 // 模块/维护：controller / Level 适配；依赖：PolygonCollider2D、WhiteboxPlayer2D 运动请求。
 // 接线：根缩放为 1；shape 参数首次 Awake 读取，击退参数实时读取；物理速度由玩家 FixedUpdate 写。
 // 交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。
@@ -12,19 +12,21 @@ namespace Regrowth.Gameplay.WhiteBox
     [RequireComponent(typeof(PolygonCollider2D))]
     public sealed class PrototypeSpike2D : MonoBehaviour
     {
-        /// <summary>真实击退请求被玩家接受后同步通知；音频订阅者在禁用时退订，不代表生命伤害。</summary>
+        /// <summary>兼容事件名：地刺实际扣血成功后同步通知；存活者同时排队击退，致命命中进入死亡；禁用时退订。</summary>
         public event Action KnockbackAccepted;
         [Header("椭圆检测形状（下次 Play 或重建生效）")]
         [SerializeField, Tooltip("椭圆宽高，局部单位，均为正数。")]
         private Vector2 ellipseSize = new Vector2(3f, 1f);
         [SerializeField, Tooltip("椭圆局部偏移，单位。")]
         private Vector2 ellipseOffset = Vector2.zero;
+        [SerializeField, Min(1), Tooltip("每次有效地刺命中扣除的HP；Terrain伤害，保护期间不重复扣血。实时读取。")]
+        private int damage = 2;
         [Header("击退（实时读取）")]
         [SerializeField, Min(0.1f), Tooltip("击退速度，单位/秒。")]
         private float knockbackSpeed = 10f;
         [SerializeField, Min(0.02f), Tooltip("受击后移动锁，游戏秒。")]
         private float controlLockTime = 0.25f;
-        [SerializeField, Min(0f), Tooltip("连续击退保护，游戏秒；不是正式伤害无敌。")]
+        [SerializeField, Min(0f), Tooltip("玩家共用的地刺命中保护，游戏秒；此期间所有地刺不重复扣血或击退。")]
         private float protectionTime = 0.6f;
         [SerializeField, Range(0f, 1f), Tooltip("侧向接触最小向上分量；0 为纯椭圆法线。")]
         private float minimumUpwardDirection = 0.35f;
@@ -92,8 +94,10 @@ namespace Regrowth.Gameplay.WhiteBox
                 float horizontal = Mathf.Sqrt(1f - minimumUpwardDirection * minimumUpwardDirection);
                 direction = new Vector2(Mathf.Sign(direction.x) * horizontal, minimumUpwardDirection);
             }
-            if (player.TrySpikeKnockback(direction * knockbackSpeed, controlLockTime, protectionTime))
+            if (player.TrySpikeHit(direction * knockbackSpeed, controlLockTime, protectionTime, damage, gameObject))
+            {
                 KnockbackAccepted?.Invoke();
+            }
         }
 
         private void OnDrawGizmosSelected()
