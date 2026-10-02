@@ -1,3 +1,8 @@
+# 音频修复（2026-10-02）
+
+> 音频修复（2026-10-02，Ming/c6f55ff基础）：主菜单Start接Play_UI_Hover/Play_UI_Click，接受点击后0.35秒再加载；新增场景内MenuAudioBackend和显式Wwise初始化/监听器，关卡继续用原后端。死亡立即进入Dead，GameBootstrap按实时钟等待2.1秒再重载，覆盖当前死亡声最长约1.964秒；两项延迟Inspector可调，无音频回调依赖。Unity编译、菜单悬浮/点击去重及后端切换、死亡声持续/重开、卡牌音频短回归通过；未人工试听/Windows构建。RunWon仅为Unity Cue，当前Bank没有专用胜利Event，仍未映射。未commit/push；详情见docs/handoffs/audio-fixes.handoff。
+
+
 # C16 HP归零自动重开（2026-10-01）
 
 任务：controller；Ming/90ebba2；源码契约12不变。状态：已实现并通过最小主图验证。

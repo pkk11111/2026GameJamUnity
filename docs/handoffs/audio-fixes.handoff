@@ -1,0 +1,31 @@
+# 音频缺口修复 — audio-fixes
+
+日期：2026-10-02；任务别名controller/audio-fixes；分支Ming；基线c6f55ff；规范24/公共源码契约12不变。
+状态：主菜单与死亡声修复已实现、Unity最小验证通过；胜利音等待实际Wwise Event/素材确认。
+授权：用户要求对前轮只读音频检查结果进行对应修复。保留卡牌已接声音、敌人脚步/Fly暂缓和受伤音间隔；不改Authoring或重生成Bank。
+
+## 实际修改及接线
+
+- Audio/Wwise/MenuAudioBackend：只在MainMenu安装GameAudio后端，显式监听器，加载SB_Main、退出卸载自身并释放所拥有Bank。仅映射UIHovered→Play_UI_Hover、UIConfirm→Play_UI_Click，不启动音乐。沿用-10 dB UI增益。初始化超时15秒仅提示，不阻塞Start；未就绪请求不补播。
+- MainMenu新增WwiseGlobal/AkInitializer、Menu Audio Listener/AkAudioListener、Audio_MenuBackend；后端listener明确绑定。StartButton复用ChoiceCancelHover（原名保留），点击仍由唯一MainMenuController接受后发声，拒绝重复调用。
+- MainMenuController.startTransitionSeconds=0.35真实秒；覆盖Bank当前UI点击0.30795秒。场景合法性先验证；切换不依赖声音完成回调，禁用时取消待执行协程。UI.Art程序集追加Audio.Core引用。
+- GameBootstrap.deathRestartDelaySeconds=2.1真实秒，在Level_Whitebox/00 Runtime/Whitebox Runtime明确保存。死亡立即锁定Dead并仅发一次PlayerDied，使用realtimeSinceStartupAsDouble计时；期限内保留玩家/Bank，期满才执行原ShutdownSession与单次当前场景重载。restartOnDeath关闭时仍不自动重开。
+- 保留原41事件、关卡RewardAudioBackend、所有地图/数值/身体/卡牌交互规则。新增MenuAudioBackend.cs与Unity生成.meta（GUID eb22e49ff15b784479280b97dfc133aa）。
+- RunWon=13是Unity业务标识，并非已存在Wwise Event。Windows SB_Main及当前Events工作单元没有专用胜利事件；本轮不擅自拿能力获得/点击素材充当胜利声，VictoryPortal2D原调用保留。
+
+## 本轮实际验证
+
+- Unity6000.2.9f1刷新编译无C#错误。
+- 正常MainMenu→Start→Level路径：悬浮计数1/重复进入仍1/退出再进入2；重复Start只发1次点击；Wwise playingID=3；0.1–0.3秒期间菜单仍在且点击声有效，随后关卡RewardAudioBackend.IsReady=true。
+- 初次死亡诊断直接从编辑器执行伤害，观察到场景在早期采样前重载：发现unscaledTime为旧帧时间可能使这类请求期限过旧。改用实时钟并从正常Editor tick触发伤害后复测，未隐藏首轮问题。
+- 真实PlayerState伤害→Dead，PlayerDied计数只增加1、playingID=17、音乐停止但Bank保留；实际0.261秒及1.251秒玩家对象仍在、Wwise该事件仍有效、Bank=true，Dead时timeScale=0；3.502秒新玩家实例HP100、关卡Bank重新就绪。现Bank死亡声1.7006–1.9633秒，默认延迟2.1秒。
+- 重开后真实Chest→ChoicePanel：弹卡计数+1、重复鼠标进入悬浮只+1、取消后菜单关闭并返回Playing，Wwise ID=24。
+- 本轮Console没有Error或音频Warning，仅Unity AI Account API网络Warning。不是人工听感/音频设备验收，不宣称全图回归或Windows构建通过。
+- 已停止Play，恢复原Level_Whitebox编辑场景；未保存临时死亡/开箱状态，清理本次编辑器自动产生的字体缓存差异。未commit/push。
+
+## 参数与后续
+
+MenuAudioBackend的Bank Name/Hover Event/Click Event/Gain Db/Initialization Timeout在Audio_MenuBackend Inspector；
+主菜单控制器Start Transition Seconds默认0.35，Bootstrap Death Restart Delay Seconds默认2.1。
+后续更换更长素材须同步调整对应延迟；当前设计为有限固定展示时间，不由Wwise回调决定游戏是否能开始或重开。
+专用胜利音需提供实际Event并重新生成/交付Bank，再在关卡RewardAudioBackend的Mappings绑定RunWon。当前没有完成这一项。

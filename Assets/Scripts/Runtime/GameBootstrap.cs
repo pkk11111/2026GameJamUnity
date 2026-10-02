@@ -30,6 +30,10 @@ namespace Regrowth.Runtime
         [SerializeField, Tooltip("玩家死亡后自动重载本入口所在场景；默认开启。独立死亡状态测试可关闭。")]
         private bool restartOnDeath = true;
 
+        [SerializeField, Min(0f), Tooltip("死亡后保持场景的真实秒数；默认2.1覆盖当前最长1.964秒死亡声。不等待音频回调，缺音频仍自动重开。")]
+        private float deathRestartDelaySeconds = 2.1f;
+        private double restartAt;
+
         private static GameBootstrap activeBootstrap;
         private bool ownsSession;
         private bool restartPending;
@@ -81,6 +85,7 @@ namespace Regrowth.Runtime
                     // 重新绑定已死亡的同一生命周期，只同步 Dead，不复活或重复播放死亡音频。
                     runController.RequestPlayerDeath(playerState);
                     restartPending = restartOnDeath;
+                    restartAt = Time.realtimeSinceStartupAsDouble + Mathf.Max(0f, deathRestartDelaySeconds);
                 }
             }
             IsStarted = true;
@@ -151,15 +156,17 @@ namespace Regrowth.Runtime
             if (runController.RequestPlayerDeath(playerState))
             {
                 restartPending = restartOnDeath;
+                restartAt = Time.realtimeSinceStartupAsDouble + Mathf.Max(0f, deathRestartDelaySeconds);
                 GameAudio.Play(AudioCue.PlayerDied, playerState.gameObject);
             }
         }
 
-        // 等生命/死亡通知全部完成后才卸载，避免在伤害回调内销毁订阅者。
+        // 死亡立即生效；按真实时间保留场景和Bank尾音，再清理并重载。
         // LateUpdate 不依赖 timeScale，Dead 暂停时仍可重开；每次死亡仅发起一次。
         private void LateUpdate()
         {
-            if (!restartPending || !ownsSession || runController.Phase != RunPhase.Dead)
+            if (!restartPending || !ownsSession || runController.Phase != RunPhase.Dead
+                || Time.realtimeSinceStartupAsDouble < restartAt)
             {
                 return;
             }

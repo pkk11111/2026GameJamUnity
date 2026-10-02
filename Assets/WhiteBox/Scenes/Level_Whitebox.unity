@@ -85061,6 +85061,7 @@ MonoBehaviour:
   choicePresenter: {fileID: 263898064}
   audioEmitters: []
   restartOnDeath: 1
+  deathRestartDelaySeconds: 2.1
 --- !u!4 &2001872528
 Transform:
   m_ObjectHideFlags: 0

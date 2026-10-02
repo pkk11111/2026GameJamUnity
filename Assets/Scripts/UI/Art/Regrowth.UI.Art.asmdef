@@ -1,1 +1,1 @@
-{"name": "Regrowth.UI.Art", "references": ["Regrowth.Core", "UnityEngine.UI", "Unity.TextMeshPro"], "autoReferenced": true}
+{"name": "Regrowth.UI.Art", "references": ["Regrowth.Core", "Regrowth.Audio.Core", "UnityEngine.UI", "Unity.TextMeshPro"], "autoReferenced": true}

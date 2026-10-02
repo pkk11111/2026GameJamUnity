@@ -1,3 +1,6 @@
+> 音频修复（2026-10-02，Ming/c6f55ff基础）：主菜单Start接Play_UI_Hover/Play_UI_Click，接受点击后0.35秒再加载；新增场景内MenuAudioBackend和显式Wwise初始化/监听器，关卡继续用原后端。死亡立即进入Dead，GameBootstrap按实时钟等待2.1秒再重载，覆盖当前死亡声最长约1.964秒；两项延迟Inspector可调，无音频回调依赖。Unity编译、菜单悬浮/点击去重及后端切换、死亡声持续/重开、卡牌音频短回归通过；未人工试听/Windows构建。RunWon仅为Unity Cue，当前Bank没有专用胜利Event，仍未映射。未commit/push；详情见docs/handoffs/audio-fixes.handoff。
+
+
 > C16（2026-10-01）：按用户要求，玩家实际死亡（HP归零）后自动重载当前关卡，整局恢复场景初始状态。GameBootstrap在死亡通知结束后的LateUpdate清理菜单、输入、状态订阅和运行时间，再单次异步重载自身场景；不返回主菜单，现有开场介绍随场景重播。头部尚未启用生命时HP=0不算死亡。源码契约仍12，无新增公共写口；restartOnDeath默认为true，独立死亡状态测试可在Inspector关闭。当前地图仍沿用躯干原型开局，没有新增教学。此记录覆盖历史“重开未实现”描述；普通传送生命安全规则不变。 验证：目标Unity6000.2.9f1编译通过，仅一次主图短Play：通过真实奖励写口取得Arms，再真实伤害使HP100→0/Dead，自动加载同一关卡的新玩家实例；HP100/100、槽及历史清空、菜单关闭、唯一Bootstrap，开场结束后Playing/timeScale=1且可咬击，Console Error 0。未跑全套回归、Windows导出或音频试听；未commit/push。
 
 # pawgatory 统一开发规范与游戏契约
