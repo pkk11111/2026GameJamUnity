@@ -1,0 +1,5 @@
+{
+  "name": "Regrowth.Audio.Wwise",
+  "references": ["Regrowth.Audio.Core", "Regrowth.Audio.Music", "AK.Wwise.Unity.API", "AK.Wwise.Unity.MonoBehaviour"],
+  "autoReferenced": true
+}

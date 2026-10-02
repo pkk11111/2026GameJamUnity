@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 90287417}
   - component: {fileID: 90287415}
   - component: {fileID: 90287418}
+  - component: {fileID: 90287419}
   m_Layer: 0
   m_Name: Door_B
   m_TagString: Untagged
@@ -788,6 +789,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &90287419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90287414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &90508778
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,6 +946,7 @@ GameObject:
   - component: {fileID: 93474487}
   - component: {fileID: 93474485}
   - component: {fileID: 93474488}
+  - component: {fileID: 93474489}
   m_Layer: 0
   m_Name: Door_C
   m_TagString: Untagged
@@ -1021,6 +1047,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &93474489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93474484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &104111583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,6 +1295,8 @@ GameObject:
   - component: {fileID: 162444050}
   - component: {fileID: 162444049}
   - component: {fileID: 162444048}
+  - component: {fileID: 162444052}
+  - component: {fileID: 162444051}
   m_Layer: 0
   m_Name: Spike_B
   m_TagString: Untagged
@@ -1396,6 +1448,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162444051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162444047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &162444052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162444047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &169227533 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -1539,7 +1630,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 230644489}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 661014658}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &174338045 stripped
 Transform:
@@ -1680,6 +1774,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 446399531}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 446399533}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 446399532}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!4 &176889774 stripped
 Transform:
@@ -1697,6 +1797,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0a70c9c62bc4e4bbacbaf9ff9e8454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasic
+--- !u!114 &176889776 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9500002, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 176889773}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446399526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564e398ab9315bbd9fbdc28b21892ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicAI
+--- !u!114 &176889777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 176889773}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &190867169 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -1859,6 +1981,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 174338045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &261654147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 291514890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &263898063
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1974,7 +2101,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1020, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1995779099}
   m_SourcePrefab: {fileID: 100100000, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
 --- !u!114 &263898064 stripped
 MonoBehaviour:
@@ -2220,13 +2350,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1047554165}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 291514895}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &291514891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 291514890}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &291514895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261654147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &305160265
 GameObject:
   m_ObjectHideFlags: 0
@@ -2238,6 +2395,8 @@ GameObject:
   - component: {fileID: 305160268}
   - component: {fileID: 305160267}
   - component: {fileID: 305160266}
+  - component: {fileID: 305160270}
+  - component: {fileID: 305160269}
   m_Layer: 0
   m_Name: Spike_C
   m_TagString: Untagged
@@ -2389,6 +2548,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305160269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305160265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &305160270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305160265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &324566833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,6 +2677,7 @@ GameObject:
   - component: {fileID: 341924456}
   - component: {fileID: 341924458}
   - component: {fileID: 341924457}
+  - component: {fileID: 341924459}
   m_Layer: 0
   m_Name: Portal_A
   m_TagString: Untagged
@@ -2578,6 +2777,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 341924456}
   interactionPoint: {fileID: 0}
+--- !u!114 &341924459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341924454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &362454525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3481,6 +3704,7 @@ GameObject:
   - component: {fileID: 435925238}
   - component: {fileID: 435925241}
   - component: {fileID: 435925240}
+  - component: {fileID: 435925242}
   m_Layer: 0
   m_Name: Button_1/3
   m_TagString: Untagged
@@ -3578,6 +3802,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 435925238}
   interactionPoint: {fileID: 0}
+--- !u!114 &435925242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435925237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &437220093
 GameObject:
   m_ObjectHideFlags: 0
@@ -3668,6 +3916,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &444352891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 978385267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &446399526 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -3700,6 +3953,45 @@ MonoBehaviour:
   - {fileID: -1656972973, guid: 52739f1a0515ef84197fbe582175e358, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 1
+--- !u!114 &446399532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446399526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 1
+  contact: {fileID: 176889777}
+  hurtInterval: 2.9
+--- !u!114 &446399533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446399526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &447930996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3838,7 +4130,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 549059791}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 555860629}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &447930997 stripped
 Transform:
@@ -4143,6 +4438,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1693165065}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1693165067}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1693165066}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &483900281 stripped
 MonoBehaviour:
@@ -4160,6 +4461,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 483900280}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &483900283 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 483900280}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!1 &484312076
 GameObject:
   m_ObjectHideFlags: 0
@@ -4799,6 +5111,9 @@ GameObject:
   - component: {fileID: 535949100}
   - component: {fileID: 535949099}
   - component: {fileID: 535949098}
+  - component: {fileID: 535949092}
+  - component: {fileID: 535949101}
+  - component: {fileID: 535949102}
   m_Layer: 0
   m_Name: Test_Player
   m_TagString: Untagged
@@ -4946,7 +5261,7 @@ Transform:
   m_GameObject: {fileID: 535949084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.14, y: -1.41, z: 0}
+  m_LocalPosition: {x: -15.4, y: -5.5, z: 0}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5033,6 +5348,30 @@ MonoBehaviour:
   initialSwordDamage: 20
   initialFireDamage: 8
   prototypeStartWithBodyCore: 1
+--- !u!114 &535949092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!114 &535949093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5166,6 +5505,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Gameplay.Player::Regrowth.Gameplay.PlayerActionGate
   runSource: {fileID: 2001872525}
   healthSource: {fileID: 535949091}
+--- !u!114 &535949101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0eef20f67bf994a92e82614a3a320a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Movement::Regrowth.Audio.PlayerMovementAudio
+  state: {fileID: 535949091}
+  run: {fileID: 2001872525}
+  motor: {fileID: 535949089}
+  body: {fileID: 535949085}
+  input: {fileID: 2001872526}
+  presentation: {fileID: 535949098}
+  contactTimings:
+  - clip: {fileID: 7400000, guid: ac79e6258698245468b35126b37f5d9e, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 4d0275cac2025af40ba1833c4c92659d, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 9a89bd95a9a449c48a377005f6df3a5f, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: ceb33d0411497ca4fb30d5091aee5378, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: 440417759c695ac44aa73eb9418ae530, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: c04fce43dc8ca8440889202e9e425af6, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 296407585f23b8d47ac5f64ef85fec64, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 2ceed323fd22d6f41b21db152d8206fb, type: 2}
+    frames: 0000000003000000
+  - clip: {fileID: 7400000, guid: 0e65721afcb0dce4498188093339414f, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: 44e309a3d472eca4e8d8a1b46bbc6958, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 4ee9e25e2f318f2418cb82d1e18e4bbd, type: 2}
+    frames: 00000000
+  - clip: {fileID: 7400000, guid: 64d19619322fe8a4ca3b465d8165fee0, type: 2}
+    frames: 0000000002000000
+  - clip: {fileID: 7400000, guid: cf2a51c49037a2e4c82a3fe709af959f, type: 2}
+    frames: 0000000002000000
+  minimumMoveSpeed: 0.1
+  noFeetMinimumInterval: 0.48
+  footstepMinimumInterval: 0.42
+--- !u!114 &535949102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535949084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f13c8177e2a0e40b867df8ba9c86b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.PlayerCombatAudio
+  state: {fileID: 535949091}
+  motor: {fileID: 535949089}
+  bite: {fileID: 535949096}
+  sword: {fileID: 535949094}
+  fire: {fileID: 535949099}
+  elite: {fileID: 176889775}
+  eliteAI: {fileID: 176889776}
+  music: {fileID: 1815237973}
+  minimumAirTime: 0.08
 --- !u!1 &539243124
 GameObject:
   m_ObjectHideFlags: 0
@@ -5604,6 +6012,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171908537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &555860625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 447930996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &555860629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555860625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &556079444
 GameObject:
   m_ObjectHideFlags: 0
@@ -6216,6 +6653,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 649860647}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 649860649}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 649860648}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &649860641 stripped
 MonoBehaviour:
@@ -6233,6 +6676,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 649860640}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &649860643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 649860640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &649860646 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -6260,6 +6714,74 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &649860648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169227533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 649860643}
+  hurtInterval: 1.05
+--- !u!114 &649860649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169227533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!1 &661014654 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 174338044}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &661014658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661014654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &683736695
 GameObject:
   m_ObjectHideFlags: 0
@@ -6496,6 +7018,145 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d480a4cfccc47b18ddb57fbacdcea73, type: 3}
+--- !u!1 &761430549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761430550}
+  - component: {fileID: 761430552}
+  - component: {fileID: 761430551}
+  m_Layer: 0
+  m_Name: Audio_RewardBackend
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &761430550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761430549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 976969443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &761430551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761430549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76465d41949d0f4c917d04523a30c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Wwise::Regrowth.Audio.RewardAudioBackend
+  bankOwner: {fileID: 1815237973}
+  uiListener: {fileID: 519420033}
+  uiGainDb: -10
+  mappings:
+  - cue: 5
+    eventName: Play_Box_Open
+  - cue: 17
+    eventName: Play_Card_PopOut
+  - cue: 18
+    eventName: Play_Card_Hover
+  - cue: 19
+    eventName: Play_Card_Selected
+  - cue: 6
+    eventName: Play_Player_AbilityGain
+  - cue: 1
+    eventName: Play_Jump
+  - cue: 15
+    eventName: Play_Dash
+  - cue: 16
+    eventName: Play_DoubleJump
+  - cue: 7
+    eventName: Play_Player_AbilityLoss
+  - cue: 11
+    eventName: Play_UI_Click
+  - cue: 20
+    eventName: Play_UI_Hover
+  - cue: 8
+    eventName: Play_SwitchActivate
+  - cue: 21
+    eventName: Play_Move_NoFoots
+  - cue: 22
+    eventName: Play_Footstep
+  - cue: 2
+    eventName: Play_Player_Bite
+  - cue: 14
+    eventName: Play_Player_SwordSwing
+  - cue: 3
+    eventName: Play_Player_Hurt
+  - cue: 4
+    eventName: Play_Player_Death
+  - cue: 23
+    eventName: Play_Land
+  - cue: 24
+    eventName: Play_Player_Fire
+  - cue: 25
+    eventName: Play_Fire_Hit
+  - cue: 26
+    eventName: Play_PlayerBiteHit_NPC
+  - cue: 27
+    eventName: Play_PlayerBiteHit_Elite
+  - cue: 28
+    eventName: Play_PlayerSwordHit_NPC
+  - cue: 29
+    eventName: Play_PlayerSwordHit_Elite
+  - cue: 30
+    eventName: Play_NPC_Hurt
+  - cue: 31
+    eventName: Play_NPC_Death
+  - cue: 32
+    eventName: Play_Elite_Hurt
+  - cue: 33
+    eventName: Play_Elite_Death
+  - cue: 34
+    eventName: Play_Elite_Attack
+  - cue: 9
+    eventName: Play_Door_Open
+  - cue: 35
+    eventName: Play_Portal_In
+  - cue: 36
+    eventName: Play_Portal_Out
+--- !u!114 &761430552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761430549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &768583928
 GameObject:
   m_ObjectHideFlags: 0
@@ -6676,6 +7337,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1485377964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &774314561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774314562}
+  - component: {fileID: 774314563}
+  m_Layer: 0
+  m_Name: MusicZone_Level2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &774314562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774314561}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25, y: 36, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1815237972}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &774314563
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774314561}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 180, y: 44}
+  m_EdgeRadius: 0
 --- !u!1 &820315660
 GameObject:
   m_ObjectHideFlags: 0
@@ -6701,7 +7440,7 @@ Transform:
   m_GameObject: {fileID: 820315660}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.36, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6973,7 +7712,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 226780156}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1575752013}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &870692094 stripped
 Transform:
@@ -6992,6 +7734,7 @@ GameObject:
   - component: {fileID: 873605929}
   - component: {fileID: 873605932}
   - component: {fileID: 873605931}
+  - component: {fileID: 873605933}
   m_Layer: 0
   m_Name: Button_B
   m_TagString: Untagged
@@ -7088,6 +7831,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 873605929}
   interactionPoint: {fileID: 0}
+--- !u!114 &873605933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873605928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &879789543
 GameObject:
   m_ObjectHideFlags: 0
@@ -7223,6 +7990,7 @@ GameObject:
   - component: {fileID: 905817183}
   - component: {fileID: 905817181}
   - component: {fileID: 905817184}
+  - component: {fileID: 905817185}
   m_Layer: 0
   m_Name: Door_4
   m_TagString: Untagged
@@ -7323,6 +8091,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &905817185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905817180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &913281688
 GameObject:
   m_ObjectHideFlags: 0
@@ -7474,6 +8266,7 @@ GameObject:
   - component: {fileID: 938930351}
   - component: {fileID: 938930354}
   - component: {fileID: 938930353}
+  - component: {fileID: 938930355}
   m_Layer: 0
   m_Name: Button_D
   m_TagString: Untagged
@@ -7570,6 +8363,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 938930351}
   interactionPoint: {fileID: 0}
+--- !u!114 &938930355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938930350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &939269306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7708,7 +8525,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 739003228}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1344640039}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &939269307 stripped
 Transform:
@@ -7973,6 +8793,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 955256668}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 955256670}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 955256669}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &955256662 stripped
 MonoBehaviour:
@@ -7990,6 +8816,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 955256661}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &955256664 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 955256661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &955256667 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -8017,6 +8854,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &955256669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859188921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 955256664}
+  hurtInterval: 1.05
+--- !u!114 &955256670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859188921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &956520189
 GameObject:
   m_ObjectHideFlags: 0
@@ -8298,6 +9174,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2001872528}
+  - {fileID: 1815237972}
+  - {fileID: 761430550}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &976969444
@@ -8451,13 +9329,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1239424348}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 978385272}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &978385268 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 978385267}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &978385272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444352891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1011414802
 GameObject:
   m_ObjectHideFlags: 0
@@ -8503,6 +9408,7 @@ GameObject:
   - component: {fileID: 1016768632}
   - component: {fileID: 1016768630}
   - component: {fileID: 1016768633}
+  - component: {fileID: 1016768634}
   m_Layer: 0
   m_Name: Door_D
   m_TagString: Untagged
@@ -8603,6 +9509,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &1016768634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016768629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1018462703
 GameObject:
   m_ObjectHideFlags: 0
@@ -8705,6 +9635,7 @@ GameObject:
   - component: {fileID: 1024123721}
   - component: {fileID: 1024123724}
   - component: {fileID: 1024123723}
+  - component: {fileID: 1024123725}
   m_Layer: 0
   m_Name: Button_C
   m_TagString: Untagged
@@ -8801,6 +9732,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1024123721}
   interactionPoint: {fileID: 0}
+--- !u!114 &1024123725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024123720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1031250648
 GameObject:
   m_ObjectHideFlags: 0
@@ -8812,6 +9767,7 @@ GameObject:
   - component: {fileID: 1031250649}
   - component: {fileID: 1031250651}
   - component: {fileID: 1031250650}
+  - component: {fileID: 1031250652}
   m_Layer: 0
   m_Name: InspectionDoor2
   m_TagString: Untagged
@@ -8912,6 +9868,30 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &1031250652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031250648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1031722706
 GameObject:
   m_ObjectHideFlags: 0
@@ -9076,6 +10056,7 @@ GameObject:
   - component: {fileID: 1058225894}
   - component: {fileID: 1058225897}
   - component: {fileID: 1058225896}
+  - component: {fileID: 1058225898}
   m_Layer: 0
   m_Name: Button_2/4
   m_TagString: Untagged
@@ -9173,6 +10154,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1058225894}
   interactionPoint: {fileID: 0}
+--- !u!114 &1058225898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058225893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1059850264
 GameObject:
   m_ObjectHideFlags: 0
@@ -9332,6 +10337,8 @@ GameObject:
   - component: {fileID: 1098323941}
   - component: {fileID: 1098323940}
   - component: {fileID: 1098323939}
+  - component: {fileID: 1098323943}
+  - component: {fileID: 1098323942}
   m_Layer: 0
   m_Name: Spike_F
   m_TagString: Untagged
@@ -9483,6 +10490,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1098323942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098323938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1098323943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098323938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1099637893 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -9654,6 +10700,7 @@ GameObject:
   - component: {fileID: 1171908536}
   - component: {fileID: 1171908539}
   - component: {fileID: 1171908538}
+  - component: {fileID: 1171908540}
   m_Layer: 0
   m_Name: Portal_B
   m_TagString: Untagged
@@ -9754,6 +10801,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1171908536}
   interactionPoint: {fileID: 550303302}
+--- !u!114 &1171908540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171908535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1174277277
 GameObject:
   m_ObjectHideFlags: 0
@@ -9796,6 +10867,8 @@ GameObject:
   - component: {fileID: 1174812139}
   - component: {fileID: 1174812138}
   - component: {fileID: 1174812137}
+  - component: {fileID: 1174812141}
+  - component: {fileID: 1174812140}
   m_Layer: 0
   m_Name: Spike_E
   m_TagString: Untagged
@@ -9947,6 +11020,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1174812140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174812136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1174812141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174812136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1200262439
 GameObject:
   m_ObjectHideFlags: 0
@@ -10210,6 +11322,7 @@ GameObject:
   - component: {fileID: 1227628445}
   - component: {fileID: 1227628447}
   - component: {fileID: 1227628446}
+  - component: {fileID: 1227628448}
   m_Layer: 0
   m_Name: InspectionDoor1
   m_TagString: Untagged
@@ -10310,6 +11423,30 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &1227628448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227628444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1239424347
 GameObject:
   m_ObjectHideFlags: 0
@@ -10588,6 +11725,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2066573985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1320334221 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 1845562894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1325243468
 GameObject:
   m_ObjectHideFlags: 0
@@ -10839,6 +11981,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1329691506}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1329691508}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1329691507}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1329691500 stripped
 MonoBehaviour:
@@ -10856,6 +12004,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1329691499}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1329691502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1329691499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1329691505 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -10883,6 +12042,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1329691507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190867169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1329691502}
+  hurtInterval: 1.05
+--- !u!114 &1329691508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190867169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1338443242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -11031,6 +12229,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1823530508}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1344640035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 939269306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1344640039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344640035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1352591594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11149,6 +12376,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1352591601}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1352591603}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1352591602}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1352591595 stripped
 MonoBehaviour:
@@ -11166,6 +12399,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1352591594}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1352591597 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1352591594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1352591600 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -11193,6 +12437,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1352591602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338443242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1352591597}
+  hurtInterval: 1.05
+--- !u!114 &1352591603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338443242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1376626751
 GameObject:
   m_ObjectHideFlags: 0
@@ -11596,6 +12879,7 @@ GameObject:
   - component: {fileID: 1407749072}
   - component: {fileID: 1407749075}
   - component: {fileID: 1407749074}
+  - component: {fileID: 1407749076}
   m_Layer: 0
   m_Name: Portal_D
   m_TagString: Untagged
@@ -11695,6 +12979,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1407749072}
   interactionPoint: {fileID: 0}
+--- !u!114 &1407749076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407749071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1407821677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11813,6 +13121,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1407821684}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1407821686}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1407821685}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1407821678 stripped
 MonoBehaviour:
@@ -11830,6 +13144,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1407821677}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1407821680 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1407821677}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1407821683 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -11857,6 +13182,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1407821685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222470618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1407821680}
+  hurtInterval: 1.05
+--- !u!114 &1407821686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222470618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1432853342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12399,6 +13763,84 @@ Transform:
   - {fileID: 870692094}
   m_Father: {fileID: 956520190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1478434762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1478434763}
+  - component: {fileID: 1478434764}
+  m_Layer: 0
+  m_Name: MusicZone_Level3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1478434763
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478434762}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25, y: 98.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1815237972}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1478434764
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478434762}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 180, y: 81}
+  m_EdgeRadius: 0
 --- !u!1 &1482386443
 GameObject:
   m_ObjectHideFlags: 0
@@ -12555,6 +13997,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1485377969}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1485377971}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1485377970}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1485377963 stripped
 MonoBehaviour:
@@ -12572,6 +14020,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1485377962}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1485377965 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1485377962}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1485377968 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -12599,6 +14058,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1485377970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364927182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1485377965}
+  hurtInterval: 1.05
+--- !u!114 &1485377971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364927182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1486035499
 GameObject:
   m_ObjectHideFlags: 0
@@ -12811,6 +14309,8 @@ GameObject:
   - component: {fileID: 1490096615}
   - component: {fileID: 1490096614}
   - component: {fileID: 1490096613}
+  - component: {fileID: 1490096617}
+  - component: {fileID: 1490096616}
   m_Layer: 0
   m_Name: Spike_G
   m_TagString: Untagged
@@ -12962,6 +14462,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1490096616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490096612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1490096617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490096612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1509865867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13092,6 +14631,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1509865874}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1509865876}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1509865875}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1509865868 stripped
 MonoBehaviour:
@@ -13109,6 +14654,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1509865867}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1509865870 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1509865867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1509865873 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -13136,6 +14692,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1509865875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093816634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1509865870}
+  hurtInterval: 1.05
+--- !u!114 &1509865876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093816634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1523383525
 GameObject:
   m_ObjectHideFlags: 0
@@ -13148,6 +14743,7 @@ GameObject:
   - component: {fileID: 1523383526}
   - component: {fileID: 1523383529}
   - component: {fileID: 1523383528}
+  - component: {fileID: 1523383530}
   m_Layer: 0
   m_Name: Button_A
   m_TagString: Untagged
@@ -13244,6 +14840,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1523383526}
   interactionPoint: {fileID: 0}
+--- !u!114 &1523383530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523383525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1547811601
 GameObject:
   m_ObjectHideFlags: 0
@@ -13455,6 +15075,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1575752009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 870692093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1575752013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575752009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1584585969
 GameObject:
   m_ObjectHideFlags: 0
@@ -13558,6 +15207,7 @@ GameObject:
   - component: {fileID: 1596823881}
   - component: {fileID: 1596823884}
   - component: {fileID: 1596823885}
+  - component: {fileID: 1596823886}
   m_Layer: 0
   m_Name: Door_A
   m_TagString: Untagged
@@ -13674,6 +15324,30 @@ MonoBehaviour:
   visual: {fileID: 484312078}
   shrinkAxis: 0
   animationDuration: 0.3
+--- !u!114 &1596823886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596823880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1599132453
 GameObject:
   m_ObjectHideFlags: 0
@@ -13705,6 +15379,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124516582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1616997558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 2004297558}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1631166184
 GameObject:
   m_ObjectHideFlags: 0
@@ -14834,13 +16513,13 @@ CompositeCollider2D:
       - X: 800000000
         Y: 230000000
       - X: 800000000
-        Y: 290000000
-      - X: 810000000
-        Y: 290000000
+        Y: 300000000
       - X: 810000000
         Y: 300000000
+      - X: 810000000
+        Y: 310000000
       - X: 800000000
-        Y: 300000000
+        Y: 310000000
       - X: 800000000
         Y: 320000000
       - X: 730000000
@@ -16371,10 +18050,10 @@ CompositeCollider2D:
       - {x: 81, y: 22.000029}
       - {x: 80.99997, y: 23}
       - {x: 80, y: 23.000029}
-      - {x: 80.00003, y: 29}
-      - {x: 81, y: 29.000029}
-      - {x: 80.99997, y: 30}
-      - {x: 80, y: 30.000029}
+      - {x: 80.00003, y: 30}
+      - {x: 81, y: 30.000029}
+      - {x: 80.99997, y: 31}
+      - {x: 80, y: 31.000029}
       - {x: 79.99997, y: 32}
       - {x: 73, y: 31.999971}
       - {x: 73.00003, y: 17}
@@ -42680,16 +44359,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
-  - first: {x: 80, y: 29, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 3
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 2147483649
   - first: {x: 83, y: 29, z: 0}
     second:
       serializedVersion: 2
@@ -43461,6 +45130,16 @@ Tilemap:
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
   - first: {x: 79, y: 30, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 3
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483649
+  - first: {x: 80, y: 30, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 0
@@ -75194,6 +76873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1639746812}
+  - component: {fileID: 1639746813}
   m_Layer: 0
   m_Name: ExitPoint_B
   m_TagString: Untagged
@@ -75216,6 +76896,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171908537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1639746813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639746811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1657835936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75346,6 +77050,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1657835943}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1657835945}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1657835944}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1657835937 stripped
 MonoBehaviour:
@@ -75363,6 +77073,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1657835936}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1657835939 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1657835936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1657835942 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -75390,6 +77111,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1657835944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950215714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1657835939}
+  hurtInterval: 1.05
+--- !u!114 &1657835945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950215714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1672410698
 GameObject:
   m_ObjectHideFlags: 0
@@ -75545,6 +77305,7 @@ GameObject:
   - component: {fileID: 1692231681}
   - component: {fileID: 1692231679}
   - component: {fileID: 1692231682}
+  - component: {fileID: 1692231683}
   m_Layer: 0
   m_Name: Door_1
   m_TagString: Untagged
@@ -75645,6 +77406,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &1692231683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692231678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1693165060 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -75677,6 +77462,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1693165066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693165060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 483900283}
+  hurtInterval: 1.05
+--- !u!114 &1693165067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693165060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1702076045
 GameObject:
   m_ObjectHideFlags: 0
@@ -75751,6 +77575,8 @@ GameObject:
   - component: {fileID: 1710141548}
   - component: {fileID: 1710141547}
   - component: {fileID: 1710141546}
+  - component: {fileID: 1710141550}
+  - component: {fileID: 1710141549}
   m_Layer: 0
   m_Name: Spike_D
   m_TagString: Untagged
@@ -75902,6 +77728,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710141549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710141545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1710141550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710141545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1721123010
 GameObject:
   m_ObjectHideFlags: 0
@@ -75911,6 +77776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721123011}
+  - component: {fileID: 1721123012}
   m_Layer: 0
   m_Name: ExitPoint_D
   m_TagString: Untagged
@@ -75933,6 +77799,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1907821514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721123012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721123010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1753591081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76063,6 +77953,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1753591088}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1753591090}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1753591089}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1753591082 stripped
 MonoBehaviour:
@@ -76080,6 +77976,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1753591081}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1753591084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1753591081}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1753591087 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -76107,6 +78014,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1753591089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099637893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1753591084}
+  hurtInterval: 1.05
+--- !u!114 &1753591090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099637893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1753988518
 GameObject:
   m_ObjectHideFlags: 0
@@ -76351,6 +78297,8 @@ GameObject:
   - component: {fileID: 1776912480}
   - component: {fileID: 1776912479}
   - component: {fileID: 1776912478}
+  - component: {fileID: 1776912482}
+  - component: {fileID: 1776912481}
   m_Layer: 0
   m_Name: Spike_A
   m_TagString: Untagged
@@ -76502,6 +78450,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482386444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
+--- !u!114 &1776912481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776912477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723b3e42325e4cf40a77eadc7f0f7e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Traps::Regrowth.Audio.SpikeAudioEmitter
+  bankOwner: {fileID: 1815237973}
+  attackEvent: Play_Trap_Attack
+  logPlayback: 0
+--- !u!114 &1776912482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776912477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1797830534
 GameObject:
   m_ObjectHideFlags: 0
@@ -76572,6 +78559,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1962034569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1800358546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+  m_PrefabInstance: {fileID: 1962034568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1805627698
 GameObject:
   m_ObjectHideFlags: 0
@@ -76669,6 +78661,36 @@ Tilemap:
   m_GameObject: {fileID: 1805627698}
   m_Enabled: 1
   m_Tiles:
+  - first: {x: 31, y: -13, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 32, y: -13, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 33, y: -13, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 38, y: -13, z: 0}
     second:
       serializedVersion: 2
@@ -76719,6 +78741,66 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: -34, y: -12, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -33, y: -12, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -32, y: -12, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 31, y: -12, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 32, y: -12, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 33, y: -12, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 38, y: -12, z: 0}
     second:
       serializedVersion: 2
@@ -76769,6 +78851,66 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: -34, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -33, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -32, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 31, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 32, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 33, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 38, y: -11, z: 0}
     second:
       serializedVersion: 2
@@ -76819,6 +78961,106 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 78, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 79, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 80, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 81, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 96, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 97, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 98, y: -11, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -34, y: -10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -33, y: -10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -32, y: -10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 38, y: -10, z: 0}
     second:
       serializedVersion: 2
@@ -76869,6 +79111,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 96, y: -10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 97, y: -10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 98, y: -10, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 38, y: -9, z: 0}
     second:
       serializedVersion: 2
@@ -76919,6 +79191,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 96, y: -9, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 97, y: -9, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 98, y: -9, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 39, y: 2, z: 0}
     second:
       serializedVersion: 2
@@ -77029,6 +79331,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: -17, y: 7, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -16, y: 7, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -15, y: 7, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: -11, y: 7, z: 0}
     second:
       serializedVersion: 2
@@ -77059,6 +79391,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: -17, y: 8, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -16, y: 8, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -15, y: 8, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 101, y: 8, z: 0}
     second:
       serializedVersion: 2
@@ -77109,6 +79471,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: -17, y: 9, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -16, y: 9, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -15, y: 9, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 101, y: 9, z: 0}
     second:
       serializedVersion: 2
@@ -77679,6 +80071,196 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: 103, y: 20, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 104, y: 20, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 105, y: 20, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 103, y: 21, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 104, y: 21, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 105, y: 21, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 40, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 41, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 42, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 43, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 44, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 103, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 104, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 105, y: 22, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 60, y: 32, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 61, y: 32, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 62, y: 32, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 63, y: 32, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 64, y: 32, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 89, y: 32, z: 0}
     second:
       serializedVersion: 2
@@ -77789,6 +80371,56 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 93, y: 39, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 94, y: 39, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 95, y: 39, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 96, y: 39, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 97, y: 39, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: -46, y: 40, z: 0}
     second:
       serializedVersion: 2
@@ -77809,6 +80441,46 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 23, y: 42, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 24, y: 42, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 25, y: 42, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 26, y: 42, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 28, y: 42, z: 0}
     second:
       serializedVersion: 2
@@ -78549,6 +81221,156 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: -41, y: 65, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -40, y: 65, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -39, y: 65, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -41, y: 66, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -40, y: 66, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -39, y: 66, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -11, y: 66, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -10, y: 66, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -9, y: 66, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -41, y: 67, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -40, y: 67, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -39, y: 67, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -11, y: 67, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -10, y: 67, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -9, y: 67, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 78, y: 67, z: 0}
     second:
       serializedVersion: 2
@@ -78579,6 +81401,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: -11, y: 68, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -10, y: 68, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -9, y: 68, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 59, y: 68, z: 0}
     second:
       serializedVersion: 2
@@ -78699,6 +81551,96 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: 35, y: 74, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 36, y: 74, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 37, y: 74, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 35, y: 75, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 36, y: 75, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 37, y: 75, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 35, y: 76, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 36, y: 76, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 37, y: 76, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: -16, y: 77, z: 0}
     second:
       serializedVersion: 2
@@ -78729,6 +81671,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 73, y: 77, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 74, y: 77, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 75, y: 77, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: -16, y: 78, z: 0}
     second:
       serializedVersion: 2
@@ -78759,6 +81731,36 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 73, y: 78, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 74, y: 78, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 75, y: 78, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: -16, y: 79, z: 0}
     second:
       serializedVersion: 2
@@ -78789,6 +81791,76 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1
+  - first: {x: 73, y: 79, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 74, y: 79, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 75, y: 79, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -4, y: 83, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -3, y: 83, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -2, y: 83, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: -1, y: 83, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 11, y: 84, z: 0}
     second:
       serializedVersion: 2
@@ -79269,6 +82341,46 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483649
+  - first: {x: 49, y: 91, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 50, y: 91, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 51, y: 91, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
+  - first: {x: 52, y: 91, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4294967295
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 2
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 2147483648
   - first: {x: 93, y: 101, z: 0}
     second:
       serializedVersion: 2
@@ -79769,7 +82881,7 @@ Tilemap:
   - m_RefCount: 192
     m_Data: {fileID: 7482667652216324306, guid: 99447ffafa851f447bc152343e34f79d, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 308
+  - m_RefCount: 420
     m_Data:
       e00: 1
       e01: 0
@@ -79788,11 +82900,11 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 116
+  - m_RefCount: 197
     m_Data: {r: 0, g: 0, b: 0, a: 0}
   - m_RefCount: 24
     m_Data: {r: 1, g: 1, b: 1, a: 0}
-  - m_RefCount: 120
+  - m_RefCount: 151
     m_Data: {r: 0.8774067, g: 0.37421376, b: 1, a: 0}
   - m_RefCount: 48
     m_Data: {r: 0.592316, g: 1, b: 0.33647794, a: 0}
@@ -80000,6 +83112,94 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1657835938}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1815237971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1815237972}
+  - component: {fileID: 1815237974}
+  - component: {fileID: 1815237973}
+  m_Layer: 0
+  m_Name: Audio_MusicZones
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1815237972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815237971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2048724353}
+  - {fileID: 774314562}
+  - {fileID: 1478434763}
+  m_Father: {fileID: 976969443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1815237973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815237971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78450c626ba7624f82e2aa7f4d27885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Music::Regrowth.Audio.ExplorationMusicZones
+  player: {fileID: 535949088}
+  zones:
+  - bounds: {fileID: 2048724354}
+    stateEvent: Set_State_Level1
+  - bounds: {fileID: 774314563}
+    stateEvent: Set_State_Level2
+  - bounds: {fileID: 1478434764}
+    stateEvent: Set_State_Level3
+  bankName: SB_Main
+  explorationEvent: Set_State_Exploration
+  playEvent: Play_Music_State
+  eliteEvent: Set_State_Elite
+  stopEvent: Stop_Music_State
+  settleSeconds: 0.15
+  initializationTimeout: 15
+  logTransitions: 0
+--- !u!114 &1815237974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815237971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1823530506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80130,6 +83330,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1823530513}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1823530515}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1823530514}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1823530507 stripped
 MonoBehaviour:
@@ -80147,6 +83353,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1823530506}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1823530509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1823530506}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1823530512 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -80174,6 +83391,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1823530514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56626613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1823530509}
+  hurtInterval: 1.05
+--- !u!114 &1823530515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56626613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &1845562894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80312,13 +83568,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1128038527}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1845562899}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &1845562895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 1845562894}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1845562899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320334221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1854174370
 GameObject:
   m_ObjectHideFlags: 0
@@ -80593,6 +83876,7 @@ GameObject:
   - component: {fileID: 1907821513}
   - component: {fileID: 1907821516}
   - component: {fileID: 1907821515}
+  - component: {fileID: 1907821517}
   m_Layer: 0
   m_Name: Portal_C
   m_TagString: Untagged
@@ -80692,6 +83976,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1907821513}
   interactionPoint: {fileID: 0}
+--- !u!114 &1907821517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907821512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1916340601
 GameObject:
   m_ObjectHideFlags: 0
@@ -80841,6 +84149,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1925499418}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925499420}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925499419}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &1925499412 stripped
 MonoBehaviour:
@@ -80858,6 +84172,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 1925499411}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1925499414 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 1925499411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &1925499417 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -80885,6 +84210,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &1925499419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641795477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 1925499414}
+  hurtInterval: 1.05
+--- !u!114 &1925499420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641795477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1930110807
 GameObject:
   m_ObjectHideFlags: 0
@@ -81050,6 +84414,7 @@ GameObject:
   - component: {fileID: 1940742356}
   - component: {fileID: 1940742354}
   - component: {fileID: 1940742357}
+  - component: {fileID: 1940742358}
   m_Layer: 0
   m_Name: Door_2
   m_TagString: Untagged
@@ -81150,6 +84515,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 1
   allowPrototypeReclose: 1
+--- !u!114 &1940742358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940742353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1956508174
 GameObject:
   m_ObjectHideFlags: 0
@@ -81376,13 +84765,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1799137735}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1962034573}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &1962034569 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 1962034568}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1962034573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800358546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1969892009
 GameObject:
   m_ObjectHideFlags: 0
@@ -81395,6 +84811,7 @@ GameObject:
   - component: {fileID: 1969892010}
   - component: {fileID: 1969892013}
   - component: {fileID: 1969892012}
+  - component: {fileID: 1969892014}
   m_Layer: 0
   m_Name: Button_1/2
   m_TagString: Untagged
@@ -81492,6 +84909,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 1969892010}
   interactionPoint: {fileID: 0}
+--- !u!114 &1969892014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969892009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1986094081
 GameObject:
   m_ObjectHideFlags: 0
@@ -81528,6 +84969,23 @@ Transform:
   - {fileID: 1631166185}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1995779094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1020, guid: b9dfbee118a48849ed6e5fcd380ab652, type: 3}
+  m_PrefabInstance: {fileID: 263898063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1995779099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995779094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6746903a9ab55143beca58daeecdbe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.UI.Choice::Regrowth.UI.ChoiceCancelHover
 --- !u!1 &2001872524
 GameObject:
   m_ObjectHideFlags: 0
@@ -81602,6 +85060,7 @@ MonoBehaviour:
   choiceCoordinator: {fileID: 976969444}
   choicePresenter: {fileID: 263898064}
   audioEmitters: []
+  restartOnDeath: 1
 --- !u!4 &2001872528
 Transform:
   m_ObjectHideFlags: 0
@@ -81782,13 +85241,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
       insertIndex: -1
       addedObject: {fileID: 426258613}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7531499718925972735, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2004297563}
   m_SourcePrefab: {fileID: 100100000, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
 --- !u!4 &2004297559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2414883468549574853, guid: 3342d8e3184a9d74f906503ba7f3f065, type: 3}
   m_PrefabInstance: {fileID: 2004297558}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2004297563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616997558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2016861285
 GameObject:
   m_ObjectHideFlags: 0
@@ -81829,6 +85315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2023437532}
+  - component: {fileID: 2023437533}
   m_Layer: 0
   m_Name: ExitPoint_C
   m_TagString: Untagged
@@ -81851,6 +85338,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1407749073}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2023437533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023437531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2034777563
 GameObject:
   m_ObjectHideFlags: 0
@@ -81882,6 +85393,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2118359498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2048724352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2048724353}
+  - component: {fileID: 2048724354}
+  m_Layer: 0
+  m_Name: MusicZone_Level1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2048724353
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048724352}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25, y: -3.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1815237972}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2048724354
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048724352}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 180, y: 35}
+  m_EdgeRadius: 0
 --- !u!1 &2049909832
 GameObject:
   m_ObjectHideFlags: 0
@@ -82195,6 +85784,7 @@ GameObject:
   - component: {fileID: 2066573986}
   - component: {fileID: 2066573984}
   - component: {fileID: 2066573987}
+  - component: {fileID: 2066573988}
   m_Layer: 0
   m_Name: Door_3
   m_TagString: Untagged
@@ -82295,6 +85885,30 @@ MonoBehaviour:
   openView: {fileID: 0}
   startOpen: 0
   allowPrototypeReclose: 1
+--- !u!114 &2066573988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066573983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2077626540
 GameObject:
   m_ObjectHideFlags: 0
@@ -82487,6 +86101,7 @@ GameObject:
   - component: {fileID: 2110720592}
   - component: {fileID: 2110720595}
   - component: {fileID: 2110720594}
+  - component: {fileID: 2110720596}
   m_Layer: 0
   m_Name: Button_1/4
   m_TagString: Untagged
@@ -82584,6 +86199,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Regrowth.Runtime::Regrowth.Runtime.InteractionTarget
   interactionSource: {fileID: 2110720592}
   interactionPoint: {fileID: 0}
+--- !u!114 &2110720596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110720591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2118359497
 GameObject:
   m_ObjectHideFlags: 0
@@ -82659,6 +86298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2133865486}
+  - component: {fileID: 2133865487}
   m_Layer: 0
   m_Name: ExitPoint_A
   m_TagString: Untagged
@@ -82681,6 +86321,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 341924455}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2133865487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133865485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &2138536937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82811,6 +86475,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2138536944}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2138536946}
+    - targetCorrespondingSourceObject: {fileID: 7975838277919623124, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2138536945}
   m_SourcePrefab: {fileID: 100100000, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
 --- !u!114 &2138536938 stripped
 MonoBehaviour:
@@ -82828,6 +86498,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
   m_PrefabInstance: {fileID: 2138536937}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2138536940 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298201842566395314, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+  m_PrefabInstance: {fileID: 2138536937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a645725504f84944a59849199700a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyContactAttack
 --- !u!50 &2138536943 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 9500001, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
@@ -82855,6 +86536,45 @@ MonoBehaviour:
   - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
+--- !u!114 &2138536945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522917961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28834c08d4879845bd60bd2d6033a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Regrowth.Audio.Combat::Regrowth.Audio.EnemyAudio
+  elite: 0
+  contact: {fileID: 2138536940}
+  hurtInterval: 1.05
+--- !u!114 &2138536946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522917961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fce67e81b6e5340a48ba215515b50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2142675155
 GameObject:
   m_ObjectHideFlags: 0

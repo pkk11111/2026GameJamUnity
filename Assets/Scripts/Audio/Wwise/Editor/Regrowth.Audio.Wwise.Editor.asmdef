@@ -1,0 +1,6 @@
+{
+  "name": "Regrowth.Audio.Wwise.Editor",
+  "references": ["Regrowth.Audio.Wwise", "Regrowth.Audio.Core", "Regrowth.Audio.Music", "Regrowth.Gameplay.Chest", "Regrowth.UI.Choice", "Regrowth.Core", "Regrowth.Runtime", "Regrowth.WhiteBox", "UnityEngine.UI", "AK.Wwise.Unity.API", "AK.Wwise.Unity.MonoBehaviour"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

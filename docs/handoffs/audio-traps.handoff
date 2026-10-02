@@ -1,0 +1,41 @@
+# 地刺音频接入 — audio-traps
+
+日期：2026-10-01；分支Audio_Test。任务：用户圈出的黑色地刺触碰音效，并核对遗漏。
+
+## 实际交付
+
+场景 `Assets/WhiteBox/Scenes/Level_Whitebox.unity` 中全部7个PrototypeSpike2D已安装SpikeAudioEmitter和AkGameObj，没有遗漏的同类型地刺。安装前保留用户未保存的场景调整；本轮不修改用户已更新的Wwise工程/Bank，不提交Git。
+
+| 对象 | 世界X | 世界Y |
+|---|---:|---:|
+| Spike_A | 42.68 | 22.70 |
+| Spike_B | 62.56 | 32.60 |
+| Spike_C | 95.60 | 39.40 |
+| Spike_D | 25.10 | 42.10 |
+| Spike_E | 80.10 | -11.00 |
+| Spike_F | -2.02 | 83.45 |
+| Spike_G | 50.80 | 91.60 |
+
+真实Event为 `Play_Trap_Attack`（ID1570554494），`Trap_Attack`是Wwise播放对象名。Windows SB_Main已包含该Event，OneShot长度约0.55917秒。
+
+## 接线与行为
+
+- PrototypeSpike2D新增 `event Action KnockbackAccepted`：仅当原有玩家TrySpikeKnockback返回true才同步通知。保持原有碰撞形状、击退和运行阶段门禁，无生命伤害改动。
+- SpikeAudioEmitter在OnEnable订阅、OnDisable退订；使用地刺本体作为emitter，事件字符串仅在音频模块Inspector中维护，不散写到玩法脚本。
+- 沿用玩家已有击退保护（场景0.6秒），拒绝的Enter/Stay、多碰撞体回调不发声。保护结束后再次接受击退可再次播放，持续接触并非永远只响一次。
+- 暂停/菜单等非GameplayActive状态不触发；非玩家及Trigger碰撞体沿用现有过滤。
+- Bank Owner已显式绑定Audio_MusicZones上的ExplorationMusicZones，复用它加载的SB_Main，不重复加载/卸载。Bank未就绪跳过并首次提示，不补播过期接触。不要禁用这个加载者后期待地刺仍能播放；将来统一音效后端接管Bank时替换该依赖。
+- 本轮没有新建或替换GameAudio后端，也没有更改公共AudioCue；音频适配器订阅真实玩法事实。未来正式伤害系统替代白板击退时，应迁移到相应成功事实，不能同时保留两份触发。
+
+## Inspector
+
+在 `01 World/Hazards/Spike_A～G` 找到 Spike Audio Emitter：Bank Owner必填，重新启用读取；Attack Event默认Play_Trap_Attack，实时读取；Log Playback默认关闭，打开后Console记录事件和playing ID。AkGameObj关闭Environment Aware；不另加3D Rigidbody。
+原PrototypeSpike2D的Protection Time控制可再次击退/发声的间隔；不增加第二份音频冷却。
+
+工具：`Tools > Audio > Install Whitebox Spike Audio` 为当前场景全部地刺接线，可重复运行，不重复添加组件。新增地刺后再执行一次并保存。
+
+## 验证
+
+Unity脚本编译通过。菜单 `Tools > Audio > Verify Whitebox Spike Audio In Play Mode` 实际移动玩家进入7个Collider，全部成功得到非零Wwise playing ID；重复Enter/Stay回调不重复投递；暂停时不投递。Console标记 `[SpikeAudioTest] ALL PASS`。
+测试只在Play冻结玩家刚体并移动玩家，退出Play恢复场景，不保存测试位置/约束。日志在Logs/Audio-Test-Merge-Verify.log。安装前后场景对比仅新增287行地刺音频组件/引用，没有删除原场景行。
+未做人耳听感、距离衰减验收、完整伤害/整局或独立构建验收。

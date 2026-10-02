@@ -1,6 +1,6 @@
 {
     "name": "Regrowth.UI.Choice",
     "rootNamespace": "Regrowth.UI",
-    "references": ["Regrowth.Core", "Regrowth.UI.Art", "UnityEngine.UI", "Unity.TextMeshPro"],
+    "references": ["Regrowth.Core", "Regrowth.Audio.Core", "Regrowth.UI.Art", "UnityEngine.UI", "Unity.TextMeshPro"],
     "autoReferenced": true
 }

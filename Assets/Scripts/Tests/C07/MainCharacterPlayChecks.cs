@@ -95,6 +95,16 @@ namespace Regrowth.Tests.C07
                 motor.TryTeleportTo(new Vector2(1000, 100.3f));
                 yield return Sample(.4f);
                 var enemy = FindFirstObjectByType<EnemyBasic>();
+                // C09 enemies now move and fall. This isolated damage target must stay
+                // still, including while its solid collider is replaced by test triggers.
+                var enemyAi = enemy.GetComponent<EnemyBasicAI>();
+                if (enemyAi != null) enemyAi.enabled = false;
+                var enemyBody = enemy.GetComponent<Rigidbody2D>();
+                if (enemyBody != null)
+                {
+                    enemyBody.linearVelocity = Vector2.zero;
+                    enemyBody.constraints = RigidbodyConstraints2D.FreezeAll;
+                }
                 enemy.TrySetRuntimeStats(1000, 1000, 7);
                 enemy.transform.position = (Vector3)body.position + Vector3.right * 1.5f;
                 Physics2D.SyncTransforms();

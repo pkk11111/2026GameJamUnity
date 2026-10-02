@@ -43,6 +43,7 @@ namespace Regrowth.Gameplay
         }
         /// <summary>Read-only accepted-attack notification; presentation must never settle damage.</summary>
         public event Action AttackStarted;
+        public event Action<IDamageable> HitAccepted;
 
         private void OnEnable()
         {
@@ -111,7 +112,11 @@ namespace Regrowth.Gameplay
                         continue;
                     }
                     // 当前契约只有Enemy/Terrain；使用既有合法combat分类，不新增PlayerAttack枚举。
-                    target.TryTakeDamage(new DamageRequest(amount, DamageKind.Enemy, gameObject));
+                    if (target.TryTakeDamage(new DamageRequest(amount, DamageKind.Enemy, gameObject)))
+                    {
+                        try { HitAccepted?.Invoke(target); }
+                        catch (Exception ex) { Debug.LogException(ex, this); }
+                    }
                 }
                 return true;
             }

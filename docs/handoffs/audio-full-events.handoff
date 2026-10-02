@@ -1,0 +1,56 @@
+# Existing Wwise event integration — audio-full-events
+
+日期：2026-10-01。分支 Audio_Test，基线 81535a9；保留此前未提交的玩家移动音频。用户授权按已核对清单实施，明确排除敌人脚步与 Fly。未自动 commit/push。规范24基础追加音频接口，不重排既有 AudioCue。
+
+## 已实现
+
+当前 SB_Main 43 个 Event 中接入41个；Play_NPC_Footsteps、Play_NPC_Fly保持未接。未修改或重新生成 Wwise Authoring/Bank，不覆盖用户未保存的 Authoring 工作。
+
+| 触发 | Event / 规则 |
+|---|---|
+| 玩家落地 | Play_Land；读唯一motor落地状态，已接地后腾空至少0.08秒再落地；出生、迁移与暂停重建采样，不伪造落地 |
+| 咬/剑起手 | Play_Player_Bite / Play_Player_SwordSwing；接受攻击才发，空挥仍响 |
+| 咬命中 | Play_PlayerBiteHit_NPC / Play_PlayerBiteHit_Elite；仅目标TryTakeDamage返回true，一次攻击按目标去重 |
+| 剑命中 | Play_PlayerSwordHit_NPC / Play_PlayerSwordHit_Elite；同上 |
+| 火焰起手/命中 | Play_Player_Fire / Play_Fire_Hit；每次成功施放起手一次，每个EnemyBasic每次施放仅一次命中声；持续伤害tick不变，下一次施放清去重 |
+| 玩家受伤/死亡 | Play_Player_Hurt / Play_Player_Death；真实非致命伤害受伤，致命仅死亡，收费不算伤害；沿用GameBootstrap唯一死亡通知 |
+| 普通敌人受伤/死亡 | Play_NPC_Hurt / Play_NPC_Death；非致命实际伤害才受伤，默认1.05秒间隔，死亡一次；增血/运行属性调整不误响 |
+| 精英受伤/死亡 | Play_Elite_Hurt / Play_Elite_Death；默认2.9秒受伤间隔，致命仅死亡 |
+| 精英接触攻击 | Play_Elite_Attack；EnemyContactAttack实际接触且玩家接受伤害后一次；无目标/抵达保护拒绝不发，不按Stay每帧播 |
+| 门打开 | Play_Door_Open；WorldDoor和InspectionDoor实际关→开；重复开启及关闭静默 |
+| 传送 | Play_Portal_In / Play_Portal_Out；收费和物理迁移均提交成功后，同帧在出发门和目标锚点各播一次；取消/落点失效/失败无声 |
+| 精英音乐 | Set_State_Elite；仅主图最高处Elite_Exit追击时，返回/巡逻/死亡恢复Set_State_Exploration；暂停/抽卡保持原仇恨音乐，不以楼层猜身份 |
+| 停音乐 | Stop_Music_State；玩家死亡发送一次；保留Bank供死亡声播放。场景关闭停止本音乐并按原所有权卸Bank |
+
+原宝箱、卡片、UI、能力获得/失去、跳跃/二段跳/冲刺、无脚移动/脚步、机关、地刺、三层探索音乐全部保留。
+
+## 接线和调参
+
+- 主图Test_Player新增PlayerCombatAudio，显式绑定state/motor/bite/sword/fire、唯一Elite_Exit及其AI、唯一音乐控制器；不增加输入消费者、射线或物理写入。
+- 14只敌人各一个EnemyAudio和AkGameObj；13普通、仅Elite_Exit为精英。EnemyAudio的Elite布尔为运行分类，运行时不通过名称/颜色/楼层查找；contact显式引用原接触攻击组件。Hurt Interval可在Inspector调整。
+- RewardAudioBackend新增19映射，合计33；其余8个事件由原地刺与音乐模块适配。Bank就绪不再依赖MusicPlayingId，死亡停音乐不关闭音效。
+- 所有普通门、条件门、传送门和目的锚点补齐AkGameObj。序列化事件名与增益保留原配置。
+- `Tools/Audio/Install Remaining Event Audio`仅非Play主图执行，先验证Elite_Exit确为最高敌人；补缺组件、映射并保存，已有受伤间隔不覆盖。改精英对象需同步PlayerCombatAudio绑定，不复制第二个精英。
+
+## 追加接口
+
+- AudioCue 23–36：PlayerLand、PlayerFire、FireHit、BiteHitNPC、BiteHitElite、SwordHitNPC、SwordHitElite、NPCHurt、NPCDeath、EliteHurt、EliteDeath、EliteAttack、PortalIn、PortalOut。
+- Bite/Sword/Fire：`HitAccepted(IDamageable)`，仅实际伤害成功通知；表现订阅异常记录且不阻断攻击遍历。火焰仍每tick通知，音频适配器独立负责整次施放去重，不改变战斗结算。
+- EnemyBasic：`DamageApplied(DamageRequest)`，血量已提交，位于HealthChanged之前；强化和调属性不触发。死亡仍沿用原Died单次生命周期。
+- ExplorationMusicZones：IsBankReady、IsEliteMusic、SetEliteCombat(bool)、StopMusic()。切State不重播音乐，停音乐不卸Bank；恢复全新音乐由场景重新启用负责。
+- 新asmdef Audio.Combat依赖Core/Runtime/WhiteBox/Bite/Sword/Fire/EnemyBasic/Audio.Core/Music及Wwise发声组件；Gameplay不引入Wwise API/事件字符串。
+
+## 验证记录
+
+- Unity6000.2.9f1编译通过；主图接线已保存。
+- 新`Tools/Audio/Verify Combat Audio (Fresh Play)`：24/0，真实动作、敌人伤害/接触和Wwise计数；包含真实精英追击/返回同音乐ID、落地、属性强化静默、空挥、两种目标咬剑、火焰多tick+双Collider去重及下一施放、致命不叠受伤、死亡Bank保留。
+- C08追加9项音频断言：86/0。4扇实际门取消静默、重复确认只一对声音、确认/物理提交落点失效均静默；9种原收费和朝向回归保留。临时测试目的地补AkGameObj，不保存夹具。
+- RewardAudioVerification：72/0，Wwise有效ID1013；三层音乐10点全部通过，固定音乐ID1017。
+- 原机关8个/16次成功切换全部通过，重复/远距/暂停静默；地刺7组物理接触、保护去重及暂停检查全部通过。
+- 新InspectionAudioChecks：8/0，两扇条件门真实接近只弹菜单、取消静默、重复点击仅开门声一次、关闭静默。
+- 原玩家移动音频复跑25/0，15次真实Wwise声音的帧/落地/Legs/最小间隔审计0错误；无脚/有脚及移除腿切换、顶墙/空中/暂停/Choosing/冲刺/死亡静默与启停订阅均通过。
+- 主图事件名与Windows SB_Main逐项核对：43个Bank事件、41个唯一已配置事件，未配仅Play_NPC_Fly和Play_NPC_Footsteps，无不存在的事件名。源码diff空白检查通过；Unity场景新增序列化空m_Name行沿用Unity默认格式，没有为消除格式警告重写全图。
+- 保存后重载：非Play、scene dirty=false、missing script=0、PlayerCombatAudio八个引用缺失=0；14个EnemyAudio/1个精英Elite_Exit、后端33映射、原玩家移动音频1个。出生点仍(-12.14,8.60,0)，测试物体未保存，Console原Error Pause设置已恢复。
+- 未做Windows构建或人工整局听感验收。Unity AI服务既有NoSubscription日志与本音频功能无关，不宣称Console全零。
+
+所有测试使用新一轮Play，结束Stop恢复主场景；测试键盘/目标/地板不得保存。日志为忽略产物`Logs/Audio-Test-Merge-Verify.log`。下一步设计者可在Inspector调受伤声间隔、既有脚步接触帧和音量；敌人脚步/Fly须用户另行授权。

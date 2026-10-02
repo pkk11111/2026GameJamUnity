@@ -2,6 +2,11 @@
 
 # pawgatory
 
+> 音频接线（2026-10-01）：现有41个事件已接入主图，敌人脚步和Fly暂缓。玩家/敌人战斗、火焰命中去重、门和传送、精英音乐及死亡停音乐已实现；保留原移动、UI、机关和地刺。使用与验证见 [音频交接](docs/handoffs/audio-full-events.handoff)。
+
+> 玩家移动音频（2026-10-01）：主玩家已按2D接触帧接入无腿移动/有腿脚步，Inspector可调节奏。真实Play验证25/0。配置与验收见 [移动音频交接](docs/handoffs/audio-player-movement.handoff)。
+
+> 2026-10-01 / Audio_Test：合入 Ming/3c0bae7 的人物、动画、敌人 AI 和收费功能，保留 ce17b4e 的 Wwise 工程、Bank 和全部既有音频接线。音频四组回归、C09 59/0、C07 30/0通过；未验收独立构建及人工听感。详见 [合并交接](docs/handoffs/audio-ming-merge.handoff)。
 > C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。
 
 

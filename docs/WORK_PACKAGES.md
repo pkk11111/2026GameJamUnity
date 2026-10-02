@@ -2,6 +2,13 @@
 
 # pawgatory 工作包：当前结构、迁移顺序与验收
 
+> 交付合并（2026-10-01）：Ming/f99bafc已合入Audio_Test，保留原音频并恢复新场景接线；编译、14敌人美术/音频共存、41事件及音频72项检查通过。按用户要求只做必要检查，未重建Windows。见 [交接](handoffs/audio-delivery-merge.handoff)。
+
+> audio-full-events（2026-10-01）：用户已确认全量现有事件接线，41/43已保存；排除敌人脚步和Fly。依赖既有攻击/伤害成功通知、唯一PlayerState、Elite_Exit AI和音乐Bank Owner；不更改攻击结算与角色运动。战斗音频24/0、C08含传送音频86/0、原奖励72/0、三层音乐10点通过，其他回归和限制见 [交接](handoffs/audio-full-events.handoff)。未自动提交或推送。
+
+> audio-player-movement（2026-10-01）：主图13个Move Clip已配置接触帧，无腿/有腿按唯一Legs状态切换事件。脚步Play检查25/0；人工节奏听感待试听。参见 [交接](handoffs/audio-player-movement.handoff)。
+
+> Audio_Test 集成验收（2026-10-01）：Ming/3c0bae7 与 ce17b4e 音频交付已合并；音乐10点、奖励/UI/能力72项、7地刺、8机关16切换通过，C09 59/0、C07 30/0。两个旧测试夹具已适配动态AI；生产玩法不因测试改动。完整记录与限制见 [audio-ming-merge.handoff](handoffs/audio-ming-merge.handoff)。
 > C15（2026-10-01）：按用户要求检查并本地合入 origin/Dada b30d71f（本地 Ming 基线 2a6f518），保留原有8个改动文件的全部内容（Dada交接仅新增其作者的Intro记录）。MainMenu为Editor/构建入口，Start进入当前Level，原生安装唯一OpeningStoryIntro并绑定现RunController；头部HUD按Dada更新。主场景只新增Intro实例，保留14只敌人表现、C14胜利/结局及原地图玩法；字体保留已有动态字形缓存，ChoiceCard只有空白差异不覆盖。接收新版UI检查入口并保留交互式Unity不自动退出的修复。目标Unity编译通过，一次短Play确认MainMenu→Start→Intro暂停→结束恢复Playing/timeScale=1，Console Error 0；已退出Play。未重复战斗/整图测试或打包。无未解决冲突，合并结果已在本地，未commit/push；安全stash保留作为合并前改动备份。共享源码契约仍12。
 
 

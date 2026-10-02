@@ -227,7 +227,10 @@ namespace Regrowth.Tests.C09
             var target = all.Single(e => e.name == "Enemy_04");
             if (target.SpawnPosition.y > 10) target = all.OrderBy(e => Mathf.Abs(e.SpawnPosition.y - 2.78f)).First();
             body.constraints = RigidbodyConstraints2D.FreezeAll; body.linearVelocity = Vector2.zero;
-            body.position = target.GetComponent<Rigidbody2D>().position + Vector2.right * 3;
+            // Patrol may already be near the right boundary when this menu is invoked.
+            // Keep the visibility probe inside the authored activity area on either side.
+            float approachOffset = target.transform.position.x + 3f <= target.RightBound ? 3f : -3f;
+            body.position = target.GetComponent<Rigidbody2D>().position + Vector2.right * approachOffset;
             Physics2D.SyncTransforms(); yield return Steps(3);
             Check(target.State == EnemyAIState.Chase, "in-range visible player acquires chase");
             run.TryPause(); var paused = target.transform.position;
