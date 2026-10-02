@@ -50,8 +50,8 @@ player.fire_default_gamepad,fire,right_shoulder,enum,key,design_default,手柄�
 player.fire_cooldown_reset_on_acquire,fire,0,bool,enabled,design_default,失去再获得不刷新冷却;首次获得立即可用
 enemy.normal_base_max_hp,enemy,50,int,HP,user_confirmed,所有层普通小怪共用基础生命
 enemy.elite_base_max_hp,enemy,150,int,HP,user_confirmed,出口精英基础生命
-enemy.normal_base_contact_damage,enemy,10,int,HP_per_hit,user_confirmed,接触立即尝试伤害
-enemy.elite_base_contact_damage,enemy,20,int,HP_per_hit,user_confirmed,精英接触伤害
+enemy.normal_base_contact_damage,enemy,5,int,HP_per_hit,user_confirmed,接触立即尝试伤害
+enemy.elite_base_contact_damage,enemy,5,int,HP_per_hit,user_confirmed,精英接触伤害
 enemy.hp_add_per_cost,enemy_modifier,50,int,HP,user_confirmed,全局每张增血代价加50;基于各自基础生命
 enemy.damage_add_per_cost,enemy_modifier,5,int,HP_per_hit,user_confirmed,全局每张增攻代价加5;与增血卡独立
 enemy.keep_hp_ratio_on_increase,enemy_modifier,1,bool,enabled,user_confirmed,当前生命按新旧上限比例向上取整
@@ -121,3 +121,5 @@ player.fire_shape,fire,travelling_orb,enum,shape,user_confirmed,2026-10-01用户
 player.fire_speed,fire,1.5,float,unity_unit_per_second,design_default,初始方向水平慢飞;不跟随玩家位移;Inspector可调
 player.fire_radius,fire,0.6,float,unity_unit,design_default,每跳重查圆范围;目标离开停止扣血;实体多Collider去重
 player.main_action_gate_duration,attack,0.35,float,second,design_default,C07旧即时咬剑的表现互斥时间;不替代未来0.1前摇有效后摇时间轴
+player.current_bite_radius,bite,1.7,float,unity_unit,user_confirmed,2026-10-02现行圆形判定半径由1.2增加0.5;主图BiteConfig.biteRadius
+player.current_sword_radius,sword,2.3,float,unity_unit,user_confirmed,2026-10-02现行圆形判定半径由1.8增加0.5;主图SwordConfig.attackRange

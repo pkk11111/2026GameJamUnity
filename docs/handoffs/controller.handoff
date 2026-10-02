@@ -1,3 +1,42 @@
+## 敌人伤害降低（2026-10-02）
+
+任务controller/enemy-damage；Ming/247c471及已有未提交改动，规范24/公共契约12不变。用户确认精英减5、普通减半，并仅做精简测试。两份Assets/Configs/EnemyBasic下EnemyBasicConfig.asset与EnemyEliteConfig.asset的contactDamage均10→5，新局初始化生效；HP50/150、AI、0.6接触间隔及全图每次增攻+5保持。EnemyBasicConfig源码默认同步5，C09安装/既有断言同步基础5、强化一次10；无新测试。Unity非Play原生保存，13普通+1精英引用正确、全部配置IsValid=true/ContactDamage=5，场景clean。未Play、未跑C09/整局/构建；Unity刷新/编译已完成，Console错误0。用户随后强调最小改动，本轮仅数值及对应文档/既有预期同步，无新增功能。保留其他修改，未commit/push。下一步用户正常Play体验。
+
+# 敌人头顶HP（2026-10-02）
+
+任务：controller/enemy-health-ui；Ming/247c471及既有未提交改动，规范24/公共契约12不变；已接主图并完成最小验证。
+授权：全部小怪及精英简易HP显示，尽快完成，仅最小测试。
+实现：Assets/Scripts/UI/Art/EnemyHealthView.cs（含meta），复用Regrowth.UI.Art/Core/uGUI/TMP；只读IHealth并订阅HealthChanged，启动补读快照，停用退订。无新的公共写接口、HP副本、音频或伤害逻辑。
+接线：Assets/WhiteBox/Scenes/Level_Whitebox.unity现HUD Canvas/Enemy Health Bars下14个视图，分别绑定Enemy_01–13/Elite_Exit的唯一EnemyBasic与实体BoxCollider2D、RunController、Main Camera。全体常驻血条，死亡/停用/离屏及Dead/Won隐藏；暂停/选择仍显示在既有菜单后面。
+Inspector：每个EnemyHealthView的headOffset=0.45世界单位，实时生效；Visual RectTransform普通宽120、精英宽170、高38参考像素；Background高12，Fill左右/上下内缩2像素、红色；HP TMP字号22，白字黑阴影、现有Cascadia字体。尺寸、颜色、字体由UI组件编辑；不受怪物根缩放影响，不拦截raycast。
+验证：目标Unity6000.2.9f1编译错误0；一次短Play以真实TryTakeDamage调用普通/精英各10伤，分别50→40/fill0.8、150→140/fill0.9333333，HP文案匹配；继续令精英死亡后Visual关闭。截图Logs/enemy-hp-minimal.png已目视，显示40/50与红条缺口；Console Error 0。临时跳过Intro、玩家位置/冻结及伤害均仅Play夹具，退出已还原。已保存14绑定且场景clean，恢复原MainMenu playModeStartScene。
+未验证：未模拟玩家攻击输入、未整局/所有分辨率/Windows构建；无新增测试脚本。保留原有改动，未commit/push。
+下一步：用户正常Play体验，需要时在HUD上述节点调整字号/尺寸。
+# 精英伤害与近战距离（2026-10-02）
+
+任务：controller/combat-tuning；Ming/247c471，保留已有未提交改动；源码契约12不变。状态：配置已保存，Play手感待验证。
+授权：精英伤害减少一半；用户澄清第二项为玩家攻击距离增加0.5单位。
+修改及Inspector入口：Assets/Configs/EnemyBasic/EnemyEliteConfig.asset contactDamage 20→10（新局/新敌人初始化）；Assets/Configs/Bite/BiteConfig.asset biteRadius 1.2→1.7；Assets/Configs/Sword/SwordConfig.asset attackRange 1.8→2.3（每次动作读取，单位均为世界单位半径）。
+当前近战是圆形OverlapCircle，前后向由原Facing及目标前方过滤处理；通过半径+0.5延长前方可达距离，也扩大纵向容差。不改变锚点、玩家碰撞体、动画、伤害/冷却或火焰。普通怪10伤、精英150HP及每次全图增攻+5保持。
+既有MainEnemyChecks安装与断言同步为普通/精英基础10、强化一次15；规则/CSV/阅读版/工作包/README同步。没有公共接口变更、场景/Prefab修改或新运行组件。
+实际验证：Unity6000.2.9f1编辑模式原生保存三份配置，主图Test_Player咬剑及Elite_Exit引用正确，三份IsValid均true，保存后数值与磁盘diff核对通过；场景保持clean。未进入Play、未跑C09全套/整局/Windows；不继承历史测试结论。
+补充验证：Unity刷新/编译与Domain Reload已完成；本轮修改文件git diff --check通过。Console保留一条Unity services连接/Native symbols上传错误，不属于C#编译错误；仓库全量diff仍有此前主场景YAML尾空格，本轮未改该场景。
+下一步：下一次Play试手感；仅基础参数调节，不宣称共享保护/攻击时间轴迁移完成。未commit/push。
+
+# 敌人尺寸调整（2026-10-02）
+
+任务：controller/enemy-size；分支Ming，基线247c471及现有未提交改动；公共契约12不变。
+授权：全部普通与精英怪大小、碰撞宽高增加75%；用户要求仅最简单快速测试。
+范围：Assets/WhiteBox/Scenes/Level_Whitebox.unity中14个敌人Transform及配套公共记录；未修改源码、Prefab模板、数值配置、输入、地形或音频。
+参数入口：02 Actors/Enemies_C09下Enemy_01–13、Elite_Exit根Transform Scale X/Y；普通1.75或2.625，精英5.25。根BoxCollider2D局部size仍1×1，EnemyArt及Contact Attack Trigger继承根缩放，Z保持原值。
+位置：所有根Y抬高原实体高度×0.375以保持脚底。Enemy_06/08右移0.375、Enemy_11左移0.375，使实体处于原活动边界内；底层Enemy_01左移0.655、Enemy_03右移0.655，三只出生间隙0.03。AI路线/速度、HP、伤害不变。
+实际验证：Unity非Play原生Undo/Prefab override编辑并保存；14只视觉与实体宽高一致，尺寸倍率和脚底高度检查通过；共28个Collider2D，14个实体两两无出生重叠；sceneSaved=true。保存diff仅14根尺寸/位置及Unity重序列化的空白。首次只读工具片段误用了类型命名空间，修正后执行成功，没有项目源码编译变化。
+未验证：未Play、未整图通行/战斗/动态接触、未构建。遵照用户最小验证要求不新增测试脚本。保留用户既有改动，未commit/push。后续可在Inspector继续调尺寸与位置。
+
+> 单一头顶提示（2026-10-02）：取代前轮两套提示并存。主图InteractionHintView统一展示真实交互或附近教学；交互优先、同屏仅一条、仅Playing显示。9个旧PrototypeTutorialHint2D组件停用，保留位置作为6个教学区域引用，宝箱/按钮/传送的教学重复项不投放。文字44参考像素，透明无底、黑色阴影，定位玩家碰撞体顶边+0.45世界单位并限制在画布内；文案简化为[E] Open、[E] Switch、[E] Travel (cost)、A/D Move、Space Jump等。主图接唯一Run/Interactor/玩家碰撞体/相机，不改输入与玩法。按用户要求仅编译及一次短Play：宝箱旁目视仅一条头顶[E] Open，进入Choosing后提示隐藏；已Stop还原并恢复原Play入口。未跑回归/构建；未commit/push。详见docs/handoffs/ui-readability.handoff。
+
+> UI与前景排序（2026-10-02）：用户授权去除提示蓝底、全UI字号略增及foreground_0前移且不遮物品。9处PrototypeTutorialHint2D背景透明、字号24→26，新增Inspector文字描边（黑色0.9/1像素）；HUD/选择/开场/主菜单TMP字号约+10%，卡牌标题26/正文24，正文区域高120、中心y=-113。主图foreground_0排序23→24，其余Sprite/LineRenderer原顺序统一+30，物品/角色/火焰位于前景之上；地形Tilemap和背景保持。无公共接口/玩法变化。Unity编译无错误；查看了场景、菜单、出生点去底提示与临时卡牌预览；预览场景切换留下2条Wwise菜单监听器注销错误，初始化组件已原生补回，未做音频复验；未跑自动测试/整局/构建，最终整图遮挡由用户人工目视。已退出Play并保存；未commit/push。详见docs/handoffs/ui-readability.handoff。
+
 # 地刺2点伤害（2026-10-02）
 
 任务controller/spike-damage；Ming/01531e2加既有未提交血量调参；公共Core契约12不变，新增白板模块接点。

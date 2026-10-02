@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd52a6f924dc587095b8ed8831954b78, type: 3}
   m_Name: SwordConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.Sword::Regrowth.Gameplay.SwordConfig
-  attackRange: 1.8
+  attackRange: 2.3
   cooldownSeconds: 0.6
   targetLayers:
     serializedVersion: 2

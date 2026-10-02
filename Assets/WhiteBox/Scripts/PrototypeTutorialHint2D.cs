@@ -1,3 +1,5 @@
+// 职责：就近显示教学提示；透明背景与文字描边仅影响显示，不改变输入或交互。
+// 维护：controller/ui-readability；依赖：Unity IMGUI；交接：docs/handoffs/ui-readability.handoff；规范：AGENTS.md。
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +13,14 @@ public class PrototypeTutorialHint2D : MonoBehaviour
     [Header("Panel")]
     [Min(100f)] public float panelWidth = 600f;
     [Min(0f)] public float bottomMargin = 150f;
-    [Range(12, 48)] public int fontSize = 24;
+    [Range(12, 48)] public int fontSize = 26;
     public Font font;
     public Color textColor = Color.white;
-    public Color backgroundColor = new Color(0f, 0f, 0f, 0.8f);
+    public Color backgroundColor = Color.clear;
+    [Tooltip("文字描边颜色；去底后保持明暗背景上的可读性，实时生效。")]
+    public Color outlineColor = new Color(0f, 0f, 0f, 0.9f);
+    [Range(0f, 3f), Tooltip("文字描边偏移，屏幕像素；0关闭，实时生效。")]
+    public float outlineWidth = 1f;
 
     private static readonly List<PrototypeTutorialHint2D> hints = new List<PrototypeTutorialHint2D>();
     private Texture2D background;
@@ -71,8 +77,23 @@ public class PrototypeTutorialHint2D : MonoBehaviour
         GUI.color = backgroundColor;
         GUI.DrawTexture(panel, background);
         GUI.color = previous;
-        GUI.Label(new Rect(panel.x + padding, panel.y + padding, innerWidth,
-            panel.height - padding * 2f), message, style);
+        Rect textRect = new Rect(panel.x + padding, panel.y + padding, innerWidth,
+            panel.height - padding * 2f);
+        if (outlineWidth > 0f && outlineColor.a > 0f)
+        {
+            style.normal.textColor = outlineColor;
+            for (int x = -1; x <= 1; x += 2)
+            {
+                for (int yOffset = -1; yOffset <= 1; yOffset += 2)
+                {
+                    Rect outlineRect = textRect;
+                    outlineRect.position += new Vector2(x, yOffset) * outlineWidth;
+                    GUI.Label(outlineRect, message, style);
+                }
+            }
+        }
+        style.normal.textColor = textColor;
+        GUI.Label(textRect, message, style);
     }
 
     private void OnDestroy() { if (background != null) Destroy(background); }

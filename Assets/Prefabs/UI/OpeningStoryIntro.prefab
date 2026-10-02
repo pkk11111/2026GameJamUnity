@@ -51,8 +51,10 @@ MonoBehaviour:
   storyTextView: {fileID: 1403}
   autoPlayOnEnable: 1
   storyTextAsset: {fileID: 0}
-  fallbackText: "A little pup died before he was ready to say goodbye. When he woke up, he was in Hell, surrounded by strange creatures and unfamiliar roads, with no sign of home anywhere."
-  closingText: "I want to go home."
+  fallbackText: A little pup died before he was ready to say goodbye. When he woke
+    up, he was in Hell, surrounded by strange creatures and unfamiliar roads, with
+    no sign of home anywhere.
+  closingText: I want to go home.
   minimumDisplaySeconds: 3
   maximumDisplaySeconds: 12
   baseReadingSeconds: 1
@@ -352,7 +354,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "A little pup died before he was ready to say goodbye. When he woke up, he was in Hell, surrounded by strange creatures and unfamiliar roads, with no sign of home anywhere."
+  m_text: A little pup died before he was ready to say goodbye. When he woke up,
+    he was in Hell, surrounded by strange creatures and unfamiliar roads, with no
+    sign of home anywhere.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -379,8 +383,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

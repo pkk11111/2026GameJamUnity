@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyEliteConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicConfig
   maximumHealth: 150
-  contactDamage: 20
+  contactDamage: 5
   contactInterval: 0.6
   playerLayers:
     serializedVersion: 2

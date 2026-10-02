@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35cd62dfb4779e943b6330514a8fd780, type: 3}
   m_Name: BiteConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.Bite::Regrowth.Gameplay.BiteConfig
-  biteRadius: 1.2
+  biteRadius: 1.7
   cooldownSeconds: 0.6
   targetLayers:
     serializedVersion: 2

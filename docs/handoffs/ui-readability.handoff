@@ -1,0 +1,35 @@
+# 最新：统一头顶提示（2026-10-02）
+
+分支Ming/247c471及前轮未提交UI/排序改动；规范24、Core契约12不变。用户要求一套提示、字号更大、尽量人物头顶、精简文案，并再次明确只做精简测试。
+
+- Assets/Scripts/UI/Art/InteractionHintView.cs扩展原视图：LateUpdate只读IInteractionState/IRunContext。真实交互优先，无目标才从显式教学数组按距离选一条；非Playing/停用/相机背后隐藏。无新输入/时间/状态控制器，原交互排序保持。
+- 主图HUD的InteractionHintView显式绑定唯一RunController、PlayerInteractor、玩家Collider2D、Main Camera；headOffset=0.45世界单位、width=620参考像素、edgePadding=24。高度随精简文字计算；投影跟随头顶，画布边缘限制位置。Prompt字号44、白字黑阴影；旧Image背景禁用。参数在该场景实例Inspector，来源Prefab可复用，跨对象接线仍须显式配置。
+- 9个PrototypeTutorialHint2D在主图全部enabled=false；旧脚本保留供历史独测，不再绘制主图。沿原6处Transform/半径配置教学：A/D Move、Space Jump、Watch spikes、LMB Attack / Q或RMB Fire、Keep exploring、Buttons control 2 doors。删去宝箱/按钮/传送的重复教学条目；真实交互短文案为[E] Open、[E] Switch、[E] Travel (cost)，传送保留代价提示。映射只改显示，未知交互保留原文本。
+- 保存保留开始时用户已有未保存场景内容与前轮排序/UI改动，不改角色根、地图碰撞和其他玩法。
+
+最小验证：Unity6000.2.9f1编译无错误，一次短Play；临时将玩家摆在Chest03旁，截图确认只有头顶[E] Open，底部旧提示均消失。随后真实TryInteractCurrent成功进入Choosing，hintRoot.activeSelf=false。临时位置/冻结和菜单仅用于观察，Stop后全部还原；未执行领取/战斗/整图回归/构建。截图Logs/UIReadability/single-overhead.png；恢复原playModeStartScene。最终所有区域/分辨率由用户人工目视；不将这次局部检查称为整体验收。
+
+---
+以下为上轮历史，双提示/描边方案已由以上统一uGUI替代。
+# UI字号、透明提示与前景排序
+
+成员/任务别名：controller/ui-readability；日期2026-10-02。
+分支/基线：Ming/247c471；规范24、公共契约12不变。
+状态：已保存，用户人工整图目视待验收；无commit/push。
+
+授权：去提示蓝底，字体略放大；foreground_0往前移且不遮挡其他物品。用户明确不做冗余测试，人工肉眼验收。
+
+实际修改与参数入口：
+- Assets/WhiteBox/Scripts/PrototypeTutorialHint2D.cs：默认字号26/透明底；outlineColor黑色alpha0.9、outlineWidth=1像素，Inspector实时可调；只改变GUI显示。
+- Assets/WhiteBox/Scenes/Level_Whitebox.unity：9个Hint_*实例背景alpha0、字号26；foreground_0 SpriteRenderer.sortingOrder=24。其他92个Sprite/LineRenderer的原排序统一+30，保留彼此顺序；地形Tilemap、background_0及Black保持。角色53、火焰55/拖尾54、敌人与宝箱42，条件门/部分地刺30，按钮/普通门35，其他图形38。无Transform/碰撞/输入/状态写口更改。
+- Assets/Prefabs/Hud/PlayerHud.prefab、Choice/ChoiceMenu.prefab、Choice/ChoiceCard.prefab、UI/OpeningStoryIntro.prefab及Assets/Scenes/Frontend/MainMenu.unity：TMP字号约+10%，四舍五入整数。HP30→33、交互32→35、菜单标题48→53、开始56→62、开场32→35。
+- Assets/Art/UI/Cards/CardVisualStyle.asset：titlePointSize24→26、descriptionPointSize22→24；descriptionSize=(280,120)、descriptionPosition=(0,-113)，保持正文底边与标题间距。CardVisual运行时仍读这份唯一配置。
+- Assets/Art/UI/Common/CascadiaMono_UI_SDF.asset：目视预览产生的动态字形缓存增量，保留已有字体内容。
+
+验证与限制：
+- Unity6000.2.9f1编译无错误；Play前Console错误0，预览场景切换后发现2条Wwise Menu Audio Listener Unknown/Dead game object错误（SetGameObjectAuxEnvSendValues/SetGameObjectOutputBusVolume），不声称运行Console零错误；保存并重开主图，非Play且isDirty=false。
+- 查看Scene View全图、Play主菜单、开场末页、出生点HUD/角色/宝箱/透明移动提示截图；提示无蓝底，角色与宝箱在前景上方。临时TryShow只用于字号预览，不执行奖励/扣费，不声称业务验收。长的自拟示例存在挤出，于预览后增加正文高度；正式全部文案/所有分辨率仍由用户人工检查，不冒称全覆盖。
+- 菜单以Additive打开时Wwise自动移除重复AkInitializer，已改为单场景原生补回原WwiseGlobal组件及原InitializationSettings引用。只有组件本地fileID重建；设置不变，未更改Bank/事件/Authoring。整份HEAD覆盖恢复方案被自动审核拒绝，未执行；实际采用仅补回缺失组件的安全修复。
+- 截图Logs/UIReadability为忽略产物；已退出Play并回到主图，临时预览未保存。未跑自动测试、战斗/整图回归、音频试听或Windows构建。
+
+下一步：用户人工检查主路/高层的物品可见性、全部卡牌文字与所用分辨率。排序仍从各Renderer Inspector调整，不新增Sorting Layer或运行排序脚本。

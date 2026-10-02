@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: EnemyBasicConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicConfig
   maximumHealth: 50
-  contactDamage: 10
+  contactDamage: 5
   contactInterval: 0.6
   playerLayers:
     serializedVersion: 2
     m_Bits: 1
   includePlayerTriggers: 1
-  chaseSpeedFactor: 0.7142857142857143
+  chaseSpeedFactor: 0.71428573
   aggroRadius: 5
   activityLeftOffset: 6
   activityRightOffset: 6

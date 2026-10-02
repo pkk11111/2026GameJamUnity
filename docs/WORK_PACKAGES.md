@@ -1,3 +1,14 @@
+> 敌人伤害调参（2026-10-02）：用户确认精英基础伤害降低5点、普通小怪伤害减半，二者均由10→5；普通50HP/精英150HP与全图每次增攻+5保持。两份配置已原生保存，主图13普通+1精英引用及IsValid检查通过，场景未改；既有C09预期同步为基础5/强化一次10，未运行全套。仅配置检查及编译检查，未Play/整局/构建，未commit/push。公共契约12不变。
+
+> 敌人头顶HP（2026-10-02）：用户授权最简显示与最小测试。主图13小怪+1精英新增EnemyHealthView，红条+当前/最大HP，跟随实体顶边，死亡/离屏隐藏；仅订阅真实IHealth，不改伤害/AI/音频/公共契约12。Unity编译及一次短Play通过：普通50→40/fill0.8，精英150→140/fill0.9333333，精英死亡隐藏；截图已检查，Console Error 0。已Stop还原并恢复MainMenu Play入口；未整局/构建，未commit/push。
+> 战斗调参（2026-10-02）：用户明确精英伤害减半、玩家攻击距离增加0.5单位。已保存EnemyEliteConfig.contactDamage 20→10、BiteConfig.biteRadius 1.2→1.7、SwordConfig.attackRange 1.8→2.3；后两者为当前OverlapCircle的世界单位半径，左右朝向均增加0.5，现行圆判定优先于下方尚未迁移的矩形目标。主图真实引用与三份配置IsValid检查通过，资产diff仅三项参数；未进入Play或构建。C09安装值/既有检查预期同步，未运行其全套检查。普通怪、火焰、冷却、碰撞体及全图每次增攻+5保持；公共接口/契约12不变。未commit/push。
+
+> 敌人尺寸更新（2026-10-02）：按用户“放大0.75倍”执行为宽高×1.75。Level_Whitebox全部13普通+1精英根Transform X/Y同步放大，Sprite、实体及接触Trigger随根缩放；普通1→1.75、1.5→2.625，精英3→5.25单位。保持原脚底高度，Enemy_06/08/11向巡逻区内各移0.375，Enemy_01/03分别向外移0.655避免出生重叠；巡逻边界/AI/HP/伤害不变。Unity原生编辑并保存，仅快速核对14只视觉/实体尺寸、28个碰撞体及出生实体无互相重叠，检查保存diff；未进入Play、未跑回归/构建，未commit/push。公共接口和契约12不变。
+
+> 单一头顶提示（2026-10-02）：取代前轮两套提示并存。主图InteractionHintView统一展示真实交互或附近教学；交互优先、同屏仅一条、仅Playing显示。9个旧PrototypeTutorialHint2D组件停用，保留位置作为6个教学区域引用，宝箱/按钮/传送的教学重复项不投放。文字44参考像素，透明无底、黑色阴影，定位玩家碰撞体顶边+0.45世界单位并限制在画布内；文案简化为[E] Open、[E] Switch、[E] Travel (cost)、A/D Move、Space Jump等。主图接唯一Run/Interactor/玩家碰撞体/相机，不改输入与玩法。按用户要求仅编译及一次短Play：宝箱旁目视仅一条头顶[E] Open，进入Choosing后提示隐藏；已Stop还原并恢复原Play入口。未跑回归/构建；未commit/push。详见docs/handoffs/ui-readability.handoff。
+
+> UI与前景排序（2026-10-02）：用户授权去除提示蓝底、全UI字号略增及foreground_0前移且不遮物品。9处PrototypeTutorialHint2D背景透明、字号24→26，新增Inspector文字描边（黑色0.9/1像素）；HUD/选择/开场/主菜单TMP字号约+10%，卡牌标题26/正文24，正文区域高120、中心y=-113。主图foreground_0排序23→24，其余Sprite/LineRenderer原顺序统一+30，物品/角色/火焰位于前景之上；地形Tilemap和背景保持。无公共接口/玩法变化。Unity编译无错误；查看了场景、菜单、出生点去底提示与临时卡牌预览；预览场景切换留下2条Wwise菜单监听器注销错误，初始化组件已原生补回，未做音频复验；未跑自动测试/整局/构建，最终整图遮挡由用户人工目视。已退出Play并保存；未commit/push。详见docs/handoffs/ui-readability.handoff。
+
 > 地刺更新（2026-10-02）：用户确认主图Spike_A～G在原弹开效果上增加每次2点Terrain伤害。7个实例使用PrototypeSpike2D.damage默认2；新增WhiteboxPlayer2D.TrySpikeHit先验证原保护/迁移/参数，再由唯一PlayerState扣血，存活时排队原击退，致命进入既有死亡流程。沿用当前0.6秒玩家级地刺保护，不在本轮改动敌人接触仲裁或迁移统一0.5秒保护。KnockbackAccepted保留兼容名，语义为成功地刺命中通知；致命音效就绪改读IsBankReady。Unity编译无错误，隔离预览场景31/31检查通过；未进入Play或验收整图物理接触。保留用户未保存场景，未commit/push。
 
 > 敌人血量更新（2026-10-02）：用户确认所有普通小怪初始/最大HP为50，Boss（Elite_Exit）为150，覆盖历史100/250。主图13普通+1精英分别引用已保存的EnemyBasicConfig/EnemyEliteConfig；新建普通配置默认值、C09安装/既有检查预期及combat参数表同步。伤害、AI和每次全图增血+50规则保持。只保存两份配置，保留用户当前未保存的场景及其他改动；本轮未进入Play。

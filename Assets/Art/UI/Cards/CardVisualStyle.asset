@@ -16,12 +16,12 @@ MonoBehaviour:
   size: {x: 415, y: 614}
   rootAngles: {x: 4, y: 0, z: -4}
   titlePosition: {x: 0, y: -220}
-  descriptionPosition: {x: 0, y: -119}
-  titlePointSize: 24
-  descriptionPointSize: 22
+  descriptionPosition: {x: 0, y: -113}
+  titlePointSize: 26
+  descriptionPointSize: 24
   titleSize: {x: 280, y: 58}
   iconPosition: {x: 0, y: 45}
   iconSize: {x: 280, y: 430.5}
-  descriptionSize: {x: 280, y: 108}
+  descriptionSize: {x: 280, y: 120}
   glowPosition: {x: 3.5, y: 31}
   glowSize: {x: 538, y: 656}

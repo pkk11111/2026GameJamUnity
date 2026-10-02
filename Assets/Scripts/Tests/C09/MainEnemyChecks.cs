@@ -85,7 +85,7 @@ namespace Regrowth.Tests.C09
             if (elite == null) { elite = Instantiate(normal); AssetDatabase.CreateAsset(elite, elitePath); }
             var settings = new SerializedObject(elite);
             settings.FindProperty("maximumHealth").intValue = 150;
-            settings.FindProperty("contactDamage").intValue = 20;
+            settings.FindProperty("contactDamage").intValue = 5;
             settings.FindProperty("chaseSpeedFactor").floatValue = 1;
             settings.FindProperty("aggroRadius").floatValue = 7;
             settings.FindProperty("activityLeftOffset").floatValue = 8;
@@ -214,7 +214,7 @@ namespace Regrowth.Tests.C09
             foreach (var ai in all)
             {
                 var hp = ai.GetComponent<EnemyBasic>(); bool elite = ai.name == "Elite_Exit";
-                Check(hp.MaximumHealth == (elite ? 150 : 50) && hp.AttackDamage == (elite ? 20 : 10), ai.name + " health/contact values");
+                Check(hp.MaximumHealth == (elite ? 150 : 50) && hp.AttackDamage == 5, ai.name + " health/contact values");
                 Check(Mathf.Abs(ai.ChaseSpeed - (elite ? motor.BaseMoveSpeed : motor.BaseMoveSpeed * 5 / 7)) < .001f, ai.name + " real base speed");
             }
             var saved = all.ToDictionary(e => e, e => e.transform.position);
@@ -252,7 +252,7 @@ namespace Regrowth.Tests.C09
             bool strengthened = buffs.TryCommit(TeleportCostKind.EnemyHealth, 50, () => true); buffs.PublishCommitted();
             Check(strengthened && all.All(e => e.GetComponent<EnemyBasic>().MaximumHealth == (e.name == "Elite_Exit" ? 200 : 100)), "global HP cost includes all normal and elite");
             bool stronger = buffs.TryCommit(TeleportCostKind.EnemyAttack, 5, () => true); buffs.PublishCommitted();
-            Check(stronger && all.All(e => e.GetComponent<EnemyBasic>().AttackDamage == (e.name == "Elite_Exit" ? 25 : 15)), "global attack cost includes all normal and elite");
+            Check(stronger && all.All(e => e.GetComponent<EnemyBasic>().AttackDamage == 10), "global attack cost includes all normal and elite");
             health.TryTakeDamage(new DamageRequest(health.CurrentHealth, DamageKind.Enemy));
             Check(!health.IsAlive && !target.GetComponent<Rigidbody2D>().simulated && !target.GetComponent<Collider2D>().enabled && !target.GetComponent<SpriteRenderer>().enabled, "death stops AI and removes collider/visual");
             Check(player.BiteDamage == 10 && player.SwordDamage == 20 && player.FireDamage == 8, "initial damage is 10/20/8 without multiplier");
