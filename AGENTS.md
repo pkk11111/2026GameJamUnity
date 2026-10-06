@@ -1,6 +1,6 @@
 # pawgatory 统一开发规范与游戏契约
 
-规范版本：29，2026-10-05；公共源码契约13。当前工作基线main/40de959，未提交工作以Git状态为准。本文是唯一规则入口；历史实施记录见docs/handoffs，不再在本文叠加旧轮次日志。
+规范版本：30，2026-10-06；公共源码契约14。当前工作基线main/1cff880，未提交工作以Git状态为准。本文是唯一规则入口；历史实施记录见docs/handoffs，不再在本文叠加旧轮次日志。
 
 本机活动仓库：`F:/2026GameJamUnity`；旧目录仅迁移备份。以当前Ming代码与实际资产为准，保护用户已有改动。Game Jam已结束，后续由用户授权智能体持续迭代；不沿用旧成员派工和最终封装分工。主场景与公共契约继续串行维护。
 
@@ -145,6 +145,8 @@ UI 显示模拟后生命/上限和禁用原因；鼠标、键盘、手柄及业�
 
 敌人强化影响所有存活普通敌人与精英；增最大生命按原生命比例调整，不复活死敌，未来生成继承本局累计负面。具体线性+50HP/+5攻击、玩家固定攻击增减和取整按§0；PlayerState与EnemyEnhancementService已实现，不再新增第二份状态。
 
+敌人节奏（2026-10-06用户授权）：领地内巡逻，边界/实体阻挡折返以及返抵出生点时短暂停留；合法发现玩家后进入Alert，面向玩家停顿后再Chase。持续追击不重复警觉，原X边界脱战、不回血规则保持。剑命中且实际扣血后，对存活敌人施加小幅水平击退与短恢复；咬击/火焰不击退。警觉和剑击恢复期间不提交接触伤害，但敌人仍能受伤，不增加伤害无敌。移动仍由EnemyBasicAI唯一写入，击退沿用实体Cast和领地边界；暂停/选择冻结计时，死亡/终局/停用清理反馈。普通怪暂定后退3单位/秒×0.12秒（约0.36单位）、总恢复0.18秒；精英1.5×0.08（约0.12单位）、总恢复0.12秒；两类警觉0.3秒、巡逻停顿0.45秒。均为Inspector可调测试默认值，首次启用保存快照，新局读取；不是最终平衡数值。
+
 ### 3.4 两条支线共用规则
 
 稳定 ID：`SIDE_LEGLESS_PUZZLE`、`SIDE_ARMLESS_TRAVERSAL`。每条前方各有入口条件门，由地图同学制作两条旁路及门/区域摆放。玩家从门外靠近检测区后自动弹出确认菜单，无须按E。InspectionDoor1检查双手（连剑），InspectionDoor2检查双腿；持有时询问是否舍弃该项，已缺失时询问是否开启挑战。两种情况均须首次主动确认才永久隐藏门并解除实体阻挡；取消不解锁，离开检测范围再靠近才重试。解锁后本局不再弹入口确认、不再舍弃；退出、再生、传送或组件启停不恢复门。无腿门只提出舍弃腿，无手门只提出舍弃手剑，不自动拆除或要求其他身体项。入口门与普通按钮门职责不同，打开不授予永久资格。程序共享进入资格、指定舍弃、ActiveAttempt、失败/完成/领奖服务，不能每条自建玩家状态或收费系统。
@@ -218,13 +220,15 @@ combat_rules/CSV已提供初始HP、奖励/负面幅度与下限、攻击时序�
 
 主图根为WwiseGlobal、00 Runtime、01 World、02 Actors、03 UI。静态图归01 World/Artwork，Enemy Routes为世界路线、不挂移动敌人，Enemies归Actors；Player、Game Runtime、ExitGate按职责命名，ExitGate保留胜利触发器。分组必须保留世界位置/缩放/排序与所有引用。Scene/Prefab编辑使用Unity原生工具。
 
+EnemySpritePresentation通过本地EnemyBasicAI读取朝向/警觉/恢复；站定停止走路循环、击退不按反向速度翻身。Presentation程序集新增引用既有Regrowth.Gameplay.EnemyBasic，无新增包。
+
 当前运动WhiteboxPlayer2D；普通Attack由PlayerAttackRouter消费，咬/剑读取唯一PlayerState与Facing；Fire独立输入，四动作通过PlayerActionGate互斥。近战仍即时圆判定与独立冷却，0.35秒动作锁不等于完整攻击时间轴。敌人与地刺现已向唯一PlayerState提交同物理步候选：最大伤害优先，同伤害按稳定ID排序，只实际提交一笔；共享0.5游戏秒保护，暂停/选择冻结，不重置计时。近战已检查墙/关闭门遮挡，仍保留即时圆判定和独立0.6秒冷却。
 
 身体表现使用MainPlayerAnimationSet与Dada原始Sprite/Clip，保留白纸底；缺图组合只能降级，不假称补齐。火焰2秒10跳、0.2秒间隔、每跳初始8，速度/半径/冷却读Inspector；暂停冻结、失去火尾/死亡/停用取消。生命与攻击当前值只在PlayerState，动画不提交第二次伤害。
 
 ## 7 实际接口、接线与生命周期
 
-公共源码契约13；模块接点按实际文件登记。没有AttackPercent或AttackPercentIncrease，攻击采用固定整数。
+公共源码契约14；模块接点按实际文件登记。没有AttackPercent或AttackPercentIncrease，攻击采用固定整数。
 
 | 类型 | 实际签名/字段 | 已实现语义或边界 |
 |---|---|---|
@@ -262,6 +266,8 @@ combat_rules/CSV已提供初始HP、奖励/负面幅度与下限、攻击时序�
 | IPlayerFireInput.TryConsumeFire() | 唯一Reader缓冲，由PlayerFireAttack单次消费；Q/右键/右肩 |
 | PlayerActionGate.TryBegin(MonoBehaviour,float) / Release / IsBusy | 普攻、火焰、冲刺互斥/朝向锁，不持有HP或构筑 |
 | PlayerBiteAttack / PlayerSwordAttack | IPlayerAttackAction；CombatState/TryAttack、IsWired、CooldownRemaining；AttackStarted、HitAccepted只通知 |
+| IWeaponHitReceiver.TryApplyWeaponHit(float horizontalDirection) | Core可选反馈端口；剑实际伤害成功后在伤害实体同物体查询并调用；有限非零方向，false未接收；只排队，不扣血、不直接写刚体；AI拒绝死亡/暂停 |
+| EnemyBasicAI | Patrol=0/Chase=1/Return=2/Alert=3；FacingDirection、IsRecovering、CanDealContactDamage只读；唯一敌人运动写者，EnemyContactAttack与表现复用真实状态 |
 | EnemyBasic / EnemyEnhancementService | 敌人唯一HP，显式注册与全图/未来强化；死亡不复活，增血保持比例 |
 | DamageableLookup.FindInParents(Transform,List<MonoBehaviour>) | 主线程同步从节点向父级找首个IDamageable；scratch由调用者独占复用，无状态写入 |
 | DamageableLookup.IsOccluded(Vector2,Collider2D,IDamageable,Transform,LayerMask,List<RaycastHit2D>,List<MonoBehaviour>) | 攻击者根中心到目标最近实体点的实心遮挡检查；排除角色/Trigger；咬剑与敌人接触复用独占scratch |
@@ -282,7 +288,7 @@ combat_rules/CSV已提供初始HP、奖励/负面幅度与下限、攻击时序�
 
 接触结算顺序：玩家运动/攻击在负顺序；敌人AI为50，EnemyContactAttack与PrototypeSpike2D在FixedUpdate顺序100提交，PlayerState在200完成同一步仲裁。TryTakeDamage保持true为实际扣血，不能当作排队接口；接触源不能在结算后/物理回调中补交本步伤害。选中来源的音频/击退只由实际成功回调触发；死亡不排运动。PlayerState的damageProtectionSeconds可调，主图已保存0.5；敌人ContactInterval和地刺protectionTime仅保留旧资产兼容，不再是正式调参入口。BiteConfig/SwordConfig的obstructionLayers已保存为全部层，查询排除角色与Trigger。
 
-敌人接触范围：主图14只伤害Trigger已按实体四周各外扩0.05世界单位保存，实体尺寸/出生点/边界不变；两个敌人Prefab默认同样贴体。调整敌人根缩放时同步核对Trigger的世界容差，不恢复原1.5倍宽、1.2倍高的伤害区。EnemyContactAttack只接受已绑定玩家根节点的非Trigger Collider，附属交互区不受伤；EnemyBasicConfig.ContactObstructionLayers对应Inspector contactObstructionLayers，默认全部层，实心墙/关闭门遮挡，角色/Trigger排除。旧includePlayerTriggers只保留兼容并隐藏。AI在接触裕量内受阻时将水平命令归零；巡逻转向，追击/返程保持原状态等待通路恢复，现行X脱战规则不变。
+敌人接触范围：主图14只伤害Trigger已按实体四周各外扩0.05世界单位保存，实体尺寸/出生点/边界不变；两个敌人Prefab默认同样贴体。调整敌人根缩放时同步核对Trigger的世界容差，不恢复原1.5倍宽、1.2倍高的伤害区。EnemyContactAttack只接受已绑定玩家根节点的非Trigger Collider，附属交互区不受伤；EnemyBasicConfig.ContactObstructionLayers对应Inspector contactObstructionLayers，默认全部层，实心墙/关闭门遮挡，角色/Trigger排除。旧includePlayerTriggers只保留兼容并隐藏。AI在接触裕量内受阻时将水平命令归零；巡逻转向，追击/返程保持原状态等待通路恢复，现行X脱战规则不变。巡逻折返会按配置停顿；警觉/剑击反馈见第3.3节。
 
 ### 选择端口生命周期（现有保证继续保留）
 

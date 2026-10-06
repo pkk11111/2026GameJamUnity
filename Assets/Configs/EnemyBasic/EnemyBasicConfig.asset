@@ -31,3 +31,8 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 1
+  patrolPauseSeconds: 0.45
+  alertSeconds: 0.3
+  weaponKnockbackSpeed: 3
+  weaponKnockbackSeconds: 0.12
+  weaponRecoverySeconds: 0.18

@@ -3,6 +3,7 @@
   "rootNamespace": "Regrowth.Presentation",
   "references": [
     "Regrowth.Core",
+    "Regrowth.Gameplay.EnemyBasic",
     "Regrowth.Runtime",
     "Regrowth.Gameplay.Player",
     "Regrowth.Gameplay.Bite",

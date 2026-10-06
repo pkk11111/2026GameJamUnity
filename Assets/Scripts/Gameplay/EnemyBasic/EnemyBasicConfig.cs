@@ -1,3 +1,4 @@
+// 节奏/武器反馈维护：enemy-ai；参数首次启用快照，交接docs/handoffs/enemy-ai.handoff。
 // Soap/T09：EnemyBasic初始配置。正式初始值50HP/5伤（2026-10-02总控调参）；接触保护已由PlayerState统一持有，旧周期字段只保留序列化兼容。
 // AI参数来自combat_parameters；每个新敌人首次启用保存AI快照，不写回SO。
 // Inspector接线与验证见docs/handoffs/Soap.handoff；规范入口AGENTS.md。
@@ -31,6 +32,22 @@ namespace Regrowth.Gameplay
         [SerializeField, Min(0.01f)] private float returnSpeed = 1.5f;
         [SerializeField, Tooltip("Solid terrain/closed doors; triggers and actor colliders are excluded by AI.")]
         private LayerMask obstacleLayers = 1;
+        [Header("巡逻、警觉与剑击反馈（首次启用生效）")]
+        [SerializeField, Min(0f), Tooltip("巡逻折返/回到出生点时的观察停顿，秒；0关闭，暂定0.45。")]
+        private float patrolPauseSeconds = 0.45f;
+        [SerializeField, Min(0f), Tooltip("首次发现玩家到追击前的停顿，秒；追击中不重复触发，暂定0.3。")]
+        private float alertSeconds = 0.3f;
+        [SerializeField, Min(0f), Tooltip("剑命中后水平后退速度，单位/秒；受实体及领地边界限制，暂定3。")]
+        private float weaponKnockbackSpeed = 3f;
+        [SerializeField, Min(0f), Tooltip("剑命中后的后退时长，秒；普通怪暂定0.12。")]
+        private float weaponKnockbackSeconds = 0.12f;
+        [SerializeField, Min(0f), Tooltip("剑命中后停止AI移动/接触伤害的总时长，秒；必须不少于后退时长，暂定0.18。")]
+        private float weaponRecoverySeconds = 0.18f;
+        public float PatrolPauseSeconds => patrolPauseSeconds;
+        public float AlertSeconds => alertSeconds;
+        public float WeaponKnockbackSpeed => weaponKnockbackSpeed;
+        public float WeaponKnockbackSeconds => weaponKnockbackSeconds;
+        public float WeaponRecoverySeconds => weaponRecoverySeconds;
         public float ChaseSpeedFactor => chaseSpeedFactor;
         public float AggroRadius => aggroRadius;
         public float ActivityLeftOffset => activityLeftOffset;
@@ -39,7 +56,11 @@ namespace Regrowth.Gameplay
         public float ReturnSpeed => returnSpeed;
         public LayerMask ObstacleLayers => obstacleLayers;
         public bool IsAIValid => Positive(chaseSpeedFactor) && Positive(aggroRadius) && Positive(activityLeftOffset)
-            && Positive(activityRightOffset) && Positive(patrolSpeed) && Positive(returnSpeed) && obstacleLayers.value != 0;
+            && Positive(activityRightOffset) && Positive(patrolSpeed) && Positive(returnSpeed) && obstacleLayers.value != 0
+            && NonNegative(patrolPauseSeconds) && NonNegative(alertSeconds)
+            && NonNegative(weaponKnockbackSpeed) && NonNegative(weaponKnockbackSeconds)
+            && NonNegative(weaponRecoverySeconds) && weaponRecoverySeconds >= weaponKnockbackSeconds;
+        private static bool NonNegative(float value) => value >= 0f && !float.IsInfinity(value);
         private static bool Positive(float value) => value > 0f && !float.IsInfinity(value);
         public int MaximumHealth => maximumHealth;
         public int ContactDamage => contactDamage;

@@ -184,7 +184,7 @@ namespace Regrowth.Tests.C08
             PlaceBody(rb, new Vector2(mid, 200f));
             motor.TryTeleportTo(new Vector2(Mathf.Min(mid + 3f, enemy.RightBound - .1f), 200f));
             yield return Step();
-            yield return new WaitForSeconds(.08f);
+            yield return new WaitForSeconds(enemy.GetComponent<EnemyBasic>().Config.AlertSeconds + .08f);
             Check(enemy.State == EnemyAIState.Chase, "visible target acquired before closing obstacle");
             var block = new GameObject("temporary AI closed door");
             block.hideFlags = HideFlags.DontSave;
@@ -281,7 +281,7 @@ namespace Regrowth.Tests.C08
             motor.TryTeleportTo(new Vector2(40.5f, -8.6f));
             yield return Step();
             Physics2D.SyncTransforms();
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(crowd.Max(x => x.GetComponent<EnemyBasic>().Config.AlertSeconds) + .1f);
             foreach (var enemy in crowd) { Check(enemy.State == EnemyAIState.Chase, enemy.name + " acquires visible player above crowd"); }
             motor.TryTeleportTo(new Vector2(37.4f, -8.6f));
             yield return new WaitForSeconds(1.3f);
@@ -313,6 +313,7 @@ namespace Regrowth.Tests.C08
             float savedPatrolSpeed = Read<float>(slow, "patrolSpeed");
             slowBody.position = new Vector2((slow.LeftBound + slow.RightBound) * .5f, 200f);
             Set(slow, "patrolSpeed", .1f);
+            Set(slow, "patrolPauseRemaining", 0f); // 本用例隔离速度，不测试已新增巡逻停顿。
             Physics2D.SyncTransforms();
             int slowDirection = slow.PatrolDirection;
             float slowX = slowBody.position.x;

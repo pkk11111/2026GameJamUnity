@@ -1,17 +1,18 @@
 // Soap/T09: one horizontal movement writer; owner remains the only health/death authority.
 // Explicit owner/body/solid/player/base-speed bindings. No global lookup or player writes.
 // Origin Soap/T09; controller/C09 wires the main map and preserves aggro during menus.
-// 修复维护：structure-audit；原作者Soap。交接docs/handoffs/structure-audit.handoff；规范AGENTS.md。
+// 原作者Soap；节奏/击退维护enemy-ai；交接docs/handoffs/enemy-ai.handoff；规范AGENTS.md。
 using System.Collections.Generic;
 using Regrowth.Core;
 using UnityEngine;
 
 namespace Regrowth.Gameplay
 {
-    public enum EnemyAIState { Patrol, Chase, Return }
+    // 保留已有数值；Alert只在首次索敌时进入，不是每次接触前摇。
+    public enum EnemyAIState { Patrol = 0, Chase = 1, Return = 2, Alert = 3 }
 
     [DisallowMultipleComponent, DefaultExecutionOrder(50)]
-    public sealed class EnemyBasicAI : MonoBehaviour
+    public sealed class EnemyBasicAI : MonoBehaviour, IWeaponHitReceiver
     {
         [SerializeField] private EnemyBasic owner;
         [SerializeField] private Rigidbody2D body;
@@ -30,6 +31,8 @@ namespace Regrowth.Gameplay
         private bool spawnCaptured;
         private bool configCaptured;
         private float chaseFactor, aggroRadius, leftOffset, rightOffset, patrolSpeed, returnSpeed;
+        private float patrolPauseSeconds, alertSeconds, knockbackSpeed, knockbackSeconds, recoverySeconds;
+        private float patrolPauseRemaining, alertRemaining, knockbackRemaining, recoveryRemaining, recoilDirection;
         private LayerMask obstacleLayers;
         private Vector2 spawn;
         private int patrolDirection = 1;
@@ -46,6 +49,25 @@ namespace Regrowth.Gameplay
         public float AggroRadius => aggroRadius;
         public float ChaseSpeed => IsConfigured ? speedProvider.BaseMoveSpeed * chaseFactor : 0f;
         public int PatrolDirection => patrolDirection;
+        public int FacingDirection { get; private set; } = 1;
+        public bool IsRecovering => recoveryRemaining > 0f;
+        // 无敌没有增加：停顿/恢复只限制本敌人的移动与接触输出，仍可继续受到伤害。
+        public bool CanDealContactDamage => !isActiveAndEnabled || !IsConfigured
+            || (State != EnemyAIState.Alert && !IsRecovering);
+
+        /// <summary>已成功剑击后排队；不立即改刚体、不累加冲量。死亡/暂停/无效方向拒绝。</summary>
+        public bool TryApplyWeaponHit(float horizontalDirection)
+        {
+            if (!isActiveAndEnabled || !IsConfigured || owner == null || !owner.CanAct
+                || !Finite(horizontalDirection) || horizontalDirection == 0f || recoverySeconds <= 0f)
+            {
+                return false;
+            }
+            recoilDirection = Mathf.Sign(horizontalDirection);
+            knockbackRemaining = knockbackSeconds;
+            recoveryRemaining = recoverySeconds;
+            return true;
+        }
 
         private void OnEnable()
         {
@@ -59,7 +81,13 @@ namespace Regrowth.Gameplay
                 chaseFactor = settings.ChaseSpeedFactor; aggroRadius = settings.AggroRadius;
                 leftOffset = settings.ActivityLeftOffset; rightOffset = settings.ActivityRightOffset;
                 patrolSpeed = settings.PatrolSpeed; returnSpeed = settings.ReturnSpeed;
-                obstacleLayers = settings.ObstacleLayers; configCaptured = true;
+                obstacleLayers = settings.ObstacleLayers;
+                patrolPauseSeconds = settings.PatrolPauseSeconds;
+                alertSeconds = settings.AlertSeconds;
+                knockbackSpeed = settings.WeaponKnockbackSpeed;
+                knockbackSeconds = settings.WeaponKnockbackSeconds;
+                recoverySeconds = settings.WeaponRecoverySeconds;
+                configCaptured = true;
             }
             ConfigurationError = ValidateConfiguration();
             IsConfigured = ConfigurationError == null;
@@ -107,7 +135,11 @@ namespace Regrowth.Gameplay
         private void OnPhaseChanged(RunPhase phase)
         {
             if (phase == RunPhase.Playing) return;
-            if ((phase == RunPhase.Dead || phase == RunPhase.Won) && State == EnemyAIState.Chase)
+            if (phase == RunPhase.Dead || phase == RunPhase.Won)
+            {
+                ClearTransientMotion();
+            }
+            if ((phase == RunPhase.Dead || phase == RunPhase.Won) && (State == EnemyAIState.Chase || State == EnemyAIState.Alert))
             {
                 State = EnemyAIState.Return;
             }
@@ -115,12 +147,14 @@ namespace Regrowth.Gameplay
         }
         private void OnTargetDied()
         {
-            if (State == EnemyAIState.Chase) State = EnemyAIState.Return;
+            ClearTransientMotion();
+            if (State == EnemyAIState.Chase || State == EnemyAIState.Alert) State = EnemyAIState.Return;
             StopHorizontal();
         }
         private void OnOwnerDied()
         {
             if (body == null || owner == null || body.gameObject != owner.gameObject) return;
+            ClearTransientMotion();
             body.linearVelocity = Vector2.zero;
             body.angularVelocity = 0f;
             body.simulated = false; // Owner already disabled death colliders; corpse must not fall/move.
@@ -155,28 +189,96 @@ namespace Regrowth.Gameplay
                 IsConfigured = false; ConfigurationError = "AI provider/configuration became invalid; movement stopped.";
                 StopHorizontal(); Debug.LogError("[T09 AI CONFIG] " + ConfigurationError, this); return;
             }
-            if (State == EnemyAIState.Chase)
+            // 菜单停顿不会消耗计时；唯一AI在FixedUpdate恢复运动，剑击不能被追击速度覆盖。
+            if (IsRecovering)
             {
-                if (!TargetWithinBounds) State = EnemyAIState.Return;
-                // Radius and LOS are acquisition-only. No chase-time aggro reset.
+                float recoil = knockbackRemaining > 0f
+                    ? recoilDirection * knockbackSpeed * Mathf.Min(1f, knockbackRemaining / Time.fixedDeltaTime) : 0f;
+                knockbackRemaining = Mathf.Max(0f, knockbackRemaining - Time.fixedDeltaTime);
+                recoveryRemaining = Mathf.Max(0f, recoveryRemaining - Time.fixedDeltaTime);
+                MoveHorizontal(recoil, false);
+                return;
             }
-            else if (CanAcquire()) State = EnemyAIState.Chase;
+            if (State == EnemyAIState.Chase || State == EnemyAIState.Alert)
+            {
+                if (!TargetWithinBounds)
+                {
+                    State = EnemyAIState.Return;
+                    alertRemaining = 0f;
+                }
+                // 半径/视线只控制首次索敌，沿用原X边界脱战，避免反复刷警觉停顿。
+            }
+            else if (CanAcquire())
+            {
+                State = alertSeconds > 0f ? EnemyAIState.Alert : EnemyAIState.Chase;
+                alertRemaining = alertSeconds;
+                patrolPauseRemaining = 0f;
+            }
+            if (State == EnemyAIState.Alert)
+            {
+                FaceToward(playerSource.transform.position.x - body.position.x);
+                StopHorizontal();
+                alertRemaining = Mathf.Max(0f, alertRemaining - Time.fixedDeltaTime);
+                if (alertRemaining <= 0f)
+                {
+                    State = EnemyAIState.Chase;
+                }
+                return;
+            }
 
             float speed;
             if (State == EnemyAIState.Chase)
+            {
                 speed = Toward(playerSource.transform.position.x, ChaseSpeed);
+            }
             else if (State == EnemyAIState.Return)
             {
                 if (Mathf.Abs(body.position.x - spawn.x) <= arrivalTolerance)
-                { State = EnemyAIState.Patrol; speed = 0f; }
-                else speed = Toward(spawn.x, returnSpeed);
+                {
+                    State = EnemyAIState.Patrol;
+                    patrolPauseRemaining = patrolPauseSeconds;
+                    speed = 0f;
+                }
+                else
+                {
+                    speed = Toward(spawn.x, returnSpeed);
+                }
             }
             else
             {
-                if (solidCollider.bounds.max.x >= RightBound - arrivalTolerance) patrolDirection = -1;
-                else if (solidCollider.bounds.min.x <= LeftBound + arrivalTolerance) patrolDirection = 1;
-                speed = patrolDirection * patrolSpeed;
+                if (patrolDirection > 0 && solidCollider.bounds.max.x >= RightBound - arrivalTolerance)
+                {
+                    TurnPatrol(-1);
+                }
+                else if (patrolDirection < 0 && solidCollider.bounds.min.x <= LeftBound + arrivalTolerance)
+                {
+                    TurnPatrol(1);
+                }
+                speed = patrolPauseRemaining > 0f ? 0f : patrolDirection * patrolSpeed;
+                patrolPauseRemaining = Mathf.Max(0f, patrolPauseRemaining - Time.fixedDeltaTime);
             }
+            FaceToward(speed);
+            MoveHorizontal(speed, State == EnemyAIState.Patrol);
+        }
+
+        private void FaceToward(float direction)
+        {
+            if (direction != 0f)
+            {
+                FacingDirection = direction > 0f ? 1 : -1;
+            }
+        }
+
+        private void TurnPatrol(int direction)
+        {
+            patrolDirection = direction;
+            FacingDirection = direction;
+            patrolPauseRemaining = patrolPauseSeconds;
+        }
+
+        // 巡逻、追击、返程、击退共用同一实体Cast与领地裁剪；不瞬移或改地形/刚体尺寸。
+        private void MoveHorizontal(float speed, bool turnWhenBlocked)
+        {
             // Bound the next commanded displacement, including collider extents, without teleporting.
             float dt = Time.fixedDeltaTime;
             speed = Mathf.Clamp(speed, Mathf.Min(0f, (LeftBound - solidCollider.bounds.min.x) / dt),
@@ -207,9 +309,9 @@ namespace Regrowth.Gameplay
                 {
                     // 追击/返程等通路恢复后继续，不能持续写入求解器无法实现的微小速度。
                     distance = 0f;
-                    if (State == EnemyAIState.Patrol)
+                    if (turnWhenBlocked)
                     {
-                        patrolDirection = -patrolDirection;
+                        TurnPatrol(-patrolDirection);
                     }
                 }
                 speed = Mathf.Sign(speed) * distance / dt;
@@ -226,8 +328,14 @@ namespace Regrowth.Gameplay
             if (body != null && owner != null && body.gameObject == owner.gameObject)
                 body.linearVelocity = new Vector2(0f, body.linearVelocity.y);
         }
+        private void ClearTransientMotion()
+        {
+            patrolPauseRemaining = alertRemaining = knockbackRemaining = recoveryRemaining = 0f;
+        }
+
         private void OnDisable()
         {
+            ClearTransientMotion();
             if (owner != null) owner.Died -= OnOwnerDied;
             if (player != null) player.Died -= OnTargetDied;
             if (subscribedRun != null) subscribedRun.PhaseChanged -= OnPhaseChanged;
@@ -235,7 +343,7 @@ namespace Regrowth.Gameplay
             StopHorizontal();
             if (ownsMotion && body != null) body.constraints = inactiveConstraints;
             ownsMotion = false;
-            if (State == EnemyAIState.Chase) State = EnemyAIState.Return;
+            if (State == EnemyAIState.Chase || State == EnemyAIState.Alert) State = EnemyAIState.Return;
         }
     }
 }

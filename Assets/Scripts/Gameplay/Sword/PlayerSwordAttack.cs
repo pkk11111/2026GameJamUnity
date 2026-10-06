@@ -1,3 +1,4 @@
+// 剑击成功后通过Core可选IWeaponHitReceiver排队轻击退；维护enemy-ai，docs/handoffs/enemy-ai.handoff。
 // 遮挡修复：structure-audit；交接docs/handoffs/structure-audit.handoff；不修改现有即时动作和冷却。
 // Soap/T08: immediate one-pass settlement, then cooldown. No windup/pending/recovery state.
 // Router alone consumes Attack. Damage/permission come from the actual player; presentation never damages.
@@ -105,6 +106,11 @@ namespace Regrowth.Gameplay
                     int amount = combat.SwordDamage;
                     if (amount > 0 && target.TryTakeDamage(new DamageRequest(amount, DamageKind.Enemy, combatStateSource.gameObject)))
                     {
+                        // 业务反馈先于音频/表现通知；死亡目标由接收者拒绝，未命中/被墙挡住不调用。
+                        if (target is Component hitComponent)
+                        {
+                            hitComponent.GetComponent<IWeaponHitReceiver>()?.TryApplyWeaponHit(facingSource.FacingSign);
+                        }
                         try { HitAccepted?.Invoke(target); }
                         catch (Exception ex) { Debug.LogException(ex, this); }
                     }

@@ -1,3 +1,4 @@
+// 警觉/剑击恢复时抑制接触候选；维护enemy-ai，交接docs/handoffs/enemy-ai.handoff。
 // 职责：显式敌人Trigger每固定步扫描玩家，向唯一接触仲裁器提交候选，无独立接触冷却。
 // 原作者Soap；修复structure-audit；依赖Core/Combat/Unity；交接docs/handoffs/structure-audit.handoff。
 // 顺序100提交，玩家顺序200结算；DamageApplied仅实际扣血后触发；规范根AGENTS.md。
@@ -17,6 +18,7 @@ namespace Regrowth.Gameplay
         private Collider2D attackTrigger;
         [SerializeField, Tooltip("唯一玩家，须实现IDamageable/IHealth/IContactDamageReceiver。")]
         private MonoBehaviour playerDamageableSource;
+        private EnemyBasicAI ai;
         private IDamageable player;
         private IHealth playerHealth;
         private Collider2D playerBody;
@@ -36,6 +38,7 @@ namespace Regrowth.Gameplay
 
         private void OnEnable()
         {
+            ai = owner != null ? owner.GetComponent<EnemyBasicAI>() : null;
             player = playerDamageableSource as IDamageable;
             playerHealth = playerDamageableSource as IHealth;
             playerBody = playerDamageableSource != null ? playerDamageableSource.GetComponent<Collider2D>() : null;
@@ -50,7 +53,7 @@ namespace Regrowth.Gameplay
 
         private void FixedUpdate()
         {
-            if (owner == null || !owner.CanAct || owner.Config == null || !owner.Config.IsValid
+            if (owner == null || !owner.CanAct || (ai != null && !ai.CanDealContactDamage) || owner.Config == null || !owner.Config.IsValid
                 || attackTrigger == null || !attackTrigger.enabled || !attackTrigger.isTrigger
                 || !attackTrigger.transform.IsChildOf(owner.transform) || !attackTrigger.gameObject.activeInHierarchy
                 || playerDamageableSource == null || !playerDamageableSource.isActiveAndEnabled

@@ -30,7 +30,7 @@ player.sword_active,sword,0.1,float,second,design_default,窗口持续查询;同
 player.sword_recovery,sword,0.1,float,second,design_default,后摇内不启动另一攻击
 player.sword_wall_occlusion,sword,1,bool,enabled,design_default,实心地形与关闭门遮挡
 player.melee_hits_per_target_per_action,attack,1,int,hit,user_confirmed,同实体多Collider不能重复扣血
-player.melee_enemy_knockback,attack,0,float,unity_unit_per_second,design_default,咬击与剑击不给敌人击退
+player.bite_enemy_knockback,attack,0,float,unity_unit_per_second,design_default,咬击不给敌人击退;剑击读敌人配置
 player.fire_tick_base_damage,fire,8,int,HP_per_tick,user_confirmed,每跳按基础伤害加减固定攻击点后结算
 player.fire_tick_interval,fire,0.2,float,second,user_confirmed,从释放立即首跳;随后固定时间点
 player.fire_duration,fire,2,float,second,user_confirmed,有效区间为起点包含结束点不包含
@@ -124,3 +124,11 @@ player.main_action_gate_duration,attack,0.35,float,second,design_default,C07旧�
 player.current_bite_radius,bite,1.7,float,unity_unit,user_confirmed,2026-10-02现行圆形判定半径由1.2增加0.5;主图BiteConfig.biteRadius
 player.current_sword_radius,sword,2.3,float,unity_unit,user_confirmed,2026-10-02现行圆形判定半径由1.8增加0.5;主图SwordConfig.attackRange
 enemy.contact_envelope_margin,enemy,0.05,float,unity_unit,design_default,2026-10-05安全修复;伤害Trigger相对实体每侧世界容差;主图与Prefab原生保存;改根缩放须复核
+enemy.patrol_pause_seconds,enemy_ai,0.45,float,second,design_default,折返或返抵出生点停顿;首次启用快照
+enemy.alert_seconds,enemy_ai,0.3,float,second,design_default,发现玩家后面向玩家停顿;追击中不重复;期间不接触伤害
+enemy.weapon_knockback_speed,enemy_ai,3,float,unity_unit_per_second,design_default,普通怪剑击后退速度;墙体及领地边界裁剪
+enemy.weapon_knockback_seconds,enemy_ai,0.12,float,second,design_default,普通怪后退时长;理想位移0.36
+enemy.weapon_recovery_seconds,enemy_ai,0.18,float,second,design_default,普通怪剑击后总恢复时间;期间停止AI及接触伤害但仍可受伤
+elite.weapon_knockback_speed,enemy_ai,1.5,float,unity_unit_per_second,design_default,精英剑击后退速度;墙体及领地边界裁剪
+elite.weapon_knockback_seconds,enemy_ai,0.08,float,second,design_default,精英后退时长;理想位移0.12
+elite.weapon_recovery_seconds,enemy_ai,0.12,float,second,design_default,精英剑击后总恢复时间;暂停和选择冻结
