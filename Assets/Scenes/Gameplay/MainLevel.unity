@@ -2032,6 +2032,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0190476
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0190476
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.25
@@ -5668,6 +5676,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0571429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0571429
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.75
@@ -6677,6 +6693,7 @@ MonoBehaviour:
   initialSwordDamage: 20
   initialFireDamage: 8
   prototypeStartWithBodyCore: 1
+  damageProtectionSeconds: 0.5
 --- !u!114 &535949092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8239,6 +8256,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -11597,6 +11622,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -15306,6 +15339,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -15777,6 +15818,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0571429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0571429
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.75
@@ -16800,6 +16849,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0571429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0571429
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.75
@@ -18097,6 +18154,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0571429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0571429
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.75
@@ -18788,6 +18853,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -81585,6 +81658,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -82527,6 +82608,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -87912,6 +88001,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625
@@ -88975,6 +89072,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0571429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0571429
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.75
@@ -92269,6 +92374,14 @@ PrefabInstance:
       propertyPath: playerDamageableSource
       value: 
       objectReference: {fileID: 535949091}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0380952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474585990382849456, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0380952
+      objectReference: {fileID: 0}
     - target: {fileID: 7809518621267607024, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.625

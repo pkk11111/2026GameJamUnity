@@ -1,3 +1,4 @@
+// 遮挡修复：structure-audit；交接docs/handoffs/structure-audit.handoff；保留已有范围/冷却与GUID。
 // Soap/T08: Inspector test defaults, not final balance. Dependencies: UnityEngine.
 // Wiring and validation: docs/handoffs/Soap.handoff; rules: AGENTS.md.
 using UnityEngine;
@@ -12,6 +13,9 @@ namespace Regrowth.Gameplay
         [SerializeField, Min(0f)] private float cooldownSeconds = 0.6f;
         [SerializeField] private LayerMask targetLayers = 1;
         [SerializeField] private bool includeTriggers = true;
+        [SerializeField, Tooltip("近战遮挡层，默认全部；自动排除Trigger和伤害接收角色，实时读取。")]
+        private LayerMask obstructionLayers = ~0;
+        public LayerMask ObstructionLayers => obstructionLayers;
 
         public float Range => attackRange;
         public float CooldownSeconds => cooldownSeconds;

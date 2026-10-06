@@ -1,7 +1,7 @@
 // Soap/T09: one horizontal movement writer; owner remains the only health/death authority.
 // Explicit owner/body/solid/player/base-speed bindings. No global lookup or player writes.
 // Origin Soap/T09; controller/C09 wires the main map and preserves aggro during menus.
-// Handoffs: Soap.handoff / controller.handoff. Core + Unity only; rules: AGENTS.md.
+// 修复维护：structure-audit；原作者Soap。交接docs/handoffs/structure-audit.handoff；规范AGENTS.md。
 using System.Collections.Generic;
 using Regrowth.Core;
 using UnityEngine;
@@ -137,7 +137,8 @@ namespace Regrowth.Gameplay
             Physics2D.Raycast(from, (to - from).normalized, filter, sightHits, Vector2.Distance(from, to));
             foreach (var hit in sightHits)
                 if (hit.collider != null && !hit.collider.transform.IsChildOf(owner.transform)
-                    && !hit.collider.transform.IsChildOf(playerSource.transform)) return false;
+                    && !hit.collider.transform.IsChildOf(playerSource.transform)
+                    && hit.collider.GetComponentInParent<EnemyBasic>() == null) return false;
             return true;
         }
         private void FixedUpdate()
@@ -184,19 +185,32 @@ namespace Regrowth.Gameplay
             // continuously commanding motion into the player/wall. Physics remains authoritative.
             if (Mathf.Abs(speed) > 0f)
             {
-                const float skin = 0.01f;
+                // 保留物理接触裕量；剩余距离小于接触裕量时，物理求解器可能已阻止位移。
+                float skin = Mathf.Max(0.01f, Physics2D.defaultContactOffset);
                 movementHits.Clear();
                 var filter = new ContactFilter2D { useTriggers = false };
                 solidCollider.Cast(Vector2.right * Mathf.Sign(speed), filter, movementHits, Mathf.Abs(speed) * dt + skin);
                 float distance = Mathf.Abs(speed) * dt;
+                bool blocked = false;
                 foreach (var hit in movementHits)
+                {
                     if (hit.collider != null && !hit.collider.transform.IsChildOf(owner.transform)
                         && Mathf.Abs(hit.normal.x) > 0.5f)
-                        distance = Mathf.Min(distance, Mathf.Max(0f, hit.distance - skin));
+                    {
+                        float allowed = Mathf.Max(0f, hit.distance - skin);
+                        blocked |= allowed < distance;
+                        distance = Mathf.Min(distance, allowed);
+                    }
+                }
                 // Patrol turns away from a wall or another body instead of two guards blocking forever.
-                if (State == EnemyAIState.Patrol && distance <= 0.001f)
+                if (blocked && distance <= skin)
                 {
-                    patrolDirection = -patrolDirection;
+                    // 追击/返程等通路恢复后继续，不能持续写入求解器无法实现的微小速度。
+                    distance = 0f;
+                    if (State == EnemyAIState.Patrol)
+                    {
+                        patrolDirection = -patrolDirection;
+                    }
                 }
                 speed = Mathf.Sign(speed) * distance / dt;
             }

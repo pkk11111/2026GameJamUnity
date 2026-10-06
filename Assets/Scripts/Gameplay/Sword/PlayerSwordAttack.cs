@@ -1,3 +1,4 @@
+// 遮挡修复：structure-audit；交接docs/handoffs/structure-audit.handoff；不修改现有即时动作和冷却。
 // Soap/T08: immediate one-pass settlement, then cooldown. No windup/pending/recovery state.
 // Router alone consumes Attack. Damage/permission come from the actual player; presentation never damages.
 // Dependencies: Core/Audio.Core/Combat/Player/UnityEngine. Rules/wiring: AGENTS.md / Soap.handoff.
@@ -26,6 +27,7 @@ namespace Regrowth.Gameplay
         private double nextAttackTime, hideVisualTime;
         private bool attacking;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
+        private readonly List<RaycastHit2D> obstructionHits = new List<RaycastHit2D>();
         private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
         public event Action AttackStarted;
@@ -90,10 +92,16 @@ namespace Regrowth.Gameplay
                     if (!CanAttack) break;
                     if (collider == null || collider.transform.IsChildOf(combatStateSource.transform)) continue;
                     IDamageable target = DamageableLookup.FindInParents(collider.transform, receiverComponents);
-                    if (target == null || ReferenceEquals(target, combatStateSource) || !damaged.Add(target)) continue;
+                    if (target == null || ReferenceEquals(target, combatStateSource) || damaged.Contains(target)) continue;
                     if (target is Component component && (component.transform.IsChildOf(combatStateSource.transform)
                         || combatStateSource.transform.IsChildOf(component.transform)
                         || (component.transform.position.x - combatStateSource.transform.position.x) * facingSource.FacingSign < 0f)) continue;
+                    if (DamageableLookup.IsOccluded(combatStateSource.transform.position, collider, target,
+                        combatStateSource.transform, config.ObstructionLayers, obstructionHits, receiverComponents))
+                    {
+                        continue;
+                    }
+                    damaged.Add(target);
                     int amount = combat.SwordDamage;
                     if (amount > 0 && target.TryTakeDamage(new DamageRequest(amount, DamageKind.Enemy, combatStateSource.gameObject)))
                     {

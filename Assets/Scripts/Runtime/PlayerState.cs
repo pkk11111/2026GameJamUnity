@@ -1,5 +1,5 @@
 // 职责：唯一生命/三槽/身体/历史/攻击状态；奖励先全量验证再提交，Bootstrap初始化，事件仅通知。
-// 模块/维护：controller / T12-V5；交接：docs/handoffs/controller.handoff；规范：根 AGENTS.md。
+// 原维护controller/T12-V5；接触仲裁修复structure-audit；交接docs/handoffs/structure-audit.handoff；规范AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Audio;
@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Regrowth.Runtime
 {
-    [DisallowMultipleComponent]
+    [DisallowMultipleComponent, DefaultExecutionOrder(200)]
     public sealed class PlayerState : MonoBehaviour, IHealth, IDamageable, ILoadoutState, IFormState,
-        IPlayerStateCommands, IPlayerCombatState, IPlayerBodyState, IPlayerRewardCommands
+        IPlayerStateCommands, IPlayerCombatState, IPlayerBodyState, IPlayerRewardCommands, IContactDamageReceiver
     {
         [Header("初始化（暂定测试值；首次初始化读取）")]
         [SerializeField, Min(1), Tooltip("躯干首次取得时的最大HP；默认100，后续部件再生不重复满血。")]
@@ -23,6 +23,18 @@ namespace Regrowth.Runtime
         private int initialFireDamage = 8;
         [SerializeField, Tooltip("仅白板/旧独测跳过躯干教学；正式教学场景必须关闭。首次初始化生效。")]
         private bool prototypeStartWithBodyCore = true;
+
+        [SerializeField, Min(0f), Tooltip("敌人/地刺实际受伤后的共用保护，游戏秒；默认0.5，实时读取，暂停冻结。")]
+        private float damageProtectionSeconds = 0.5f;
+        private readonly List<ContactCandidate> contactCandidates = new List<ContactCandidate>();
+        private struct ContactCandidate
+        {
+            internal DamageRequest Request;
+            internal MonoBehaviour Source;
+            internal string Id;
+            internal Action<DamageRequest> Applied;
+            internal double Step;
+        }
 
         private readonly LoadoutCollection loadout = new LoadoutCollection();
         private readonly List<LoadoutItemId> everOwned = new List<LoadoutItemId>();
@@ -72,6 +84,7 @@ namespace Regrowth.Runtime
                 return false;
             }
             run = context;
+            run.PhaseChanged += OnRunPhaseChanged;
             if (!IsInitialized)
             {
                 HasBodyCore = prototypeStartWithBodyCore;
@@ -113,13 +126,68 @@ namespace Regrowth.Runtime
         public bool TryTakeDamage(DamageRequest request)
         {
             if (!CanAct || !HasBodyCore || notifying || HasDamageProtection || request.Amount <= 0
-                || (request.Kind != DamageKind.Enemy && request.Kind != DamageKind.Terrain))
+                || (request.Kind != DamageKind.Enemy && request.Kind != DamageKind.Terrain)
+                || damageProtectionSeconds < 0f || float.IsNaN(damageProtectionSeconds) || float.IsInfinity(damageProtectionSeconds))
             {
                 return false;
             }
             currentHealth -= Math.Min(currentHealth, request.Amount);
+            protectionUntil = Math.Max(protectionUntil, Time.timeAsDouble + damageProtectionSeconds);
             Notify(false, true, false, CurrentForm, true);
             return true;
+        }
+
+        /// <summary>接触源只排本固定步候选；死亡/保护/非物理步/无效来源拒绝，不产生伤害事件。</summary>
+        public bool TryQueueContactDamage(DamageRequest request, MonoBehaviour source, string sourceId,
+            Action<DamageRequest> onApplied)
+        {
+            if (!Time.inFixedTimeStep || !CanAct || !HasBodyCore || notifying || HasDamageProtection
+                || request.Amount <= 0 || (request.Kind != DamageKind.Enemy && request.Kind != DamageKind.Terrain)
+                || source == null || !source.isActiveAndEnabled || string.IsNullOrWhiteSpace(sourceId))
+            {
+                return false;
+            }
+            contactCandidates.Add(new ContactCandidate
+            {
+                Request = request, Source = source, Id = sourceId, Applied = onApplied,
+                Step = Time.fixedTimeAsDouble
+            });
+            return true;
+        }
+
+        // 100顺序的敌人/地刺已经扫描，玩家攻击在负顺序完成；同一步只提交最大的一笔。
+        private void FixedUpdate()
+        {
+            ContactCandidate best = default;
+            bool found = false;
+            foreach (ContactCandidate candidate in contactCandidates)
+            {
+                if (candidate.Step != Time.fixedTimeAsDouble || candidate.Source == null
+                    || !candidate.Source.isActiveAndEnabled)
+                {
+                    continue;
+                }
+                if (!found || candidate.Request.Amount > best.Request.Amount
+                    || (candidate.Request.Amount == best.Request.Amount
+                        && string.CompareOrdinal(candidate.Id, best.Id) < 0))
+                {
+                    best = candidate;
+                    found = true;
+                }
+            }
+            contactCandidates.Clear();
+            if (found && TryTakeDamage(best.Request) && best.Applied != null)
+            {
+                CommitOwner(() => best.Applied(best.Request));
+            }
+        }
+
+        private void OnRunPhaseChanged(RunPhase phase)
+        {
+            if (phase != RunPhase.Playing)
+            {
+                contactCandidates.Clear();
+            }
         }
 
         public bool TryHeal(int amount)
@@ -390,6 +458,11 @@ namespace Regrowth.Runtime
         }
         internal void Shutdown()
         {
+            if (run != null)
+            {
+                run.PhaseChanged -= OnRunPhaseChanged;
+            }
+            contactCandidates.Clear();
             run = null;
         }
         private void Notify(bool itemsChanged, bool healthChanged, bool bodyChanged, PlayerForm previous, bool hurt)

@@ -1,4 +1,4 @@
-// Soap/T09：EnemyBasic初始配置。正式初始值50HP/5伤（2026-10-02总控调参）；0.6独立接触间隔仍待共享保护迁移。
+// Soap/T09：EnemyBasic初始配置。正式初始值50HP/5伤（2026-10-02总控调参）；接触保护已由PlayerState统一持有，旧周期字段只保留序列化兼容。
 // AI参数来自combat_parameters；每个新敌人首次启用保存AI快照，不写回SO。
 // Inspector接线与验证见docs/handoffs/Soap.handoff；规范入口AGENTS.md。
 using UnityEngine;
@@ -8,17 +8,20 @@ namespace Regrowth.Gameplay
     [CreateAssetMenu(menuName = "pawgatory/Enemy Basic Config")]
     public sealed class EnemyBasicConfig : ScriptableObject
     {
-        [Header("正式初始生命与伤害 / legacy接触周期")]
+        [Header("正式初始生命与伤害")]
         [SerializeField, Min(1), Tooltip("首次启用初始化最大/当前HP；重新启用不重置生命。")]
         private int maximumHealth = 50;
         [SerializeField, Min(1), Tooltip("首次初始化的接触伤害；之后读取EnemyBasic运行攻击值。")]
         private int contactDamage = 5;
-        [SerializeField, Min(0.01f), Tooltip("接触周期，游戏秒；每次扫描读取，恢复阶段等待一个新周期。")]
+        [SerializeField, HideInInspector] // 旧资产/历史测试兼容；正式接触不读取，不参与配置合法性。
         private float contactInterval = 0.6f;
         [SerializeField, Tooltip("扫描玩家Collider的层；每次扫描读取。")]
         private LayerMask playerLayers = 1;
-        [SerializeField, Tooltip("扫描是否包含玩家Trigger；实体Collider仍独立参与。")]
+        [SerializeField, HideInInspector] // 旧资产兼容；正式伤害只接受玩家根实体Collider。
         private bool includePlayerTriggers = true;
+        [SerializeField, Tooltip("接触伤害的实心遮挡层；默认全部，排除角色与Trigger，实时读取。")]
+        private LayerMask contactObstructionLayers = ~0;
+        public LayerMask ContactObstructionLayers => contactObstructionLayers;
         [Header("Enemy AI - base speed 7 gives chase target 5")]
         [SerializeField, Min(0.01f)] private float chaseSpeedFactor = 5f / 7f;
         [SerializeField, Min(0.01f)] private float aggroRadius = 5f;
@@ -43,7 +46,7 @@ namespace Regrowth.Gameplay
         public float ContactInterval => contactInterval;
         public LayerMask PlayerLayers => playerLayers;
         public bool IncludePlayerTriggers => includePlayerTriggers;
-        public bool IsValid => maximumHealth > 0 && contactDamage > 0 && contactInterval > 0f
-            && !float.IsInfinity(contactInterval) && playerLayers.value != 0;
+        public bool IsValid => maximumHealth > 0 && contactDamage > 0
+            && playerLayers.value != 0;
     }
 }

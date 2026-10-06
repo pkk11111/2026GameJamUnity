@@ -118,12 +118,16 @@ namespace Regrowth.Tests.C08
 
                 floor = new GameObject("C08 temporary floor");
                 floor.transform.position = new Vector3(1005, 99, 0);
-                floor.AddComponent<BoxCollider2D>().size = new Vector2(50, 1);
+                var floorCollider = floor.AddComponent<BoxCollider2D>();
+                floorCollider.size = new Vector2(50, 1);
+                Physics2D.SyncTransforms();
+                // 夹具落点按实际玩家脚底到根节点的距离计算，不能沿用旧1.5高角色的100.3。
+                float landingY = floorCollider.bounds.max.y + motor.Position.y - state.GetComponent<Collider2D>().bounds.min.y + .05f;
                 target = new GameObject("C08 temporary destination");
                 target.AddComponent<AkGameObj>();
-                target.transform.position = new Vector3(1010, 100.3f, 0);
+                target.transform.position = new Vector3(1010, landingY, 0);
                 var testPortal = portals[0];
-                testPortal.transform.position = new Vector3(1000, 100.3f, 0);
+                testPortal.transform.position = new Vector3(1000, landingY, 0);
                 Write(testPortal, "destination", target.transform);
                 var config = Read<PortalCostConfig>(testPortal, "costConfig");
                 var baseEnemy = enemies[0];

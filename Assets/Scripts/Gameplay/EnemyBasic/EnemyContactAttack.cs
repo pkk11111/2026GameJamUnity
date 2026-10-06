@@ -1,5 +1,6 @@
-// Soap/T09：只扫描显式攻击Trigger，只向显式玩家IDamageable提交；无AI/移动/第二份攻击值。
-// 固定步扫描，单个接收者一次周期一次尝试；阶段切换清计时，无暂停补发。详见Soap.handoff。
+// 职责：显式敌人Trigger每固定步扫描玩家，向唯一接触仲裁器提交候选，无独立接触冷却。
+// 原作者Soap；修复structure-audit；依赖Core/Combat/Unity；交接docs/handoffs/structure-audit.handoff。
+// 顺序100提交，玩家顺序200结算；DamageApplied仅实际扣血后触发；规范根AGENTS.md。
 using System;
 using System.Collections.Generic;
 using Regrowth.Core;
@@ -7,96 +8,91 @@ using UnityEngine;
 
 namespace Regrowth.Gameplay
 {
-    [DisallowMultipleComponent]
+    [DisallowMultipleComponent, DefaultExecutionOrder(100)]
     public sealed class EnemyContactAttack : MonoBehaviour
     {
-        [SerializeField, Tooltip("同一敌人根的唯一生命/运行数值持有者；禁止绑定另一个敌人。")]
+        [SerializeField, Tooltip("本敌人唯一生命/伤害持有者。")]
         private EnemyBasic owner;
-        [SerializeField, Tooltip("本敌人子层级的攻击Trigger，独立于根实体Collider；大小在Collider Inspector调。")]
+        [SerializeField, Tooltip("本敌人子节点攻击Trigger，大小仍由Collider配置。")]
         private Collider2D attackTrigger;
-        [SerializeField, Tooltip("实际唯一玩家组件，必须同时实现IDamageable和IHealth；不绑定代理。")]
+        [SerializeField, Tooltip("唯一玩家，须实现IDamageable/IHealth/IContactDamageReceiver。")]
         private MonoBehaviour playerDamageableSource;
         private IDamageable player;
         private IHealth playerHealth;
-        private IRunContext subscribedRun;
-        private double nextDamageTime;
+        private Collider2D playerBody;
+        private IContactDamageReceiver receiver;
+        private string sourceId;
+        private Action<DamageRequest> onApplied;
+        private readonly List<RaycastHit2D> obstructionHits = new List<RaycastHit2D>();
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
         private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
-        // 只读成功事件便于诊断真实Kind/Source；订阅者不能再次结算。
         public event Action<DamageRequest> DamageApplied;
+
+        private void Awake()
+        {
+            sourceId = ContactDamageIdentity.Capture(this);
+            onApplied = NotifyApplied;
+        }
 
         private void OnEnable()
         {
             player = playerDamageableSource as IDamageable;
             playerHealth = playerDamageableSource as IHealth;
+            playerBody = playerDamageableSource != null ? playerDamageableSource.GetComponent<Collider2D>() : null;
+            receiver = playerDamageableSource as IContactDamageReceiver;
             if (owner == null || attackTrigger == null || !attackTrigger.isTrigger
-                || !attackTrigger.transform.IsChildOf(owner.transform) || player == null || playerHealth == null)
+                || !attackTrigger.transform.IsChildOf(owner.transform)
+                || player == null || playerHealth == null || receiver == null || playerBody == null || playerBody.isTrigger)
             {
-                Debug.LogWarning("[T09 Contact] Bind local owner/attack Trigger and actual player IHealth/IDamageable.", this);
-            }
-            nextDamageTime = Time.timeAsDouble;
-            BindRun();
-        }
-        private void BindRun()
-        {
-            IRunContext current = owner != null ? owner.RunContext : null;
-            if (ReferenceEquals(current, subscribedRun))
-            {
-                return;
-            }
-            if (subscribedRun != null)
-            {
-                subscribedRun.PhaseChanged -= OnPhaseChanged;
-            }
-            subscribedRun = current;
-            if (subscribedRun != null)
-            {
-                subscribedRun.PhaseChanged += OnPhaseChanged;
+                Debug.LogWarning("[Contact] Bind local owner/attack Trigger and actual player contact receiver.", this);
             }
         }
-        private void OnPhaseChanged(RunPhase phase)
-        {
-            // 每次恢复至少等一个新间隔；没有catch-up循环，也没有积压接触队列。
-            nextDamageTime = Time.timeAsDouble + (owner != null && owner.Config != null ? owner.Config.ContactInterval : 0f);
-        }
+
         private void FixedUpdate()
         {
-            BindRun();
             if (owner == null || !owner.CanAct || owner.Config == null || !owner.Config.IsValid
                 || attackTrigger == null || !attackTrigger.enabled || !attackTrigger.isTrigger
-                || !attackTrigger.transform.IsChildOf(owner.transform)
-                || !attackTrigger.gameObject.activeInHierarchy || playerDamageableSource == null
-                || !playerDamageableSource.isActiveAndEnabled || player == null || playerHealth == null
-                || !playerHealth.IsAlive || owner.AttackDamage <= 0 || Time.timeAsDouble < nextDamageTime)
+                || !attackTrigger.transform.IsChildOf(owner.transform) || !attackTrigger.gameObject.activeInHierarchy
+                || playerDamageableSource == null || !playerDamageableSource.isActiveAndEnabled
+                || player == null || playerHealth == null || receiver == null
+                || !playerHealth.IsAlive || owner.AttackDamage <= 0 || playerBody == null
+                || !playerBody.enabled || playerBody.isTrigger)
             {
                 return;
             }
-            var filter = new ContactFilter2D { useLayerMask = true, layerMask = owner.Config.PlayerLayers,
-                useTriggers = owner.Config.IncludePlayerTriggers };
+            var filter = new ContactFilter2D
+            {
+                useLayerMask = true, layerMask = owner.Config.PlayerLayers,
+                useTriggers = false
+            };
             overlaps.Clear();
             attackTrigger.Overlap(filter, overlaps);
             foreach (Collider2D collider in overlaps)
             {
-                if (collider == null || !ReferenceEquals(DamageableLookup.FindInParents(collider.transform, receiverComponents), player))
+                if (collider != playerBody)
                 {
                     continue;
                 }
-                nextDamageTime = Time.timeAsDouble + owner.Config.ContactInterval;
-                var request = new DamageRequest(owner.AttackDamage, DamageKind.Enemy, owner.gameObject);
-                if (player.TryTakeDamage(request))
+                // 只认唯一玩家根实体；附属交互Trigger不能扩大受伤区域。
+                if (DamageableLookup.IsOccluded(owner.transform.position, playerBody, player, owner.transform,
+                    owner.Config.ContactObstructionLayers, obstructionHits, receiverComponents))
                 {
-                    DamageApplied?.Invoke(request);
+                    continue;
                 }
-                break; // 无论成功/保护拒绝，所有玩家Collider共享本次周期。
+                receiver.TryQueueContactDamage(new DamageRequest(owner.AttackDamage, DamageKind.Enemy, owner.gameObject),
+                    this, sourceId, onApplied);
+                break; // 玩家多Collider在此来源同一步只有一份候选。
             }
         }
+
+        private void NotifyApplied(DamageRequest request)
+        {
+            DamageApplied?.Invoke(request);
+        }
+
         private void OnDisable()
         {
-            if (subscribedRun != null)
-            {
-                subscribedRun.PhaseChanged -= OnPhaseChanged;
-            }
-            subscribedRun = null; overlaps.Clear();
+            overlaps.Clear();
         }
     }
 }

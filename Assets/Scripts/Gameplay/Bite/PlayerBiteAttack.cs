@@ -1,3 +1,4 @@
+// 遮挡修复：structure-audit；交接docs/handoffs/structure-audit.handoff；不修改现有即时动作和冷却。
 // Soap/T07：分发器调用的咬击动作；不消费输入、不解释身体规则、不写运动/共享状态。
 // Inspector显式绑定攻击读口/判定锚点/配置；与分发器使用同一真实PlayerState。
 // biteOrigin为右向参考偏移，视觉须使用独立子对象；动画事件不得再次扣血。交接见docs/handoffs/Soap.handoff。
@@ -27,6 +28,7 @@ namespace Regrowth.Gameplay
         private bool wired;
         private bool attacking;
         private readonly List<Collider2D> overlaps = new List<Collider2D>();
+        private readonly List<RaycastHit2D> obstructionHits = new List<RaycastHit2D>();
         private readonly List<MonoBehaviour> receiverComponents = new List<MonoBehaviour>();
         private readonly HashSet<IDamageable> damaged = new HashSet<IDamageable>();
         public float CooldownRemaining => Mathf.Max(0f, (float)(nextAttackTime - Time.timeAsDouble));
@@ -93,7 +95,7 @@ namespace Regrowth.Gameplay
                         continue;
                     }
                     IDamageable target = DamageableLookup.FindInParents(collider.transform, receiverComponents);
-                    if (target == null || ReferenceEquals(target, combatStateSource) || !damaged.Add(target))
+                    if (target == null || ReferenceEquals(target, combatStateSource) || damaged.Contains(target))
                     {
                         continue;
                     }
@@ -103,6 +105,12 @@ namespace Regrowth.Gameplay
                     {
                         continue;
                     }
+                    if (DamageableLookup.IsOccluded(combatStateSource.transform.position, collider, target,
+                        combatStateSource.transform, config.ObstructionLayers, obstructionHits, receiverComponents))
+                    {
+                        continue;
+                    }
+                    damaged.Add(target);
                     if (!isActiveAndEnabled || combatStateSource == null || !combat.CanBite)
                     {
                         break;

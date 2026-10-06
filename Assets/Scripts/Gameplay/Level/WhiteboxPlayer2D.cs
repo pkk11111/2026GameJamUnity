@@ -327,7 +327,27 @@ namespace Regrowth.Gameplay.WhiteBox
             return true;
         }
 
-        /// <summary>兼容旧白板的纯击退入口；正式地刺调用TrySpikeHit，物理写入仍在下一FixedUpdate。</summary>
+        /// <summary>正式地刺排队，true仅为候选接收；仲裁实际扣血且存活才排击退，败选无音频/击退。</summary>
+        public bool TryQueueSpikeHit(Vector2 velocity, float controlLock, int damage,
+            MonoBehaviour source, string sourceId, Action<DamageRequest> onApplied)
+        {
+            if (playerState == null || damage <= 0 || source == null
+                || !CanAcceptSpikeKnockback(velocity, controlLock, 0f))
+            {
+                return false;
+            }
+            return playerState.TryQueueContactDamage(new DamageRequest(damage, DamageKind.Terrain, source.gameObject),
+                source, sourceId, request =>
+                {
+                    if (playerState.IsAlive)
+                    {
+                        QueueSpikeMotion(velocity, controlLock);
+                    }
+                    onApplied?.Invoke(request);
+                });
+        }
+
+        /// <summary>兼容旧白板纯击退；正式地刺使用TryQueueSpikeHit。物理写入仍在下一FixedUpdate。</summary>
         public bool TrySpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
         {
             if (!CanAcceptSpikeKnockback(velocity, controlLock, protectionTime))
@@ -348,11 +368,16 @@ namespace Regrowth.Gameplay.WhiteBox
 
         private void QueueSpikeKnockback(Vector2 velocity, float controlLock, float protectionTime)
         {
+            QueueSpikeMotion(velocity, controlLock);
+            spikeProtectionRemaining = Mathf.Max(knockbackRemaining, protectionTime);
+        }
+
+        private void QueueSpikeMotion(Vector2 velocity, float controlLock)
+        {
             dashing = false;
             dashRemaining = jumpBuffer = coyoteRemaining = 0f;
             groundLock = Mathf.Max(takeoffGroundLock, controlLock);
             knockbackRemaining = Mathf.Max(Time.fixedDeltaTime, controlLock);
-            spikeProtectionRemaining = Mathf.Max(knockbackRemaining, protectionTime);
             knockbackVelocity = velocity;
             knockbackPending = true;
         }
@@ -491,7 +516,11 @@ namespace Regrowth.Gameplay.WhiteBox
                 CancelPaidTeleport();
                 jumpBuffer = 0f;
                 relocationPending = false;
-                knockbackPending = false;
+                // 已结算的地刺击退须跨暂停/选择保留；死亡/胜利才丢弃。
+                if (phase == RunPhase.Dead || phase == RunPhase.Won)
+                {
+                    knockbackPending = false;
+                }
             }
         }
 

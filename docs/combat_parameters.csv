@@ -123,3 +123,4 @@ player.fire_radius,fire,0.6,float,unity_unit,design_default,每跳重查圆范�
 player.main_action_gate_duration,attack,0.35,float,second,design_default,C07旧即时咬剑的表现互斥时间;不替代未来0.1前摇有效后摇时间轴
 player.current_bite_radius,bite,1.7,float,unity_unit,user_confirmed,2026-10-02现行圆形判定半径由1.2增加0.5;主图BiteConfig.biteRadius
 player.current_sword_radius,sword,2.3,float,unity_unit,user_confirmed,2026-10-02现行圆形判定半径由1.8增加0.5;主图SwordConfig.attackRange
+enemy.contact_envelope_margin,enemy,0.05,float,unity_unit,design_default,2026-10-05安全修复;伤害Trigger相对实体每侧世界容差;主图与Prefab原生保存;改根缩放须复核

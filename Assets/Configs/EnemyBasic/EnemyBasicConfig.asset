@@ -19,6 +19,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   includePlayerTriggers: 1
+  contactObstructionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   chaseSpeedFactor: 0.71428573
   aggroRadius: 5
   activityLeftOffset: 6
