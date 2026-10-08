@@ -29,3 +29,10 @@ MenuAudioBackend的Bank Name/Hover Event/Click Event/Gain Db/Initialization Time
 主菜单控制器Start Transition Seconds默认0.35，Bootstrap Death Restart Delay Seconds默认2.1。
 后续更换更长素材须同步调整对应延迟；当前设计为有限固定展示时间，不由Wwise回调决定游戏是否能开始或重开。
 专用胜利音需提供实际Event并重新生成/交付Bank，再在关卡RewardAudioBackend的Mappings绑定RunWon。当前没有完成这一项。
+
+## Windows 初始化资产预加载修复（2026-10-08）
+
+分支Soap，基点6a55ca9c4021800f439b0adda29feb752767d644。用户已完成根因诊断并授权仅修复Player Settings预加载配置，不重新调查其他方向；未commit/push。
+通过Unity 6000.2.9f1临时Editor脚本调用PlayerSettings.GetPreloadedAssets/SetPreloadedAssets，追加Assets/Wwise/ScriptableObjects/AkWwiseInitializationSettings.asset（GUID 494d3a5c71523e84aa1a6965c4d9ac2c）。原Assets/Input/Shared.inputactions及顺序保留，数组由1项变2项。生效入口为Project Settings > Player > Other Settings > Preloaded Assets，下一次重新构建的Player启动时预加载正式配置，避免默认ScriptableObject的MainOutputSettings空引用。
+首次批处理编译通过，API回读验证PASS、scriptCompilationFailed=False、Unity退出码0；ProjectSettings diff仅新增该引用一行。临时脚本及meta已删除，随后重新打开Unity批处理编译再次通过、退出码0，持久化引用仍在。git diff --check通过；最终仅ProjectSettings和本交接/controller摘要三文件变化。未修改Wwise源码、WwiseSettings.xml、Bank、Authoring、AudioCue、RewardAudioBackend、Gameplay、场景或包。
+未重新Windows Build或试听；用户下一步在Build Profiles选择Windows x86_64，保留MainMenu/MainLevel正式场景并构建到新目录，运行新exe检查Player.log：不再出现AkCommonUserSettings.CopyTo的NullReferenceException，应有Sound engine initialized successfully及后续Init/SB_Main正常加载证据。编译成功不代表Standalone声音已验收。验证日志在本机忽略目录Logs/wwise-preload-repair.log及Logs/wwise-preload-final-compile.log。
