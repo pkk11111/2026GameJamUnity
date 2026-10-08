@@ -1,4 +1,4 @@
-// Soap/T09: one horizontal movement writer; owner remains the only health/death authority.
+// Soap/T09 + enemy-ai: one ground/flight movement writer; owner remains the only health/death authority.
 // Explicit owner/body/solid/player/base-speed bindings. No global lookup or player writes.
 // Origin Soap/T09; controller/C09 wires the main map and preserves aggro during menus.
 // 原作者Soap；节奏/击退维护enemy-ai；交接docs/handoffs/enemy-ai.handoff；规范AGENTS.md。
@@ -33,6 +33,9 @@ namespace Regrowth.Gameplay
         private float chaseFactor, aggroRadius, leftOffset, rightOffset, patrolSpeed, returnSpeed;
         private float patrolPauseSeconds, alertSeconds, knockbackSpeed, knockbackSeconds, recoverySeconds;
         private float patrolPauseRemaining, alertRemaining, knockbackRemaining, recoveryRemaining, recoilDirection;
+        private bool flying;
+        private float flightBelow, flightAbove, hoverHeight, hoverAmplitude, hoverPeriod, flightTime, flightCollisionSkin;
+        private float inactiveGravity;
         private LayerMask obstacleLayers;
         private Vector2 spawn;
         private int patrolDirection = 1;
@@ -51,6 +54,9 @@ namespace Regrowth.Gameplay
         public int PatrolDirection => patrolDirection;
         public int FacingDirection { get; private set; } = 1;
         public bool IsRecovering => recoveryRemaining > 0f;
+        public bool IsFlying => flying;
+        public float BottomBound => spawn.y - flightBelow;
+        public float TopBound => spawn.y + flightAbove;
         // 无敌没有增加：停顿/恢复只限制本敌人的移动与接触输出，仍可继续受到伤害。
         public bool CanDealContactDamage => !isActiveAndEnabled || !IsConfigured
             || (State != EnemyAIState.Alert && !IsRecovering);
@@ -87,6 +93,13 @@ namespace Regrowth.Gameplay
                 knockbackSpeed = settings.WeaponKnockbackSpeed;
                 knockbackSeconds = settings.WeaponKnockbackSeconds;
                 recoverySeconds = settings.WeaponRecoverySeconds;
+                flying = settings.Flying;
+                flightBelow = settings.FlightBelow;
+                flightAbove = settings.FlightAbove;
+                hoverHeight = settings.HoverHeight;
+                hoverAmplitude = settings.HoverAmplitude;
+                hoverPeriod = settings.HoverPeriod;
+                flightCollisionSkin = settings.FlightCollisionSkin;
                 configCaptured = true;
             }
             ConfigurationError = ValidateConfiguration();
@@ -101,6 +114,11 @@ namespace Regrowth.Gameplay
             player.Died += OnTargetDied;
             BindRun();
             inactiveConstraints = body.constraints;
+            inactiveGravity = body.gravityScale;
+            if (flying)
+            {
+                body.gravityScale = 0f;
+            }
             ownsMotion = true;
             body.constraints = RigidbodyConstraints2D.FreezeRotation;
             if (!owner.IsAlive) OnOwnerDied();
@@ -119,6 +137,11 @@ namespace Regrowth.Gameplay
             if (!Finite(LeftBound) || !Finite(RightBound) || LeftBound >= RightBound) return "Activity bounds require left < right; values are never swapped.";
             if (spawn.x < LeftBound || spawn.x > RightBound || RightBound - LeftBound <= solidCollider.bounds.size.x)
                 return "Activity bounds must contain spawn and fit the solid collider.";
+            if (flying && (solidCollider.bounds.extents.y >= flightBelow
+                || hoverHeight + hoverAmplitude + solidCollider.bounds.extents.y >= flightAbove))
+            {
+                return "Flight bounds must fit the body and full hover height; check EnemyBatConfig.";
+            }
             if (!Positive(arrivalTolerance)) return "Arrival tolerance must be finite and positive.";
             return null;
         }
@@ -160,7 +183,9 @@ namespace Regrowth.Gameplay
             body.simulated = false; // Owner already disabled death colliders; corpse must not fall/move.
         }
         private bool TargetAlive => playerSource != null && playerSource.isActiveAndEnabled && player != null && player.IsAlive;
-        private bool TargetWithinBounds => playerSource.transform.position.x >= LeftBound && playerSource.transform.position.x <= RightBound;
+        private bool TargetWithinBounds => playerSource.transform.position.x >= LeftBound
+            && playerSource.transform.position.x <= RightBound
+            && (!flying || (playerSource.transform.position.y >= BottomBound && playerSource.transform.position.y <= TopBound));
         private bool CanAcquire()
         {
             if (!TargetAlive || !TargetWithinBounds) return false;
@@ -196,7 +221,14 @@ namespace Regrowth.Gameplay
                     ? recoilDirection * knockbackSpeed * Mathf.Min(1f, knockbackRemaining / Time.fixedDeltaTime) : 0f;
                 knockbackRemaining = Mathf.Max(0f, knockbackRemaining - Time.fixedDeltaTime);
                 recoveryRemaining = Mathf.Max(0f, recoveryRemaining - Time.fixedDeltaTime);
-                MoveHorizontal(recoil, false);
+                if (flying)
+                {
+                    MoveFlight(new Vector2(recoil, 0f), false);
+                }
+                else
+                {
+                    MoveHorizontal(recoil, false);
+                }
                 return;
             }
             if (State == EnemyAIState.Chase || State == EnemyAIState.Alert)
@@ -223,6 +255,12 @@ namespace Regrowth.Gameplay
                 {
                     State = EnemyAIState.Chase;
                 }
+                return;
+            }
+
+            if (flying)
+            {
+                TickFlight();
                 return;
             }
 
@@ -259,6 +297,105 @@ namespace Regrowth.Gameplay
             }
             FaceToward(speed);
             MoveHorizontal(speed, State == EnemyAIState.Patrol);
+        }
+
+        // 飞行保持低空可近战高度；没有寻路或越墙补位，受阻追击等待玩家露出可达路线。
+        private void TickFlight()
+        {
+            flightTime = Mathf.Repeat(flightTime + Time.fixedDeltaTime, hoverPeriod);
+            Vector2 target;
+            float speed;
+            if (State == EnemyAIState.Chase)
+            {
+                target = playerSource.transform.position;
+                speed = ChaseSpeed;
+            }
+            else if (State == EnemyAIState.Return)
+            {
+                target = spawn + Vector2.up * hoverHeight;
+                speed = returnSpeed;
+                if (Vector2.Distance(body.position, target) <= arrivalTolerance)
+                {
+                    State = EnemyAIState.Patrol;
+                    patrolPauseRemaining = patrolPauseSeconds;
+                }
+            }
+            else
+            {
+                if (patrolDirection > 0 && solidCollider.bounds.max.x >= RightBound - arrivalTolerance)
+                {
+                    TurnPatrol(-1);
+                }
+                else if (patrolDirection < 0 && solidCollider.bounds.min.x <= LeftBound + arrivalTolerance)
+                {
+                    TurnPatrol(1);
+                }
+                target = new Vector2(patrolDirection > 0 ? RightBound - solidCollider.bounds.extents.x
+                    : LeftBound + solidCollider.bounds.extents.x,
+                    spawn.y + hoverHeight + Mathf.Sin(flightTime / hoverPeriod * Mathf.PI * 2f) * hoverAmplitude);
+                speed = patrolSpeed;
+                if (patrolPauseRemaining > 0f)
+                {
+                    patrolPauseRemaining = Mathf.Max(0f, patrolPauseRemaining - Time.fixedDeltaTime);
+                    StopHorizontal();
+                    return;
+                }
+            }
+            Vector2 delta = target - body.position;
+            Vector2 velocity = delta.magnitude <= arrivalTolerance ? Vector2.zero
+                : Vector2.ClampMagnitude(delta / Time.fixedDeltaTime, speed);
+            FaceToward(velocity.x);
+            MoveFlight(velocity, State == EnemyAIState.Patrol);
+        }
+
+        // 对最终二维位移扫完整Collider；斜向、天花板、地板、门和其他实体均不能穿过。
+        // 不先横移再无检测地补纵移，也不由表现层改变真实位置。
+        private void MoveFlight(Vector2 velocity, bool turnWhenBlocked)
+        {
+            float dt = Time.fixedDeltaTime;
+            Bounds bounds = solidCollider.bounds;
+            velocity.x = Mathf.Clamp(velocity.x, Mathf.Min(0f, (LeftBound - bounds.min.x) / dt),
+                Mathf.Max(0f, (RightBound - bounds.max.x) / dt));
+            velocity.y = Mathf.Clamp(velocity.y, Mathf.Min(0f, (BottomBound - bounds.min.y) / dt),
+                Mathf.Max(0f, (TopBound - bounds.max.y) / dt));
+            float length = velocity.magnitude;
+            if (length <= 0f)
+            {
+                body.linearVelocity = Vector2.zero;
+                return;
+            }
+            Vector2 direction = velocity / length;
+            float skin = Mathf.Max(flightCollisionSkin, Physics2D.defaultContactOffset * 2f);
+            float distance = length * dt;
+            bool hitSide = false;
+            bool blocked = false;
+            movementHits.Clear();
+            solidCollider.Cast(direction, new ContactFilter2D { useTriggers = false }, movementHits, distance + skin);
+            foreach (var hit in movementHits)
+            {
+                if (hit.collider == null || hit.collider.transform.IsChildOf(owner.transform)
+                    || Vector2.Dot(hit.normal, direction) >= -0.01f)
+                {
+                    continue;
+                }
+                float allowed = Mathf.Max(0f, hit.distance - skin);
+                if (allowed < distance)
+                {
+                    blocked = true;
+                    distance = allowed;
+                    hitSide = Mathf.Abs(hit.normal.x) > 0.5f;
+                }
+            }
+            // 只有真实障碍压缩了位移才停下；安全间隙不能吞掉正常的低速飞行步长。
+            if (blocked && distance <= skin)
+            {
+                distance = 0f;
+                if (turnWhenBlocked && hitSide)
+                {
+                    TurnPatrol(-patrolDirection);
+                }
+            }
+            body.linearVelocity = direction * (distance / dt);
         }
 
         private void FaceToward(float direction)
@@ -326,7 +463,7 @@ namespace Regrowth.Gameplay
         private void StopHorizontal()
         {
             if (body != null && owner != null && body.gameObject == owner.gameObject)
-                body.linearVelocity = new Vector2(0f, body.linearVelocity.y);
+                body.linearVelocity = flying ? Vector2.zero : new Vector2(0f, body.linearVelocity.y);
         }
         private void ClearTransientMotion()
         {
@@ -341,7 +478,11 @@ namespace Regrowth.Gameplay
             if (subscribedRun != null) subscribedRun.PhaseChanged -= OnPhaseChanged;
             subscribedRun = null;
             StopHorizontal();
-            if (ownsMotion && body != null) body.constraints = inactiveConstraints;
+            if (ownsMotion && body != null)
+            {
+                body.constraints = inactiveConstraints;
+                body.gravityScale = inactiveGravity;
+            }
             ownsMotion = false;
             if (State == EnemyAIState.Chase || State == EnemyAIState.Alert) State = EnemyAIState.Return;
         }

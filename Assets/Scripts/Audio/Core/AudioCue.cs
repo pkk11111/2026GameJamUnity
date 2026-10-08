@@ -41,6 +41,8 @@ namespace Regrowth.Audio
         EliteAttack = 34,
         PortalIn = 35,
         PortalOut = 36,
+        NPCFootstep = 37,
+        NPCFly = 38,
     }
 }
 

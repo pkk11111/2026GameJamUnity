@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e746c1cc4875c24eb4351be3d243e01, type: 3}
-  m_Name: EnemyBasicConfig
+  m_Name: EnemyBatConfig
   m_EditorClassIdentifier: Regrowth.Gameplay.EnemyBasic::Regrowth.Gameplay.EnemyBasicConfig
   maximumHealth: 50
   contactDamage: 5
@@ -36,7 +36,7 @@ MonoBehaviour:
   weaponKnockbackSpeed: 3
   weaponKnockbackSeconds: 0.12
   weaponRecoverySeconds: 0.18
-  flying: 0
+  flying: 1
   flightBelow: 1
   flightAbove: 3
   hoverHeight: 0.75

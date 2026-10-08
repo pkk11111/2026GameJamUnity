@@ -23,16 +23,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   chaseSpeedFactor: 1
-  aggroRadius: 7
+  aggroRadius: 8
   activityLeftOffset: 8
   activityRightOffset: 8
   patrolSpeed: 1.5
   returnSpeed: 1.5
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
   patrolPauseSeconds: 0.45
   alertSeconds: 0.3
   weaponKnockbackSpeed: 1.5
   weaponKnockbackSeconds: 0.08
   weaponRecoverySeconds: 0.12
+  flying: 0
+  flightBelow: 1
+  flightAbove: 3
+  hoverHeight: 0.75
+  hoverAmplitude: 0.25
+  hoverPeriod: 2.4
+  flightCollisionSkin: 0.03

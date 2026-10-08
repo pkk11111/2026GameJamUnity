@@ -220,7 +220,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 42
-  m_Sprite: {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  m_Sprite: {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -762,7 +762,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 42
-  m_Sprite: {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  m_Sprite: {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -4456,7 +4456,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 42
-  m_Sprite: {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  m_Sprite: {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -5103,6 +5103,16 @@ MonoBehaviour:
   elite: 1
   contact: {fileID: 176889777}
   hurtInterval: 2.9
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &446399533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5656,6 +5666,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: f5f4ce1b9841f084fb8e50e7720da8f3, type: 2}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
       value: 
@@ -8406,6 +8420,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 649860643}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.111
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &649860649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9208,6 +9232,10 @@ MonoBehaviour:
     eventName: Play_Portal_In
   - cue: 36
     eventName: Play_Portal_Out
+  - cue: 37
+    eventName: Play_NPC_Footsteps
+  - cue: 38
+    eventName: Play_NPC_Fly
 --- !u!114 &761430552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9538,7 +9566,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 42
-  m_Sprite: {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  m_Sprite: {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -11772,6 +11800,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 955256664}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.074
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &955256670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15489,6 +15527,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1329691502}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.444
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1329691508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15799,6 +15847,10 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: f5f4ce1b9841f084fb8e50e7720da8f3, type: 2}
+    - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
       value: 
       objectReference: {fileID: 2001872525}
@@ -15944,9 +15996,9 @@ MonoBehaviour:
   body: {fileID: 1352591600}
   visual: {fileID: 57319970}
   frames:
-  - {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -1656456040, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  - {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -1724090904, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -756323721, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
 --- !u!114 &1352591602
@@ -15964,6 +16016,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1352591597}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.407
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1352591603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16830,6 +16892,10 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: f5f4ce1b9841f084fb8e50e7720da8f3, type: 2}
+    - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
       value: 
       objectReference: {fileID: 2001872525}
@@ -16975,9 +17041,9 @@ MonoBehaviour:
   body: {fileID: 1407821683}
   visual: {fileID: 2088149103}
   frames:
-  - {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -1656456040, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  - {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -1724090904, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -756323721, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
 --- !u!114 &1407821685
@@ -16995,6 +17061,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1407821680}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.222
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1407821686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18135,6 +18211,10 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: f5f4ce1b9841f084fb8e50e7720da8f3, type: 2}
+    - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
       value: 
       objectReference: {fileID: 2001872525}
@@ -18280,9 +18360,9 @@ MonoBehaviour:
   body: {fileID: 1485377968}
   visual: {fileID: 771474585}
   frames:
-  - {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -1656456040, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  - {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -1724090904, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -756323721, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
 --- !u!114 &1485377970
@@ -18300,6 +18380,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1485377965}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.296
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1485377971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19003,6 +19093,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1509865870}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.37
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1509865876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81808,6 +81908,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1657835939}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.148
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1657835945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82147,9 +82257,9 @@ MonoBehaviour:
   body: {fileID: 1693165064}
   visual: {fileID: 14455605}
   frames:
-  - {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -1656456040, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  - {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -1724090904, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -756323721, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
 --- !u!114 &1693165066
@@ -82167,6 +82277,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 483900283}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.333
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1693165067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82758,6 +82878,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1753591084}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.481
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1753591090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88151,6 +88281,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1823530509}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.037
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1823530515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89053,6 +89193,10 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: f5f4ce1b9841f084fb8e50e7720da8f3, type: 2}
+    - target: {fileID: 2827846458870826507, guid: 88b6d9ed891a539ea6505fb03982dc9a, type: 3}
       propertyPath: runContextSource
       value: 
       objectReference: {fileID: 2001872525}
@@ -89198,9 +89342,9 @@ MonoBehaviour:
   body: {fileID: 1925499417}
   visual: {fileID: 416799208}
   frames:
-  - {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -1656456040, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
-  - {fileID: -822762654, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  - {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -1724090904, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
+  - {fileID: -756323721, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   framesPerSecond: 8
   spriteFacesRight: 0
 --- !u!114 &1925499419
@@ -89218,6 +89362,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 1925499414}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.185
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &1925499420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91953,7 +92107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 42
-  m_Sprite: {fileID: 469022222, guid: aab50c0bca6ca284d913f7984616365c, type: 3}
+  m_Sprite: {fileID: 375406824, guid: c525022cd2cea694587cefd7c12a7d67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -92524,6 +92678,16 @@ MonoBehaviour:
   elite: 0
   contact: {fileID: 2138536940}
   hurtInterval: 1.05
+  movementAudio: 1
+  movementListener: {fileID: 535949088}
+  movementAudibleRadius: 16
+  stepDistance: 0.9
+  stepInterval: 0.4
+  flapInterval: 0.65
+  movementStartOffset: 0.259
+  groundProbeDistance: 0.08
+  minimumMoveSpeed: 0.1
+  maximumSampleDistance: 1
 --- !u!114 &2138536946
 MonoBehaviour:
   m_ObjectHideFlags: 0

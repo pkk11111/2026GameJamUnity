@@ -1,6 +1,6 @@
 # 当前接手状态
 
-更新时间：2026-10-06。当前本机仓库F:/2026GameJamUnity，main/1cff880；未提交工作以实际Git为准。其他电脑使用自己的完整checkout，不照搬盘符或分支状态。规范30，公共Core契约14。
+更新时间：2026-10-06。当前本机仓库F:/2026GameJamUnity，main/2117ec9；未提交工作以实际Git为准。其他电脑使用自己的完整checkout，不照搬盘符或分支状态。规范31，公共Core契约15。
 
 Game Jam已结束，后续由用户授权智能体迭代。此文件只保留当前状态，不追加每轮历史。先读根AGENTS.md，再查本次相关代码/资产；历史见[归档索引](../archive/gamejam-2026/README.md)。WORK_PACKAGES已退役。
 
@@ -53,6 +53,7 @@ Windows构建：在Build Profiles核对Windows64及场景列表，顺序为MainM
 - 普通WorldDoor重关需Box门碰撞+closingGuard玩家实体，占位时拒绝关闭，离开后可再按按钮。
 - 存活玩家碰顶部绿色门即胜利；不要求精英死亡。实际死亡等待2.1真实秒后重载关卡；无跨启动存档。
 
+- 左支线Enemy_05/06/08/09/11已改为低空蝙蝠；8地面普通+5蝙蝠+1精英，索敌均8，墙/关闭门遮挡。独立EnemyBatConfig配置飞行矩形范围，原实体/位置/X边界/数值保持。敌人脚步与翼声已有GameAudio映射及附近限频请求，Bank43/43已配置；详见enemy-ai交接。
 - 敌人新增巡逻折返停顿、首次发现Alert、成功剑击轻退/恢复，真实状态驱动接触伤害门控及站定/朝向表现。Core新增IWeaponHitReceiver，原数值/边界/HP/强化语义保持；实现与本轮验证见[enemy-ai](enemy-ai.handoff)。
 
 ## 当前数值与调参位置
@@ -64,6 +65,8 @@ Windows构建：在Build Profiles核对Windows64及场景列表，顺序为MainM
 - 新暂停接线位于主图Game Runtime的PauseInputHandler，必填Reader/Run/Choices；重新启用生效。门closingGuard与挑战引用均在各实例Inspector中。
 
 - EnemyBasicConfig/EnemyEliteConfig：巡逻停顿0.45秒、警觉0.3秒；普通怪剑击后退3×0.12秒/总恢复0.18秒，精英1.5×0.08秒/总恢复0.12秒。首次启用读取，新局验证调整；配置已原生保存。
+
+- EnemyBatConfig飞行：出生点下1/上3，中心高0.75、振幅0.25、周期2.4秒、扫掠间隙0.03。EnemyAudio脚步0.9单位/最短0.4秒，翼声0.65秒，玩家附近16单位发声；movementAudio开关可单独关闭。
 
 ## 尚未实现或待验证
 
@@ -84,7 +87,7 @@ Windows构建：在Build Profiles核对Windows64及场景列表，顺序为MainM
 
 ## 最近验证与记录
 
-2026-10-06敌人节奏专项：Unity编译通过；EnemyRhythmChecks在实际主图普通怪/精英运行75通过、0失败；实测双向普通怪约0.36单位、精英约0.12单位，覆盖警觉/巡逻停顿、实际剑击、接触抑制/恢复、暂停、墙/边界、停用与死亡。原SafetyRepairChecks完整重跑76通过、0失败；退出Play后场景clean、Missing Script为0、14只配置有效、主菜单入口已恢复，详见enemy-ai交接。未人工整局/音频试听/Windows构建。
+2026-10-06蝙蝠/移动声音专项：Unity编译通过；当前最终代码在MainLevel全新Play，EnemyFlightChecks 53通过/0失败，SafetyRepairChecks 76通过/0失败，EnemyRhythmChecks 75通过/0失败。覆盖5只实图蝙蝠悬停/飞行碰撞/8单位遮挡索敌/实际Wwise脚步与翼声投递，并重跑原伤害安全和警觉/剑击反馈。退出Play并原生重开主图后clean、Missing Script为0，14只配置/听者和5只蝙蝠引用有效，MainMenu启动已恢复；新增meta/GUID与参数CSV检查通过。详见[enemy-ai交接](enemy-ai.handoff)。未人工整局、主观混音试听或Windows构建。
 
 2026-10-05最新敌人专项：扩充SafetyRepairChecks并完整重跑76通过/0失败，覆盖收紧范围、双向小怪/精英薄墙、开关阻挡、附属Trigger、追击/返程受阻与左右引诱，且包含上一轮伤害/近战/死亡回归。前一轮Unity编译与专项46/0、原传送/动作86/0、门/奖励/入口66/0共198项属于当时结果，不累加冒充本轮重跑。原C08夹具按旧1.5高角色创建落点，初跑40通过/10失败并提前异常；修正为按实际2.5高碰撞体计算临时落点后完整重跑86/0，未改主图落点迎合测试。未人工整局通关/音频试听/异机验收；用户明确本轮不验证Windows构建，未打包。下表仍为2026-10-03历史实施结果，不覆盖本轮。
 

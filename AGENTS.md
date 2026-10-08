@@ -1,6 +1,6 @@
 # pawgatory 统一开发规范与游戏契约
 
-规范版本：30，2026-10-06；公共源码契约14。当前工作基线main/1cff880，未提交工作以Git状态为准。本文是唯一规则入口；历史实施记录见docs/handoffs，不再在本文叠加旧轮次日志。
+规范版本：31，2026-10-06；公共源码契约15。当前工作基线main/2117ec9，未提交工作以Git状态为准。本文是唯一规则入口；历史实施记录见docs/handoffs，不再在本文叠加旧轮次日志。
 
 本机活动仓库：`F:/2026GameJamUnity`；旧目录仅迁移备份。以当前Ming代码与实际资产为准，保护用户已有改动。Game Jam已结束，后续由用户授权智能体持续迭代；不沿用旧成员派工和最终封装分工。主场景与公共契约继续串行维护。
 
@@ -147,6 +147,8 @@ UI 显示模拟后生命/上限和禁用原因；鼠标、键盘、手柄及业�
 
 敌人节奏（2026-10-06用户授权）：领地内巡逻，边界/实体阻挡折返以及返抵出生点时短暂停留；合法发现玩家后进入Alert，面向玩家停顿后再Chase。持续追击不重复警觉，原X边界脱战、不回血规则保持。剑命中且实际扣血后，对存活敌人施加小幅水平击退与短恢复；咬击/火焰不击退。警觉和剑击恢复期间不提交接触伤害，但敌人仍能受伤，不增加伤害无敌。移动仍由EnemyBasicAI唯一写入，击退沿用实体Cast和领地边界；暂停/选择冻结计时，死亡/终局/停用清理反馈。普通怪暂定后退3单位/秒×0.12秒（约0.36单位）、总恢复0.18秒；精英1.5×0.08（约0.12单位）、总恢复0.12秒；两类警觉0.3秒、巡逻停顿0.45秒。均为Inspector可调测试默认值，首次启用保存快照，新局读取；不是最终平衡数值。
 
+2026-10-06后续用户授权：普通怪、蝙蝠、精英的索敌半径统一8单位；先检查领地与完整实心视线，墙、关闭门及非Default层实体都遮挡，Trigger与角色排除。8不是跨领地追击许可，受阻时不会瞬移或穿墙。左支线Enemy_05/06/08/09/11改为蝙蝠，复用Bat_Hover三帧与独立EnemyBatConfig；原位置、左右边界、碰撞尺寸、50HP/5伤保留。飞行由同一EnemyBasicAI持有刚体、禁重力，低空上下巡逻、二维追击，离开三维坐标中的二维矩形活动范围后返回出生点上方悬停位置；非飞行怪保留原X边界脱战。蝙蝠出生点下1/上3单位为垂直边界（约束完整实体），巡逻中心高0.75、振幅0.25、周期2.4秒；飞行Cast保留0.03单位安全间隙，实际至少2倍物理接触裕量。以上飞行参数为可调安全试用默认值，首次启用快照；墙/天花板/地板/角色会截断二维扫掠，不自动绕墙、换层或跳过机关。飞行悬停仍扇翅，暂停冻结动画；原警觉/受击恢复/死亡语义保持。
+
 ### 3.4 两条支线共用规则
 
 稳定 ID：`SIDE_LEGLESS_PUZZLE`、`SIDE_ARMLESS_TRAVERSAL`。每条前方各有入口条件门，由地图同学制作两条旁路及门/区域摆放。玩家从门外靠近检测区后自动弹出确认菜单，无须按E。InspectionDoor1检查双手（连剑），InspectionDoor2检查双腿；持有时询问是否舍弃该项，已缺失时询问是否开启挑战。两种情况均须首次主动确认才永久隐藏门并解除实体阻挡；取消不解锁，离开检测范围再靠近才重试。解锁后本局不再弹入口确认、不再舍弃；退出、再生、传送或组件启停不恢复门。无腿门只提出舍弃腿，无手门只提出舍弃手剑，不自动拆除或要求其他身体项。入口门与普通按钮门职责不同，打开不授予永久资格。程序共享进入资格、指定舍弃、ActiveAttempt、失败/完成/领奖服务，不能每条自建玩家状态或收费系统。
@@ -228,7 +230,7 @@ EnemySpritePresentation通过本地EnemyBasicAI读取朝向/警觉/恢复；站�
 
 ## 7 实际接口、接线与生命周期
 
-公共源码契约14；模块接点按实际文件登记。没有AttackPercent或AttackPercentIncrease，攻击采用固定整数。
+公共源码契约15；模块接点按实际文件登记。没有AttackPercent或AttackPercentIncrease，攻击采用固定整数。
 
 | 类型 | 实际签名/字段 | 已实现语义或边界 |
 |---|---|---|
@@ -267,7 +269,7 @@ EnemySpritePresentation通过本地EnemyBasicAI读取朝向/警觉/恢复；站�
 | PlayerActionGate.TryBegin(MonoBehaviour,float) / Release / IsBusy | 普攻、火焰、冲刺互斥/朝向锁，不持有HP或构筑 |
 | PlayerBiteAttack / PlayerSwordAttack | IPlayerAttackAction；CombatState/TryAttack、IsWired、CooldownRemaining；AttackStarted、HitAccepted只通知 |
 | IWeaponHitReceiver.TryApplyWeaponHit(float horizontalDirection) | Core可选反馈端口；剑实际伤害成功后在伤害实体同物体查询并调用；有限非零方向，false未接收；只排队，不扣血、不直接写刚体；AI拒绝死亡/暂停 |
-| EnemyBasicAI | Patrol=0/Chase=1/Return=2/Alert=3；FacingDirection、IsRecovering、CanDealContactDamage只读；唯一敌人运动写者，EnemyContactAttack与表现复用真实状态 |
+| EnemyBasicAI | Patrol=0/Chase=1/Return=2/Alert=3；FacingDirection、IsRecovering、CanDealContactDamage只读；唯一地面/飞行运动写者；新增IsFlying、BottomBound/TopBound只读，EnemyContactAttack/表现/移动音频复用真实状态 |
 | EnemyBasic / EnemyEnhancementService | 敌人唯一HP，显式注册与全图/未来强化；死亡不复活，增血保持比例 |
 | DamageableLookup.FindInParents(Transform,List<MonoBehaviour>) | 主线程同步从节点向父级找首个IDamageable；scratch由调用者独占复用，无状态写入 |
 | DamageableLookup.IsOccluded(Vector2,Collider2D,IDamageable,Transform,LayerMask,List<RaycastHit2D>,List<MonoBehaviour>) | 攻击者根中心到目标最近实体点的实心遮挡检查；排除角色/Trigger；咬剑与敌人接触复用独占scratch |
@@ -327,9 +329,11 @@ null emitter 指专用全局发声对象；StopAll(null) 只停止该对象，�
 | RunWon=13 | 存活玩家碰顶部绿色终点门并进入Won；不要求精英死亡 |
 | PlayerWeaponAttack=14 | 持Arms的剑击动作实际开始；不复用咬击 |
 
-Cue 15–36已发布：PlayerDash=15、PlayerDoubleJump=16、CardsPresented=17、CardHovered=18、CardSelected=19、UIHovered=20、PlayerMoveNoFeet=21、PlayerFootstep=22、PlayerLand=23、PlayerFire=24、FireHit=25、BiteHitNPC=26、BiteHitElite=27、SwordHitNPC=28、SwordHitElite=29、NPCHurt=30、NPCDeath=31、EliteHurt=32、EliteDeath=33、EliteAttack=34、PortalIn=35、PortalOut=36；以AudioCue.cs为精确签名，不重排。
+Cue 15–38已发布：PlayerDash=15、PlayerDoubleJump=16、CardsPresented=17、CardHovered=18、CardSelected=19、UIHovered=20、PlayerMoveNoFeet=21、PlayerFootstep=22、PlayerLand=23、PlayerFire=24、FireHit=25、BiteHitNPC=26、BiteHitElite=27、SwordHitNPC=28、SwordHitElite=29、NPCHurt=30、NPCDeath=31、EliteHurt=32、EliteDeath=33、EliteAttack=34、PortalIn=35、PortalOut=36、NPCFootstep=37、NPCFly=38；以AudioCue.cs为精确签名，不重排。
 
-现有SB_Main已接41/43事件，排除敌人脚步和Fly；专用胜利Event尚未提供，RunWon保持未映射。音乐/地刺由既有音频模块接线；关卡Bank唯一加载者ExplorationMusicZones，菜单MenuAudioBackend独立生命周期。Wwise安装与映射不等于异机最终声音验收，Voice Starvation记录仍需复现定位；不盲调插件或Authoring。
+现有SB_Main的43/43事件已有配置，包括敌人脚步与Fly；专用胜利Event尚未提供，RunWon保持未映射。音乐/地刺由既有音频模块接线；关卡Bank唯一加载者ExplorationMusicZones，菜单MenuAudioBackend独立生命周期。Wwise安装与映射不等于异机最终声音验收，Voice Starvation记录仍需复现定位；不盲调插件或Authoring。
+
+敌人移动音频现已接入：NPCFootstep=37→Play_NPC_Footsteps、NPCFly=38→Play_NPC_Fly，由EnemyAudio经GameAudio发出，RewardAudioBackend映射，沿用已有Bank/插件/Authoring。地面脚步要求实际水平位移且脚下有实心地面，暂定每0.9单位且间隔至少0.4秒；正常飞行/悬停翼声间隔0.65秒。只在显式玩家引用16单位内启用；警觉、受击恢复、暂停/Choosing、死亡、禁用和远离不发新移动声，拒绝大步迁移并不补播；首次按实例偏移错开。已发一次性短音自然结束，不调用StopAll误停受伤/死亡声。参数均在各EnemyAudio Inspector，movementAudio可单独关闭；MovementRequests只计请求，不等同于真实Wwise投递成功。
 
 共享 Unity 仓库必须提交：Audio Core、后端与映射、实际 Integration 与目标平台插件、配置/音频 Prefab、必要 .bnk/.wem 和 Integration 配套元数据、对应 .meta。包方式需要锁文件与可访问依赖；不全局忽略 DLL。
 

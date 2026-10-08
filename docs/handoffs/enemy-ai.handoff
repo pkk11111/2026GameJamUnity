@@ -1,3 +1,36 @@
+# 左支线蝙蝠与敌人移动声音（当前）
+
+任务enemy-ai；2026-10-06；main / 2117ec9；规范31，公共Core契约15。
+授权：安全尝试接入敌人脚步；最左支线小怪换蝙蝠并设计飞行；用户后续明确普通怪和精英索敌距离都为8，含蝙蝠。范围含必要源码/主图/配置/表现/音频接线和验证；无新依赖、无Bank/Authoring改动、不commit/push。
+
+## 本次结果与入口
+
+- 原14只敌人中的Enemy_05/06/08/09/11（X约-52到-40）改为蝙蝠，引用Assets/Configs/EnemyBasic/EnemyBatConfig.asset与既有Bat_Hover三帧；主图原生编辑保存。保留原对象/实体尺寸/位置/左右边界/HP/攻击/强化/伤害区；未改5个原Prefab源资产，实例配置覆盖用于区分飞行。
+- 全部14只索敌半径统一8，三份配置obstacleLayers=全部层。首次索敌视线仍排除Trigger/角色，实心墙与门遮挡；已追击时维持仇恨到离开领地，但实际运动不能穿实体。
+- EnemyBasicAI仍唯一刚体写者，新增配置飞行模式，接管/停用恢复gravityScale；低空巡逻摆动、二维追击、返悬停点、矩形领地/完整实体Cast。没有寻路/绕墙/穿平台；封闭障碍前停下。警觉和剑击反馈复用原状态；蝙蝠悬停时仍播放翼帧。
+- EnemyAudio同物体读取AI/刚体/实体；地面脚步按真实位移与脚底Cast，翼声按间隔，16单位距离门控与首声错开；不因顶墙速度命令、掉落、受击、菜单或迁移补播。Cue37/38经GameAudio→已有RewardAudioBackend，主图新映射两条；所有43个Bank事件已配置，不另造音频后端。
+- 正式场景没有新测试组件。新增EnemyFlightChecks属于现有UNITY_EDITOR条件AudioCombat测试程序集，显式临时Play对象。
+
+## Inspector
+
+普通/精英/蝙蝠Config.aggroRadius=8。EnemyBatConfig：flying=true，flightBelow=1、flightAbove=3、hoverHeight=0.75、hoverAmplitude=0.25、hoverPeriod=2.4、flightCollisionSkin=0.03。距离为世界单位，周期为游戏秒；初次启用保存快照，新局重读。安全间隙实际至少Physics2D.defaultContactOffset×2；地面运动不受该新增字段影响。
+
+14只EnemyAudio.movementListener显式绑定玩家，movementAudio=true，可单独关闭；stepDistance=0.9、stepInterval=0.4、flapInterval=0.65、movementAudibleRadius=16、groundProbeDistance=0.08、minimumMoveSpeed=0.1、maximumSampleDistance=1；按名称排序movementStartOffset=i×0.037秒。实时调参；已有伤害/死亡音频节奏保留。MovementRequests是请求计数，实际成功发声须读RewardAudioBackend.Count和Wwise状态。
+
+## 验证与限制
+
+- 当前最终代码在Unity 6000.2.9f1编译无错误。MainLevel全新Play：EnemyFlightChecks 53通过/0失败，SafetyRepairChecks 76通过/0失败，EnemyRhythmChecks 75通过/0失败。飞行检查覆盖5只实际蝙蝠悬停、8单位索敌/墙与Trigger区别、二维追击/领地返回、薄墙/顶板/地板高速扫掠、警觉/受击/暂停/启停/死亡，以及真实地面位移脚步/翼声/远距静音。RewardAudioBackend就绪且NPCFootstep/NPCFly成功计数增加，不以请求计数冒充Wwise投递。
+- 退出Play后恢复MainMenu启动入口；5个Canvas仅有编辑器脏标记，与磁盘预览场景序列化内容（排除临时instanceID）一致后原生重开MainLevel。场景clean、Missing Script为0，14/14配置有效且索敌8，5只蝙蝠表现和14条玩家听者引用仍在；原位置/实体尺寸保留，无测试对象落盘。
+- 新配置/测试源码的meta配对与GUID唯一性、CSV七列及参数ID唯一检查通过。测试生成的字体缓存差异已恢复。非场景git diff --check通过；主图仅5条Unity原生生成的空value覆盖有尾随空格，未手改YAML。
+
+中间修复：中间测试发现飞行扫掠默认接触裕量下薄墙边缘约0.005单位重叠，增加专用0.03间隙；随后修复无障碍低速步长被误归零，改为只有真实受阻才执行停止阈值。高速度测试不通过时未放宽无重叠断言。
+
+未人工整局/主观混音试听/Windows构建/异机验收；飞行范围和声音音量最终体感需用户试玩。音频短音已发后自然结束，不用StopAll连同受伤/死亡声一起停止。首次误从MainMenu跑夹具0项并报空引用，已补StartChecks的MainLevel玩家前置；之后均在实际MainLevel全新Play运行。菜单退出另有既有Wwise未注册监听器日志，不冒称所有启动路径音频零错误。
+
+---
+
+以下为此前已提交的地面节奏实施与当时验证，不能替代本轮结果。
+
 # 敌人节奏与剑击反馈
 
 任务enemy-ai；2026-10-06；main / 1cff880；规范30，公共Core契约14。

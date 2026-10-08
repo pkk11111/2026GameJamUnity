@@ -70,7 +70,9 @@ namespace Regrowth.Presentation
             {
                 visual.flipX = (body.linearVelocity.x > 0f) != spriteFacesRight;
             }
-            if (!moving || (hasAI && (ai.State == EnemyAIState.Alert || ai.IsRecovering)))
+            // 蝙蝠在悬停/警觉时仍扇翅；运行暂停仍由上方唯一阶段冻结。
+            bool hovering = hasAI && ai.IsFlying;
+            if (!hovering && (!moving || (hasAI && (ai.State == EnemyAIState.Alert || ai.IsRecovering))))
             {
                 elapsed = 0f;
                 visual.sprite = frames[0];

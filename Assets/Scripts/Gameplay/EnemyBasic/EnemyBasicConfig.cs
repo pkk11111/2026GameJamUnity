@@ -25,13 +25,13 @@ namespace Regrowth.Gameplay
         public LayerMask ContactObstructionLayers => contactObstructionLayers;
         [Header("Enemy AI - base speed 7 gives chase target 5")]
         [SerializeField, Min(0.01f)] private float chaseSpeedFactor = 5f / 7f;
-        [SerializeField, Min(0.01f)] private float aggroRadius = 5f;
+        [SerializeField, Min(0.01f)] private float aggroRadius = 8f;
         [SerializeField, Min(0.01f)] private float activityLeftOffset = 6f;
         [SerializeField, Min(0.01f)] private float activityRightOffset = 6f;
         [SerializeField, Min(0.01f)] private float patrolSpeed = 1.5f;
         [SerializeField, Min(0.01f)] private float returnSpeed = 1.5f;
         [SerializeField, Tooltip("Solid terrain/closed doors; triggers and actor colliders are excluded by AI.")]
-        private LayerMask obstacleLayers = 1;
+        private LayerMask obstacleLayers = ~0;
         [Header("巡逻、警觉与剑击反馈（首次启用生效）")]
         [SerializeField, Min(0f), Tooltip("巡逻折返/回到出生点时的观察停顿，秒；0关闭，暂定0.45。")]
         private float patrolPauseSeconds = 0.45f;
@@ -43,6 +43,28 @@ namespace Regrowth.Gameplay
         private float weaponKnockbackSeconds = 0.12f;
         [SerializeField, Min(0f), Tooltip("剑命中后停止AI移动/接触伤害的总时长，秒；必须不少于后退时长，暂定0.18。")]
         private float weaponRecoverySeconds = 0.18f;
+        [Header("蝙蝠飞行（首次启用生效；地面怪关闭）")]
+        [SerializeField, Tooltip("飞行由同一个EnemyBasicAI写刚体；无重力、完整实体Cast，不穿墙。")]
+        private bool flying;
+        [SerializeField, Min(0.01f), Tooltip("出生点下方的活动边界，世界单位；必须容纳完整碰撞体。")]
+        private float flightBelow = 1f;
+        [SerializeField, Min(0.01f), Tooltip("出生点上方的活动边界，世界单位；地形仍会阻挡。")]
+        private float flightAbove = 3f;
+        [SerializeField, Min(0f), Tooltip("巡逻/返程的中心悬停高度，相对出生点，世界单位。")]
+        private float hoverHeight = 0.75f;
+        [SerializeField, Min(0f), Tooltip("巡逻上下摆动幅度，世界单位；受领地和碰撞限制。")]
+        private float hoverAmplitude = 0.25f;
+        [SerializeField, Min(0.01f), Tooltip("巡逻上下摆动周期，游戏秒；暂停时冻结。")]
+        private float hoverPeriod = 2.4f;
+        [SerializeField, Min(0.001f), Tooltip("飞行实体扫掠保留间隙，世界单位；实际不低于2倍Physics2D接触裕量，避免薄墙边缘重叠。")]
+        private float flightCollisionSkin = 0.03f;
+        public float FlightCollisionSkin => flightCollisionSkin;
+        public bool Flying => flying;
+        public float FlightBelow => flightBelow;
+        public float FlightAbove => flightAbove;
+        public float HoverHeight => hoverHeight;
+        public float HoverAmplitude => hoverAmplitude;
+        public float HoverPeriod => hoverPeriod;
         public float PatrolPauseSeconds => patrolPauseSeconds;
         public float AlertSeconds => alertSeconds;
         public float WeaponKnockbackSpeed => weaponKnockbackSpeed;
@@ -59,7 +81,10 @@ namespace Regrowth.Gameplay
             && Positive(activityRightOffset) && Positive(patrolSpeed) && Positive(returnSpeed) && obstacleLayers.value != 0
             && NonNegative(patrolPauseSeconds) && NonNegative(alertSeconds)
             && NonNegative(weaponKnockbackSpeed) && NonNegative(weaponKnockbackSeconds)
-            && NonNegative(weaponRecoverySeconds) && weaponRecoverySeconds >= weaponKnockbackSeconds;
+            && NonNegative(weaponRecoverySeconds) && weaponRecoverySeconds >= weaponKnockbackSeconds
+            && (!flying || (Positive(flightBelow) && Positive(flightAbove) && Positive(hoverPeriod) && Positive(flightCollisionSkin)
+                && NonNegative(hoverHeight) && NonNegative(hoverAmplitude)
+                && hoverHeight + hoverAmplitude < flightAbove && hoverHeight - hoverAmplitude > -flightBelow));
         private static bool NonNegative(float value) => value >= 0f && !float.IsInfinity(value);
         private static bool Positive(float value) => value > 0f && !float.IsInfinity(value);
         public int MaximumHealth => maximumHealth;

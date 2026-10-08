@@ -58,8 +58,8 @@ enemy.keep_hp_ratio_on_increase,enemy_modifier,1,bool,enabled,user_confirmed,当
 enemy.future_spawn_inherit_modifiers,enemy_modifier,1,bool,enabled,existing_contract,未来生成怪物继承全局累计负面
 enemy.revive_on_hp_increase,enemy_modifier,0,bool,enabled,existing_contract,增血不复活死亡怪物
 enemy.chase_speed_factor,enemy_ai,0.7142857142857143,float,ratio,user_confirmed,普通敌人目标5 unit/s;当前玩家基础速度7乘5/7;不读冲刺击退速度
-enemy.normal_aggro_radius,enemy_ai,5,float,unity_unit,design_default,普通敌人初次索敌半径
-enemy.elite_aggro_radius,enemy_ai,7,float,unity_unit,design_default,精英初次索敌半径
+enemy.normal_aggro_radius,enemy_ai,8,float,unity_unit,user_confirmed,普通敌人与蝙蝠初次索敌半径;受墙体和活动边界限制
+enemy.elite_aggro_radius,enemy_ai,8,float,unity_unit,user_confirmed,精英初次索敌半径;与普通怪相同
 enemy.normal_activity_left_offset,enemy_ai,6,float,unity_unit,design_default,默认出生点左边界;地图可按实际平台覆盖
 enemy.normal_activity_right_offset,enemy_ai,6,float,unity_unit,design_default,默认出生点右边界;地图可按实际平台覆盖
 enemy.elite_activity_left_offset,enemy_ai,8,float,unity_unit,design_default,精英默认出生点左边界
@@ -132,3 +132,13 @@ enemy.weapon_recovery_seconds,enemy_ai,0.18,float,second,design_default,普通�
 elite.weapon_knockback_speed,enemy_ai,1.5,float,unity_unit_per_second,design_default,精英剑击后退速度;墙体及领地边界裁剪
 elite.weapon_knockback_seconds,enemy_ai,0.08,float,second,design_default,精英后退时长;理想位移0.12
 elite.weapon_recovery_seconds,enemy_ai,0.12,float,second,design_default,精英剑击后总恢复时间;暂停和选择冻结
+enemy.flight_below,enemy_ai,1,float,unity_unit,design_default,蝙蝠出生点下方完整实体活动边界
+enemy.flight_above,enemy_ai,3,float,unity_unit,design_default,蝙蝠出生点上方完整实体活动边界
+enemy.hover_height,enemy_ai,0.75,float,unity_unit,design_default,蝙蝠巡逻和返程的中心悬停高度
+enemy.hover_amplitude,enemy_ai,0.25,float,unity_unit,design_default,蝙蝠巡逻上下振幅
+enemy.hover_period,enemy_ai,2.4,float,second,design_default,蝙蝠巡逻上下振动周期
+enemy.flight_collision_skin,enemy_ai,0.03,float,unity_unit,design_default,飞行扫掠间隙;实际不低于2倍物理接触裕量
+enemy.audio_radius,audio,16,float,unity_unit,design_default,仅显式玩家附近请求敌人移动声音
+enemy.audio_step_distance,audio,0.9,float,unity_unit,design_default,每脚步要求实际水平行进距离
+enemy.audio_step_interval,audio,0.4,float,second,design_default,脚步最短间隔;不补播
+enemy.audio_flap_interval,audio,0.65,float,second,design_default,正常飞行或悬停翼声间隔
