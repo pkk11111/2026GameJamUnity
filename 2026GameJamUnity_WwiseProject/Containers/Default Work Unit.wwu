@@ -362,13 +362,6 @@
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Move_NoFoots" ID="{1A1D2E19-917E-416C-A561-4664EF9242E5}" ShortID="392466918">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
@@ -490,6 +483,13 @@
 						<Folder Name="Combat" ID="{801997E6-B0D0-48A1-89DD-A554467EE643}" ShortID="498393224">
 							<ChildrenList>
 								<RandomSequenceContainer Name="Player_Bite" ID="{242FC9F0-740A-4E02-A2A9-C4AF10F208D8}" ShortID="232197735">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
@@ -530,6 +530,13 @@
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Player_SwordSwing" ID="{06CBA185-AF30-4608-A610-C009CC46025B}" ShortID="511662628">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-8</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
@@ -675,6 +682,13 @@
 											</ChildrenList>
 										</RandomSequenceContainer>
 										<RandomSequenceContainer Name="PlayerBiteHit_Elite" ID="{F0C033D3-23A8-4097-A927-16A3BC9663FC}" ShortID="691744038">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-2</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
@@ -689,6 +703,11 @@
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-100</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -1140,7 +1159,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-9</Value>
+												<Value>-17</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1593,6 +1612,25 @@
 									</ActiveSourceList>
 								</Sound>
 								<RandomSequenceContainer Name="NPC_Fly" ID="{430AD236-5F9E-42CC-B624-A3F632AD89DE}" ShortID="438484036">
+									<PropertyList>
+										<Property Name="BelowThresholdBehavior" Type="int16" Value="1"/>
+										<Property Name="MaxSoundPerInstance" Type="int16">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideVirtualVoice" Type="bool" Value="True"/>
+										<Property Name="UseMaxSoundPerInstance" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
@@ -1837,6 +1875,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<RandomSequenceContainer Name="Elite_Attack" ID="{332DB8D6-2D10-4AA4-B6E0-6955E54ADDE6}" ShortID="558531638">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{7D966231-86F1-4F9A-87C1-5410020A51C9}"/>
@@ -2622,7 +2667,7 @@
 											<PropertyList>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-10</Value>
+														<Value>2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -2682,7 +2727,7 @@
 														<StateRef Name="Level2" ID="{89BDEEBD-3463-4204-A4AD-D0E5372A2CB1}"/>
 														<CustomState Name="" ID="{097337B1-89EE-4C79-9836-575CAE5C5E92}" ShortID="889827269">
 															<PropertyList>
-																<Property Name="Volume" Type="Real64" Value="-6"/>
+																<Property Name="Volume" Type="Real64" Value="-7"/>
 															</PropertyList>
 														</CustomState>
 													</CustomState>
